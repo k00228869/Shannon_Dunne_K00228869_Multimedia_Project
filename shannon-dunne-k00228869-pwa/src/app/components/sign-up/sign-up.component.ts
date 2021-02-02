@@ -19,11 +19,14 @@ export class SignUpComponent implements OnInit {
     this.newUser = this.signUp.group({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
-      phone: new FormControl(Validators.minLength(7), Validators.maxLength(10)),
-      email: new FormControl(Validators.required, Validators.email),
-      password: (Validators.minLength(6), Validators.maxLength(25)),
-
+      phone: new FormControl('', [Validators.minLength(7), Validators.maxLength(10)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.minLength(6), Validators.maxLength(25)]),
     })
+
+    createUser() {
+      console.log(this.newUser.value);
+    }
   }
 
 }

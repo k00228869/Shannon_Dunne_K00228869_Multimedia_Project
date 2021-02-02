@@ -1,4 +1,4 @@
-<form [formGroup]="signUpForm" (ngSumbit)="onSubmit()">
+<form [formGroup]="signUpForm">
     <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
         <input matInput formControlName="firstName" type="text" placeholder="Email">
@@ -25,7 +25,7 @@
       </mat-form-field>
     
       <a routerLink="/business-directory">
-      <button mat-raised-button color="primary" type="submit">
+      <button mat-raised-button color="primary" (click)="createUser()" type="submit">
           Login
         </button>
     </a>

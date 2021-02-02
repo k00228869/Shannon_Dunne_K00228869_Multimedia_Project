@@ -1,1 +1,32 @@
-<p>sign-up works!</p>
+<form [formGroup]="signUpForm" (ngSumbit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" type="text" placeholder="Email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" type="text" placeholder="Email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="Phone" type="phone" placeholder="Email">
+      </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="Password" type="password" placeholder="Password">
+      </mat-form-field>
+    
+      <a routerLink="/business-directory">
+      <button mat-raised-button color="primary" type="submit">
+          Login
+        </button>
+    </a>
+</form>

@@ -121,8 +121,13 @@
               "devServerTarget": "shannon-dunne-k00228869-pwa:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "shannon-dunne-k00228869-pwa"
 }

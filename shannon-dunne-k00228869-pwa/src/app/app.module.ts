@@ -9,6 +9,8 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 // import { IUser } from './i-user';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

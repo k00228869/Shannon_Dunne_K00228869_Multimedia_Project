@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "appointment-pwa": {
+      "hosting": {
+        "shannon-dunne-k00228869-pwa": [
+          "appointment-pwa"
+        ]
+      }
+    }
+  }
+}

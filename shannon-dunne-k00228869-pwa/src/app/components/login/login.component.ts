@@ -17,7 +17,7 @@ loginForm: FormGroup;
     this.loginForm = this.login.group({
       email: (Validators.required, Validators.email),
       password: (Validators.minLength(6), Validators.maxLength(25))
-    })
+    });
   }
 
 

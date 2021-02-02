@@ -6,11 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-// import { IUser } from './i-user';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { AngularFireAuth } from '@angular/fire/auth';
+// import { Auth } from 'firebase/app';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +26,7 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    AngularFireAuth,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],

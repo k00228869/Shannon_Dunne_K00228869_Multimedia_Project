@@ -9,24 +9,25 @@ import { IUser } from 'src/app/i-user';
 })
 export class SignUpComponent implements OnInit {
   user: Observable<IUser>;
-  newUser: FormGroup;
+  signUpForm: FormGroup;
 
   constructor(
     private signUp: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.newUser = this.signUp.group({
+    this.signUpForm = this.signUp.group({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       phone: new FormControl('', [Validators.minLength(7), Validators.maxLength(10)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.minLength(6), Validators.maxLength(25)]),
     })
+  }
 
-    createUser() {
-      console.log(this.newUser.value);
-    }
+  createUser()
+  {
+    console.log(this.signUpForm.value);
   }
 
 }

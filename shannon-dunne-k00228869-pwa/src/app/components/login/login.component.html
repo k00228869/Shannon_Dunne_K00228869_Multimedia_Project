@@ -1,4 +1,4 @@
-<form [formGroup]="" (ngSumbit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSumbit)="onSubmit()">
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" type="email" placeholder="Email">
@@ -10,7 +10,7 @@
       </mat-form-field>
     
       <a routerLink="/business-directory">
-      <button mat-raised-button color="primary" (click)="">
+      <button mat-raised-button color="primary" type="submit">
           Login
         </button>
     </a>

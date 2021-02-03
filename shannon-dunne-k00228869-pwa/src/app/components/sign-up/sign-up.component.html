@@ -1,32 +1,31 @@
-<form [formGroup]="signUpForm">
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit(signUpForm.value)">
     <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" type="text" placeholder="Email">
+        <input matInput [formControlName]="'firstName'" type="text" placeholder="firstName">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" type="text" placeholder="Email">
+        <input matInput [formControlName]="'lastName'" type="text" placeholder="lastName">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" type="phone" placeholder="Email">
+        <input matInput [formControlName]="'phone'" type="phone" placeholder="phone">
       </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email" placeholder="Email">
+        <input matInput [formControlName]="'email'" type="email" placeholder="Email">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput formControlName="password" type="password" placeholder="Password">
+        <input matInput [formControlName]="'password'" type="password" placeholder="Password">
       </mat-form-field>
     
-      <a routerLink="/business-directory">
-      <button mat-raised-button color="primary" (click)="createUser()" type="submit">
-          Login
-        </button>
-    </a>
+      
+      <button mat-raised-button color="primary" type="submit">
+          Sign Up
+      </button>
 </form>

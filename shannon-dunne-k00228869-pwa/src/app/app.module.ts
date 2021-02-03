@@ -10,7 +10,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
-import { AngularFireAuth } from '@angular/fire/auth';
+// import { AngularFireAuth } from '@angular/fire/auth';
+import {AuthenticateService} from './services/authenticate.service';
+
 // import { Auth } from 'firebase/app';
 
 @NgModule({
@@ -26,10 +28,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    AngularFireAuth,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [],
+  providers: [AuthenticateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

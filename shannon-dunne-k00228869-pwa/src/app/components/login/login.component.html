@@ -1,17 +1,17 @@
-<form [formGroup]="loginForm" >
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email" placeholder="Email">
-      </mat-form-field>
+        <input matInput [formControlName]="'email'" type="email" placeholder="Email">
+    </mat-form-field>
     
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput formControlName="Password" type="password" placeholder="Password">
+        <input matInput [formControlName]="'password'" type="password">
       </mat-form-field>
     
-      <a routerLink="/business-directory">
+      <!-- <a routerLink="/business-directory"> -->
       <button mat-raised-button color="primary" type="submit">
           Login
         </button>
-    </a>
+    <!-- </a> -->
 </form>

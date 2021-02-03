@@ -5,6 +5,7 @@ export interface IUser {
         password: string;
         firstName: string;
         lastName: string;
+        phone: number;
 
         // roles: {
         //     subscriber?: boolean;

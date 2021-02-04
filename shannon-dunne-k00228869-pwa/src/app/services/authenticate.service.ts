@@ -5,16 +5,21 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 // import { IUser } from 'src/app/i-user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticateService {
   user: Observable<IUser>;
+  userInfo: IUser['user']
+  theUser: any;
   isLoggedIn = false;
   constructor(
     public authenticate: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    public firestore: AngularFirestore
   ){}
 
   signin(email, password)
@@ -27,22 +32,36 @@ export class AuthenticateService {
     });
   }
 
-  signup(email, password)
+
+  signup(newUser: IUser['user'])
   {
-    this.authenticate.createUserWithEmailAndPassword(email, password)// create a user with the details passed
-    .then(res => {
-      console.log('your are logged in');
+    this.authenticate.createUserWithEmailAndPassword(newUser.email, newUser.password)// create a user with the details passed
+    .then((credentials) => {
+      this.userInfo = {
+        uid: credentials.user.uid,
+        email: credentials.user.email,
+        displayName: credentials.user.displayName
+      };
+      console.log(this.userInfo.displayName);
+      // add user to the db
+      this.firestore.collection('users').add(this.userInfo);
       this.isLoggedIn = true; // set the user to logged in
-      localStorage.setItem('user', JSON.stringify(res.user)); // store the user
-      return this.authenticate.currentUser.then(u => u.sendEmailVerification()) // get email address and send verification email
+      localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
+      return this.authenticate.currentUser.then(user => user.sendEmailVerification()) // get email address and send verification email
       .then(() => {
-        this.router.navigate(['home']);
+          this.router.navigate(['home']);
+
       });
     });
   }
 
-  logout()
-  {
+
+
+
+
+
+logout()
+{
     this.authenticate.signOut()
     .then(() => {
       localStorage.removeItem('user');
@@ -53,5 +72,6 @@ export class AuthenticateService {
   }
 
 
-// authenticate.sendPasswordResetEmail(email);
 }
+// authenticate.sendPasswordResetEmail(email);
+

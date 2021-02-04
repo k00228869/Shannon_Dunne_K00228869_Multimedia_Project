@@ -2,10 +2,11 @@ export interface IUser {
     user: {
         uid: string;
         email: string;
-        password: string;
-        firstName: string;
-        lastName: string;
-        phone: number;
+        password?: string;
+        displayName?: string;
+        lastName?: string;
+        phone?: number;
+        profileImg?: string
 
         // roles: {
         //     subscriber?: boolean;
@@ -28,7 +29,6 @@ export interface IUser {
         reminderMessage: string,
         isMobile: boolean,
         cancellationPolicy?: string,
-        profileImg?: string
     };
     reviews?: {
         date?: number;

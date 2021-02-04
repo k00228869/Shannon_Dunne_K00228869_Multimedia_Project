@@ -45,10 +45,11 @@ export class SignUpComponent implements OnInit {
     if(this.signUpForm.status === 'VALID') // if fields are valid
     {
       this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
-      this.authentication.signup(newUser.email, newUser.password); // pass the values to the signUp function in the service
+      this.authentication.signup(newUser); // pass the values to the signUp function in the service
       console.log(newUser.password);
       if (this.authentication.isLoggedIn)// if the boolean in the service is true
       {
+        console.log('you are signed in');
         this.isSignedIn = true; // set boolean to true as user is signed in
       }
     }

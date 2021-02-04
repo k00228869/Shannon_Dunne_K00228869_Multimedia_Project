@@ -10,13 +10,15 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
-// import { AngularFireAuth } from '@angular/fire/auth';
-import {AuthenticateService} from './services/authenticate.service';
+import { AuthenticateService } from './services/authenticate.service';
 import { BusinessDashboardComponent } from './components/business-dashboard/business-dashboard.component';
 import { SearchDirectoryComponent } from './components/search-directory/search-directory.component';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 
-// import { Auth } from 'firebase/app';
+
+
+
+
 
 @NgModule({
   declarations: [

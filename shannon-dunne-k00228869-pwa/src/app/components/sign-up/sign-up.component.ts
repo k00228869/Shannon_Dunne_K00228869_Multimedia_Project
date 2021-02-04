@@ -31,10 +31,10 @@ export class SignUpComponent implements OnInit {
     });
 
     if (localStorage.getItem('user') !== null) { // check if user is not empty
-    this.isSignedIn = true; // if user is not empty they are signed in
+      this.isSignedIn = true; // if user is not empty they are signed in
     }
     else {
-    this.isSignedIn = false; // if user is  empty they are signed out
+      this.isSignedIn = false; // if user is  empty they are signed out
     }
   }
   

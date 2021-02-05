@@ -14,6 +14,7 @@ import { AuthenticateService } from './services/authenticate.service';
 import { BusinessDashboardComponent } from './components/business-dashboard/business-dashboard.component';
 import { SearchDirectoryComponent } from './components/search-directory/search-directory.component';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 
@@ -36,7 +37,8 @@ import { BookingFormComponent } from './components/booking-form/booking-form.com
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthenticateService],
   bootstrap: [AppComponent]

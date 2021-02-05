@@ -15,6 +15,8 @@ import { BusinessDashboardComponent } from './components/business-dashboard/busi
 import { SearchDirectoryComponent } from './components/search-directory/search-directory.component';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HttpClient } from '@angular/common/http';
+import { ClientProfileComponent } from './components/client-profile/client-profile.component';
 
 
 
@@ -29,7 +31,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LandingPageComponent,
     BusinessDashboardComponent,
     SearchDirectoryComponent,
-    BookingFormComponent
+    BookingFormComponent,
+    ClientProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    HttpClient,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

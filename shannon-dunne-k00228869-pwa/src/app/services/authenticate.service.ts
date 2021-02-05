@@ -40,24 +40,18 @@ export class AuthenticateService {
       this.userInfo = {
         uid: credentials.user.uid,
         email: credentials.user.email,
-        displayName: credentials.user.displayName
+        // displayName: credentials.user.displayName
       };
-      console.log(this.userInfo.displayName);
-      // add user to the db
-      this.firestore.collection('users').add(this.userInfo);
+      // console.log(this.userInfo.displayName);
+      this.firestore.collection('users').add(this.userInfo); // add user to the db
       this.isLoggedIn = true; // set the user to logged in
       localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
       return this.authenticate.currentUser.then(user => user.sendEmailVerification()) // get email address and send verification email
       .then(() => {
           this.router.navigate(['home']);
-
       });
     });
   }
-
-
-
-
 
 
 logout()
@@ -65,7 +59,8 @@ logout()
     this.authenticate.signOut()
     .then(() => {
       localStorage.removeItem('user');
-     }).then(() => {
+     })
+     .then(() => {
       console.log('you are now logged out');
       this.router.navigate(['login']);
      });

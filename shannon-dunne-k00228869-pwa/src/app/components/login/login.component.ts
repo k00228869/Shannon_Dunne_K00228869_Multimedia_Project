@@ -38,12 +38,11 @@ isSignedIn = false;
     if (this.loginForm.status === 'VALID') // if fields are valid
     {
       this.userSignIn = this.loginForm.value; // get email value and set to userSignIn
-      this.athenticationService.signin(userSignIn.email, userSignIn.password); // pass the values to the signupform
+      this.athenticationService.signin(userSignIn); // pass the values to the signupform
       console.log(userSignIn.password);
       if (this.athenticationService.isLoggedIn)
       {
         this.isSignedIn = true; // user is signed in
-        // this.router.navigate(['/home']);
       }
     }
   }

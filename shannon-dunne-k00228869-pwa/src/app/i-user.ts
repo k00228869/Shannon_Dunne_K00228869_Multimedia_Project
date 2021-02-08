@@ -3,17 +3,16 @@ export interface IUser {
         uid: string;
         email: string;
         password?: string;
-        displayName?: string;
+        firstName?: string;
         lastName?: string;
         phone?: number;
-        profileImg?: string
-
-        // roles: {
-        //     subscriber?: boolean;
-        //     editor?: boolean;
-        //     admin?: boolean;
-        // };
+        profileImg?: string;
+        admin?: boolean;
     };
+    // roles?: {
+    //     admin?: boolean;
+    //     user?: boolean;
+    // };
     slides?: {
         image: string,
     }[];

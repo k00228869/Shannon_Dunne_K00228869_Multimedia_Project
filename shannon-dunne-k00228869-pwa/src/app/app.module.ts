@@ -7,7 +7,6 @@ import { MaterialModule } from './material-module';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AuthenticateService } from './services/authenticate.service';
@@ -15,7 +14,8 @@ import { BusinessDashboardComponent } from './components/business-dashboard/busi
 import { SearchDirectoryComponent } from './components/search-directory/search-directory.component';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-
+import { ClientProfileComponent } from './components/client-profile/client-profile.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -29,7 +29,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LandingPageComponent,
     BusinessDashboardComponent,
     SearchDirectoryComponent,
-    BookingFormComponent
+    BookingFormComponent,
+    ClientProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +38,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

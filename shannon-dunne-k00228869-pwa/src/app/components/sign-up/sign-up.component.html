@@ -25,10 +25,19 @@
       </mat-form-field>
     
       
+        <mat-label>Select Account</mat-label> <br>
+      <mat-radio-group aria-label="Select Account Type" [formControlName]="'admin'">
+        <mat-radio-button  [value]="true" >Business</mat-radio-button> <!--  let roles of roles [value]=role -->
+       <br>
+        <mat-radio-button [value]="false" >Customer</mat-radio-button>
+      </mat-radio-group>
+    
+
       <button mat-raised-button color="primary" type="submit">
           Sign Up
       </button>
 </form>
+
 
 <a [routerLink]="['/login']">
   Login

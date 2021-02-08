@@ -9,7 +9,6 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 export class LandingPageComponent implements OnInit {
 
   constructor(
-    public authenticateService: AuthenticateService
   ) { }
 
   ngOnInit(): void {

@@ -1,0 +1,47 @@
+<p>business-dashboard works!</p>
+<form>
+    <button mat-raised-button color="primary" type="submit" (click)="authenticateService.logout()">
+        Logout
+    </button>
+</form>
+
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/business-view/:uid">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+        <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/dashboard/:uid">
+        <mat-icon>bookings</mat-icon>
+        <span>Dashboard</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+
+
+      <button mat-menu-item>
+        <a routerLink="/dashboard/:uid">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+    </mat-menu>
+
+    <span>Business Profile</span>
+    <span class="spacer"></span>
+    
+    <button mat-icon-button class="example-icon" aria-label="edit icon">
+      <a routerLink="/edit-business-profile">
+        <mat-icon>exit</mat-icon>
+    </a>
+    </button>
+</mat-toolbar>

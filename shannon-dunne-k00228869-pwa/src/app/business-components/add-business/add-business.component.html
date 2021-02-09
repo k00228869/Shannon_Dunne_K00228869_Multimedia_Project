@@ -1,0 +1,85 @@
+<h1>Create Your Business Profile</h1>
+<form [formGroup]="addProfileForm" (ngSubmit)="onSubmit(addProfileForm.value)">
+    <mat-form-field appearance="outline">
+        <mat-label>Business Name</mat-label>
+        <input [formControlName]="'businessName'" matInput>
+      </mat-form-field>
+      <br>
+    
+      <mat-form-field appearance="outline">
+        <mat-label>Business Description</mat-label>
+        <textarea [formControlName]="'businessDescription'" matInput></textarea>
+      </mat-form-field>
+      <br>
+    
+      <mat-form-field appearance="outline">
+        <mat-label>Eircode</mat-label>
+        <input [formControlName]="'eircode'" matInput>
+      </mat-form-field>
+      <br>
+    
+      <mat-form-field appearance="outline">
+        <mat-label>County</mat-label>
+    <mat-select [formControlName]="'county'">
+      <mat-option value="Antrim">Antrim</mat-option>
+      <mat-option value="Armagh">Armagh</mat-option>
+      <mat-option value="Carlow">Carlow</mat-option>
+      <mat-option value="Cavan">Cavan</mat-option>
+      <mat-option value="Clare">Clare</mat-option>
+      <mat-option value="Cork">Cork</mat-option>
+      <mat-option value="Derry">Derry</mat-option>
+      <mat-option value="Donegal">Donegal</mat-option>
+      <mat-option value="Down">Down</mat-option>
+      <mat-option value="Dublin">Dublin</mat-option>
+      <mat-option value="Fermanagh">Fermanagh</mat-option>
+      <mat-option value="Galway">Galway</mat-option>
+      <mat-option value="Kerry">Kerry</mat-option>
+      <mat-option value="Kildare">Kildare</mat-option>
+      <mat-option value="Kilkenny">Kilkenny</mat-option>
+      <mat-option value="Laois">Laois</mat-option>
+      <mat-option value="Leitrim">Leitrim</mat-option>
+      <mat-option value="Limerick">Limerick</mat-option>
+      <mat-option value="Longford">Longford</mat-option>
+      <mat-option value="Louth">Louth</mat-option>
+      <mat-option value="Mayo">Mayo</mat-option>
+      <mat-option value="Meath">Meath</mat-option>
+      <mat-option value="Monaghan">Monaghan</mat-option>
+      <mat-option value="Offaly">Offaly</mat-option>
+      <mat-option value="Roscommon">Roscommon</mat-option>
+      <mat-option value="Sligo">Sligo</mat-option>
+      <mat-option value="Tipperary">Tipperary</mat-option>
+      <mat-option value="Tyrone">Tyrone</mat-option>
+      <mat-option value="Waterford">Waterford</mat-option>
+      <mat-option value="Westmeath">Westmeath</mat-option>
+      <mat-option value="Wexford">Wexford</mat-option>
+      <mat-option value="Wicklow">Wicklow</mat-option>
+    </mat-select>
+    </mat-form-field>
+    <br>
+
+    <!-- <mat-form-field appearance="outline">
+        <mat-label>Business Type</mat-label>
+        <mat-select [formControl]="businessTypes" multiple>
+          <mat-select-trigger>
+            {{businessTypes.values ? businessTypes.values[0] : ''}}
+            <span *ngIf="businessTypes.values?.length > 1" class="example-additional-selection">
+              (+{{businessType.value.length - 1}} {{businessType.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let businessType of businessTypes" [value]="businessType">{{businessType}}</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+      <br>
+
+
+    <!-- <button mat-raised-button color="primary" >
+        <mat-icon>file_upload</mat-icon>
+        Upload Images
+    </button> -->
+        <br>
+        <br>
+
+        <button mat-raised-button color="primary" type="submit">
+          Create Profile
+      </button>
+</form>

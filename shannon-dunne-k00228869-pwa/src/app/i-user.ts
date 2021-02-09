@@ -9,24 +9,19 @@ export interface IUser {
         profileImg?: string;
         admin?: boolean;
     };
-    // roles?: {
-    //     admin?: boolean;
-    //     user?: boolean;
-    // };
     slides?: {
         image: string,
     }[];
     business?: {
-        id: number,
-        profileCreated: boolean;
+        id: string,
+        profileCreated?: boolean;
         businessName: string,
         businessDescription: string,
         eircode: string,
         county: string,
-        phoneNumber: string,
-        businessType: string,
-        reminderMessage: string,
-        isMobile: boolean,
+        businessTypes?: string[],
+        reminderMessage?: string,
+        isMobile?: boolean,
         cancellationPolicy?: string,
     };
     reviews?: {

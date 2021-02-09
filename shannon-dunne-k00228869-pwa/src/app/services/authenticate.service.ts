@@ -31,7 +31,11 @@ export class AuthenticateService {
     public authenticate: AngularFireAuth,
     private router: Router,
     public firestore: AngularFirestore
-  ){}
+  ){
+    // this.authenticate.authState.subscribe(user => user.uid){
+    //   this.uid = user.uid;
+    // }
+  }
 
 
   // USER SIGN IN FUNCTION
@@ -42,7 +46,7 @@ export class AuthenticateService {
       this.uid = res.user.uid; // set the id of the user equal to the current users id
       localStorage.setItem('user', JSON.stringify(res.user)); // store current user
       this.isLoggedIn = true; // set the user to logged in
-      this.getUser(this.uid)
+      this.getUserData(this.uid)
       .subscribe((data) =>   // subscribe to the data
         {
           this.uData = data; // set data to IUser type
@@ -60,9 +64,11 @@ export class AuthenticateService {
 
 
 
-  getUser(uid: string): Observable<IUser['user']>
+
+
+  getUserData(uid: string): Observable<IUser['user']>
   {
-    return this.firestore.collection<IUser['user']>('users').doc(this.uid).valueChanges(); // get the current users data
+    return this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid).valueChanges(); // get the current users data
   }
 
 // USER SIGN UP
@@ -72,7 +78,7 @@ signup(newUser: IUser['user'])
 
     .then((credentials) => {
       newUser.uid = credentials.user.uid;
-      this.firestore.collection<IUser['user']>('users').doc(newUser.uid).set(newUser); // add user to the db
+      this.firestore.collection<IUser>('users').doc<IUser['user']>(newUser.uid).set(newUser); // add user to the db
       localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
       this.isLoggedIn = true; // set the user to logged in
       return this.authenticate.currentUser.then(user => user.sendEmailVerification())
@@ -98,18 +104,31 @@ checkUser(newUser: IUser['user'])
 
 
   // USER SIGN OUT
-logout()
-{
+  logout()
+  {
     this.authenticate.signOut()
     .then(() => {
       localStorage.removeItem('user');
       this.isLoggedIn = false; // set the user to logged in
      }).then(() => {
-      console.log('you are now logged out');
       this.router.navigate(['login']);
      });
   }
 
+  public addBusiness(newProfile: IUser['business'])
+  {
+    this.authenticate.authState
+    .subscribe(user => user.uid);
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)
+    .collection<IUser['business']>('business').add(newProfile)); // add user to the db
+  }
+    // return from (this.firestore.collection<IUser['user']>('users').doc(newProfile.id).set(newProfile)); // add user to the db
+  
+
+  // public getBusiness(id: string): Observable<IUser['business']>
+  // {
+  //   return this.firestore.collection<IUser['business']>('users').doc(newProfile.id).set(newProfile); // add user to the db
+  // }
 
 
 }

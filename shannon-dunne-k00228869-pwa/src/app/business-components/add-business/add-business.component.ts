@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticateService } from 'src/app/services/authenticate.service';
+// import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { IUser } from 'src/app/i-user';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
+import { BusinessService } from 'src/app/services/business.service';
 
 
 @Component({
@@ -18,9 +19,11 @@ export class AddBusinessComponent implements OnInit {
   profileCreated = true;
   constructor(
     private addProfile: FormBuilder,
-    private authentication: AuthenticateService,
+    // authService: AuthenticateService,
     private route: Router,
-    private location: Location
+    private location: Location,
+    public business: BusinessService
+
   ) { }
 
   ngOnInit()
@@ -38,14 +41,15 @@ export class AddBusinessComponent implements OnInit {
   {
     if (this.addProfileForm.status === 'VALID') // if fields are valid
     {
-      
+
       this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
-      this.authentication.addBusiness(newProfile).subscribe( // pass the values to the  function in the service
-        (data) => {
-          console.log(data);
-          this.addProfileForm.reset();
-          this.route.navigate(['/business-view/:id']);
-      });
+      this.business.addBusiness(newProfile);
+        // pass the values to the  function in the service
+        // (data) => {
+        //   console.log(data);
+      this.addProfileForm.reset();
+      this.route.navigate(['/business-view/:{{uid}}']);
+      // });
     }
   }
 

@@ -1,8 +1,8 @@
-<p>business-dashboard works!</p>
+
 <form>
-    <button mat-raised-button color="primary" type="submit" (click)="authenticateService.logout()">
+    <!-- <button mat-raised-button color="primary" type="submit" (click)="business.logout()">
         Logout
-    </button>
+    </button> -->
 </form>
 
 <mat-toolbar>
@@ -36,12 +36,14 @@
       </button>
     </mat-menu>
 
-    <span>Business Profile</span>
+    <span>Business Dashboard</span>
     <span class="spacer"></span>
     
-    <button mat-icon-button class="example-icon" aria-label="edit icon">
-      <a routerLink="/edit-business-profile">
-        <mat-icon>exit</mat-icon>
+    <button mat-icon-button class="example-icon" aria-label="edit icon" (click)="authService.logout()">
+      <a routerLink="/login">
+        <mat-icon>Logout</mat-icon>
     </a>
     </button>
 </mat-toolbar>
+
+<h1>{{businessProfile[0].county}}</h1>

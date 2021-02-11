@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { User} from '@firebase/auth-types';
+import { Observable } from 'rxjs';
+import { BusinessService } from 'src/app/services/business.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-profile-business-view',
@@ -8,15 +13,46 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
   styleUrls: ['./profile-business-view.component.css']
 })
 export class ProfileBusinessViewComponent implements OnInit {
-  businessProfile: IUser['business'];
+  profileInfo: IUser['business'];
+  isSignedIn = false;
+  public uid: string;
 
   constructor(
-    private authentication: AuthenticateService,
-
+    public business: BusinessService,
+    public authService: AuthenticateService,
+    public firestore: AngularFirestore,
+    public authenticate: AngularFireAuth,
   ) { }
 
-  ngOnInit(){
-    
+  ngOnInit()
+  {
+    if (localStorage.getItem('user') !== null) { // check if user is not empty
+      this.isSignedIn = true; // if user is not empty they are signed in
+    }
+    else {
+      this.isSignedIn = false; // if user is  empty they are signed out
+    }
+
+
+    // this.authService.getUserState();
+    // .subscribe(
+    //   (user) =>
+    //     {
+    //       // this.userState = this.uid;
+    //       console.log(user.uid);
+    //       user.uid = this.uid;
+    //     }
+    //   );
+    // let usedId = localStorage.getItem('user.')
+    // let theUser = JSON.parse(localStorage.getItem('user'));
+    // console.log(theUser.uid);
+    this.business.getBusiness().subscribe(
+        (data) =>
+        {
+          this.profileInfo = data;
+          // console.log(this.profileInfo);
+        }
+      );
   }
 
 }

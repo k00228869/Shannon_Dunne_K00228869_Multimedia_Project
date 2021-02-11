@@ -18,6 +18,7 @@ import { ClientProfileComponent } from './client-components/client-profile/clien
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
+import { BusinessService } from './services/business.service';
 
 
 
@@ -45,7 +46,7 @@ import { AddBusinessComponent } from './business-components/add-business/add-bus
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [AuthenticateService],
+  providers: [AuthenticateService, BusinessService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

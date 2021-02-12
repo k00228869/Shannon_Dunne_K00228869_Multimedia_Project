@@ -32,27 +32,13 @@ export class ProfileBusinessViewComponent implements OnInit {
     else {
       this.isSignedIn = false; // if user is  empty they are signed out
     }
-
-
-    // this.authService.getUserState();
-    // .subscribe(
-    //   (user) =>
+    // this.business.getBusiness().subscribe(
+    //     (data) =>
     //     {
-    //       // this.userState = this.uid;
-    //       console.log(user.uid);
-    //       user.uid = this.uid;
+    //       this.profileInfo = data;
+    //       // console.log(this.profileInfo);
     //     }
     //   );
-    // let usedId = localStorage.getItem('user.')
-    // let theUser = JSON.parse(localStorage.getItem('user'));
-    // console.log(theUser.uid);
-    this.business.getBusiness().subscribe(
-        (data) =>
-        {
-          this.profileInfo = data;
-          // console.log(this.profileInfo);
-        }
-      );
   }
 
 }

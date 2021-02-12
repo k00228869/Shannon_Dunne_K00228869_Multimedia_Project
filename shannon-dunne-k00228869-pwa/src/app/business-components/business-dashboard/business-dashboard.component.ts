@@ -33,16 +33,12 @@ export class BusinessDashboardComponent implements OnInit {
     this.router.navigate(['/login']); // display business dash
 
   }
-
-
-  // let theUser = JSON.parse(localStorage.getItem('user'));
-  // console.log(theUser.uid);
-  this.business.getBusiness().subscribe(
-      (data) =>
-      {
-        this.businessProfile = data;
-        // console.log(data); //need to subscribe to getAppointments() and getClients()
-      }
-    );
+  // this.business.getBusiness().subscribe(
+  //     (data) =>
+  //     {
+  //       this.businessProfile = data;
+  //       // console.log(data); //need to subscribe to getAppointments() and getClients()
+  //     }
+  //   );
   }
 }

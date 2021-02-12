@@ -57,6 +57,30 @@
     </mat-form-field>
     <br>
 
+    <mat-form-field appearance="outline">
+    <mat-label>Business Type</mat-label>
+      <mat-select [formControlName]="'businessType'">
+        <mat-option value="Hair Salon">Hair Salon</mat-option>
+        <mat-option value="Barber">Barber</mat-option>
+        <mat-option value="Nail Technician">Nail Technician</mat-option>
+        <mat-option value="Beautician">Beautician</mat-option>
+        <mat-option value="Beauty therapist">Beauty therapist</mat-option>
+        <mat-option value="Masseuse">Masseuse</mat-option>
+        <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+        <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
+      </mat-select>   
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline">
+      <mat-label>Reminder Message</mat-label>
+      <textarea [formControlName]="'reminderMessage'" matInput></textarea>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline">
+      <mat-label>Cancellation Policy</mat-label>
+      <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
+    </mat-form-field>
+    <br>
     <!-- <mat-form-field appearance="outline">
         <mat-label>Business Type</mat-label>
         <mat-select [formControl]="businessTypes" multiple>
@@ -69,13 +93,13 @@
           <mat-option *ngFor="let businessType of businessTypes" [value]="businessType">{{businessType}}</mat-option>
         </mat-select>
     </mat-form-field> -->
-      <br>
 
 
-    <!-- <button mat-raised-button color="primary" >
+    <button mat-raised-button color="primary" >
         <mat-icon>file_upload</mat-icon>
         Upload Images
-    </button> -->
+    </button>
+
         <br>
         <br>
 

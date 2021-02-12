@@ -19,7 +19,7 @@ export interface IUser {
         businessDescription: string,
         eircode: string,
         county: string,
-        businessTypes?: string[],
+        businessTyp?: string,
         reminderMessage?: string,
         isMobile?: boolean,
         cancellationPolicy?: string,

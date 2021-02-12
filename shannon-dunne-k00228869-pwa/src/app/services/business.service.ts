@@ -41,4 +41,9 @@ export class BusinessService {
     .doc<IUser['user']>(this.uid).collection<IUser['business']>('business' + this.uid);
     return docRef.valueChanges();
   }
+
+  // updateBusiness()
+  // {
+
+  // }
 }

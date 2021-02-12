@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
 import { BusinessService } from './services/business.service';
+import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 
 
 
@@ -34,7 +35,8 @@ import { BusinessService } from './services/business.service';
     BookingFormComponent,
     ClientProfileComponent,
     ProfileBusinessViewComponent,
-    AddBusinessComponent
+    AddBusinessComponent,
+    BusinessProfileComponent
   ],
   imports: [
     BrowserModule,

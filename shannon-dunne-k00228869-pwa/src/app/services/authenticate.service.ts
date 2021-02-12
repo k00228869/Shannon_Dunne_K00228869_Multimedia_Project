@@ -45,7 +45,7 @@ export class AuthenticateService {
       this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
       localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storaage
       this.isLoggedIn = true; // set the user to logged in
-      
+
       this.getUserData(this.uid) // pass the user id to get the users doc
       .subscribe((data) =>   // subscribe to the data return
       {
@@ -115,7 +115,7 @@ checkUser(newUser: IUser['user'])
   }
 
 
-  
+
 
   // public getUserState(): Observable<User>
   // {

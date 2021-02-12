@@ -45,7 +45,7 @@ export class SignUpComponent implements OnInit {
 
    onSubmit(newUser: IUser['user'])
 {
-    if(this.signUpForm.status === 'VALID') // if fields are valid
+    if (this.signUpForm.status === 'VALID') // if fields are valid
     {
       this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
       this.authentication.signup(newUser); // pass the values to the signUp function in the service

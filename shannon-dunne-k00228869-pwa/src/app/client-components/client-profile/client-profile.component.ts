@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IUser } from 'src/app/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { ClientUserService } from 'src/app/services/client-user.service';
 
 @Component({
   selector: 'app-client-profile',
@@ -7,13 +9,24 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
   styleUrls: ['./client-profile.component.css']
 })
 export class ClientProfileComponent implements OnInit {
-
+  clientInfo: IUser['user'];
+  panelOpenState = false;
   constructor(
-    public authenticateService: AuthenticateService
+    public clientService: ClientUserService,
+    public authService: AuthenticateService
 
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit()
+  {
+    this.clientService.getUserInfo().subscribe(
+        (data) =>
+        {
+          this.clientInfo = data;
+          console.log(this.clientInfo);
+        }
+      );
+
   }
 
 }

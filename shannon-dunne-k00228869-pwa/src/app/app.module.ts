@@ -20,7 +20,9 @@ import { ProfileBusinessViewComponent } from './business-components/profile-busi
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
 import { BusinessService } from './services/business.service';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
-
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { MatCarouselModule, MatCarouselComponent  } from '@ngmodule/material-carousel';
 
 
 
@@ -42,9 +44,12 @@ import { BusinessProfileComponent } from './client-components/business-profile/b
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatCarouselModule,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

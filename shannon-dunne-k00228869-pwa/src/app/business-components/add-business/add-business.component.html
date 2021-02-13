@@ -81,32 +81,65 @@
       <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
     </mat-form-field>
     <br>
-    <!-- <mat-form-field appearance="outline">
-        <mat-label>Business Type</mat-label>
-        <mat-select [formControl]="businessTypes" multiple>
-          <mat-select-trigger>
-            {{businessTypes.values ? businessTypes.values[0] : ''}}
-            <span *ngIf="businessTypes.values?.length > 1" class="example-additional-selection">
-              (+{{businessType.value.length - 1}} {{businessType.value?.length === 2 ? 'other' : 'others'}})
-            </span>
-          </mat-select-trigger>
-          <mat-option *ngFor="let businessType of businessTypes" [value]="businessType">{{businessType}}</mat-option>
-        </mat-select>
-    </mat-form-field> -->
+
+    <form [formGroup]="'employees'">
+      <h2>Employees</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Employee Name</mat-label>
+      <input matInput>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Employee Description</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary">Add Employee</button>
+    <button mat-raised-button color="warm">Remove Employee</button>
+  </form>
+
+  <form [formGroup]="'services'">
+    <h2>Services</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Service Name</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Service Description</mat-label>
+      <textarea matInput placeholder="Description of your business"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" class="example-right-align">
+      <span matPrefix>€&nbsp;</span>
+      <span matSuffix>.00</span>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+    <mat-label>Duration</mat-label>
+    <mat-select [(value)]="selectedValue">
+    <mat-option value="30">30 Min</mat-option>
+    <mat-option value="60">1 Hr</mat-option>
+    <mat-option value="90">1 Hr 30 Mins</mat-option>
+    <mat-option value="120">2 Hrs</mat-option>
+    <mat-option value="150">2 Hrs 30 Mins</mat-option>
+    <mat-option value="180">3 Hrs</mat-option>
+  </mat-select>
+  </mat-form-field>
+    <br>
+  <button mat-raised-button color="primary">Add service</button>
+  <button mat-raised-button color="warm">Remove service</button>
+
+  </form>
 
   <form [formGroup]="'addProlfileImages'">
+    <input type="file" (change)="fileDetection($event)" multiple>
     <button mat-raised-button color="primary" >
         <mat-icon>file_upload</mat-icon>
         Upload Images
-        
     </button>
-    <input type="file" (change)="fileUploads(event, i)" accept="image/">
-
-    <div [formArrayName]= "slides">
-      <span *ngFor= "let slides of addProlfileImages.controls.addImages.controls[i].controls['images'].controls; let j=index "></span>
-      <img [src]="image.value">
-
-    </div>
 
         <br>
         <br>

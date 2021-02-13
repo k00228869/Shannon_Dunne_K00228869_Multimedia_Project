@@ -22,7 +22,9 @@ import { BusinessService } from './services/business.service';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { MatCarouselModule, MatCarouselComponent  } from '@ngmodule/material-carousel';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { BusinessListComponent } from './client-components/business-list/business-list.component';
+import { BusinessDealsComponent } from './client-components/business-deals/business-deals.component';
 
 
 
@@ -38,7 +40,9 @@ import { MatCarouselModule, MatCarouselComponent  } from '@ngmodule/material-car
     ClientProfileComponent,
     ProfileBusinessViewComponent,
     AddBusinessComponent,
-    BusinessProfileComponent
+    BusinessProfileComponent,
+    BusinessListComponent,
+    BusinessDealsComponent
   ],
   imports: [
     BrowserModule,

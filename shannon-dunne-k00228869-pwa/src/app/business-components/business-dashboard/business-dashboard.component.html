@@ -47,3 +47,180 @@
 </mat-toolbar>
 
 <!-- <h1>{{businessProfile[0].county}}</h1> -->
+
+
+<mat-tab-group>
+  <mat-tab label="Appointments">
+      
+      <mat-list>
+        <mat-divider></mat-divider>  
+        <mat-expansion-panel (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+        <mat-panel-title>
+        Leanne Carter
+        </mat-panel-title>
+        <mat-panel-title>
+          Mon Jan 18th
+        </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-panel-title>
+         Time: 10:30
+        </mat-panel-title>
+        <mat-panel-title>
+         Employee: Samantha
+        </mat-panel-title>
+        <mat-panel-title>
+         Service: Acrylic Nails
+        </mat-panel-title>
+        <mat-panel-title>
+          Price:&#x20AC; 60
+         </mat-panel-title>
+        <mat-panel-title>
+          Notes:
+         </mat-panel-title>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider> 
+          
+          <mat-divider></mat-divider>  
+              <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+              Carla Doherty
+              </mat-panel-title>
+              <mat-panel-title>
+                Thurs Feb 11th
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+               Time: 10:30
+              </mat-panel-title>
+              <mat-panel-title>
+               Employee: Julie
+              </mat-panel-title>
+              <mat-panel-title>
+               Service: Pedicure
+              </mat-panel-title>
+              <mat-panel-title>
+                Price:&#x20AC; 20
+               </mat-panel-title>
+              <mat-panel-title>
+                Notes:
+               </mat-panel-title>
+              </mat-expansion-panel>
+              <mat-divider></mat-divider>
+
+        
+          <mat-divider></mat-divider>  
+          <mat-expansion-panel (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+          <mat-panel-title>
+          Michelle Holland
+          </mat-panel-title>
+          <mat-panel-title>
+            Fri Feb 26th
+          </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-title>
+           Time: 10:30
+          </mat-panel-title>
+          <mat-panel-title>
+           Employee:Michael
+          </mat-panel-title>
+          <mat-panel-title>
+           Service: Extension Removal
+          </mat-panel-title>
+          <mat-panel-title>
+            Price:&#x20AC; 15
+           </mat-panel-title>
+           <mat-panel-title>
+            Notes:
+           </mat-panel-title>
+          </mat-expansion-panel>
+          <mat-divider></mat-divider> 
+          
+          <mat-divider></mat-divider>
+      </mat-list>
+  </mat-tab>
+
+  <mat-tab label="Clients">
+      <mat-list>
+        
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+              Samantha Ryan
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0876538257
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Leanne Carter
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0876538257
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Carla Doherty
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0836838297
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Michelle Holland
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0891848295
+        </mat-expansion-panel>
+      </mat-list>
+      <mat-divider></mat-divider>
+  </mat-tab>
+  
+    <mat-divider></mat-divider>
+    <mat-tab label="Reviews">
+      <mat-list>
+              <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+              Charlotte Jackson
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>Great job, I love my nails! would highly recommend to everybody.<br>
+                Most friendly staff ever</p>
+                <br>
+                <button mat-raised-button class="buttonText" color="primary">
+                  <a routerLink="/review">
+                    Reply
+                </a>
+              </button>
+              </mat-expansion-panel>
+              <mat-divider></mat-divider>
+      </mat-list>
+  </mat-tab>
+</mat-tab-group>

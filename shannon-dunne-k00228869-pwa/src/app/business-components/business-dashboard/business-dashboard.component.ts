@@ -13,6 +13,7 @@ export class BusinessDashboardComponent implements OnInit {
   businessProfile: IUser['business'];
   public isSignedIn = false;
   uid: string;
+  panelOpenState = false;
 
 
   constructor(

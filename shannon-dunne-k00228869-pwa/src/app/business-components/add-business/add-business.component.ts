@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angu
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
 import { BusinessService } from 'src/app/services/business.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -17,8 +20,12 @@ export class AddBusinessComponent implements OnInit {
   addService: FormGroup;
   addEmployee: FormGroup;
   addProlfileImages: FormGroup;
+  selectedValue: string;
   newImages: IUser['slides'];
   profileCreated = true;
+  uploadingpercentage: Observable<number>;
+  downloadUrl: Observable<string>;
+  selectedFileList: FileList| null;
 
 
   constructor(
@@ -26,9 +33,11 @@ export class AddBusinessComponent implements OnInit {
     private addImages: FormBuilder,
     private addEmp: FormBuilder,
     private addSer: FormBuilder,
+    private firestore: AngularFirestore,
     // private route: Router,
     private location: Location,
-    public business: BusinessService
+    public business: BusinessService,
+    private storage: AngularFireStorage
   ) { }
 
   ngOnInit()
@@ -46,35 +55,16 @@ export class AddBusinessComponent implements OnInit {
 
     this.addProlfileImages = this.addImages.group({
       slides: this.addImages.array([])
-
       });
-
 
     // this.addEmployee = this.addEmp.group({
     //     employees: this.addEmp.array([this.theEmployees()])
     //     });
+        
     // this.addService = this.addSer.group({
     //       services: this.addSer.array([this.theServices()])
     //       });
   }
-  // slides = this.user.get('slides') as FormArray;
-    fileUploads(evt: any, index: any)
-    {
-      const files = evt.target.files;
-      const control = this.addProlfileImages.controls
-      .addImages['controls'][index].controls['slides'].controls as FormArray;
-      for (let i = 0; i < files.length; i++)
-      {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const base64 = reader.result + '';
-          control.push(this.addImages.control((base64)));
-        };
-        reader.readAsDataURL(files[i]);
-      }
-      evt.srcElement.value = null;
-    }
-
   // public theEmployees(){
   //   return this.addEmp.group({
   //     firstName: new FormControl('', [Validators.required]),
@@ -85,29 +75,30 @@ export class AddBusinessComponent implements OnInit {
   //     hours: new FormControl('', [Validators.required]),
   //   })
   // }
-
   // public theServices(){
   //   return this.addSer.group({
   //     serviceName: new FormControl('', [Validators.required]),
   //     serviceDescription: new FormControl('', [Validators.required]),
   //     servicePrice: new FormControl('', [Validators.required]),
   //     duration: new FormControl('', [Validators.required]),
-
   //   })
   // }
-
-  
   // newEmployee()
   // {
   //   const control = this.addEmployee.controls.employees;
   //   control.push(this.theEmployees());
   // }
-
   // newService(){
   //   const control = this.addService.controls.services;
   //   control.push(this.theServices());
   // }
 
+  fileDetection(event) // detects selected images
+  {
+    this.selectedFileList = event.target.files;
+  }
+
+ 
   public onSubmit(newProfile: IUser['business'], newImages: IUser['slides'] ): void
   {
     if (this.addProfileForm.status === 'VALID') // if fields are valid
@@ -126,23 +117,28 @@ export class AddBusinessComponent implements OnInit {
     }
   }
 
-  // public buildForm()
-  // {
-    
-  // }
 
   cancel()
   {
     this.location.back();
   }
 
-  changeSetting(profileCreated: boolean)
-  {
-    profileCreated = false;
-  }
 
+  // addImg(){
+  //   const file = this.selectedFileList;
+  //   const filePath = '${Img.id}/name';
+  //   const fileRef = this.storage.ref(filePath);
+  //   const theTask = this.storage.upload(filePath, file);
+  //   theTask.snapshotChanges().pipe(
+  //     finalize(() => {
+  //       fileRef.getDownloadURL().toPromise().then((url) => {
+  //         this.downloadUrl = url;
+  //        myTest.set({
 
-  // setValues() {
-  //   this.
+  //         })
+  //       })
+  //     }
+  //   )
   // }
+
 }

@@ -22,9 +22,9 @@ import { BusinessService } from './services/business.service';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { MatCarouselModule } from '@ngmodule/material-carousel';
-import { BusinessListComponent } from './client-components/business-list/business-list.component';
-import { BusinessDealsComponent } from './client-components/business-deals/business-deals.component';
+// import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { BusinessListComponent } from './client-components/search-directory/business-list/business-list.component';
+import { BusinessDealsComponent } from './client-components/search-directory/business-deals/business-deals.component';
 
 
 
@@ -48,10 +48,9 @@ import { BusinessDealsComponent } from './client-components/business-deals/busin
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatCarouselModule,
-    MaterialModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

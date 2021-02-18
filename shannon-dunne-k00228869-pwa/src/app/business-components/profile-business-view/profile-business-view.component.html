@@ -32,24 +32,23 @@
     <span>Business Profile</span>
     <span class="spacer"></span>
     
-    <button mat-icon-button class="example-icon" aria-label="edit icon" > 
-      <!-- *ngIf="business.profileCreated==true" -->
+    <button mat-icon-button class="example-icon" aria-label="edit icon" *ngIf="profileInfo[0].profileCreated==true"> 
       <a routerLink="/edit-business-profile">
         <mat-icon>edit</mat-icon>
     </a>
     </button>
 </mat-toolbar>
 
-<!-- <div *ngIf="business.profileCreated==false"> -->
+<div *ngIf="profileInfo[0].profileCreated==false">
     <h2>To Start Getting Appointments, Create Your Profile Today!</h2>
     <button mat-icon-button class="example-icon"  aria-label="edit button">
       <a routerLink="/add-business">
         <mat-icon>create</mat-icon>
       </a>
     </button>
-<!-- </div> -->
+</div>
 
-<!-- <div *ngIf="business.profileCreated==true"> -->
+<div *ngIf="profileInfo[0].profileCreated==true">
     <mat-card class="card"> 
         <mat-card-header>
             <mat-card-subtitle>
@@ -58,9 +57,9 @@
         </mat-card-header>
         <mat-card-content label="details">
           <br>
-          <!-- <b>{{profileInfo[0].businessName}}</b>
+          <b>{{profileInfo[0].businessName}}</b>
           <br>
-          <p>{{profileInfo[0].businessDescription}}</p> -->
+          <p>{{profileInfo[0].businessDescription}}</p>
         </mat-card-content>
 
 
@@ -92,9 +91,9 @@
           <mat-tab label="Hours and Location">
             <mat-divider></mat-divider>
             <br>
-            <!-- <h4><b>Location: </b>{{profileInfo[0].county}}</h4>
+            <h4><b>Location: </b>{{profileInfo[0].county}}</h4>
             <br><h4><b>Eircode: </b>{{profileInfo[0].eircode}}</h4>
-            <mat-list-item role="listitem">Monday:    2:00 PM to 6:00 PM</mat-list-item> -->
+            <mat-list-item role="listitem">Monday:    2:00 PM to 6:00 PM</mat-list-item>
             <br>
           </mat-tab>
         </mat-tab-group>

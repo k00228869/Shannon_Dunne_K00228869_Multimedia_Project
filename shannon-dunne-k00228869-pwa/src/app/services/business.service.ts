@@ -11,6 +11,9 @@ import { IUser } from 'src/app/i-user';
 })
 export class BusinessService {
   public uid: string;
+  public id: string;
+  
+  
 
   constructor(
     public firestore: AngularFirestore,
@@ -48,21 +51,60 @@ export class BusinessService {
   }
 
   
-  public addServices(newImages: IUser['slides'])
+  public addServices(newServices: IUser['services'] )
   {
+    // console.log(service);
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    return from (this.firestore.collection('users')
-    .doc<IUser['user']>(this.uid).collection<IUser['slides']>('profileImages' + this.uid).add(newImages));
+    if (newServices)
+      {
+        for (const service of [newServices] )
+        {
+          this.firestore.collection('users').doc<IUser['user']>(this.uid)
+          .collection<IUser['services']>('service' + this.uid).add(service);
+        }
+      }
+     // need to iterate through array of businesses to create a seperate doc
+     
   }
 
   
-  public addEmployees(newImages: IUser['slides'])
+  public addEmployees(newEmployees: IUser['employees'])
+  {
+    // console.log(newEmployees);
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    // this.id = this.firestore.createId();
+    // this.id = employee.id;
+    if (newEmployees)
+      {
+        for (const employee of [newEmployees] )
+         {
+          return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+          .collection<IUser['employees']>('employees' + this.uid).add(employee));
+         }
+      }
+  }
+
+  getEmployees(): Observable<IUser['employees']>
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    return from (this.firestore.collection('users')
-    .doc<IUser['user']>(this.uid).collection<IUser['slides']>('profileImages' + this.uid).add(newImages));
+    let docRef;
+    docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
+    .collection<IUser['employees']>('employees' + this.uid);
+    return docRef.valueChanges();
+  }
+
+  getServices(): Observable<IUser['services']>
+  {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    let docRef;
+    docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
+    .collection<IUser['services']>('service' + this.uid);
+    return docRef.valueChanges();
+
   }
 
   // updateBusiness()

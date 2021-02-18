@@ -1,151 +1,179 @@
 <h1>Create Your Business Profile</h1>
-<form [formGroup]="addProfileForm" (ngSubmit)="onSubmit(addProfileForm.value, addProlfileImages.value)">
-    <mat-form-field appearance="outline">
-        <mat-label>Business Name</mat-label>
-        <input [formControlName]="'businessName'" matInput>
-      </mat-form-field>
-      <br>
+<form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value)"  (ngSubmit)="onEmployeeSubmit(addEmployee.value)" (ngSubmit)="onServiceSubmit(addService.value)">
+  <mat-form-field appearance="outline">
+    <mat-label>Business Name</mat-label>
+    <input [formControlName]="'businessName'" matInput>
+  </mat-form-field>
+  <br>
     
-      <mat-form-field appearance="outline">
-        <mat-label>Business Description</mat-label>
-        <textarea [formControlName]="'businessDescription'" matInput></textarea>
-      </mat-form-field>
-      <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Business Description</mat-label>
+    <textarea [formControlName]="'businessDescription'" matInput></textarea>
+  </mat-form-field>
+  <br>
     
-      <mat-form-field appearance="outline">
-        <mat-label>Eircode</mat-label>
-        <input [formControlName]="'eircode'" matInput>
-      </mat-form-field>
-      <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Eircode</mat-label>
+    <input [formControlName]="'eircode'" matInput>
+  </mat-form-field>
+  <br>
     
-      <mat-form-field appearance="outline">
-        <mat-label>County</mat-label>
-    <mat-select [formControlName]="'county'">
-      <mat-option value="Antrim">Antrim</mat-option>
-      <mat-option value="Armagh">Armagh</mat-option>
-      <mat-option value="Carlow">Carlow</mat-option>
-      <mat-option value="Cavan">Cavan</mat-option>
-      <mat-option value="Clare">Clare</mat-option>
-      <mat-option value="Cork">Cork</mat-option>
-      <mat-option value="Derry">Derry</mat-option>
-      <mat-option value="Donegal">Donegal</mat-option>
-      <mat-option value="Down">Down</mat-option>
-      <mat-option value="Dublin">Dublin</mat-option>
-      <mat-option value="Fermanagh">Fermanagh</mat-option>
-      <mat-option value="Galway">Galway</mat-option>
-      <mat-option value="Kerry">Kerry</mat-option>
-      <mat-option value="Kildare">Kildare</mat-option>
-      <mat-option value="Kilkenny">Kilkenny</mat-option>
-      <mat-option value="Laois">Laois</mat-option>
-      <mat-option value="Leitrim">Leitrim</mat-option>
-      <mat-option value="Limerick">Limerick</mat-option>
-      <mat-option value="Longford">Longford</mat-option>
-      <mat-option value="Louth">Louth</mat-option>
-      <mat-option value="Mayo">Mayo</mat-option>
-      <mat-option value="Meath">Meath</mat-option>
-      <mat-option value="Monaghan">Monaghan</mat-option>
-      <mat-option value="Offaly">Offaly</mat-option>
-      <mat-option value="Roscommon">Roscommon</mat-option>
-      <mat-option value="Sligo">Sligo</mat-option>
-      <mat-option value="Tipperary">Tipperary</mat-option>
-      <mat-option value="Tyrone">Tyrone</mat-option>
-      <mat-option value="Waterford">Waterford</mat-option>
-      <mat-option value="Westmeath">Westmeath</mat-option>
-      <mat-option value="Wexford">Wexford</mat-option>
-      <mat-option value="Wicklow">Wicklow</mat-option>
-    </mat-select>
-    </mat-form-field>
-    <br>
-
-    <mat-form-field appearance="outline">
-    <mat-label>Business Type</mat-label>
-      <mat-select [formControlName]="'businessType'">
-        <mat-option value="Hair Salon">Hair Salon</mat-option>
-        <mat-option value="Barber">Barber</mat-option>
-        <mat-option value="Nail Technician">Nail Technician</mat-option>
-        <mat-option value="Beautician">Beautician</mat-option>
-        <mat-option value="Beauty therapist">Beauty therapist</mat-option>
-        <mat-option value="Masseuse">Masseuse</mat-option>
-        <mat-option value="Hair Stylist">Hair Stylist</mat-option>
-        <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
-      </mat-select>   
-    </mat-form-field>
-    <br>
-    <mat-form-field appearance="outline">
-      <mat-label>Reminder Message</mat-label>
-      <textarea [formControlName]="'reminderMessage'" matInput></textarea>
-    </mat-form-field>
-    <br>
-    <mat-form-field appearance="outline">
-      <mat-label>Cancellation Policy</mat-label>
-      <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
-    </mat-form-field>
-    <br>
-
-    <form [formGroup]="'employees'">
-      <h2>Employees</h2>
-    <mat-form-field appearance="outline">
-      <mat-label>Employee Name</mat-label>
-      <input matInput>
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline">
-      <mat-label>Employee Description</mat-label>
-      <textarea matInput></textarea>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary">Add Employee</button>
-    <button mat-raised-button color="warm">Remove Employee</button>
-  </form>
-
-  <form [formGroup]="'services'">
-    <h2>Services</h2>
-    <mat-form-field appearance="outline">
-      <mat-label>Service Name</mat-label>
-      <input matInput>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Service Description</mat-label>
-      <textarea matInput placeholder="Description of your business"></textarea>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Amount</mat-label>
-      <input matInput type="number" class="example-right-align">
-      <span matPrefix>€&nbsp;</span>
-      <span matSuffix>.00</span>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-    <mat-label>Duration</mat-label>
-    <mat-select [(value)]="selectedValue">
-    <mat-option value="30">30 Min</mat-option>
-    <mat-option value="60">1 Hr</mat-option>
-    <mat-option value="90">1 Hr 30 Mins</mat-option>
-    <mat-option value="120">2 Hrs</mat-option>
-    <mat-option value="150">2 Hrs 30 Mins</mat-option>
-    <mat-option value="180">3 Hrs</mat-option>
+  <mat-form-field appearance="outline">
+      <mat-label>County</mat-label>
+  <mat-select [formControlName]="'county'">
+    <mat-option value="Antrim">Antrim</mat-option>
+    <mat-option value="Armagh">Armagh</mat-option>
+    <mat-option value="Carlow">Carlow</mat-option>
+    <mat-option value="Cavan">Cavan</mat-option>
+    <mat-option value="Clare">Clare</mat-option>
+    <mat-option value="Cork">Cork</mat-option>
+    <mat-option value="Derry">Derry</mat-option>
+    <mat-option value="Donegal">Donegal</mat-option>
+    <mat-option value="Down">Down</mat-option>
+    <mat-option value="Dublin">Dublin</mat-option>
+    <mat-option value="Fermanagh">Fermanagh</mat-option>
+    <mat-option value="Galway">Galway</mat-option>
+    <mat-option value="Kerry">Kerry</mat-option>
+    <mat-option value="Kildare">Kildare</mat-option>
+    <mat-option value="Kilkenny">Kilkenny</mat-option>
+    <mat-option value="Laois">Laois</mat-option>
+    <mat-option value="Leitrim">Leitrim</mat-option>
+    <mat-option value="Limerick">Limerick</mat-option>
+    <mat-option value="Longford">Longford</mat-option>
+    <mat-option value="Louth">Louth</mat-option>
+    <mat-option value="Mayo">Mayo</mat-option>
+    <mat-option value="Meath">Meath</mat-option>
+    <mat-option value="Monaghan">Monaghan</mat-option>
+    <mat-option value="Offaly">Offaly</mat-option>
+    <mat-option value="Roscommon">Roscommon</mat-option>
+    <mat-option value="Sligo">Sligo</mat-option>
+    <mat-option value="Tipperary">Tipperary</mat-option>
+    <mat-option value="Tyrone">Tyrone</mat-option>
+    <mat-option value="Waterford">Waterford</mat-option>
+    <mat-option value="Westmeath">Westmeath</mat-option>
+    <mat-option value="Wexford">Wexford</mat-option>
+    <mat-option value="Wicklow">Wicklow</mat-option>
   </mat-select>
   </mat-form-field>
-    <br>
-  <button mat-raised-button color="primary">Add service</button>
-  <button mat-raised-button color="warm">Remove service</button>
+  <br>
 
+  <mat-form-field appearance="outline">
+  <mat-label>Business Type</mat-label>
+    <mat-select [formControlName]="'businessType'">
+      <mat-option value="Hair Salon">Hair Salon</mat-option>
+      <mat-option value="Barber">Barber</mat-option>
+      <mat-option value="Nail Technician">Nail Technician</mat-option>
+      <mat-option value="Beautician">Beautician</mat-option>
+      <mat-option value="Beauty therapist">Beauty therapist</mat-option>
+      <mat-option value="Masseuse">Masseuse</mat-option>
+      <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+      <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
+    </mat-select>   
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Reminder Message</mat-label>
+    <textarea [formControlName]="'reminderMessage'" matInput></textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Cancellation Policy</mat-label>
+    <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
+  </mat-form-field>
+  <br>
+
+  <form [formGroup]="addEmployee" (ngSubmit)="onEmployeeSubmit(addEmployee.value)">
+    <h2>Employees</h2>
+    <!-- <button hidden mat-raised-button color="primary" #employeeForm type="submit"></button> -->
+    <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">Add Employee</button>
+    <div formArrayName="employees">
+    <div  *ngFor ="let employee of addEmployee.get('employees')['controls']; let i = index" [formGroupName]="i">
+      
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput [formControlName]="'firstName'">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput [formControlName]="'lastName'">
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline">
+          <mat-label>Employee Description</mat-label>
+        <textarea matInput [formControlName]="'employeeDescription'"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="warm" (click)="removeEmployee(i)">Remove Employee</button>
+      </div>
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Employee Image</mat-label>
+        <input type="file" [formControlName]="'emloyeeImg'" (change)="fileDetection($event)" accept="image/*">
+      </mat-form-field> -->
+    </div>
   </form>
+  <br>
+  <br>
+ 
 
-  <form [formGroup]="'addProlfileImages'">
-    <input type="file" (change)="fileDetection($event)" multiple>
-    <button mat-raised-button color="primary" >
-        <mat-icon>file_upload</mat-icon>
+  <form [formGroup]="addService" (ngSubmit)="onServiceSubmit(addService.value)">
+    <h2>Services</h2>
+    <!-- <button hidden mat-raised-button  #serviceForm type="submit"></button> -->
+    <button mat-raised-button color="primary" (click)="addServiceFormGroup()">Add service</button>
+    <!-- <button mat-raised-button color="primary" type="submit"></button> -->
+    <div formArrayName="services">
+    <div  *ngFor ="let service of addService.get('services')['controls']; let i = index" [formGroupName]="i">
+        <mat-form-field appearance="outline">
+          <mat-label>Service Name</mat-label>
+          <input matInput [formControlName]="'serviceName'">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Service Description</mat-label>
+          <textarea matInput [formControlName]="'serviceDescription'"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" [formControlName]="'servicePrice'" class="example-right-align">
+          <span matPrefix>€&nbsp;</span>
+          <span matSuffix>.00</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Duration</mat-label>
+          <mat-select [(value)]="selectedValue" [formControlName]="'duration'">
+            <mat-option value="30">30 Min</mat-option>
+            <mat-option value="60">1 Hr</mat-option>
+            <mat-option value="90">1 Hr 30 Mins</mat-option>
+            <mat-option value="120">2 Hrs</mat-option>
+            <mat-option value="150">2 Hrs 30 Mins</mat-option>
+            <mat-option value="180">3 Hrs</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <br>
+      <button mat-raised-button color="warm" (click)="removeService()">Remove service</button>
+      </div>
+    </div>
+  </form>
+    <br>
+    <br>
+
+  <!-- <form [formGroup]="'addProlfileImages'">
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon></mat-icon>
         Upload Images
     </button>
+    <input hidden type="file" #fileInput (change)="fileDetection($event)" multiple accept="image/*">
+
 
         <br>
         <br>
-  </form>
+  </form> -->
 
-        <button mat-raised-button color="primary" type="submit">
+      <button mat-raised-button color="primary" type="submit" >
           Create Profile
       </button>
 </form>
+
+

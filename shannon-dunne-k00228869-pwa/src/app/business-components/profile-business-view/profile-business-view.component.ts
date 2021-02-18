@@ -14,6 +14,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class ProfileBusinessViewComponent implements OnInit {
   profileInfo: IUser['business'];
+  employees: IUser['employees'];
+  services: IUser['services'];
   isSignedIn = false;
   public uid: string;
 
@@ -32,13 +34,25 @@ export class ProfileBusinessViewComponent implements OnInit {
     else {
       this.isSignedIn = false; // if user is  empty they are signed out
     }
-    // this.business.getBusiness().subscribe(
-    //     (data) =>
-    //     {
-    //       this.profileInfo = data;
-    //       // console.log(this.profileInfo);
-    //     }
-    //   );
+    this.business.getBusiness().subscribe(
+        (data) =>
+        {
+          this.profileInfo = data;
+          // console.log(this.profileInfo);
+        }
+      );
+    this.business.getEmployees().subscribe(
+      (data) =>
+      {
+        this.employees = data;
+      }
+    );
+    this.business.getServices().subscribe(
+      (data) =>
+      {
+        this.services = data;
+      }
+    );
   }
 
 }

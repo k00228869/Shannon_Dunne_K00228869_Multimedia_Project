@@ -23,11 +23,11 @@ const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'login', component: LoginComponent},
   {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
-  {path: 'dashboard/:uid', component: BusinessDashboardComponent, canActivate: [BusinessGuard]},
+  {path: 'dashboard/:id', component: BusinessDashboardComponent, canActivate: [BusinessGuard]},
   {path: 'search', component: SearchDirectoryComponent},
   {path: 'booking', component: BookingFormComponent, canActivate: [ClientGuard]},
-  {path: 'client-profile/:uid', component: ClientProfileComponent, canActivate: [ClientGuard]},
-  {path: 'business-view/:uid', component: ProfileBusinessViewComponent},
+  {path: 'client-profile/:id', component: ClientProfileComponent, canActivate: [ClientGuard]},
+  {path: 'business-view/:id', component: ProfileBusinessViewComponent},
   {path: 'add-business', component: AddBusinessComponent}
 ];
 

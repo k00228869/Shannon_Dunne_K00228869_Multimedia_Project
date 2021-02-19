@@ -1,5 +1,5 @@
 <h1>Create Your Business Profile</h1>
-<form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value)"  (ngSubmit)="onEmployeeSubmit(addEmployee.value)" (ngSubmit)="onServiceSubmit(addService.value)">
+<form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value)"  (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
   <mat-form-field appearance="outline">
     <mat-label>Business Name</mat-label>
     <input [formControlName]="'businessName'" matInput>
@@ -83,12 +83,12 @@
   </mat-form-field>
   <br>
 
-  <form [formGroup]="addEmployee" (ngSubmit)="onEmployeeSubmit(addEmployee.value)">
+  <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
     <!-- <button hidden mat-raised-button color="primary" #employeeForm type="submit"></button> -->
     <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">Add Employee</button>
     <div formArrayName="employees">
-    <div  *ngFor ="let employee of addEmployee.get('employees')['controls']; let i = index" [formGroupName]="i">
+    <div  *ngFor ="let employee of addEmployeeForm.get('employees')['controls']; let i = index" [formGroupName]="i">
       
         <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
@@ -116,13 +116,13 @@
   <br>
  
 
-  <form [formGroup]="addService" (ngSubmit)="onServiceSubmit(addService.value)">
+  <form [formGroup]="addServiceForm" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
     <h2>Services</h2>
     <!-- <button hidden mat-raised-button  #serviceForm type="submit"></button> -->
     <button mat-raised-button color="primary" (click)="addServiceFormGroup()">Add service</button>
     <!-- <button mat-raised-button color="primary" type="submit"></button> -->
     <div formArrayName="services">
-    <div  *ngFor ="let service of addService.get('services')['controls']; let i = index" [formGroupName]="i">
+    <div  *ngFor ="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
         <mat-form-field appearance="outline">
           <mat-label>Service Name</mat-label>
           <input matInput [formControlName]="'serviceName'">

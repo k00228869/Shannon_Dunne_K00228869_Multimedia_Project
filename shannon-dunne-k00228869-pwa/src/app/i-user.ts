@@ -32,19 +32,19 @@ export interface IUser {
         description: string;
         business: string;
         comment: string; }[];
-    employees?: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        employeeDescription: string;
-        employeeServices?: string;
-        emloyeeImg?: string;
+    employee?: {
+        id: string,
+        firstName: string,
+        lastName: string,
+        employeeDescription: string,
+        employeeServices?: string,
+        emloyeeImg?: string,
         // days?: string;
-        hours?: string; }[];
-    services?: {
-        id: string;
-        serviceName: string;
-        serviceDescription: string;
-        servicePrice: number;
-        duration: string; }[];
+        hours?: string, };
+    service?: {
+        id: string,
+        serviceName: string,
+        serviceDescription: string,
+        servicePrice: number,
+        duration: string };
 }

@@ -32,14 +32,14 @@
     <span>Business Profile</span>
     <span class="spacer"></span>
     
-    <button mat-icon-button class="example-icon" aria-label="edit icon" *ngIf="!isCreated"> 
+    <button mat-icon-button class="example-icon" aria-label="edit icon" *ngIf="isCreated"> 
       <a routerLink="/edit-business-profile">
         <mat-icon>edit</mat-icon>
     </a>
     </button>
 </mat-toolbar>
 
-<div *ngIf="isCreated">
+<div *ngIf="!isCreated">
     <h2>To Start Getting Appointments, Create Your Profile Today!</h2>
     <button mat-icon-button class="example-icon"  aria-label="edit button">
       <a routerLink="/add-business">
@@ -48,7 +48,7 @@
     </button>
 </div>
 
-<div  *ngIf="!isCreated">
+<div  *ngIf="isCreated">
     <mat-card class="card"> 
         <mat-card-header>
             <mat-card-subtitle>
@@ -100,11 +100,11 @@
 
         <mat-tab label="Services">
           <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let service of services" (opened)="panelOpenState = true"
+            <mat-expansion-panel  *ngFor="let service of services; let i=index;" (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                 {{service[0].serviceName}}
+                {{i+1}} {{service.serviceName}}
                 </mat-panel-title>
                 <mat-panel-description>
                   <!-- Price:  &#x20AC;{{service[i].servicePrice}}  -->

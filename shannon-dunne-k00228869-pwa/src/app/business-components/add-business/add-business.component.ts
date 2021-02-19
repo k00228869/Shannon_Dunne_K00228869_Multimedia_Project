@@ -16,15 +16,17 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AddBusinessComponent implements OnInit {
   newProfile: IUser['business'];
-  newEmployees: IUser['employees'];
-  newServices: IUser['services'];
+  adEmployee: IUser['employee'];
+  adService: IUser['service'];
+  newImages: IUser['slides'];
+  public id: string;
 
   addProfileForm: FormGroup;
-  addService: FormGroup;
-  addEmployee: FormGroup;
+  addServiceForm: FormGroup;
+  addEmployeeForm: FormGroup;
   addProlfileImages: FormGroup;
+
   selectedValue: string;
-  newImages: IUser['slides'];
   profileCreated = true;
   uploadingpercentage: Observable<number>;
   downloadUrl: Observable<string>;
@@ -43,6 +45,7 @@ export class AddBusinessComponent implements OnInit {
     private storage: AngularFireStorage
   ) {}
 
+
   ngOnInit()
   {
     this.addProfileForm = this.addProfile.group({
@@ -60,68 +63,128 @@ export class AddBusinessComponent implements OnInit {
       slides: this.addImages.array([])
       });
 
-    this.addEmployee = this.addEmp.group({
+    this.addEmployeeForm = this.addEmp.group({
       employees: this.addEmp.array([this.newEmployee()])
       });
 
-    this.addService = this.addSer.group({
+    this.addServiceForm = this.addSer.group({
         services: this.addSer.array([this.newService()])
         });
   }
 
 
-  
 
+
+// HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {  // build form group
-    return this.addEmp.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    employeeDescription: ['', Validators.required],
-  //     // employeeServices: new FormControl('', [Validators.required]),
-  //  emloyeeImg: '',
-  //     // hours: new FormControl('', [Validators.required]),
-    });
-  }
-
-  newService(): FormGroup { // build the service group
-    return this.addSer.group({
-      serviceName: ['', Validators.required],
-      serviceDescription: ['', Validators.required],
-      servicePrice: ['', Validators.required],
-      duration: ['', Validators.required]
-    });
-  }
-
-
-  public addServiceFormGroup() {
-    const services = this.addService.get('services') as FormArray;
-    services.push(this.newService());
-  }
+    let employee = this.addEmp.group({
+   firstName: ['', Validators.required],
+   lastName: ['', Validators.required],
+   employeeDescription: ['', Validators.required],
+ //     // employeeServices: new FormControl('', [Validators.required]),
+  emloyeeImg: '',
+ //     // hours: new FormControl('', [Validators.required]),
+   });
+    return employee;
+ }
 
   public addEmployeeFormGroup() {
-    const employees = this.addEmployee.get('employees') as FormArray;
-    employees.push(this.newEmployee());
+    const employees = this.addEmployeeForm.get('employees') as FormArray;
+    employees.push(this.newEmployee()); // get the formArray and add the formgArray
+  }
+
+  removeEmployee(i: number): void
+  {
+    const employees = this.addEmployeeForm.get('employees') as FormArray;
+    employees.removeAt(i);
   }
 
 
+  public onEmployeeSubmit( adEmployee: IUser['employee'] )
+  {
+    if (this.addEmployeeForm.status === 'VALID') // if fields are valid
+    {
+      let employees = this.addEmployeeForm.controls.employees.value; // store form controls i.e the array
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < employees.length; i++) // loop through length of array
+      {
+        adEmployee = employees[i]; // set each item of array to employee
+        adEmployee.id = this.firestore.createId(); // create an id for the employee
+        this.business.addEmployees(adEmployee); // pass the employee to firestore func
+      }
+    }
+      // this.addEmployee.reset();
+    else
+    {
+      console.log('error in employee form');
+    }
+  }
 
-  // removeService(i: number): void
-  // {
-  //   this.services().removeAt(i); // get the formArray and remove the formgroup selected
-  // }
+// HANDLE SERVICES DATA
+newService(): FormGroup // build the service group
+{
+  let service = this.addSer.group({
+    serviceName: ['', Validators.required],
+    serviceDescription: ['', Validators.required],
+    servicePrice: ['', Validators.required],
+    duration: ['', Validators.required]
+  });
+  return service;
+}
 
-  // removeEmployee(i: number): void
-  // {
-  //   this.employees().removeAt(i);
-  // }
+public addServiceFormGroup()
+{
+  const services = this.addServiceForm.get('services') as FormArray;
+  services.push(this.newService());
+}
+
+removeService(i: number): void
+{
+  const services = this.addServiceForm.get('services') as FormArray;
+  services.removeAt(i); // get the formArray and remove the formgroup selected
+}
+
+public onServiceSubmit(adService: IUser['service'] )
+{
+  if (this.addServiceForm.status === 'VALID') // if fields are valid
+  {
+    console.log(this.addServiceForm.controls.services.value);
+    let services = this.addServiceForm.controls.services.value;
+    for (let i = 0; i < services.length; i++)
+    {
+      adService = services[i];
+      adService.id = this.firestore.createId();
+      this.business.addServices(adService);
+    }
+}
+  else{
+    console.log('error in service form');
+  }
+}
+
+
+// HANDLES PROFILE DATA
+public onProfileSubmit(newProfile: IUser['business']): void
+{
+  if (this.addProfileForm.status === 'VALID') // if fields are valid
+  {
+    this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
+    this.business.addBusiness(newProfile); // pass the values to the  function in the service
+    // this.addProfileForm.reset();
+    // this.route.navigate(['/business-view/:{{uid}}']);
+  }
+  else{
+    console.log('error in business form');
+  }
+}
 
 
 
-
+// HANDLES PROFILE IMAGES
   createFile(img)
   {
-      const newImage = new FormControl (img, Validators.required);
-      (<FormArray>this.addProlfileImages.get('slides')).push(newImage);
+    const newImage = new FormControl (img, Validators.required);
+    (<FormArray>this.addProlfileImages.get('slides')).push(newImage);
   }
 
   get allImages(): FormArray
@@ -152,46 +215,8 @@ export class AddBusinessComponent implements OnInit {
   }
 
 
-  public onProfileSubmit(newProfile: IUser['business']): void
-  {
-    if (this.addProfileForm.status === 'VALID') // if fields are valid
-    {
-      this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
-      this.business.addBusiness(newProfile); // pass the values to the  function in the service
-      // this.addProfileForm.reset();
-      // this.route.navigate(['/business-view/:{{uid}}']);
-    }
-    else{
-      console.log('error in business form');
-    }
-  }
 
-  public onEmployeeSubmit( newEmployees: IUser['employees'] )
-  {
-    if (this.addEmployee.status === 'VALID') // if fields are valid
-    {
-      this.newEmployees = this.addEmployee.value;          // set the value of the form equal to object of type userInterface
-      this.business.addEmployees(newEmployees);
-    }
-      // this.addEmployee.reset();
-    else
-    {
-      console.log('error in employee form');
-    }
-  }
 
-  public onServiceSubmit(newServices: IUser['services'] )
-  {
-    if (this.addService.status === 'VALID') // if fields are valid
-    {
-      this.newServices = this.addService.value; // set the value of the form equal to object of type Interface
-      this.business.addServices(newServices);
-    }
-    else
-    {
-      console.log('error in service form');
-    }
-  }
 
   cancel()
   {

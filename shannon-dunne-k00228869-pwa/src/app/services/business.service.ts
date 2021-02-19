@@ -28,9 +28,9 @@ export class BusinessService {
     this.uid = theUser.uid;
     this.id = this.firestore.createId();
     newProfile.id = this.id;
+    
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['business']>('business' + this.uid).add(newProfile)); // add user to the db
-    // profileCreated= true; //set to true so users cannot see the create button to add another business to the db
   }
 
 
@@ -53,58 +53,65 @@ export class BusinessService {
   }
 
   
-  public addServices(newServices: IUser['services'] )
+  public addServices(adService: IUser['service'] )
   {
     // console.log(service);
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    if (newServices)
-      {
-        for (let service of [newServices] )
-        {
-          return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
-          .collection<IUser['services']>('service' + this.uid).add(service));
-        }
-      }
-     // need to iterate through array of businesses to create a seperate doc
-     
+    // if (adService)
+    //   {
+    //     for (let service of [adService] )
+    //     {
+          // this.id = this.firestore.createId() // create id
+          // service.id = this.id //set id for each service
+    return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+          .collection<IUser['service']>('service' + this.uid).add(adService));
+      //   }
+      // }
   }
 
   
-  public addEmployees(newEmployees: IUser['employees'])
+  public addEmployees(adEmployee: IUser['employee'])
   {
     // console.log(newEmployees);
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    // this.id = this.firestore.createId();
-    // this.id = employee.id;
-    if (newEmployees)
-      {
-        for (let employee of [newEmployees])
-         {
-           return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
-           .collection<IUser['employees']>('employees' + this.uid).add(employee));
-         }
-      }
+    console.log(adEmployee);
+    
+    // if (adEmployee)
+    //   {
+    //     for (let employee of [adEmployee])
+    //      {
+    return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+           .collection<IUser['employee']>('employees' + this.uid).add(adEmployee));
+        //  }
+        // for(let i = 0; i<newEmployees.length; i++)
+        // {
+        //   for(let j = 0; j< newEmployees[i].length; j++)
+        //   {
+
+        //   }
+        // }
+    
   }
 
-  getEmployees(): Observable<IUser['employees']>
+getEmployees(): Observable<IUser['employee']>
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef;
     docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['employees']>('employees' + this.uid);
+    .collection<IUser['employee']>('employees' + this.uid);
     return docRef.valueChanges();
   }
 
-  getServices(): Observable<IUser['services']>
+getServices(): Observable<IUser['service']>
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef;
     docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['services']>('service' + this.uid);
+    .collection<IUser['service']>('service' + this.uid);
     return docRef.valueChanges();
 
   }

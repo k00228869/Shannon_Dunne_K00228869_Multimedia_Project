@@ -16,8 +16,10 @@ export class ProfileBusinessViewComponent implements OnInit {
   profileInfo: IUser['business'];
   employees: IUser['employees'];
   services: IUser['services'];
+  panelOpenState = false;
   isSignedIn = false;
   public uid: string;
+  public isCreated: boolean;
 
   constructor(
     public business: BusinessService,
@@ -35,22 +37,30 @@ export class ProfileBusinessViewComponent implements OnInit {
       this.isSignedIn = false; // if user is  empty they are signed out
     }
     this.business.getBusiness().subscribe(
-        (data) =>
+        (bus) =>
         {
-          this.profileInfo = data;
-          // console.log(this.profileInfo);
+          this.profileInfo = bus[0];
+          console.log(this.profileInfo);
+
+          if(this.profileInfo.profileCreated === true)
+          {
+            this.isCreated = true;
+          }
         }
       );
     this.business.getEmployees().subscribe(
-      (data) =>
+      (emps) =>
       {
-        this.employees = data;
+        this.employees = emps;
+        // console.log(this.employees);
       }
     );
     this.business.getServices().subscribe(
-      (data) =>
+      (servs) =>
       {
-        this.services = data;
+        this.services = servs;
+        console.log(this.services);
+        console.log(this.services[0]);
       }
     );
   }

@@ -26,6 +26,8 @@ export class BusinessService {
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
+    this.id = this.firestore.createId();
+    newProfile.id = this.id;
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['business']>('business' + this.uid).add(newProfile)); // add user to the db
     // profileCreated= true; //set to true so users cannot see the create button to add another business to the db
@@ -58,10 +60,10 @@ export class BusinessService {
     this.uid = theUser.uid;
     if (newServices)
       {
-        for (const service of [newServices] )
+        for (let service of [newServices] )
         {
-          this.firestore.collection('users').doc<IUser['user']>(this.uid)
-          .collection<IUser['services']>('service' + this.uid).add(service);
+          return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+          .collection<IUser['services']>('service' + this.uid).add(service));
         }
       }
      // need to iterate through array of businesses to create a seperate doc
@@ -78,10 +80,10 @@ export class BusinessService {
     // this.id = employee.id;
     if (newEmployees)
       {
-        for (const employee of [newEmployees] )
+        for (let employee of [newEmployees])
          {
-          return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
-          .collection<IUser['employees']>('employees' + this.uid).add(employee));
+           return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+           .collection<IUser['employees']>('employees' + this.uid).add(employee));
          }
       }
   }

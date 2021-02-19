@@ -32,14 +32,14 @@
     <span>Business Profile</span>
     <span class="spacer"></span>
     
-    <button mat-icon-button class="example-icon" aria-label="edit icon" *ngIf="profileInfo[0].profileCreated==true"> 
+    <button mat-icon-button class="example-icon" aria-label="edit icon" *ngIf="!isCreated"> 
       <a routerLink="/edit-business-profile">
         <mat-icon>edit</mat-icon>
     </a>
     </button>
 </mat-toolbar>
 
-<div *ngIf="profileInfo[0].profileCreated==false">
+<div *ngIf="isCreated">
     <h2>To Start Getting Appointments, Create Your Profile Today!</h2>
     <button mat-icon-button class="example-icon"  aria-label="edit button">
       <a routerLink="/add-business">
@@ -48,7 +48,7 @@
     </button>
 </div>
 
-<div *ngIf="profileInfo[0].profileCreated==true">
+<div  *ngIf="!isCreated">
     <mat-card class="card"> 
         <mat-card-header>
             <mat-card-subtitle>
@@ -57,9 +57,9 @@
         </mat-card-header>
         <mat-card-content label="details">
           <br>
-          <b>{{profileInfo[0].businessName}}</b>
+          <b>{{profileInfo.businessName}}</b>
           <br>
-          <p>{{profileInfo[0].businessDescription}}</p>
+          <p>{{profileInfo.businessDescription}}</p>
         </mat-card-content>
 
 
@@ -91,13 +91,37 @@
           <mat-tab label="Hours and Location">
             <mat-divider></mat-divider>
             <br>
-            <h4><b>Location: </b>{{profileInfo[0].county}}</h4>
-            <br><h4><b>Eircode: </b>{{profileInfo[0].eircode}}</h4>
+            <h4><b>Location: </b>{{profileInfo.county}}</h4>
+            <br><h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
             <mat-list-item role="listitem">Monday:    2:00 PM to 6:00 PM</mat-list-item>
             <br>
           </mat-tab>
-        </mat-tab-group>
+        
 
-
+        <mat-tab label="Services">
+          <mat-divider></mat-divider>
+            <mat-expansion-panel  *ngFor="let service of services" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                 {{service[0].serviceName}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!-- Price:  &#x20AC;{{service[i].servicePrice}}  -->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+                <!-- {{service[i].serviceDescription}} -->
+              </mat-panel-title>
+              <br>
+              <mat-panel-title>
+                <!-- Duration: {{service[i].duration}} Minutes -->
+              </mat-panel-title>
+              
+              <mat-divider></mat-divider>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+        </mat-tab>
+      </mat-tab-group>
       </mat-card>
 <!-- </div> -->

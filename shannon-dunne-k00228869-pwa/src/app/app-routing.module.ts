@@ -19,14 +19,27 @@ import { ClientGuard } from './guards/client.guard';
 // const redirectUnauthorizedToLogin = ( redirectUnauthorizedTo (['login']));
 // const redirectLoggedInToDashboard = ( redirectLoggedInTo (['dashboard']));
 
+// const routes: Routes = [
+//   {path: 'sign-up', component: SignUpComponent},
+//   {path: 'login', component: LoginComponent},
+//   {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
+//   {path: 'dashboard/:id', component: BusinessDashboardComponent, canActivate: [BusinessGuard]},
+//   {path: 'search', component: SearchDirectoryComponent},
+//   {path: 'booking', component: BookingFormComponent, canActivate: [ClientGuard]},
+//   {path: 'client-profile/:id', component: ClientProfileComponent, canActivate: [ClientGuard]},
+//   {path: 'business-view/:id', component: ProfileBusinessViewComponent},
+//   {path: 'add-business', component: AddBusinessComponent}
+// ];
+
+
 const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'login', component: LoginComponent},
   {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
-  {path: 'dashboard/:id', component: BusinessDashboardComponent, canActivate: [BusinessGuard]},
+  {path: 'dashboard/:id', component: BusinessDashboardComponent},
   {path: 'search', component: SearchDirectoryComponent},
-  {path: 'booking', component: BookingFormComponent, canActivate: [ClientGuard]},
-  {path: 'client-profile/:id', component: ClientProfileComponent, canActivate: [ClientGuard]},
+  {path: 'booking', component: BookingFormComponent},
+  {path: 'client-profile/:id', component: ClientProfileComponent},
   {path: 'business-view/:id', component: ProfileBusinessViewComponent},
   {path: 'add-business', component: AddBusinessComponent}
 ];

@@ -4,10 +4,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl, F
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
 import { BusinessService } from 'src/app/services/business.service';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-
+import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
   selector: 'app-add-business',
@@ -21,6 +19,7 @@ export class AddBusinessComponent implements OnInit {
   newImages: IUser['slides'];
   public id: string;
 
+
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
@@ -28,8 +27,6 @@ export class AddBusinessComponent implements OnInit {
 
   selectedValue: string;
   profileCreated = true;
-  uploadingpercentage: Observable<number>;
-  downloadUrl: Observable<string>;
   selectedFiles: FileList| null;
   urls = [];
 
@@ -42,7 +39,8 @@ export class AddBusinessComponent implements OnInit {
     // private route: Router,
     private location: Location,
     public business: BusinessService,
-    private storage: AngularFireStorage
+    public uploads: UploadsService
+    
   ) {}
 
 
@@ -70,6 +68,10 @@ export class AddBusinessComponent implements OnInit {
     this.addServiceForm = this.addSer.group({
         services: this.addSer.array([this.newService()])
         });
+
+
+    // this.downloadURL = this.imgStorage.ref('/images/employees/').getDownloadURL();
+    // console.log(this.downloadURL);
   }
 
 
@@ -82,7 +84,7 @@ export class AddBusinessComponent implements OnInit {
    lastName: ['', Validators.required],
    employeeDescription: ['', Validators.required],
  //     // employeeServices: new FormControl('', [Validators.required]),
-  emloyeeImg: '',
+    emloyeeImg: (''),
  //     // hours: new FormControl('', [Validators.required]),
    });
     return employee;
@@ -102,7 +104,7 @@ export class AddBusinessComponent implements OnInit {
 
   public onEmployeeSubmit( adEmployee: IUser['employee'] )
   {
-    if (this.addEmployeeForm.status === 'VALID') // if fields are valid
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
     {
       let employees = this.addEmployeeForm.controls.employees.value; // store form controls i.e the array
       // tslint:disable-next-line: prefer-for-of
@@ -110,12 +112,13 @@ export class AddBusinessComponent implements OnInit {
       {
         adEmployee = employees[i]; // set each item of array to employee
         adEmployee.id = this.firestore.createId(); // create an id for the employee
+        // adEmployee.emloyeeImg = this.downloadURL;
+        console.log(adEmployee.emloyeeImg);
         this.business.addEmployees(adEmployee); // pass the employee to firestore func
       }
     }
       // this.addEmployee.reset();
-    else
-    {
+    else{
       console.log('error in employee form');
     }
   }
@@ -146,9 +149,9 @@ removeService(i: number): void
 
 public onServiceSubmit(adService: IUser['service'] )
 {
-  if (this.addServiceForm.status === 'VALID') // if fields are valid
+  if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
   {
-    console.log(this.addServiceForm.controls.services.value);
+    // console.log(this.addServiceForm.controls.services.value);
     let services = this.addServiceForm.controls.services.value;
     for (let i = 0; i < services.length; i++)
     {
@@ -156,7 +159,7 @@ public onServiceSubmit(adService: IUser['service'] )
       adService.id = this.firestore.createId();
       this.business.addServices(adService);
     }
-}
+  }
   else{
     console.log('error in service form');
   }
@@ -166,7 +169,8 @@ public onServiceSubmit(adService: IUser['service'] )
 // HANDLES PROFILE DATA
 public onProfileSubmit(newProfile: IUser['business']): void
 {
-  if (this.addProfileForm.status === 'VALID') // if fields are valid
+  // tslint:disable-next-line: max-line-length
+  if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
   {
     this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
     this.business.addBusiness(newProfile); // pass the values to the  function in the service
@@ -179,13 +183,12 @@ public onProfileSubmit(newProfile: IUser['business']): void
 }
 
 
-
 // HANDLES PROFILE IMAGES
-  createFile(img)
-  {
-    const newImage = new FormControl (img, Validators.required);
-    (<FormArray>this.addProlfileImages.get('slides')).push(newImage);
-  }
+  // createFile(img)
+  // {
+  //   const newImage = new FormControl (img, Validators.required);
+  //   (<FormArray>this.addProlfileImages.get('slides')).push(newImage);
+  // }
 
   get allImages(): FormArray
   {
@@ -195,26 +198,24 @@ public onProfileSubmit(newProfile: IUser['business']): void
     }
   }
 
-  fileDetection(event) // detects selected images
-  {
-    // this.urls = [];
-    // this.selectedFiles = event.target.files;
-    // if(this.selectedFiles)
-    // {
-    //   for(let file of [this.selectedFiles])
-    //   {
-    //     let reader = new FileReader();
-    //     reader.onload = (e: any) => {
-    //       this.urls.push(e.target.result);
-    //       this.urls.createFile(e.target.result);
-    //       // this.urls = reader.result as string;
-    //     }
-    //     reader.readAsDataURL(file);
-    //    }
-    // }
-  }
-
-
+  // fileDetection(event) // detects selected images
+  // {
+  //   // this.urls = [];
+  //   // this.selectedFiles = event.target.files;
+  //   // if(this.selectedFiles)
+  //   // {
+  //   //   for(let file of [this.selectedFiles])
+  //   //   {
+  //   //     let reader = new FileReader();
+  //   //     reader.onload = (e: any) => {
+  //   //       this.urls.push(e.target.result);
+  //   //       this.urls.createFile(e.target.result);
+  //   //       // this.urls = reader.result as string;
+  //   //     }
+  //   //     reader.readAsDataURL(file);
+  //   //    }
+  //   // }
+  // }
 
 
 

@@ -85,10 +85,9 @@
 
   <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
-    <!-- <button hidden mat-raised-button color="primary" #employeeForm type="submit"></button> -->
-    <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">Add Employee</button>
+    <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">+</button>
     <div formArrayName="employees">
-    <div  *ngFor ="let employee of addEmployeeForm.get('employees')['controls']; let i = index" [formGroupName]="i">
+      <div  *ngFor ="let employee of addEmployeeForm.get('employees')['controls']; let i = index" [formGroupName]="i">
       
         <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
@@ -104,23 +103,42 @@
           <mat-label>Employee Description</mat-label>
         <textarea matInput [formControlName]="'employeeDescription'"></textarea>
         </mat-form-field>
+        <br>
+
+        <button mat-raised-button color="primary"  (click)="empImage.click()" >
+          Upload Image
+          <input hidden type="file" #empImage value="h" (change)="uploads.uploadEmployeeImage($event)" accept="image/*">
+        </button>
+        <br>
+        
+        <progress max="100" [value]="(uploads.uploadProgress | async)"></progress>
+          <div *ngIf="uploads.downloadURL | async; let uploadSrc">
+            <a [href]="uploadSrc">Uploaded</a>
+        </div>
+
+        <div *ngIf="uploads.uploadState | async; let state">
+          <button mat-raised-button color="warn" (click)="uploads.task.cancel()" [enabled]="!(state === 'paused' || state === 'running')">X</button>
+        </div> 
+
+        <div *ngIf="uploads.downloadURL | async; let url">
+          <img [src]="url" max-width="100" max-height="100">
+          <input hidden type="text" [formControlName]="'emloyeeImg'" value="url">
+        </div>
+        <br>
+
+        <br>
         <button mat-raised-button color="warm" (click)="removeEmployee(i)">Remove Employee</button>
-      </div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Employee Image</mat-label>
-        <input type="file" [formControlName]="'emloyeeImg'" (change)="fileDetection($event)" accept="image/*">
-      </mat-form-field> -->
+      </div>  
     </div>
   </form>
   <br>
   <br>
+  
  
 
   <form [formGroup]="addServiceForm" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
     <h2>Services</h2>
-    <!-- <button hidden mat-raised-button  #serviceForm type="submit"></button> -->
-    <button mat-raised-button color="primary" (click)="addServiceFormGroup()">Add service</button>
-    <!-- <button mat-raised-button color="primary" type="submit"></button> -->
+    <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button>
     <div formArrayName="services">
     <div  *ngFor ="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
         <mat-form-field appearance="outline">
@@ -159,21 +177,33 @@
     <br>
     <br>
 
-  <!-- <form [formGroup]="'addProlfileImages'">
+  <form [formGroup]="'addProlfileImages'">
     <button mat-raised-button color="primary" (click)="fileInput.click()">
-        <mat-icon></mat-icon>
-        Upload Images
+      Profile Images
+      <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple accept="image/*">
     </button>
-    <input hidden type="file" #fileInput (change)="fileDetection($event)" multiple accept="image/*">
+    <br>
+    <progress max="100" [value]="(uploads.uploadProgress | async)"></progress>
+    <div *ngIf="uploads.downloadURL | async; let uploadSrc">
+      <a [href]="uploadSrc">Uploaded</a>
+  </div>
 
+  <div *ngIf="uploads.uploadState | async; let state">
+    <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()" [enabled]="!(state === 'paused' || state === 'running')">X</button>
+  </div> 
+<!-- 
+  <div *ngIf="downloadURL | async; let url">
+    <img [src]="url" max-width="100" max-height="100">
+    <input hidden type="text" [formControlName]="'emloyeeImg'" value="url">
+  </div> -->
+  <br>
+    <br>
+    <br>
+  </form>
 
-        <br>
-        <br>
-  </form> -->
-
-      <button mat-raised-button color="primary" type="submit" >
-          Create Profile
-      </button>
+  <button mat-raised-button color="primary" type="submit" >
+    Create Profile
+  </button>
 </form>
 
 

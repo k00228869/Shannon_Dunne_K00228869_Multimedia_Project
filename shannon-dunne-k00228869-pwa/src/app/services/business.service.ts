@@ -19,6 +19,7 @@ export class BusinessService {
     public firestore: AngularFirestore,
     public authenticate: AngularFireAuth,
     public db: AuthenticateService,
+    public imgStorage: AngularFirestoreModule
   ) { }
 
 
@@ -28,7 +29,7 @@ export class BusinessService {
     this.uid = theUser.uid;
     this.id = this.firestore.createId();
     newProfile.id = this.id;
-    
+
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['business']>('business' + this.uid).add(newProfile)); // add user to the db
   }
@@ -77,6 +78,8 @@ export class BusinessService {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     console.log(adEmployee);
+    console.log(adEmployee.emloyeeImg);
+
     
     // if (adEmployee)
     //   {

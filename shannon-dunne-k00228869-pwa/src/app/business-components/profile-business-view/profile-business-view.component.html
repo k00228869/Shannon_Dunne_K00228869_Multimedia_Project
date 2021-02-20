@@ -117,7 +117,32 @@
               <mat-panel-title>
                 <!-- Duration: {{service[i].duration}} Minutes -->
               </mat-panel-title>
-              
+              <mat-divider></mat-divider>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+        </mat-tab>
+
+        <mat-tab label="employees">
+          <mat-divider></mat-divider>
+            <mat-expansion-panel  *ngFor="let employee of employees; let i=index;" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                {{i+1}} {{employee.firstName}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!-- Price:  &#x20AC;{{employee[i].lastName}}  -->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+                <!-- {{employee[i].employeeDescription}} -->
+              </mat-panel-title>
+              <br>
+              <mat-panel-title>
+                <!-- Duration: {{employee[i].employeeService}} Minutes -->
+              </mat-panel-title>
+              <!-- <img [src]="{{employee.empImage}}" max-width="100" max-height="100"> -->
+
               <mat-divider></mat-divider>
             </mat-expansion-panel>
             <mat-divider></mat-divider>

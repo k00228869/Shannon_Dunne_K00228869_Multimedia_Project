@@ -52,9 +52,9 @@ import { BusinessDealsComponent } from './client-components/search-directory/bus
     ReactiveFormsModule,
     MaterialModule,
     AngularFireStorageModule,
-    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    AngularFirestoreModule
   ],
   providers: [AuthenticateService, BusinessService],
   bootstrap: [AppComponent]

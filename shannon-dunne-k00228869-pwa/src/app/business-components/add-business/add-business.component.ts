@@ -16,8 +16,8 @@ export class AddBusinessComponent implements OnInit {
   newProfile: IUser['business'];
   adEmployee: IUser['employee'];
   adService: IUser['service'];
-  newImages: IUser['slides'];
   public id: string;
+  // public profileImages: string[];
 
 
   addProfileForm: FormGroup;
@@ -38,9 +38,8 @@ export class AddBusinessComponent implements OnInit {
     private firestore: AngularFirestore,
     // private route: Router,
     private location: Location,
+    public uploads: UploadsService,
     public business: BusinessService,
-    public uploads: UploadsService
-    
   ) {}
 
 
@@ -80,11 +79,11 @@ export class AddBusinessComponent implements OnInit {
 // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {  // build form group
     let employee = this.addEmp.group({
-   firstName: ['', Validators.required],
-   lastName: ['', Validators.required],
-   employeeDescription: ['', Validators.required],
- //     // employeeServices: new FormControl('', [Validators.required]),
-    emloyeeImg: (''),
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      employeeDescription: ['', Validators.required],
+      employeeServices: new FormControl('', [Validators.required]),
+      emloyeeImg: (''),
  //     // hours: new FormControl('', [Validators.required]),
    });
     return employee;
@@ -124,122 +123,68 @@ export class AddBusinessComponent implements OnInit {
   }
 
 // HANDLE SERVICES DATA
-newService(): FormGroup // build the service group
-{
-  let service = this.addSer.group({
-    serviceName: ['', Validators.required],
-    serviceDescription: ['', Validators.required],
-    servicePrice: ['', Validators.required],
-    duration: ['', Validators.required]
-  });
-  return service;
-}
-
-public addServiceFormGroup()
-{
-  const services = this.addServiceForm.get('services') as FormArray;
-  services.push(this.newService());
-}
-
-removeService(i: number): void
-{
-  const services = this.addServiceForm.get('services') as FormArray;
-  services.removeAt(i); // get the formArray and remove the formgroup selected
-}
-
-public onServiceSubmit(adService: IUser['service'] )
-{
-  if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+  newService(): FormGroup // build the service group
   {
-    // console.log(this.addServiceForm.controls.services.value);
-    let services = this.addServiceForm.controls.services.value;
-    for (let i = 0; i < services.length; i++)
+    let service = this.addSer.group({
+      serviceName: ['', Validators.required],
+      serviceDescription: ['', Validators.required],
+      servicePrice: ['', Validators.required],
+      duration: ['', Validators.required]
+    });
+    return service;
+  }
+
+  public addServiceFormGroup()
+  {
+    const services = this.addServiceForm.get('services') as FormArray;
+    services.push(this.newService());
+  }
+
+  removeService(i: number): void
+  {
+    const services = this.addServiceForm.get('services') as FormArray;
+    services.removeAt(i); // get the formArray and remove the formgroup selected
+  }
+
+  public onServiceSubmit(adService: IUser['service'] )
+  {
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
     {
-      adService = services[i];
-      adService.id = this.firestore.createId();
-      this.business.addServices(adService);
+      // console.log(this.addServiceForm.controls.services.value);
+      let services = this.addServiceForm.controls.services.value;
+      for (let i = 0; i < services.length; i++)
+      {
+        adService = services[i];
+        adService.id = this.firestore.createId();
+        this.business.addServices(adService);
+      }
     }
-  }
-  else{
-    console.log('error in service form');
-  }
-}
-
-
-// HANDLES PROFILE DATA
-public onProfileSubmit(newProfile: IUser['business']): void
-{
-  // tslint:disable-next-line: max-line-length
-  if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-  {
-    this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
-    this.business.addBusiness(newProfile); // pass the values to the  function in the service
-    // this.addProfileForm.reset();
-    // this.route.navigate(['/business-view/:{{uid}}']);
-  }
-  else{
-    console.log('error in business form');
-  }
-}
-
-
-// HANDLES PROFILE IMAGES
-  // createFile(img)
-  // {
-  //   const newImage = new FormControl (img, Validators.required);
-  //   (<FormArray>this.addProlfileImages.get('slides')).push(newImage);
-  // }
-
-  get allImages(): FormArray
-  {
-    if (this.addProlfileImages && this.addProlfileImages.get('slides'))
-    {
-      return this.addProlfileImages.get('slides') as FormArray;
+    else{
+      console.log('error in service form');
     }
   }
 
-  // fileDetection(event) // detects selected images
-  // {
-  //   // this.urls = [];
-  //   // this.selectedFiles = event.target.files;
-  //   // if(this.selectedFiles)
-  //   // {
-  //   //   for(let file of [this.selectedFiles])
-  //   //   {
-  //   //     let reader = new FileReader();
-  //   //     reader.onload = (e: any) => {
-  //   //       this.urls.push(e.target.result);
-  //   //       this.urls.createFile(e.target.result);
-  //   //       // this.urls = reader.result as string;
-  //   //     }
-  //   //     reader.readAsDataURL(file);
-  //   //    }
-  //   // }
-  // }
 
+  // HANDLES PROFILE DATA
+  public onProfileSubmit(newProfile: IUser['business']): void
+  {
+    // tslint:disable-next-line: max-line-length
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    {
+      this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
+      this.business.addBusiness(newProfile); // pass the values to the  function in the service
+      // this.addProfileForm.reset();
+      // this.route.navigate(['/business-view/:{{uid}}']);
+    }
+    else{
+      console.log('error in business form');
+    }
+  }
 
 
   cancel()
   {
       this.location.back();
   }
-
-
-  // addImg(){
-  //   const file = this.selectedFileList;
-  //   const filePath = '${Img.id}/name';
-  //   const fileRef = this.storage.ref(filePath);
-  //   const theTask = this.storage.upload(filePath, file);
-  //   theTask.snapshotChanges().pipe(
-  //     finalize(() => {
-  //       fileRef.getDownloadURL().toPromise().then((url) => {
-  //         this.downloadUrl = url;
-  //        myTest.set({
-
-  //         })
-  //       })
-  //     }
-  //   )
-  // }
 
 }

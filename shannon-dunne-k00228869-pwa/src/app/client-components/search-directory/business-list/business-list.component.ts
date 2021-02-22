@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/i-user';
 import { from, Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { IUser } from 'src/app/i-user';
+import { BusinessService } from 'src/app/services/business.service';
 
 @Component({
   selector: 'app-business-list',
@@ -9,21 +9,23 @@ import { AngularFirestore } from '@angular/fire/firestore';
   styleUrls: ['./business-list.component.css']
 })
 export class BusinessListComponent implements OnInit {
-
+  public profiles: IUser['business'];
+  public id: string;
   constructor(
-    public firestore: AngularFirestore,
-
+    public business: BusinessService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
+
+    this.business.getAllBusinesses().subscribe(
+      (data) =>
+      {
+        this.profiles = data;
+        console.log('businesses', this.profiles[0]);
+        // this.id = this.profiles.id;
+      });
   }
 
 
-  // public getAllBusinesses(): Observable<IUser['business']>
-  // {
-  //   let docref;
-  //   docref = this.firestore.collection('users').doc<IUser['user']>().collection<IUser['business']>
-  //   return docref.where('profileCreated', '==', 'true').valueChanges();
-  // }
 
 }

@@ -1,4 +1,3 @@
-<p>search-directory works!</p>
 <mat-toolbar>
     <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
@@ -6,19 +5,19 @@
 
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
-        <a routerLink="/">
+        <a routerLink="/client-profile/{{client.uid}}">
         <mat-icon>person</mat-icon>
         <span>Account</span>
         </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/">
+        <a routerLink="/search">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/">
+        <a routerLink="/search">
             <mat-icon>search</mat-icon>
             <span>Find Appointment</span>  
         </a>
@@ -37,7 +36,7 @@
 </mat-toolbar>
 
 
-<form class="form-group">
+<!-- <form class="form-group">
   <mat-form-field appearance="fill">
     <mat-label>Location</mat-label>
     <mat-select>
@@ -53,9 +52,9 @@
       <mat-option value="option">Cork</mat-option>
       <mat-option value="option">Dublin</mat-option>
     </mat-select>
-  </mat-form-field> 
+  </mat-form-field>  -->
 <br>
-  <mat-form-field appearance="fill">
+  <!-- <mat-form-field appearance="fill">
     <mat-label>Provider</mat-label>
     <mat-select>
       <mat-option value="option">Hair Stylist</mat-option>
@@ -63,7 +62,7 @@
       <mat-option value="option">Nail Technitian</mat-option>
       <mat-option value="option">Barber</mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
 
   <button mat-raised-button aria-label="search" (click)="onSearch()">Search</button>
    
@@ -75,16 +74,17 @@
    
   
   
-</form>
+<!-- </form> -->
 
 <br>
 
   <div *ngIf="deal">
       <app-business-deals></app-business-deals>
   </div>
-  <div *ngIf="display">
+  
+  <!-- <div *ngIf="display"> -->
     <app-business-list></app-business-list>
-</div>
+<!-- </div> -->
 
 
 

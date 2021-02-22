@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-business-dashboard',
@@ -12,18 +12,20 @@ import { Router } from '@angular/router';
 export class BusinessDashboardComponent implements OnInit {
   businessProfile: IUser['business'];
   public isSignedIn = false;
-  uid: string;
+  public id: string;
   panelOpenState = false;
+  public user: IUser['user'];
 
 
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
-    private router: Router,
+    private route: ActivatedRoute,
+    private router: Router
 
   ) { }
 
- ngOnInit()
+ async ngOnInit()
  {
   if (localStorage.getItem('user') !== null) // if user is not empty
   {
@@ -32,14 +34,25 @@ export class BusinessDashboardComponent implements OnInit {
   else {
     this.isSignedIn = false; // user is signed out
     this.router.navigate(['/login']); // display business dash
-
   }
-  // this.business.getBusiness().subscribe(
-  //     (data) =>
-  //     {
-  //       this.businessProfile = data;
-  //       // console.log(data); //need to subscribe to getAppointments() and getClients()
-  //     }
-  //   );
+
+  this.business.getUserInfo().subscribe(
+    (data) =>
+    {
+      this.user = data;
+      console.log(this.user);
+    }
+  );
+
+  this.business.getBusiness().subscribe(
+      (data) =>
+      {
+        this.businessProfile = data;
+      }
+    );
+
+  
   }
 }
+
+

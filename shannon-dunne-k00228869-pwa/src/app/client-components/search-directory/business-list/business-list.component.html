@@ -1,6 +1,5 @@
-<p>business-list works!</p>
 <mat-card class="card"> 
-    <form class="form-group">
+    <!-- <form class="form-group">
       <br>
         <mat-form-field appearance="fill">
           <mat-label>Filter</mat-label>
@@ -9,31 +8,29 @@
             <mat-option value="option">By Rating</mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
+      </form> -->
   
-      <br>
-      <mat-divider></mat-divider>
-          <br>
-          
-      <a routerLink="/business-profile">
+  <br>
+  <mat-divider></mat-divider>
+  <br>
+  <ul>
+    <li *ngFor="let profile of profiles">
+      <a routerLink="/business-profile/{{profile.id}}">
         <mat-card-header>
-          <div mat-card-avatar class="header-image"></div>
-          <mat-card-title>businessName</mat-card-title>
+          <div mat-card-avatar></div>
+          <mat-card-title>{{profile.businessName}}</mat-card-title>
           <mat-card-subtitle>
-            Location:
+            Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
             <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">star_rate</mat-icon>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">star_rate</mat-icon>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">star_rate</mat-icon>
           </mat-card-subtitle>
         </mat-card-header>
       </a>
-      
-      <br>
-      <mat-divider></mat-divider>
-      <br>
-      
-    </mat-card>
+    </li>
+
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+  </ul>
+</mat-card>

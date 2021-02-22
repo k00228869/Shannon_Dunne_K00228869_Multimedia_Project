@@ -5,15 +5,15 @@
 
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
-        <a routerLink="/business-view/:uid">
-        <mat-icon>person</mat-icon>
+        <a routerLink="/business-view/{{user.uid}}">
+          <mat-icon>person</mat-icon>
         <span>Profile</span>
         <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
         </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/dashboard/:uid">
-        <mat-icon>bookings</mat-icon>
+        <a routerLink="/dashboard/{{user.uid}}">
+          <mat-icon>bookings</mat-icon>
         <span>Dashboard</span>
           <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
       </a>
@@ -21,8 +21,8 @@
 
 
       <button mat-menu-item>
-        <a routerLink="/dashboard/:uid">
-        <mat-icon>notification_important</mat-icon>
+        <a routerLink="/dashboard/{{id}}">
+          <mat-icon>notification_important</mat-icon>
         <span>Notifications</span>
           <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
       </a>
@@ -100,22 +100,22 @@
 
         <mat-tab label="Services">
           <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let service of services; let i=index;" (opened)="panelOpenState = true"
+            <mat-expansion-panel  *ngFor="let service of services;" (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                {{i+1}} {{service.serviceName}}
+               Name: {{service.serviceName}}
                 </mat-panel-title>
                 <mat-panel-description>
-                  <!-- Price:  &#x20AC;{{service[i].servicePrice}}  -->
+                  Price:  &#x20AC;{{service.servicePrice}} 
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <mat-panel-title>
-                <!-- {{service[i].serviceDescription}} -->
+               Description: {{service.serviceDescription}}
               </mat-panel-title>
               <br>
               <mat-panel-title>
-                <!-- Duration: {{service[i].duration}} Minutes -->
+                Duration: {{service.duration}} Minutes
               </mat-panel-title>
               <mat-divider></mat-divider>
             </mat-expansion-panel>
@@ -124,24 +124,23 @@
 
         <mat-tab label="employees">
           <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let employee of employees; let i=index;" (opened)="panelOpenState = true"
+            <mat-expansion-panel  *ngFor="let employee of employees" (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                {{i+1}} {{employee.firstName}}
+                Name: {{employee.firstName}} &nbsp; {{employee.lastName}} 
                 </mat-panel-title>
                 <mat-panel-description>
-                  <!-- Price:  &#x20AC;{{employee[i].lastName}}  -->
+                Description: {{employee.employeeDescription}} 
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <mat-panel-title>
-                <!-- {{employee[i].employeeDescription}} -->
+                <!-- {{employee.employeeService}} -->
               </mat-panel-title>
               <br>
               <mat-panel-title>
-                <!-- Duration: {{employee[i].employeeService}} Minutes -->
-              </mat-panel-title>
               <!-- <img [src]="{{employee.empImage}}" max-width="100" max-height="100"> -->
+            </mat-panel-title>
 
               <mat-divider></mat-divider>
             </mat-expansion-panel>

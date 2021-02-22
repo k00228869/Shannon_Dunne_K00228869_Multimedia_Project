@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 // import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
@@ -14,27 +14,22 @@ import { User} from '@firebase/auth-types';
 })
 export class AuthenticateService {
   uData: IUser['user'];
+  theUser: IUser['user'];
   userState: Observable<User>;
   user: Observable<User>;
+  // public id: string;
   public uid: string;
   admin: boolean;
   isLoggedIn = false;
-  // public user: Observable<firebase.User>;
-  // user: Observable<User>;
-  // public currentUser: firebase.User = null;
-  // httpOptions = {
-  //   // specifying content format is json
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-  // };
+
 
   constructor(
-    // private http: HttpClient,
     public authenticate: AngularFireAuth,
     private router: Router,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
+    private route: ActivatedRoute,
+
   ){}
-
-
 
   // USER SIGN IN FUNCTION
   signin(userSignIn: IUser['user'])
@@ -52,10 +47,11 @@ export class AuthenticateService {
         this.uData = data; // set data to IUser type
         if (this.uData.admin === true) // check if the user is an admin
         {
-          this.router.navigate(['/dashboard/{{uid}}']); // display business dash
+
+          this.router.navigate(['/dashboard/', this.uData.uid]); // display business dash
         }else
         {
-          this.router.navigate(['/client-profile/{{uid}}']); // display client profile
+          this.router.navigate(["/client-profile/", this.uData.uid]); // display client profile
         }
       });
     });
@@ -93,11 +89,11 @@ checkUser(newUser: IUser['user'])
 {
     if (newUser.admin === true)
     {
-      this.router.navigate(['/dashboard/{{uid}}']);
+      this.router.navigate(['/dashboard/{{newUser.uid}}']);
     }
     else if (newUser.admin === false)
     {
-      this.router.navigate(['/client-profile/{{uid}}']);
+      this.router.navigate(['/client-profile/{{newUser.uid}}']);
     }
   }
 
@@ -115,15 +111,18 @@ checkUser(newUser: IUser['user'])
   }
 
 
+  async getUserId(): Promise<Observable<IUser['user']>>
+  {
+    let user;
+    user = JSON.parse(localStorage.getItem('user'));
+    // this.theUser.uid = user.id;
+    this.uid = user.id;
+    let docRef;
+    docRef = await this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid).valueChanges();
+    // console.log(docRef);
+    return docRef;
+  }
 
-
-  // public getUserState(): Observable<User>
-  // {
-  //   let user;
-  //   user = JSON.parse(localStorage.getItem('user'));
-  //   return user;
-  // }
 }
 
 // authenticate.sendPasswordResetEmail(email);
-

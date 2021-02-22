@@ -10,6 +10,7 @@ import { BookingFormComponent } from './client-components/booking-form/booking-f
 import { ClientProfileComponent } from './client-components/client-profile/client-profile.component';
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
+import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -18,7 +19,6 @@ import { ClientGuard } from './guards/client.guard';
 // const adminOnly = () => hasCustomClaim('admin');
 // const redirectUnauthorizedToLogin = ( redirectUnauthorizedTo (['login']));
 // const redirectLoggedInToDashboard = ( redirectLoggedInTo (['dashboard']));
-
 // const routes: Routes = [
 //   {path: 'sign-up', component: SignUpComponent},
 //   {path: 'login', component: LoginComponent},
@@ -41,11 +41,12 @@ const routes: Routes = [
   {path: 'booking', component: BookingFormComponent},
   {path: 'client-profile/:id', component: ClientProfileComponent},
   {path: 'business-view/:id', component: ProfileBusinessViewComponent},
-  {path: 'add-business', component: AddBusinessComponent}
+  {path: 'add-business', component: AddBusinessComponent},
+  {path: 'business-profile/:id', component: BusinessProfileComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

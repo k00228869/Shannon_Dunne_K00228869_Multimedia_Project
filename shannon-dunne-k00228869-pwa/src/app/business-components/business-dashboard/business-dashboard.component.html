@@ -12,14 +12,15 @@
 
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
-        <a routerLink="/business-view/:uid">
+        <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
+          <a routerLink="/business-view/{{user.uid}}">
         <mat-icon>person</mat-icon>
         <span>Profile</span>
         <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
         </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/dashboard/:uid">
+        <a routerLink="/dashboard/{{user.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Dashboard</span>
           <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
@@ -28,7 +29,7 @@
 
 
       <button mat-menu-item>
-        <a routerLink="/dashboard/:uid">
+        <a routerLink="/dashboard/">
         <mat-icon>notification_important</mat-icon>
         <span>Notifications</span>
           <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
@@ -45,9 +46,6 @@
     </a>
     </button>
 </mat-toolbar>
-
-<!-- <h1>{{businessProfile[0].county}}</h1> -->
-
 
 <mat-tab-group>
   <mat-tab label="Appointments">

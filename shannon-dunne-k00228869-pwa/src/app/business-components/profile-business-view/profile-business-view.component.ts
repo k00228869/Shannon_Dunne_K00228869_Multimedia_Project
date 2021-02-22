@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/i-user';
-import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { User} from '@firebase/auth-types';
 import { Observable } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
 
 @Component({
   selector: 'app-profile-business-view',
@@ -14,18 +13,21 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class ProfileBusinessViewComponent implements OnInit {
   profileInfo: IUser['business'];
-  employee: IUser['employee'];
-  service: IUser['service'];
+  employees: IUser['employee'];
+  services: IUser['service'];
+  public user: IUser['user'];
   panelOpenState = false;
   isSignedIn = false;
-  public uid: string;
+  // public uid: string;
+  public id: string;
+
   public isCreated: boolean;
 
   constructor(
     public business: BusinessService,
     public authService: AuthenticateService,
-    public firestore: AngularFirestore,
-    public authenticate: AngularFireAuth,
+    private route: ActivatedRoute,
+
   ) { }
 
   ngOnInit()
@@ -40,39 +42,44 @@ export class ProfileBusinessViewComponent implements OnInit {
         (bus) =>
         {
           this.profileInfo = bus[0];
-          console.log(this.profileInfo);
-
-          if(this.profileInfo.profileCreated === true)
+          if (this.profileInfo.profileCreated === true)
           {
             this.isCreated = true;
           }
           else{
             console.log('create a profile');
+            this.isCreated = false;
           }
         }
-      );
-    this.business.getEmployees().subscribe(
-      (emps) =>
-      {
-        this.employee = emps;
-        // console.log(this.employees);
-      }
     );
-    this.business.getServices().subscribe(
-      (servs) =>
-      {
-        this.service = servs;
 
-        // for (let service of this.services )
-        // {
-        //   this.services.forEach(service => {
-            
-        //   });
-        // }
-        console.log(this.service);
-        console.log(this.service[0]);
+    this.business.getUserInfo().subscribe(
+      (data) =>
+      {
+        this.user = data;
+        console.log(this.user);
       }
     );
+
+    
+
+
   }
+
+  async getProfile()
+    {
+      (await this.business.getEmployees()).subscribe(
+        (emps) =>
+        {
+          this.employees = emps;
+        }
+      );
+      (await this.business.getServices()).subscribe(
+        (servs) =>
+        {
+          this.services = servs;
+        }
+      );
+    }
 
 }

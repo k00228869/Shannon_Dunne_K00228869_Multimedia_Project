@@ -22,10 +22,11 @@ import { BusinessService } from './services/business.service';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-// import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { BusinessListComponent } from './client-components/search-directory/business-list/business-list.component';
 import { BusinessDealsComponent } from './client-components/search-directory/business-deals/business-deals.component';
-
+import { ClientUserService } from 'src/app/services/client-user.service';
+import { UploadsService } from './services/uploads.service';
+import { HeaderComponent } from './business-components/header/header.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { BusinessDealsComponent } from './client-components/search-directory/bus
     AddBusinessComponent,
     BusinessProfileComponent,
     BusinessListComponent,
-    BusinessDealsComponent
+    BusinessDealsComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,7 @@ import { BusinessDealsComponent } from './client-components/search-directory/bus
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AngularFirestoreModule
   ],
-  providers: [AuthenticateService, BusinessService],
+  providers: [AuthenticateService, BusinessService, ClientUserService, UploadsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

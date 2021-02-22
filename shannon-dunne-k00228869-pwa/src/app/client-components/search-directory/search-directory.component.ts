@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { IUser } from 'src/app/i-user';
+import { ClientUserService } from 'src/app/services/client-user.service';
+
 
 @Component({
   selector: 'app-search-directory',
@@ -7,7 +11,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchDirectoryComponent implements OnInit {
   display = false;
-  deal= false;
+  deal = false;
+  public client: IUser['user'];
+
+  constructor(
+    public firestore: AngularFirestore,
+    public clientService: ClientUserService,
+    ) { }
+
+  ngOnInit(){
+    this.routeId();
+  }
+
+routeId(){
+  this.clientService.getUserInfo().subscribe(
+    (data) =>
+    {
+      this.client = data;
+    }
+  );
+}
+
   onSearch()
   {
     this.display = true;
@@ -19,11 +43,6 @@ export class SearchDirectoryComponent implements OnInit {
     this.deal = true;
     // this.display = !this.display;
   }
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 
 
 }

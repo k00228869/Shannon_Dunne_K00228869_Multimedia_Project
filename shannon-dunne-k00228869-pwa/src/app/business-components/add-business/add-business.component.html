@@ -104,6 +104,15 @@
         <textarea matInput [formControlName]="'employeeDescription'"></textarea>
         </mat-form-field>
         <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Employee Position</mat-label>
+          <mat-select [(value)]="selectedValue" [formControlName]="'employeeServices'">
+            <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+            <mat-option value="Nail Technitian">Nail Technitian</mat-option>
+            <mat-option value="Beautician">Beautician</mat-option>
+            <mat-option value="Make-up Artist">Make-up Artist</mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <button mat-raised-button color="primary"  (click)="empImage.click()" >
           Upload Image
@@ -177,30 +186,25 @@
     <br>
     <br>
 
-  <form [formGroup]="'addProlfileImages'">
+  <form>
     <button mat-raised-button color="primary" (click)="fileInput.click()">
       Profile Images
       <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple accept="image/*">
     </button>
     <br>
-    <progress max="100" [value]="(uploads.uploadProgress | async)"></progress>
-    <div *ngIf="uploads.downloadURL | async; let uploadSrc">
+    <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
+    <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">
       <a [href]="uploadSrc">Uploaded</a>
-  </div>
+    </div>
 
-  <div *ngIf="uploads.uploadState | async; let state">
+  <div *ngIf="uploads.uploadGroupState | async; let state">
     <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()" [enabled]="!(state === 'paused' || state === 'running')">X</button>
   </div> 
-<!-- 
-  <div *ngIf="downloadURL | async; let url">
-    <img [src]="url" max-width="100" max-height="100">
-    <input hidden type="text" [formControlName]="'emloyeeImg'" value="url">
-  </div> -->
   <br>
     <br>
     <br>
+  
   </form>
-
   <button mat-raised-button color="primary" type="submit" >
     Create Profile
   </button>

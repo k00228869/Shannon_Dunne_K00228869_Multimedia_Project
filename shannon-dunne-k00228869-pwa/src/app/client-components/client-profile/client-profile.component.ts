@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
@@ -9,24 +10,26 @@ import { ClientUserService } from 'src/app/services/client-user.service';
   styleUrls: ['./client-profile.component.css']
 })
 export class ClientProfileComponent implements OnInit {
-  clientInfo: IUser['user'];
+  public client: IUser['user'];
   panelOpenState = false;
   constructor(
     public clientService: ClientUserService,
-    public authService: AuthenticateService
+    public authService: AuthenticateService,
+    private route: ActivatedRoute,
+
 
   ) { }
 
   ngOnInit()
   {
-    this.clientService.getUserInfo().subscribe(
-        (data) =>
-        {
-          this.clientInfo = data;
-          console.log(this.clientInfo);
-        }
-      );
 
+    this.clientService.getUserInfo().subscribe(
+      (data) =>
+      {
+        this.client = data;
+        // console.log(this.client);
+      }
+    );
   }
 
 }

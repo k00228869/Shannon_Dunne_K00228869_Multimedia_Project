@@ -25,12 +25,12 @@ isSignedIn = false;
       password: ['', [Validators.minLength(6), Validators.maxLength(25)]]
     });
 
-    if (localStorage.getItem('user') !== null) { // if there is a user in the local data storage,
-      this.isSignedIn = true;
-      } // this user is signed in
-      else {
-      this.isSignedIn = false;
-      } // if there is not a user stored, then user is logged out
+    // if (localStorage.getItem('user') !== null) { // if there is a user in the local data storage,
+    //   this.isSignedIn = true;
+    //   } // this user is signed in
+    //   else {
+    //   // this.isSignedIn = false;
+    //   } // if there is not a user stored, then user is logged out
   }
 
    onSubmit(userSignIn: IUser['user'])

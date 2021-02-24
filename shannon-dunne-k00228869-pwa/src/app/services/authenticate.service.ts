@@ -15,12 +15,12 @@ import { User} from '@firebase/auth-types';
 export class AuthenticateService {
   uData: IUser['user'];
   theUser: IUser['user'];
-  userState: Observable<User>;
+  userState: any;
   user: Observable<User>;
   // public id: string;
   public uid: string;
   admin: boolean;
-  isLoggedIn = false;
+  isLoggedIn: boolean;
 
 
   constructor(
@@ -29,7 +29,21 @@ export class AuthenticateService {
     public firestore: AngularFirestore,
     private route: ActivatedRoute,
 
-  ){}
+
+  ){
+    this.authenticate.authState.subscribe(user => {
+      if (user)
+      {
+        this.userState = user;
+        localStorage.setItem('user', JSON.stringify(this.userState));
+        JSON.parse(localStorage.getItem('user'));
+      }
+      else{
+        window.localStorage.setItem('user', null);
+        JSON.parse(localStorage.getItem('user'));
+      }
+    })
+  }
 
   // USER SIGN IN FUNCTION
   signin(userSignIn: IUser['user'])
@@ -38,7 +52,7 @@ export class AuthenticateService {
     .then(Credentials =>
     {
       this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
-      localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storaage
+      window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storaage
       this.isLoggedIn = true; // set the user to logged in
 
       this.getUserData(this.uid) // pass the user id to get the users doc
@@ -49,9 +63,10 @@ export class AuthenticateService {
         {
 
           this.router.navigate(['/dashboard/', this.uData.uid]); // display business dash
-        }else
+        }
+        else if (this.uData.admin === false)
         {
-          this.router.navigate(["/client-profile/", this.uData.uid]); // display client profile
+          this.router.navigate(['/client-profile/', this.uData.uid]); // display client profile
         }
       });
     });
@@ -72,7 +87,7 @@ signup(newUser: IUser['user'])
     .then((credentials) => {
       newUser.uid = credentials.user.uid;
       this.firestore.collection<IUser>('users').doc<IUser['user']>(newUser.uid).set(newUser); // add user to the db
-      localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
+      window.localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
 
       this.isLoggedIn = true; // set the user to logged in
       return this.authenticate.currentUser.then(user => user.sendEmailVerification())
@@ -89,11 +104,11 @@ checkUser(newUser: IUser['user'])
 {
     if (newUser.admin === true)
     {
-      this.router.navigate(['/dashboard/{{newUser.uid}}']);
+      this.router.navigate(['/dashboard/', newUser.uid]);
     }
     else if (newUser.admin === false)
     {
-      this.router.navigate(['/client-profile/{{newUser.uid}}']);
+      this.router.navigate(['/client-profile/', newUser.uid]);
     }
   }
 
@@ -101,13 +116,18 @@ checkUser(newUser: IUser['user'])
   // USER SIGN OUT
   logout()
   {
-    this.authenticate.signOut()
+    return this.authenticate.signOut()
+    
     .then(() => {
-      localStorage.removeItem('user');
+      window.localStorage.removeItem('user');
+      window.localStorage.clear();
       this.isLoggedIn = false; // set the user to logged in
      }).then(() => {
       this.router.navigate(['login']);
-     });
+     })
+    
+
+
   }
 
 

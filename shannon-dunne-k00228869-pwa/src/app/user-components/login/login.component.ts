@@ -39,7 +39,6 @@ isSignedIn = false;
     {
       this.userSignIn = this.loginForm.value; // get email value and set to userSignIn
       this.athenticationService.signin(userSignIn); // pass the values to the signupform
-      console.log(userSignIn.password);
       if (this.athenticationService.isLoggedIn)
       {
         this.isSignedIn = true; // user is signed in

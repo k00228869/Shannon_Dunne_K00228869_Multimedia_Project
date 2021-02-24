@@ -10,22 +10,42 @@ import { BusinessService } from 'src/app/services/business.service';
 })
 export class BusinessListComponent implements OnInit {
   public profiles: IUser['business'];
+  public userList: IUser['user'];
+  public userIds: string[] = [];
+
   public id: string;
   constructor(
     public business: BusinessService,
   ) { }
 
-  ngOnInit(){
+   ngOnInit(){
 
-    this.business.getAllBusinesses().subscribe(
-      (data) =>
+    this.business.getAllBusinessUsers().subscribe(
+      async (data) =>
       {
-        this.profiles = data;
-        console.log('businesses', this.profiles[0]);
-        // this.id = this.profiles.id;
+        Object.keys(data).length;
+        let key, count = 0;
+        for (key in data)
+        {
+          if (data.hasOwnProperty(key))
+          {
+            this.userIds.push(data[key].uid);
+            console.log('user IDS', this.userIds);
+            await this.getProfiles(this.userIds);
+          }
+        // this.getProfiles(this.userIds);
+      }
       });
   }
 
-
-
+  getProfiles(userIds)
+  {
+    this.business.getAllBusinesses(userIds).subscribe(
+      (data) => {
+        this.profiles = data;
+        // this.profiles.push(data);
+        console.log(this.profiles);
+      });
+  }
 }
+

@@ -23,8 +23,6 @@ export class UploadsService {
   groupTask: AngularFireUploadTask;
   public busURL: string;
   public profileImages: string[];
-  
-
 
 
   constructor(
@@ -33,23 +31,23 @@ export class UploadsService {
     ) { }
 
 
-  uploadEmployeeImage = (event) => {
-    const imgId = Math.random().toString(36).substring(2); // create random image id
-    this.employeeRef = this.imgStorage.ref('/images/employees/' + imgId); // create reference path to storage bucket
-    this.task = this.employeeRef.put(event.target.files[0]); // create an uploadtask to upload img
-    this.uploadProgress = this.task.snapshotChanges() // return state, download url from uploadprogress
-    .pipe(map (s => (s.bytesTransferred / s.totalBytes) * 100))
+  // uploadEmployeeImage = (event) => {
+  //   const imgId = Math.random().toString(36).substring(2); // create random image id
+  //   this.employeeRef = this.imgStorage.ref('/images/employees/' + imgId); // create reference path to storage bucket
+  //   this.task = this.employeeRef.put(event.target.files[0]); // create an uploadtask to upload img
+  //   this.uploadProgress = this.task.snapshotChanges() // return state, download url from uploadprogress
+  //   .pipe(map (s => (s.bytesTransferred / s.totalBytes) * 100))
 
-    this.uploadProgress = this.task.percentageChanges(); // observe progress of upload
-    this.task.snapshotChanges().pipe(  // getDownloadURL prevents having to bind to uploadProgress in UI, as it will show the progress
-    finalize(() => {
-      this.downloadURL = this.employeeRef.getDownloadURL(); // notify when url is available
-      this.downloadURL.subscribe(url => (this.empURL = url.toString()));
-      console.log(this.empURL);
-      console.log(this.downloadURL);
-      this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
-    })).subscribe();
-   }
+  //   this.uploadProgress = this.task.percentageChanges(); // observe progress of upload
+  //   this.task.snapshotChanges().pipe(  // getDownloadURL prevents having to bind to uploadProgress in UI, as it will show the progress
+  //   finalize(() => {
+  //     this.downloadURL = this.employeeRef.getDownloadURL(); // notify when url is available
+  //     this.downloadURL.subscribe(url => (this.empURL = url.toString()));
+  //     console.log(this.empURL);
+  //     console.log(this.downloadURL);
+  //     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+  //   })).subscribe();
+  //  }
 
 
   uploadProfileImages = (event) =>
@@ -67,7 +65,7 @@ export class UploadsService {
       this.uploadGroupProgress = this.groupTask.percentageChanges(); // observe progress of upload
 
       this.groupTask.snapshotChanges().pipe(
-        finalize(() => {
+        finalize(async () => {
           this.downloadAllURL = this.businessRef.getDownloadURL(); // notify when url is available
           this.downloadAllURL.subscribe(url => (this.busURL = url.toString()));
           console.log(this.busURL);

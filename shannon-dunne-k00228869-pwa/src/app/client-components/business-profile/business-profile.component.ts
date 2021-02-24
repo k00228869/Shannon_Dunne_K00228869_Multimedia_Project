@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
+import { ClientUserService } from 'src/app/services/client-user.service';
 
 @Component({
   selector: 'app-business-profile',
@@ -10,12 +11,15 @@ import { BusinessService } from 'src/app/services/business.service';
 })
 export class BusinessProfileComponent implements OnInit {
   profileInfo: IUser['business'];
-  employees: IUser['employee'];
+  employees: IUser['employee'][];
   services: IUser['service'];
+  public client: IUser['user'];
+
   
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
+    public clientService: ClientUserService
   ) { }
 
   ngOnInit() {
@@ -34,17 +38,25 @@ export class BusinessProfileComponent implements OnInit {
         (await this.business.getBusEmployees(params.get('id'))).subscribe(
         (emps) =>
         {
-          this.employees = emps[0];
-          // console.log(this.employees);
+          // this.employees = emps[];
+          console.log(emps);
         });
 
 
         (await this.business.getBusServices(params.get('id'))).subscribe(
         (servs) =>
         {
-          this.services = servs[0];
-          console.log(this.services);
+          // this.services = servs[0];
+          console.log(servs);
         });
       });
+
+    this.clientService.getUserInfo().subscribe(
+        (data) =>
+        {
+          this.client = data;
+          // console.log(this.client);
+        }
+      );
   }
 }

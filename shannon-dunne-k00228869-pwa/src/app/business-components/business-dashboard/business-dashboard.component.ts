@@ -40,7 +40,7 @@ export class BusinessDashboardComponent implements OnInit {
     (data) =>
     {
       this.user = data;
-      console.log(this.user);
+      // console.log(this.user);
     }
   );
 

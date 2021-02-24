@@ -36,7 +36,7 @@ export class AddBusinessComponent implements OnInit {
     private addEmp: FormBuilder,
     private addSer: FormBuilder,
     private firestore: AngularFirestore,
-    // private route: Router,
+    private route: Router,
     private location: Location,
     public uploads: UploadsService,
     public business: BusinessService,
@@ -174,7 +174,7 @@ export class AddBusinessComponent implements OnInit {
       this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
       this.business.addBusiness(newProfile); // pass the values to the  function in the service
       // this.addProfileForm.reset();
-      // this.route.navigate(['/business-view/:{{uid}}']);
+      // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
     }
     else{
       console.log('error in business form');

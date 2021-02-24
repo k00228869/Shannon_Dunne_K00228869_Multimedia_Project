@@ -26,7 +26,6 @@ import { BusinessListComponent } from './client-components/search-directory/busi
 import { BusinessDealsComponent } from './client-components/search-directory/business-deals/business-deals.component';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { UploadsService } from './services/uploads.service';
-import { HeaderComponent } from './business-components/header/header.component';
 
 
 @NgModule({
@@ -43,9 +42,8 @@ import { HeaderComponent } from './business-components/header/header.component';
     AddBusinessComponent,
     BusinessProfileComponent,
     BusinessListComponent,
-    BusinessDealsComponent,
-    HeaderComponent
-  ],
+    BusinessDealsComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

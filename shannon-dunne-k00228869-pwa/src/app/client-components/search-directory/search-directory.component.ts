@@ -23,7 +23,8 @@ export class SearchDirectoryComponent implements OnInit {
     this.routeId();
   }
 
-routeId(){
+routeId()
+{
   this.clientService.getUserInfo().subscribe(
     (data) =>
     {
@@ -35,13 +36,13 @@ routeId(){
   onSearch()
   {
     this.display = true;
-    // this.display = !this.display;
+    this.deal = false;
   }
-  
+
   onDeal()
   {
     this.deal = true;
-    // this.display = !this.display;
+    this.display = false;
   }
 
 

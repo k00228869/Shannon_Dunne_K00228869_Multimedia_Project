@@ -10,11 +10,11 @@ export interface IUser {
         admin?: boolean;
     };
     slides?: {
-        url: string,
-    }[];
+        imageURL: string;
+    };
     business?: {
         id: string,
-        profileCreated?: boolean;
+        profileCreated?: boolean,
         businessName: string,
         businessDescription: string,
         eircode: string,
@@ -23,6 +23,16 @@ export interface IUser {
         reminderMessage?: string,
         isMobile?: boolean,
         cancellationPolicy?: string,
+        hours?: number[],
+    };
+    hours?: {
+        monday: number;
+        tuesday: number;
+        wednesday: number;
+        thursday: number;
+        friday: number;
+        saturday: number;
+        sunday: number;
     };
     reviews?: {
         date?: number;
@@ -40,7 +50,7 @@ export interface IUser {
         employeeServices?: string,
         emloyeeImg?: string,
         // days?: string;
-        hours?: string, };
+         };
     service?: {
         id: string,
         serviceName: string,

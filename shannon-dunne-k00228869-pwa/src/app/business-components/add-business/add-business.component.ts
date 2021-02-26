@@ -6,6 +6,8 @@ import {Location} from '@angular/common';
 import { BusinessService } from 'src/app/services/business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UploadsService } from 'src/app/services/uploads.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-business',
@@ -16,23 +18,20 @@ export class AddBusinessComponent implements OnInit {
   newProfile: IUser['business'];
   adEmployee: IUser['employee'];
   adService: IUser['service'];
+  newHours: IUser['hours'];
   public id: string;
-  // public profileImages: string[];
-
-
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
-  addProlfileImages: FormGroup;
-
+  addBusHours: FormGroup;
   selectedValue: string;
-  profileCreated = true;
-  selectedFiles: FileList| null;
-  urls = [];
+  profileCreated: boolean;
+  dailyWorkHours: number[] = [];
+  dailyHours: IUser['business']['hours'];
 
   constructor(
     private addProfile: FormBuilder,
-    private addImages: FormBuilder,
+    private addHours: FormBuilder,
     private addEmp: FormBuilder,
     private addSer: FormBuilder,
     private firestore: AngularFirestore,
@@ -40,6 +39,7 @@ export class AddBusinessComponent implements OnInit {
     private location: Location,
     public uploads: UploadsService,
     public business: BusinessService,
+
   ) {}
 
 
@@ -56,9 +56,15 @@ export class AddBusinessComponent implements OnInit {
         profileCreated: new FormControl('true', Validators.required),
       });
 
-    this.addProlfileImages = this.addImages.group({
-      slides: this.addImages.array([])
-      });
+    this.addBusHours = this.addHours.group({
+      monday: this.addHours.array([this.newDay()]),
+      tuesday: this.addHours.array([this.newDay()]),
+      wednesday: this.addHours.array([this.newDay()]),
+      thursday: this.addHours.array([this.newDay()]),
+      friday: this.addHours.array([this.newDay()]),
+      saturday: this.addHours.array([this.newDay()]),
+      sunday: this.addHours.array([this.newDay()])
+    });
 
     this.addEmployeeForm = this.addEmp.group({
       employees: this.addEmp.array([this.newEmployee()])
@@ -67,11 +73,9 @@ export class AddBusinessComponent implements OnInit {
     this.addServiceForm = this.addSer.group({
         services: this.addSer.array([this.newService()])
         });
-
-
-    // this.downloadURL = this.imgStorage.ref('/images/employees/').getDownloadURL();
-    // console.log(this.downloadURL);
   }
+
+
 
 
 
@@ -84,7 +88,6 @@ export class AddBusinessComponent implements OnInit {
       employeeDescription: ['', Validators.required],
       employeeServices: new FormControl('', [Validators.required]),
       emloyeeImg: (''),
- //     // hours: new FormControl('', [Validators.required]),
    });
     return employee;
  }
@@ -121,6 +124,8 @@ export class AddBusinessComponent implements OnInit {
       console.log('error in employee form');
     }
   }
+
+
 
 // HANDLE SERVICES DATA
   newService(): FormGroup // build the service group
@@ -165,22 +170,57 @@ export class AddBusinessComponent implements OnInit {
   }
 
 
-  // HANDLES PROFILE DATA
-  public onProfileSubmit(newProfile: IUser['business']): void
+
+
+  // HANDLES HOURS DATA
+  newDay(): FormGroup {
+    let day = this.addHours.group({
+      startT: ['', Validators.required],
+      finishT: ['', Validators.required],
+    });
+    return day;
+  }
+
+
+
+  // HANDLES PROFILE DATA & HOURS
+  public onProfileSubmit(newProfile: IUser['business'], newHours: IUser['hours'])
   {
     // tslint:disable-next-line: max-line-length
     if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
     {
+      this.newHours = this.addBusHours.value;
+      this.business.addHours(this.newHours);
+      
       this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
-      this.business.addBusiness(newProfile); // pass the values to the  function in the service
       // this.addProfileForm.reset();
       // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
+
+      Object.keys(this.newHours).length;
+      let key, count = 0;
+      // tslint:disable-next-line: forin
+      for (key in this.newHours)
+      {
+        if(this.newHours.hasOwnProperty(key))
+        {
+          let startTime = moment(this.newHours[key][0].startT, 'HH:mm:ss');
+          let finishTime = moment(this.newHours[key][0].finishT, 'HH:mm:ss');
+          let duration = moment.duration(finishTime.diff(startTime));
+          let diff = duration.hours();
+          // console.log('thediff', diff);
+          this.dailyWorkHours.push(diff);
+          console.log(this.dailyWorkHours);
+          this.dailyHours = this.dailyWorkHours;
+          console.log(this.dailyHours);
+        }
+      }
+      this.newProfile.hours = this.dailyHours;
+      this.business.addBusiness(newProfile);
     }
     else{
       console.log('error in business form');
     }
   }
-
 
   cancel()
   {

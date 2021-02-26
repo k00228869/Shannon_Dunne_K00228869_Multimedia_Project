@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } from '@angular/fire/firestore';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { from, observable, Observable, of } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 import { map } from 'rxjs/operators';
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
 import { BusinessListComponent } from '../client-components/search-directory/business-list/business-list.component';
-// import { AngularFireStorageModule} from ''
+import { UploadsService } from './uploads.service';
+import { ActionSequence } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -25,22 +25,55 @@ export class BusinessService {
   public businesses: Observable<IUser['business']>;
   // public profiles: Observable<any[]>;
   
-  public profileImages: string[];
+  // public profileImages: string[];
+    // public profileImages: IUser['slides'];
+    busCollection: AngularFirestoreCollection<IUser['business']>;
+    business: Observable<IUser['business'][]>;
+
   constructor(
     public firestore: AngularFirestore,
     public authenticate: AngularFireAuth,
     public db: AuthenticateService,
-    public imgStorage: AngularFirestoreModule
+    public imgStorage: AngularFirestoreModule,
   ) { }
 
+
+  public addBusinessHours(newHours: IUser['hours']) // add a business details to the db
+  {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    // newHours.id = this.uid;
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+    .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
+  }
 
   public addBusiness(newProfile: IUser['business']) // add a business details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     newProfile.id = this.uid;
+    // newProfile.hours = dailyHours;
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['business']>('business').add(newProfile)); // add user to the db
+  }
+
+
+  public addHours(newHours: IUser['hours']) // add a business details to the db
+  {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+    .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
+  }
+
+
+  public getHours(): Observable<any> // add a business details to the db
+  {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+    .collection<IUser['hours']>('hours'); // add user to the db
+    return docRef.valueChanges();
   }
 
   public getBusiness(): Observable<IUser['business']>  // if a page change occurs can the system tell whos id i want to track?
@@ -59,7 +92,6 @@ export class BusinessService {
     aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
     return aUsers.valueChanges();
   }
-
 
 
   public getAllBusinesses(userIds): Observable<IUser['business']>
@@ -90,14 +122,6 @@ export class BusinessService {
   }
 
 
-  public addSlides(newImages: IUser['slides'])
-{
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    return from (this.firestore.collection('users')
-    .doc<IUser['user']>(this.uid).collection<IUser['slides']>('profileImages').add(newImages));
-  }
-
   public addServices(adService: IUser['service'] )
 {
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -106,11 +130,20 @@ export class BusinessService {
     .collection<IUser['service']>('services').add(adService));
   }
 
+  public addImages(profileImages: IUser['slides'])
+{
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    console.log(profileImages);
+    return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
+    .collection<IUser['slides']>('Images').add(profileImages));
+}
+
   public addEmployees(adEmployee: IUser['employee'])
 {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    console.log(adEmployee);
+    // console.log(adEmployee);
     console.log(adEmployee.emloyeeImg);
     return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
     .collection<IUser['employee']>('employees').add(adEmployee));
@@ -137,13 +170,7 @@ export class BusinessService {
     return docRef.valueChanges();
   }
 
-addImages(profileImages)
-{
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['slides']>('Account Images').add(profileImages));
-  }
+
 
 getABusiness(id: string): Observable<IUser['business']>
   {

@@ -26,6 +26,7 @@ import { BusinessListComponent } from './client-components/search-directory/busi
 import { BusinessDealsComponent } from './client-components/search-directory/business-deals/business-deals.component';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { UploadsService } from './services/uploads.service';
+// import { MomentModule } from 'ngx-moment';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { UploadsService } from './services/uploads.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    // MomentModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

@@ -11,11 +11,13 @@ import { ClientUserService } from 'src/app/services/client-user.service';
 })
 export class BusinessProfileComponent implements OnInit {
   profileInfo: IUser['business'];
-  employees: IUser['employee'][];
+  employees: IUser['employee'];
   services: IUser['service'];
   public client: IUser['user'];
+  public id: string;
+  panelOpenState: boolean;
 
-  
+
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
@@ -24,9 +26,12 @@ export class BusinessProfileComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(
-      async (params) =>
+      (params) =>
       {
-        console.log(params);
+        this.id = params.get('id');
+        console.log('params', this.id);
+        console.log('paramid', this.id);
+
         this.business.getABusiness(params.get('id')).subscribe(
           (bus) =>
           {
@@ -35,20 +40,25 @@ export class BusinessProfileComponent implements OnInit {
           });
 
 
-        (await this.business.getBusEmployees(params.get('id'))).subscribe(
+        this.business.getBusServices(this.id).subscribe(
+            (servs) =>
+            {
+              this.services = servs;
+              console.log('services', this.services);
+              console.log('called');
+            });
+
+
+        this.business.getBusEmployees(this.id).subscribe(
         (emps) =>
         {
-          // this.employees = emps[];
+          this.employees = emps;
           console.log(emps);
         });
 
 
-        (await this.business.getBusServices(params.get('id'))).subscribe(
-        (servs) =>
-        {
-          // this.services = servs[0];
-          console.log(servs);
-        });
+        
+
       });
 
     this.clientService.getUserInfo().subscribe(

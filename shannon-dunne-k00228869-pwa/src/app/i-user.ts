@@ -48,7 +48,6 @@ export interface IUser {
         lastName: string,
         employeeDescription: string,
         employeeServices?: string,
-        emloyeeImg?: string,
         // days?: string;
          };
     service?: {
@@ -56,5 +55,6 @@ export interface IUser {
         serviceName: string,
         serviceDescription: string,
         servicePrice: number,
-        duration: string };
+        duration: string,
+        };
 }

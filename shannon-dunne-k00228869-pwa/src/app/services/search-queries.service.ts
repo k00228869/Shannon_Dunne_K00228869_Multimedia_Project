@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { observable, Observable, from, of } from 'rxjs';
 import { IUser } from '../i-user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchQueriesService {
-
+  // public bus: Observable<IUser['business'][]>;
+  public businesses: Observable<IUser['business'][]>;
+  allBus: IUser['business'][] = [];
+  // bus: IUser['business'];
+  
   constructor(
     public firestore: AngularFirestore,
 
@@ -20,30 +24,41 @@ export class SearchQueriesService {
     return aUsers.valueChanges();
   }
 
-  public getAllBusinesses(userIds): Observable<IUser['business']>
+
+  public getAllBusinesses(userIds: string[]): Observable<IUser['business'][]>
   {
-    let business;
-    // for (let i = 0; i < userIds.length; i++)
-    // {
-    //   business = this.firestore.collection('users').doc<IUser['user']>(userIds[i])
-    //   .collection<IUser['business']>('business');
-    //   // .collection<IUser['business']>('business').valueChanges();
-    //   // this.businesses.push(business.value);
-    // }
-    // return business.valueChanges();
-    // Object.keys(userIds).length;
+    Object.keys(userIds).length;
     let key, count = 0;
       // tslint:disable-next-line: forin
     for (key in userIds)
-        {
-        if (userIds.hasOwnProperty(key))
-        {
-          business = this.firestore.collection('users').doc<IUser['user']>(userIds[key])
-          .collection<IUser['business']>('business').valueChanges();
-          // this.businesses[0].push(business);
-        }
-        // return this.businesses;
-        return business;
+    {
+      if (userIds.hasOwnProperty(key))
+      {
+        let business;
+        business = this.firestore.collection('users').doc<IUser['user']>(userIds[key])
+        .collection<IUser['business']>('business');
+        return business.valueChanges();
+        // this.allBus.push(business);
       }
+    }
+    // this.businesses = of(this.allBus);
+    // console.log('all businesses', this.businesses);
+    // return this.businesses;
+  }
+
+
+
+  public getAllBusinessLocations(): Observable<IUser['user']> // returns the business users id's
+  {
+    let aUsers;
+    aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
+    return aUsers.valueChanges();
+  }
+
+  public getAllBusinessTypes(): Observable<IUser['user']> // returns the business users id's
+  {
+    let aUsers;
+    aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
+    return aUsers.valueChanges();
   }
 }

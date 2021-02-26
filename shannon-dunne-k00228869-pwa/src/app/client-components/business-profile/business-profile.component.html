@@ -36,7 +36,7 @@
     
     <button mat-icon-button class="example-icon" aria-label="edit icon"> 
       <a routerLink="/edit-business-profile">
-        <mat-icon>edit</mat-icon>
+        <mat-icon>calendar_today</mat-icon>
     </a>
     </button>
 </mat-toolbar>
@@ -94,7 +94,7 @@
 
         <mat-tab label="Services">
           <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let service of services;" (opened)="panelOpenState = true"
+            <mat-expansion-panel  *ngFor="let service of services" (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -115,7 +115,7 @@
             </mat-expansion-panel>
             <mat-divider></mat-divider>
         </mat-tab>
-
+getBusEmployees
         <mat-tab label="employees">
           <mat-divider></mat-divider>
             <mat-expansion-panel  *ngFor="let employee of employees" (opened)="panelOpenState = true"

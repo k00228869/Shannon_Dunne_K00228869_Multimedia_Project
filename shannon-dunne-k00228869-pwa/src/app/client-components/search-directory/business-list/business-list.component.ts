@@ -10,9 +10,11 @@ import { SearchQueriesService } from 'src/app/services/search-queries.service';
   styleUrls: ['./business-list.component.css']
 })
 export class BusinessListComponent implements OnInit {
-  public profiles: IUser['business'];
+  public profiles: IUser['business'][];
   public userList: IUser['user'];
   public userIds: string[] = [];
+  selectedValue: string;
+
 
   public id: string;
   constructor(
@@ -21,9 +23,8 @@ export class BusinessListComponent implements OnInit {
   ) { }
 
    ngOnInit(){
-
     this.search.getAllBusinessUsers().subscribe(
-      async (data) =>
+      (data) =>
       {
         Object.keys(data).length;
         let key, count = 0;
@@ -33,21 +34,22 @@ export class BusinessListComponent implements OnInit {
           {
             this.userIds.push(data[key].uid);
             console.log('user IDS', this.userIds);
-            await this.getProfiles(this.userIds);
+            // this.getProfiles(this.userIds);
           }
-        // this.getProfiles(this.userIds);
         }
+        this.getProfiles(this.userIds);
       });
   }
 
-  getProfiles(userIds)
+  getProfiles(userIds: string[])
   {
     this.search.getAllBusinesses(userIds).subscribe(
       (data) => {
+      // this.profiles = [];
         this.profiles = data;
         // this.profiles.push(data);
-        console.log(this.profiles);
-      });
+        console.log('subscribed profiles', this.profiles[0]);
+      })
   }
 }
 

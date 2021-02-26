@@ -39,7 +39,6 @@ export class AddBusinessComponent implements OnInit {
     private location: Location,
     public uploads: UploadsService,
     public business: BusinessService,
-
   ) {}
 
 
@@ -77,9 +76,6 @@ export class AddBusinessComponent implements OnInit {
 
 
 
-
-
-
 // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {  // build form group
     let employee = this.addEmp.group({
@@ -87,7 +83,6 @@ export class AddBusinessComponent implements OnInit {
       lastName: ['', Validators.required],
       employeeDescription: ['', Validators.required],
       employeeServices: new FormControl('', [Validators.required]),
-      emloyeeImg: (''),
    });
     return employee;
  }
@@ -114,8 +109,6 @@ export class AddBusinessComponent implements OnInit {
       {
         adEmployee = employees[i]; // set each item of array to employee
         adEmployee.id = this.firestore.createId(); // create an id for the employee
-        // adEmployee.emloyeeImg = this.downloadURL;
-        console.log(adEmployee.emloyeeImg);
         this.business.addEmployees(adEmployee); // pass the employee to firestore func
       }
     }
@@ -181,8 +174,6 @@ export class AddBusinessComponent implements OnInit {
     return day;
   }
 
-
-
   // HANDLES PROFILE DATA & HOURS
   public onProfileSubmit(newProfile: IUser['business'], newHours: IUser['hours'])
   {
@@ -201,7 +192,7 @@ export class AddBusinessComponent implements OnInit {
       // tslint:disable-next-line: forin
       for (key in this.newHours)
       {
-        if(this.newHours.hasOwnProperty(key))
+        if (this.newHours.hasOwnProperty(key))
         {
           let startTime = moment(this.newHours[key][0].startT, 'HH:mm:ss');
           let finishTime = moment(this.newHours[key][0].finishT, 'HH:mm:ss');

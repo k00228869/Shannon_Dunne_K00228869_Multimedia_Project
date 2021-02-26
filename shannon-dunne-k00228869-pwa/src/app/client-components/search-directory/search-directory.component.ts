@@ -13,6 +13,8 @@ export class SearchDirectoryComponent implements OnInit {
   display = false;
   deal = false;
   public client: IUser['user'];
+  selectedValue: string;
+
 
   constructor(
     public firestore: AngularFirestore,

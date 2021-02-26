@@ -15,8 +15,6 @@ export class BusinessService {
   public userId: Observable<string[]>;
   public id: string;
   users: Observable<IUser['user']>;
-  public bus: Observable<IUser['business'][]>;
-  public businesses: Observable<IUser['business']>;
   busCollection: AngularFirestoreCollection<IUser['business']>;
   business: Observable<IUser['business'][]>;
 
@@ -98,8 +96,6 @@ export class BusinessService {
 {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    // console.log(adEmployee);
-    console.log(adEmployee.emloyeeImg);
     return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
     .collection<IUser['employee']>('employees').add(adEmployee));
   }
@@ -135,15 +131,16 @@ getABusiness(id: string): Observable<IUser['business']>
     return docRef.valueChanges();
   }
 
-async getBusServices(id: string): Promise<Observable<IUser['business']>>
+getBusServices(id: string): Observable<IUser['service']>
   {
     let docRef;
+    // const service = [];
     docRef = this.firestore.collection('users').doc<IUser['user']>(id)
-    .collection<IUser['service']>('service');
+    .collection<IUser['service']>('services');
     return docRef.valueChanges();
   }
 
-async getBusEmployees(id: string): Promise<Observable<IUser['business']>>
+getBusEmployees(id: string): Observable<IUser['employee']>
   {
     let docRef;
     docRef = this.firestore.collection('users').doc<IUser['user']>(id)

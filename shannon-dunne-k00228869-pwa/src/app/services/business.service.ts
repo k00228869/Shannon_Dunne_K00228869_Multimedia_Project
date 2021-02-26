@@ -5,9 +5,7 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { from, observable, Observable, of } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 import { map } from 'rxjs/operators';
-import { BusinessListComponent } from '../client-components/search-directory/business-list/business-list.component';
-import { UploadsService } from './uploads.service';
-import { ActionSequence } from 'protractor';
+// import { UploadsService } from './uploads.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +13,12 @@ import { ActionSequence } from 'protractor';
 export class BusinessService {
   public uid: string;
   public userId: Observable<string[]>;
-  
-
   public id: string;
-
   users: Observable<IUser['user']>;
-  // businesses: Observable<IUser['business']>;
   public bus: Observable<IUser['business'][]>;
   public businesses: Observable<IUser['business']>;
-  // public profiles: Observable<any[]>;
-  
-  // public profileImages: string[];
-    // public profileImages: IUser['slides'];
-    busCollection: AngularFirestoreCollection<IUser['business']>;
-    business: Observable<IUser['business'][]>;
+  busCollection: AngularFirestoreCollection<IUser['business']>;
+  business: Observable<IUser['business'][]>;
 
   constructor(
     public firestore: AngularFirestore,
@@ -84,41 +74,6 @@ export class BusinessService {
     docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
     .collection<IUser['business']>('business');
     return docRef.valueChanges();
-  }
-
-  public getAllBusinessUsers(): Observable<IUser['user']>
-  {
-    let aUsers;
-    aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
-    return aUsers.valueChanges();
-  }
-
-
-  public getAllBusinesses(userIds): Observable<IUser['business']>
-  {
-    let business;
-    // for (let i = 0; i < userIds.length; i++)
-    // {
-    //   business = this.firestore.collection('users').doc<IUser['user']>(userIds[i])
-    //   .collection<IUser['business']>('business');
-    //   // .collection<IUser['business']>('business').valueChanges();
-    //   // this.businesses.push(business.value);
-    // }
-    // return business.valueChanges();
-    // Object.keys(userIds).length;
-    let key, count = 0;
-      // tslint:disable-next-line: forin
-    for (key in userIds)
-        {
-        if (userIds.hasOwnProperty(key))
-        {
-          business = this.firestore.collection('users').doc<IUser['user']>(userIds[key])
-          .collection<IUser['business']>('business').valueChanges();
-          // this.businesses[0].push(business);
-        }
-        // return this.businesses;
-        return business;
-      }
   }
 
 

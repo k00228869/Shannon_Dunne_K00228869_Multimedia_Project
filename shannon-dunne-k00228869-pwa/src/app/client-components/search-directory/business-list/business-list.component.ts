@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
+import { SearchQueriesService } from 'src/app/services/search-queries.service';
 
 @Component({
   selector: 'app-business-list',
@@ -16,11 +17,12 @@ export class BusinessListComponent implements OnInit {
   public id: string;
   constructor(
     public business: BusinessService,
+    public search: SearchQueriesService
   ) { }
 
    ngOnInit(){
 
-    this.business.getAllBusinessUsers().subscribe(
+    this.search.getAllBusinessUsers().subscribe(
       async (data) =>
       {
         Object.keys(data).length;
@@ -34,13 +36,13 @@ export class BusinessListComponent implements OnInit {
             await this.getProfiles(this.userIds);
           }
         // this.getProfiles(this.userIds);
-      }
+        }
       });
   }
 
   getProfiles(userIds)
   {
-    this.business.getAllBusinesses(userIds).subscribe(
+    this.search.getAllBusinesses(userIds).subscribe(
       (data) => {
         this.profiles = data;
         // this.profiles.push(data);

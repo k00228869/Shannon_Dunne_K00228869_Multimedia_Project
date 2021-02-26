@@ -36,10 +36,10 @@
 </mat-toolbar>
 
 
-<!-- <form class="form-group">
+<form class="form-group">
   <mat-form-field appearance="fill">
     <mat-label>Location</mat-label>
-    <mat-select>
+    <mat-select [(value)]="selectedValue">
       <mat-option value="option">Antrim</mat-option>
       <mat-option value="option">Armagh</mat-option>
       <mat-option value="option">Fermanagh</mat-option>
@@ -52,17 +52,17 @@
       <mat-option value="option">Cork</mat-option>
       <mat-option value="option">Dublin</mat-option>
     </mat-select>
-  </mat-form-field>  -->
+  </mat-form-field> 
 <br>
-  <!-- <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill">
     <mat-label>Provider</mat-label>
-    <mat-select>
+    <mat-select [(value)]="selectedValue">
       <mat-option value="option">Hair Stylist</mat-option>
       <mat-option value="option">Makeup artist</mat-option>
       <mat-option value="option">Nail Technitian</mat-option>
       <mat-option value="option">Barber</mat-option>
     </mat-select>
-  </mat-form-field> -->
+  </mat-form-field>
 
   <button mat-raised-button aria-label="search" (click)="onSearch()">Search</button>
    

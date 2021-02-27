@@ -11,11 +11,13 @@ import { ClientUserService } from 'src/app/services/client-user.service';
 })
 export class BusinessProfileComponent implements OnInit {
   profileInfo: IUser['business'];
+  theHours: IUser['hours'];
   employees: IUser['employee'];
   services: IUser['service'];
   public client: IUser['user'];
   public id: string;
   panelOpenState: boolean;
+  keys: string[];
 
 
   constructor(
@@ -36,16 +38,21 @@ export class BusinessProfileComponent implements OnInit {
           (bus) =>
           {
             this.profileInfo = bus[0];
-            // console.log(this.profileInfo);
           });
+
+        this.business.getHours(params.get('id')).subscribe(
+            (data) =>
+            {
+              this.theHours = data[0];
+              console.log(this.theHours.monday[0].startT);
+            });
 
 
         this.business.getBusServices(this.id).subscribe(
             (servs) =>
             {
               this.services = servs;
-              console.log('services', this.services);
-              console.log('called');
+              // console.log('services', this.services);
             });
 
 
@@ -53,12 +60,8 @@ export class BusinessProfileComponent implements OnInit {
         (emps) =>
         {
           this.employees = emps;
-          console.log(emps);
+          // console.log(emps);
         });
-
-
-        
-
       });
 
     this.clientService.getUserInfo().subscribe(
@@ -68,5 +71,7 @@ export class BusinessProfileComponent implements OnInit {
           // console.log(this.client);
         }
       );
+
+    
   }
 }

@@ -57,4 +57,14 @@ export interface IUser {
         servicePrice: number,
         duration: string,
         };
+    appointment?: {
+        employeeId: string,
+        serviceId: string,
+        date: string,
+        time: string,
+        note?: string,
+        bid?: string;
+        uid?: string;
+        appointmentId?: string;
+    };
 }

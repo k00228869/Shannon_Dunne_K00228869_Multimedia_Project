@@ -11,6 +11,7 @@ import { ClientProfileComponent } from './client-components/client-profile/clien
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
+import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -38,11 +39,13 @@ const routes: Routes = [
   {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
   {path: 'dashboard/:id', component: BusinessDashboardComponent},
   {path: 'search', component: SearchDirectoryComponent},
-  {path: 'booking', component: BookingFormComponent},
+  {path: 'booking/:id', component: BookingFormComponent},
   {path: 'client-profile/:id', component: ClientProfileComponent},
   {path: 'business-view/:id', component: ProfileBusinessViewComponent},
   {path: 'add-business', component: AddBusinessComponent},
   {path: 'business-profile/:id', component: BusinessProfileComponent},
+  {path: 'booking-confirmed/:id', component: BookingConfirmationComponent},
+
 ];
 
 @NgModule({

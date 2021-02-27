@@ -1,1 +1,88 @@
-<p>booking-form works!</p>
+<h1>Booking Form</h1>
+<form class="form-group" [formGroup]="addAppointmentForm" (ngSubmit)="onAppointSubmit(addAppointmentForm.value)">
+  <br>
+  <!-- <button mat-raised-button color="warn" class="cancelButton" type="button">
+    <a routerLink="/customer-appointments-list">
+      X
+    </a>
+  </button> -->
+  
+  
+  <div>
+    <h4>Appointment Information</h4>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Employee</mat-label>
+    <mat-select [formControlName]="'employeeId'">
+      <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.firstName}}&nbsp;{{employee.lastName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Service</mat-label>
+    <mat-select [formControlName]="'serviceId'">
+      <mat-option *ngFor="let service of services" [value]="service.id">{{service.serviceName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input id="bookedDate"
+     (click)="bookedDate.open()"
+    matInput [matDatepicker]="bookedDate"
+    [formControlName]="'date'"
+    placeholder="Choose a date"
+    [matDatepickerFilter] = "dateFilter"
+    (dateInput)="newInput($event)">
+    <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>
+    <mat-datepicker #bookedDate startView = "month" ></mat-datepicker>
+    <!-- <mat-error *ngIf="addAppointmentForm.get('date').hasError('matDatepickerFilter')">Sundays are not available</mat-error> -->
+  </mat-form-field>
+ 
+  <mat-form-field appearance="outline">
+    <mat-label>Time</mat-label>
+    <mat-select [formControlName]="'time'">
+        <!-- <mat-option *ngFor="let time of profileInfo.hours" >{{profession}}</mat-option> -->
+        <mat-option value="09:00:00">9:00am</mat-option>
+    <mat-option value="09:30:00">9:30am</mat-option>
+    <mat-option value="10:00:00">10:00am</mat-option>
+    <mat-option value="10:30:00">10:30am</mat-option>
+    <mat-option value="11:00:00">11:00am</mat-option>
+    <mat-option value="11:30:00">11:30am</mat-option>
+    <mat-option value="12:00:00">12:00pm</mat-option>
+    <mat-option value="12:30:00">12:30pm</mat-option>
+    <mat-option value="13:00:00">1:00pm</mat-option>
+    <mat-option value="13:30:00">1:30pm</mat-option>
+    <mat-option value="14:00:00">2:00pm</mat-option>
+    <mat-option value="14:30:00">2:30pm</mat-option>
+    <mat-option value="15:00:00">3:00pm</mat-option>
+    <mat-option value="15:30:00">3:30pm</mat-option>
+    <mat-option value="16:00:00">4:00pm</mat-option>
+    <mat-option value="16:30:00">4:30pm</mat-option>
+    <mat-option value="17:00:00">5:00pm</mat-option>
+    <mat-option value="17:30:00">5:30pm</mat-option>
+    <mat-option value="18:00:00">6:00pm</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Additional Notes</mat-label>
+    <textarea matInput [formControlName]="'note'" placeholder="Any other Information you would like to add to your appointment"></textarea>
+</mat-form-field>
+<br>
+  <div *ngIf="profileInfo">
+    <h4>Cancellation Policy</h4>
+    <h3>{{profileInfo.cancellationPolicy}}</h3>
+  <!-- <h5>Failing to attend your appointment or cancelling less than 24 hours before your appointment, will incur a charge of 50% of the service ammount. Appointments can be rescheduled 24 hours before the appointment. </h5> -->
+  <br>
+  <br>
+  </div>
+  
+  <button type="submit" mat-raised-button color="primary">
+    <!-- <a routerLink="/booking-confirmed/{{client.uid}}"> -->
+      Submit 
+  <!-- </a> -->
+</button>
+</form>

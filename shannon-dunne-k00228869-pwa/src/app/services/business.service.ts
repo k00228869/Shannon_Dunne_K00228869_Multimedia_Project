@@ -54,12 +54,20 @@ export class BusinessService {
     .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
   }
 
-
-  public getHours(): Observable<any> // add a business details to the db
+  public getBusinessHours(): Observable<any> // add a business details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+    .collection<IUser['hours']>('hours'); // add user to the db
+    return docRef.valueChanges();
+  }
+
+
+
+  public getHours(id: string): Observable<any> // add a business details to the db
+  {
+    let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)   // returns promise not observable
     .collection<IUser['hours']>('hours'); // add user to the db
     return docRef.valueChanges();
   }

@@ -1,1 +1,90 @@
-<p>booking-confirmation works!</p>
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon>notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Account</span>
+    <span class="spacer"></span>
+
+    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>exit_to_app</mat-icon> 
+      </a>
+    </button>
+
+    <span>Booking Confirmation</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+<br>
+<button mat-raised-button color="warn" class="cancelButton" type="button">
+  <!-- <a routerLink="/customer-appointments-list"> -->
+      X
+    <!-- </a> -->
+</button>
+<br>
+<br>
+<div class="confirmationText">
+  <h3>Your Appointment Is Booked with <br>Divine Nails</h3>
+
+  <p><b>Location: </b>       Ladyswell St, Ladys Well, Cashel, Co. Tipperary,</p>
+  <br>
+  <p><b>Date:</b>            Tues 12th of Jan</p>
+  <br>
+  <p><b>Time: </b>           4:00 PM</p>
+  <br>
+  <p><b>Service: </b>        Acrylic Nails</p>
+  <br>
+  <p><b>Empoyee:</b>         Samantha</p>
+  <br>
+  <p><b>Duration:</b>         1.5hrs</p>
+  <br>
+  <p><b>Notes:</b>          None</p>
+  <br>
+  <h2>Manage Appointment</h2>
+
+<!-- <a routerLink="/reschedule-form"> -->
+<button mat-raised-button>
+    Reschedule
+</button>
+<!-- </a> -->
+
+
+<!-- <a routerLink="/cancel-page"> -->
+<!-- <button mat-raised-button (click)="openDialog()"color="warn"> -->
+      <!-- Cancel
+</button> -->
+<!-- </a> -->
+</div>
+
+
+
+
+

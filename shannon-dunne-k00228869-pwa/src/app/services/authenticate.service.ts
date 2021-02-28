@@ -117,17 +117,13 @@ checkUser(newUser: IUser['user'])
   logout()
   {
     return this.authenticate.signOut()
-    
     .then(() => {
       window.localStorage.removeItem('user');
       window.localStorage.clear();
       this.isLoggedIn = false; // set the user to logged in
      }).then(() => {
       this.router.navigate(['login']);
-     })
-    
-
-
+     });
   }
 
 

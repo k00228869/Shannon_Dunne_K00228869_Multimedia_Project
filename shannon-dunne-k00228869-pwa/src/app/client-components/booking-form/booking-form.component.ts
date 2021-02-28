@@ -53,6 +53,7 @@ export class BookingFormComponent implements OnInit {
   addAppointmentForm: FormGroup;
   public id: string;
   // date = new FormControl(moment());
+  datesNotAvailable;
   
 
   constructor(
@@ -129,8 +130,8 @@ export class BookingFormComponent implements OnInit {
 
   public onAppointSubmit(clientAppointment: IUser['appointment'])
   {
-    // if (this.addAppointmentForm.status === 'VALID')
-    // {
+    if (this.addAppointmentForm.status === 'VALID')
+    {
       this.clientAppointment = this.addAppointmentForm.value;
       clientAppointment.date = clientAppointment.date.toString();
       clientAppointment.bid = this.id;
@@ -140,7 +141,7 @@ export class BookingFormComponent implements OnInit {
       console.log(this.clientAppointment);
       this.booking.addClientAppointment(this.clientAppointment);
       this.booking.addBusinessBooking(this.clientAppointment);
-    // }
+    }
   }
 
   dateFilter = (m: moment.Moment | null): boolean => {
@@ -159,7 +160,13 @@ export class BookingFormComponent implements OnInit {
     {
       console.log(m.toDate());
       if(selectedDay === 1){
-
+        // 1 get duration of selected service e.g selected service = 03:00
+        // 3 add service duration to start time of service to get end time of service e.g appointmentTime + duration = appointment end time
+        // 5 disable selects for the duration of the service on the selected date
+        // 6 get the selected time that equals the selected time, disable times until time is equal to selected time with added duration
+        // Get the appointment date
+        // get duration of working day selected
+        
         // get monday hours
         console.log('its monday', selectedDay);
         // disable hours not available

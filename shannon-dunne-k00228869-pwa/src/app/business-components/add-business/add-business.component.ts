@@ -8,6 +8,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import * as moment from 'moment';
+import { IDays } from 'src/app/idays';
+import { WorkingDaysService } from 'src/app/services/working-days.service';
 
 @Component({
   selector: 'app-add-business',
@@ -18,8 +20,29 @@ export class AddBusinessComponent implements OnInit {
   newProfile: IUser['business'];
   adEmployee: IUser['employee'];
   adService: IUser['service'];
-  newHours: IUser['hours'];
+  selectedHours: IUser['hours']; // holds selected times
+  // newHourList: IUser['scheduleOfDays']['day']; // holds sliced array of hours
+  public newHourList: IUser['scheduleOfDays'];
+  mon: IUser['scheduleOfDays']['monday'];
+  tues: IUser['scheduleOfDays']['tuesday'];
+  wed: IUser['scheduleOfDays']['wednesday'];
+  thur: IUser['scheduleOfDays']['thursday'];
+  fri: IUser['scheduleOfDays']['friday'];
+  sat: IUser['scheduleOfDays']['saturday'];
+  sun: IUser['scheduleOfDays']['sunday'];
+
+
+
+
+  hours: string[] = [];
+  start: string;
+  end: string;
+  week: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  holdHours: string[] = [];
   public id: string;
+  hourList: IDays['1'] = [];  // hold hours template
+  dailyHours: string[] = []; // held selected tomes array
+
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
@@ -27,7 +50,8 @@ export class AddBusinessComponent implements OnInit {
   selectedValue: string;
   profileCreated: boolean;
   dailyWorkHours: number[] = [];
-  dailyHours: IUser['business']['hours'];
+  newSet: string;
+  // dailyHours: IUser['business']['hours'];
 
   constructor(
     private addProfile: FormBuilder,
@@ -39,6 +63,7 @@ export class AddBusinessComponent implements OnInit {
     private location: Location,
     public uploads: UploadsService,
     public business: BusinessService,
+    public hourService: WorkingDaysService
   ) {}
 
 
@@ -72,6 +97,14 @@ export class AddBusinessComponent implements OnInit {
     this.addServiceForm = this.addSer.group({
         services: this.addSer.array([this.newService()])
         });
+
+
+    this.business.getHoursList().subscribe(
+      (data) =>
+      {
+        this.hourList.push(data[1]);
+      }
+    );
   }
 
 
@@ -101,8 +134,8 @@ export class AddBusinessComponent implements OnInit {
 
   public onEmployeeSubmit( adEmployee: IUser['employee'] )
   {
-    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    {
+    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    // {
       let employees = this.addEmployeeForm.controls.employees.value; // store form controls i.e the array
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < employees.length; i++) // loop through length of array
@@ -111,11 +144,11 @@ export class AddBusinessComponent implements OnInit {
         adEmployee.id = this.firestore.createId(); // create an id for the employee
         this.business.addEmployees(adEmployee); // pass the employee to firestore func
       }
-    }
+    // }
       // this.addEmployee.reset();
-    else{
-      console.log('error in employee form');
-    }
+    // else{
+    //   console.log('error in employee form');
+    // }
   }
 
 
@@ -146,8 +179,8 @@ export class AddBusinessComponent implements OnInit {
 
   public onServiceSubmit(adService: IUser['service'] )
   {
-    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    {
+    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    // {
       // console.log(this.addServiceForm.controls.services.value);
       let services = this.addServiceForm.controls.services.value;
       for (let i = 0; i < services.length; i++)
@@ -156,10 +189,10 @@ export class AddBusinessComponent implements OnInit {
         adService.id = this.firestore.createId();
         this.business.addServices(adService);
       }
-    }
-    else{
-      console.log('error in service form');
-    }
+    // }
+    // else{
+    //   console.log('error in service form');
+    // }
   }
 
 
@@ -178,40 +211,134 @@ export class AddBusinessComponent implements OnInit {
   public onProfileSubmit(newProfile: IUser['business'], newHours: IUser['hours'])
   {
     // tslint:disable-next-line: max-line-length
-    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    {
-      this.newHours = this.addBusHours.value;
-      this.business.addHours(this.newHours);
-      
+    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    // {
+      this.selectedHours = this.addBusHours.value; // copy selected start/finish times of each day
       this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
       // this.addProfileForm.reset();
       // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
 
-      Object.keys(this.newHours).length;
-      let key, count = 0;
-      // tslint:disable-next-line: forin
-      for (key in this.newHours)
+      if(this.selectedHours.monday)
       {
-        if (this.newHours.hasOwnProperty(key))
-        {
-          let startTime = moment(this.newHours[key][0].startT, 'HH:mm:ss');
-          let finishTime = moment(this.newHours[key][0].finishT, 'HH:mm:ss');
-          let duration = moment.duration(finishTime.diff(startTime));
-          let diff = duration.hours();
-          // console.log('thediff', diff);
-          this.dailyWorkHours.push(diff);
-          console.log(this.dailyWorkHours);
-          this.dailyHours = this.dailyWorkHours;
-          console.log(this.dailyHours);
-        }
+        this.hours = [];
+
+        this.start = this.selectedHours.monday[0].startT; // get selected start time
+        this.end = this.selectedHours.monday[0].finishT; // get selected finish time
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0); // get index of start time
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0); // get index of finish time
+        let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
+        let m = 'monday';
+        this.hours.push(mondayHours, m);
+        // console.log(this.hours);
+        this.mon = this.hours;
+        console.log(this.mon);
+        
+        this.hourService.addMon(this.mon);
       }
-      this.newProfile.hours = this.dailyHours;
+      if(this.selectedHours.tuesday)
+      {
+        this.hours = [];
+
+        this.start = this.selectedHours.tuesday[0].startT;
+        this.end = this.selectedHours.tuesday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let tuesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        
+        this.tues = this.hours;
+        let t = 'tuesday';
+        this.hours.push(tuesday, t);
+        // this.business.addHours(this.tues);
+        this.hourService.addTue(this.tues);
+
+      }
+      if(this.selectedHours.wednesday)
+      {
+        this.hours = [];
+
+        this.start = this.selectedHours.wednesday[0].startT;
+        this.end = this.selectedHours.wednesday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let wednesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        let w = 'wednesday';
+        this.hours.push(wednesday, w);
+        this.wed = this.hours;
+        // this.business.addHours(this.wed);
+        this.hourService.addWed(this.wed);
+
+      }
+      if(this.selectedHours.thursday)
+      {
+        this.hours = [];
+
+        this.start = this.selectedHours.thursday[0].startT;
+        this.end = this.selectedHours.thursday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let thursday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        let t = 'thursday';
+        this.hours.push(thursday,t);
+        this.thur = this.hours;
+        // this.business.addHours(this.thur);
+        this.hourService.addThur(this.thur);
+
+      }
+      if(this.selectedHours.friday)
+      {
+        this.hours = [];
+
+        this.start = this.selectedHours.friday[0].startT;
+        this.end = this.selectedHours.friday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let friday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        let f = 'friday';
+        this.hours.push(friday,f);
+        this.fri = this.hours;
+        // this.business.addHours(this.fri);
+        this.hourService.addFri(this.fri);
+
+      }
+      if(this.selectedHours.saturday)
+      {
+        this.hours = [];
+
+        this.start = this.selectedHours.saturday[0].startT;
+        this.end = this.selectedHours.saturday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let saturday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        let s = 'saturday';
+        this.hours.push(saturday,s);
+        this.sat= this.hours;
+        // this.business.addHours(this.sat);
+        this.hourService.addSat(this.sat);
+      }
+      if(this.selectedHours.sunday)
+      {
+        this.hours = [];
+        this.start = this.selectedHours.sunday[0].startT;
+        this.end = this.selectedHours.sunday[0].finishT;
+        let theIndex1 = this.hourList[0].indexOf(this.start, 0);
+        let theIndex2 = this.hourList[0].indexOf(this.end, 0);
+        let sunday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
+        let s = 'sunday';
+        this.hours.push(sunday,s);
+        this.sun = this.hours;
+        this.hourService.addSun(this.sun);
+        // this.business.addHours(this.sun);
+      }
+      // this.hourService.addMon(this.sun);
+      // this.business.addHours(this.newHourList);
       this.business.addBusiness(newProfile);
-    }
-    else{
-      console.log('error in business form');
-    }
+    // }
+    // else{
+    //   console.log('error in business form');
+    // }
   }
+
+
 
   cancel()
   {

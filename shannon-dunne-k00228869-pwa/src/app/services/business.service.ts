@@ -5,6 +5,8 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { from, observable, Observable, of } from 'rxjs';
 import { IUser } from 'src/app/i-user';
 import { map } from 'rxjs/operators';
+import { IDays } from '../idays';
+import { stringify } from '@angular/compiler/src/util';
 // import { UploadsService } from './uploads.service';
 
 @Injectable({
@@ -17,6 +19,9 @@ export class BusinessService {
   users: Observable<IUser['user']>;
   busCollection: AngularFirestoreCollection<IUser['business']>;
   business: Observable<IUser['business'][]>;
+  hourList: Observable<IDays['1']>[];
+  // newHourList: IUser['scheduleOfDays'];
+
 
   constructor(
     public firestore: AngularFirestore,
@@ -34,6 +39,14 @@ export class BusinessService {
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
   }
+  // public addHours(any) // add a business details to the db
+  // {
+  //   let theUser = JSON.parse(localStorage.getItem('user'));
+  //   this.uid = theUser.uid;
+  //   return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+  //   .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays').add(Object.assign({}, any))); // add user to the db
+  // }
+  
 
   public addBusiness(newProfile: IUser['business']) // add a business details to the db
   {
@@ -45,15 +58,6 @@ export class BusinessService {
     .collection<IUser['business']>('business').add(newProfile)); // add user to the db
   }
 
-
-  public addHours(newHours: IUser['hours']) // add a business details to the db
-  {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
-    .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
-  }
-
   public getBusinessHours(): Observable<any> // add a business details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -63,7 +67,11 @@ export class BusinessService {
     return docRef.valueChanges();
   }
 
-
+  public getHoursList( ): Observable<IDays['1']>
+  {
+    return this.firestore.collection<IDays>('days')
+    .doc<IDays['1']>('monday').valueChanges();
+  }
 
   public getHours(id: string): Observable<any> // add a business details to the db
   {
@@ -90,6 +98,8 @@ export class BusinessService {
     return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
     .collection<IUser['service']>('services').add(adService));
   }
+
+ 
 
   public addImages(profileImages: IUser['slides'])
 {

@@ -173,7 +173,7 @@
             <mat-option value="01:00:00">1 Hr</mat-option>
             <mat-option value="01:30:00">1 Hr 30 Mins</mat-option>
             <mat-option value="02:00:00">2 Hrs</mat-option>
-            <mat-option value="02:30L00">2 Hrs 30 Mins</mat-option>
+            <mat-option value="02:30:00">2 Hrs 30 Mins</mat-option>
             <mat-option value="03:00:00">3 Hrs</mat-option>
           </mat-select>
         </mat-form-field>
@@ -216,51 +216,13 @@
     <mat-form-field appearance="outline">
     <mat-label>from</mat-label>
     <mat-select [formControlName]= "'startT'">
-      <mat-option value=" ">NA</mat-option>
-      <mat-option value="09:00:00">9:00am</mat-option>
-    <mat-option value="09:30:00">9:30am</mat-option>
-    <mat-option value="10:00:00">10:00am</mat-option>
-    <mat-option value="10:30:00">10:30am</mat-option>
-    <mat-option value="11:00:00">11:00am</mat-option>
-    <mat-option value="11:30:00">11:30am</mat-option>
-    <mat-option value="12:00:00">12:00pm</mat-option>
-    <mat-option value="12:30:00">12:30pm</mat-option>
-    <mat-option value="13:00:00">1:00pm</mat-option>
-    <mat-option value="13:30:00">1:30pm</mat-option>
-    <mat-option value="14:00:00">2:00pm</mat-option>
-    <mat-option value="14:30:00">2:30pm</mat-option>
-    <mat-option value="15:00:00">3:00pm</mat-option>
-    <mat-option value="15:30:00">3:30pm</mat-option>
-    <mat-option value="16:00:00">4:00pm</mat-option>
-    <mat-option value="16:30:00">4:30pm</mat-option>
-    <mat-option value="17:00:00">5:00pm</mat-option>
-    <mat-option value="17:30:00">5:30pm</mat-option>
-    <mat-option value="18:00:00">6:00pm</mat-option>
+      <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>To</mat-label>
     <mat-select [formControlName]= "'finishT'">
-      <mat-option value=" ">NA</mat-option>
-      <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+      <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
@@ -274,51 +236,13 @@
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>
@@ -333,51 +257,13 @@
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>
@@ -390,51 +276,13 @@
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>
@@ -447,51 +295,13 @@
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>
@@ -499,56 +309,18 @@
 
 <br>
 <div formArrayName="saturday">
-  <div  *ngFor ="let day of addBusHours.get('saturday')['controls']; let i = index" [formGroupName] = "i">
+  <div  *ngFor ="let day of addBusHours.get('tuesday')['controls']; let i = index" [formGroupName] = "i">
   <mat-label>Saturday</mat-label>
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>
@@ -561,52 +333,13 @@
   <mat-form-field appearance="outline">
   <mat-label>from</mat-label>
   <mat-select [formControlName]= "'startT'">
-    <mat-option value=" ">NA</mat-option>
-
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field appearance="outline">
   <mat-label>To</mat-label>
   <mat-select [formControlName]= "'finishT'">
-    <mat-option value=" ">NA</mat-option>
-    <mat-option value="09:00:00">9:00am</mat-option>
-      <mat-option value="09:30:00">9:30am</mat-option>
-      <mat-option value="10:00:00">10:00am</mat-option>
-      <mat-option value="10:30:00">10:30am</mat-option>
-      <mat-option value="11:00:00">11:00am</mat-option>
-      <mat-option value="11:30:00">11:30am</mat-option>
-      <mat-option value="12:00:00">12:00pm</mat-option>
-      <mat-option value="12:30:00">12:30pm</mat-option>
-      <mat-option value="13:00:00">1:00pm</mat-option>
-      <mat-option value="13:30:00">1:30pm</mat-option>
-      <mat-option value="14:00:00">2:00pm</mat-option>
-      <mat-option value="14:30:00">2:30pm</mat-option>
-      <mat-option value="15:00:00">3:00pm</mat-option>
-      <mat-option value="15:30:00">3:30pm</mat-option>
-      <mat-option value="16:00:00">4:00pm</mat-option>
-      <mat-option value="16:30:00">4:30pm</mat-option>
-      <mat-option value="17:00:00">5:00pm</mat-option>
-      <mat-option value="17:30:00">5:30pm</mat-option>
-      <mat-option value="18:00:00">6:00pm</mat-option>
+    <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
   </mat-select>
 </mat-form-field>
 </div>

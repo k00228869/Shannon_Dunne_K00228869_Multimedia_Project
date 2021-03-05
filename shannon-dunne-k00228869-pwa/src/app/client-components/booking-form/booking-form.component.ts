@@ -151,11 +151,19 @@ export class BookingFormComponent implements OnInit {
     return day !== 0 ;
   }
 
-
+//get duration of serv, disable time for duration when the selected dat is selected
   newInput(event)
   {
     const m: moment.Moment = event.value;
     const selectedDay = (m || moment()).day();
+
+        // let startTime = moment(this.start, 'HH:mm:ss'); // formating time
+          // let finishTime = moment(this.end, 'HH:mm:ss'); // formating time
+          // let duration = moment.duration(finishTime.diff(startTime));
+          // let diff = duration.hours();
+          // // console.log('thediff', diff);
+          // this.dailyWorkHours.push(diff);
+          // this.dailyHours = this.dailyWorkHours;
     if (m)
     {
       console.log(m.toDate());

@@ -25,6 +25,18 @@ export interface IUser {
         cancellationPolicy?: string,
         hours?: number[],
     };
+    scheduleOfDays: {
+        monday?: string[];
+        tuesday?: string[];
+        wednesday?: string[];
+        thursday?: string[];
+        friday?: string[];
+        saturday?: string[];
+        sunday?: string[];
+    };
+    // scheduleOfDays: {
+    //     day: string[];
+    // };
     hours?: {
         monday: number;
         tuesday: number;

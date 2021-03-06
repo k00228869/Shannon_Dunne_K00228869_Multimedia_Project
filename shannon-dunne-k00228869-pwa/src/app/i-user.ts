@@ -78,5 +78,11 @@ export interface IUser {
         bid?: string;
         uid?: string;
         appointmentId?: string;
+        timeStamp: Date;
+    };
+    bookingSchedule?:
+    {
+        date: string;
+        availableTimes: string[];
     };
 }

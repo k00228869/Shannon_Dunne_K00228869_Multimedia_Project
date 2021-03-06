@@ -11,6 +11,8 @@ import * as moment from 'moment';
 import { IDays } from 'src/app/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 
+
+
 @Component({
   selector: 'app-add-business',
   templateUrl: './add-business.component.html',
@@ -21,8 +23,6 @@ export class AddBusinessComponent implements OnInit {
   adEmployee: IUser['employee'];
   adService: IUser['service'];
   selectedHours: IUser['hours']; // holds selected times
-  // newHourList: IUser['scheduleOfDays']['day']; // holds sliced array of hours
-  public newHourList: IUser['scheduleOfDays'];
   mon: IUser['scheduleOfDays']['monday'];
   tues: IUser['scheduleOfDays']['tuesday'];
   wed: IUser['scheduleOfDays']['wednesday'];

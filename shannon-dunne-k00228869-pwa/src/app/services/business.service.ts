@@ -31,14 +31,15 @@ export class BusinessService {
   ) { }
 
 
-  public addBusinessHours(newHours: IUser['hours']) // add a business details to the db
-  {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    // newHours.id = this.uid;
-    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
-    .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
-  }
+  // public addBusinessHours(newHours: IUser['hours']) // add a business details to the db
+  // {
+  //   let theUser = JSON.parse(localStorage.getItem('user'));
+  //   this.uid = theUser.uid;
+  //   // newHours.id = this.uid;
+  //   return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
+  //   .collection<IUser['hours']>('hours').add(newHours)); // add user to the db
+  // }
+
   // public addHours(any) // add a business details to the db
   // {
   //   let theUser = JSON.parse(localStorage.getItem('user'));
@@ -99,8 +100,6 @@ export class BusinessService {
     .collection<IUser['service']>('services').add(adService));
   }
 
- 
-
   public addImages(profileImages: IUser['slides'])
 {
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -138,7 +137,6 @@ export class BusinessService {
     .collection<IUser['service']>('services');
     return docRef.valueChanges();
   }
-
 
 
 getABusiness(id: string): Observable<IUser['business']>

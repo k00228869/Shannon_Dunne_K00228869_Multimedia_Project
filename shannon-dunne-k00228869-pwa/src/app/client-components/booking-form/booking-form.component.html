@@ -30,21 +30,20 @@
     <mat-label>Date</mat-label>
     <input id="bookedDate"
      (click)="bookedDate.open()"
-     [value]=""
     matInput [matDatepicker]="bookedDate"
     [formControlName]="'date'"
     placeholder="Choose a date"
     [matDatepickerFilter] = "dateFilter"
     (dateInput)="newInput($event)">
     <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>
-    <mat-datepicker #bookedDate startView = "month" ></mat-datepicker>
+    <mat-datepicker  #bookedDate startView = "month" ></mat-datepicker>
     <!-- <mat-error *ngIf="addAppointmentForm.get('date').hasError('matDatepickerFilter')">Sundays are not available</mat-error> -->
   </mat-form-field>
  
   <mat-form-field appearance="outline">
     <mat-label>Time</mat-label>
     <mat-select [formControlName]="'time'">
-        <mat-option *ngFor="let time of day[0]"   [value]="time">{{time}}</mat-option>
+        <mat-option *ngFor="let time of day"   [value]="time">{{time}}</mat-option>
     </mat-select>
   </mat-form-field>
   </div>

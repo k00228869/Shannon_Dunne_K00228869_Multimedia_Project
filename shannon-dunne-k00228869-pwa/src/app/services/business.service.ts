@@ -12,6 +12,7 @@ import { stringify } from '@angular/compiler/src/util';
 @Injectable({
   providedIn: 'root'
 })
+
 export class BusinessService {
   public uid: string;
   public userId: Observable<string[]>;
@@ -21,7 +22,6 @@ export class BusinessService {
   business: Observable<IUser['business'][]>;
   hourList: Observable<IDays['1']>[];
   // newHourList: IUser['scheduleOfDays'];
-
 
   constructor(
     public firestore: AngularFirestore,

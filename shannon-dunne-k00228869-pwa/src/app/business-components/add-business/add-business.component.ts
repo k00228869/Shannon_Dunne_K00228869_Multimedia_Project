@@ -11,13 +11,12 @@ import * as moment from 'moment';
 import { IDays } from 'src/app/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 
-
-
 @Component({
   selector: 'app-add-business',
   templateUrl: './add-business.component.html',
   styleUrls: ['./add-business.component.css']
 })
+
 export class AddBusinessComponent implements OnInit {
   newProfile: IUser['business'];
   adEmployee: IUser['employee'];
@@ -30,10 +29,6 @@ export class AddBusinessComponent implements OnInit {
   fri: IUser['scheduleOfDays']['friday'];
   sat: IUser['scheduleOfDays']['saturday'];
   sun: IUser['scheduleOfDays']['sunday'];
-
-
-
-
   hours: string[] = [];
   start: string;
   end: string;
@@ -42,7 +37,6 @@ export class AddBusinessComponent implements OnInit {
   public id: string;
   hourList: IDays['1'] = [];  // hold hours template
   dailyHours: string[] = []; // held selected tomes array
-
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
@@ -65,7 +59,6 @@ export class AddBusinessComponent implements OnInit {
     public business: BusinessService,
     public hourService: WorkingDaysService
   ) {}
-
 
   ngOnInit()
   {
@@ -97,7 +90,6 @@ export class AddBusinessComponent implements OnInit {
     this.addServiceForm = this.addSer.group({
         services: this.addSer.array([this.newService()])
         });
-
 
     this.business.getHoursList().subscribe(
       (data) =>

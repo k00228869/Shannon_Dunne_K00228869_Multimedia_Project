@@ -16,8 +16,6 @@ export class ClientProfileComponent implements OnInit {
     public clientService: ClientUserService,
     public authService: AuthenticateService,
     private route: ActivatedRoute,
-
-
   ) { }
 
   ngOnInit()

@@ -42,15 +42,28 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  addBookingSchedule(id: string, schedule: IUser['bookingSchedule'])
+  addBookingSchedule(id: string, schedule: IUser['bookingSchedule']) // add a booked date
   {
+    // update booked date with new available times
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(id)   // returns promise not observable
-    .collection<IUser['bookingSchedule']>('schedule').add(schedule)); // add user to the db
+    .collection<IUser['bookingSchedule']>('schedule').doc<IUser['bookingSchedule']>(schedule.date).set(schedule)); // add user to the db
   }
 
-  getBookingSchedule(id: string, selectedDate)
+  public getBookingSchedule(id: string, setDate: string): Observable<IUser['bookingSchedule']> // get a booked date
   {
-    return this.firestore.doc<IUser>('users/${id}')
-    .collection<IUser['bookingSchedule']>('schedule', ref => ref.where('date', '==', selectedDate)).valueChanges();
+    let docRef;
+    // docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    // .collection<IUser['bookingSchedule']>('schedule', ref => ref.where('date', '==', setDate));
+    // return docRef.valueChanges();
+    docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['bookingSchedule']>('schedule').doc<IUser['bookingSchedule']>(setDate);
+    return docRef.valueChanges();
+  }
+
+  public getBookedDays(id: string){
+    let docRef;
+    docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['bookingSchedule']>('schedule');
+    return docRef.valueChanges();
   }
 }

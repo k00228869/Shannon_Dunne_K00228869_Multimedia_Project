@@ -22,13 +22,12 @@ export class WorkingDaysService {
     .collection<IUser['scheduleOfDays']['monday']>('hoursOfWorkingDays').add(Object.assign({}, mon))); // add user to the db
   }
 
-
   public addTue(  tues: IUser['scheduleOfDays']['tuesday']  ) // add a business details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
-    .collection<IUser['scheduleOfDays']['tuesday']>('hoursOfWorkingDays').add(Object.assign({},tues))); // add user to the db
+    .collection<IUser['scheduleOfDays']['tuesday']>('hoursOfWorkingDays').add(Object.assign({}, tues))); // add user to the db
   }
   public addWed(wed: IUser['scheduleOfDays']['wednesday']) // add a business details to the db
   {
@@ -73,8 +72,6 @@ export class WorkingDaysService {
 
   public getMon(id: string): Observable<IUser['scheduleOfDays']['monday']>
   {
-    // monday = this.firestore.collection<IUser['scheduleOfDays']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'monday'));
-    // return monday.valueChanges();
     let monday;
     monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
     .collection<IUser['scheduleOfDays']['monday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'monday'));
@@ -83,43 +80,49 @@ export class WorkingDaysService {
 
   public getTue(id: string)
   {
-    return this.firestore.doc<IUser>('users/${id}')
-    .collection<IUser['scheduleOfDays']['tuesday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'tuesday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['tuesday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'tuesday'));
+    return monday.valueChanges();
   }
 
   public getWed(id: string)
   {
-    return this.firestore.doc<IUser>('users/$id')
-    .collection<IUser['scheduleOfDays']['wednesday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'wednesday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['wednesday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'wednesday'));
+    return monday.valueChanges();
   }
 
   public getThur(id: string)
   {
-    return this.firestore.doc<IUser>('users/$id')
-    .collection<IUser['scheduleOfDays']['thursday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'thursday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['thursday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'thursday'));
+    return monday.valueChanges();
   }
 
   public getFri(id: string)
   {
-    return this.firestore.doc<IUser>('users/$id')
-    .collection<IUser['scheduleOfDays']['friday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'friday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['friday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'friday'));
+    return monday.valueChanges();
   }
 
   public getSat(id: string)
   {
-    return this.firestore.doc<IUser>('users/$id')
-    .collection<IUser['scheduleOfDays']['saturday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'saturday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['saturday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'saturday'));
+    return monday.valueChanges();
   }
 
   public getSun(id: string)
   {
-    return this.firestore.doc<IUser>('users/$id')
-    .collection<IUser['scheduleOfDays']['sunday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'sunday'))
-    .valueChanges();
+    let monday;
+    monday = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['scheduleOfDays']['sunday']>('hoursOfWorkingDays', ref => ref.where('1', '==', 'sunday'));
+    return monday.valueChanges();
   }
 }

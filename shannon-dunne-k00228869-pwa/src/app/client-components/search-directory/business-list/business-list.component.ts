@@ -49,7 +49,7 @@ export class BusinessListComponent implements OnInit {
         this.profiles = data;
         // this.profiles.push(data);
         console.log('subscribed profiles', this.profiles[0]);
-      })
+      });
   }
 }
 

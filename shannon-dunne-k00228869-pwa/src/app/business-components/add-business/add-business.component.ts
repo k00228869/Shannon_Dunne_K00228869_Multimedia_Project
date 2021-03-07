@@ -100,7 +100,6 @@ export class AddBusinessComponent implements OnInit {
   }
 
 
-
 // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {  // build form group
     let employee = this.addEmp.group({
@@ -324,6 +323,9 @@ export class AddBusinessComponent implements OnInit {
       // this.hourService.addMon(this.sun);
       // this.business.addHours(this.newHourList);
       this.business.addBusiness(newProfile);
+      this.route.navigate(['/business-view/', newProfile.id]);
+
+
     // }
     // else{
     //   console.log('error in business form');

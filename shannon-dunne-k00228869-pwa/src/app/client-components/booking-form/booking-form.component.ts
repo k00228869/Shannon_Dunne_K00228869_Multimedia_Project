@@ -199,7 +199,7 @@ export class BookingFormComponent implements OnInit {
           console.log('endTime', endTime);
           console.log('indexes of start + end time', index1, index2);
           // gets array of the times between the service start and end time
-          let newTimes = this.day.slice(index1, index2 + 1);
+          let newTimes = this.day.slice(index1, index2);
           console.log('new day hours', newTimes);
           if (index1 === -1 || index2 === -1)
           {

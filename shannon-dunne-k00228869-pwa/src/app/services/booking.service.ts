@@ -76,4 +76,15 @@ export class BookingService {
     .collection<IUser['appointment']>('appointments', ref => ref.where('serviceId', '==', id));
     return docRef.valueChanges();
   }
+
+
+
+  public getBusinessAppointment(){
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    this.uid = theUser.uid;
+    let docRef;
+    docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)
+    .collection<IUser['appointment']>('appointments');
+    return docRef.valueChanges();
+  }
 }

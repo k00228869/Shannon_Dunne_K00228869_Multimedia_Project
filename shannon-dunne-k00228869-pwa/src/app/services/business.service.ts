@@ -164,7 +164,6 @@ getBusEmployees(id: string): Observable<IUser['employee']>
     return docRef.valueChanges();
   }
 
-
 getUserInfo(): Observable<IUser['user']> // gets the user doc with the passed id
   {
     let theUser = JSON.parse(localStorage.getItem('user'));

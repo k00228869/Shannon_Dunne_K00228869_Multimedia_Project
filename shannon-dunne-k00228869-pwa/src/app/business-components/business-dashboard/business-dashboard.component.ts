@@ -3,6 +3,7 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-business-dashboard',
@@ -15,13 +16,15 @@ export class BusinessDashboardComponent implements OnInit {
   public id: string;
   panelOpenState = false;
   public user: IUser['user'];
+  allBookings: IUser['appointment'][];
 
 
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public booking: BookingService
 
   ) { }
 
@@ -50,6 +53,13 @@ export class BusinessDashboardComponent implements OnInit {
         this.businessProfile = data;
       }
     );
+
+  this.booking.getBusinessAppointment().subscribe(
+    (data) => {
+      console.log(data);
+      this.allBookings = data;
+    }
+  )
 
   
   }

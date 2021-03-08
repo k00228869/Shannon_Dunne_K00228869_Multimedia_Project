@@ -11,7 +11,7 @@
         </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/search">
+        <a routerLink="/appointment/{{client.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
@@ -29,18 +29,15 @@
             <span>Notifications</span>  
         </a>
       </button>
-    </mat-menu>
-    <span class="spacer"></span>
-    <span>Account</span>
-    <span class="spacer"></span>
 
-    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
         <a routerLink="/login">
           <mat-icon>exit_to_app</mat-icon> 
       </a>
     </button>
-
-    <span>Booking Confirmation</span>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Account</span>
     <span class="spacer"></span>
 </mat-toolbar>
 

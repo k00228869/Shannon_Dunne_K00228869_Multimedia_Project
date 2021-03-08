@@ -31,8 +31,8 @@ export class BusinessProfileComponent implements OnInit {
       (params) =>
       {
         this.id = params.get('id');
-        console.log('params', this.id);
-        console.log('paramid', this.id);
+        // console.log('params', this.id);
+        // console.log('paramid', this.id);
 
         this.business.getABusiness(params.get('id')).subscribe(
           (bus) =>
@@ -44,9 +44,8 @@ export class BusinessProfileComponent implements OnInit {
             (data) =>
             {
               this.theHours = data[0];
-              console.log(this.theHours.monday[0].startT);
+              // console.log(this.theHours.monday[0].startT);
             });
-
 
         this.business.getBusServices(this.id).subscribe(
             (servs) =>
@@ -54,7 +53,6 @@ export class BusinessProfileComponent implements OnInit {
               this.services = servs;
               // console.log('services', this.services);
             });
-
 
         this.business.getBusEmployees(this.id).subscribe(
         (emps) =>
@@ -75,7 +73,3 @@ export class BusinessProfileComponent implements OnInit {
 }
 
 
-// get employee name by id
-// get service name by id
-// get client name by id
-// get client number by id

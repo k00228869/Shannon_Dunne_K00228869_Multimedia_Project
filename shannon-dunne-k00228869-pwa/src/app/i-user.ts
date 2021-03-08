@@ -76,6 +76,7 @@ export interface IUser {
         empName: string,
         serviceId: string,
         serName: string
+        serPrice: number;
         date: string,
         time: string,
         note?: string,

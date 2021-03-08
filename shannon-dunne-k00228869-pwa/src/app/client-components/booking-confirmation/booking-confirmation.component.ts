@@ -16,8 +16,6 @@ export class BookingConfirmationComponent implements OnInit {
   public client: IUser['user'];
   public appointmentInfo: IUser['appointment'];
   public busInfo: IUser['business'];
-  public serInfo: IUser['service'];
-  public empInfo: IUser['employee'];
   public id: string;
 
   constructor(
@@ -27,53 +25,37 @@ export class BookingConfirmationComponent implements OnInit {
     private location: Location,
     public authService: AuthenticateService,
     public booking: BookingService
-  ) { }
+  ) {}
 
   ngOnInit(){
-    this.clientService.getUserInfo().subscribe(
-      (data) =>
-      {
-        this.client = data;
-        // console.log(this.client);
-      }
-    );
-
     this.route.paramMap.subscribe(
       (params) =>
       {
         this.id = params.get('id');
         this.booking.getAppointment(this.id).subscribe(
-          (appoint) =>
+         (appoint) =>
           {
-            console.log(appoint);
-            this.appointmentInfo = appoint;
+            this.appointmentInfo = appoint[0];
+            console.log(this.appointmentInfo.bid);
             this.business.getABusiness(this.appointmentInfo.bid).subscribe(
-              (bus) => {
-                console.log(bus);
-                this.busInfo = bus;
-              }
-            );
-          }
-        );
-        this.business.getBusServices(this.busInfo.id).subscribe(
-          (ser) => {
-            console.log(ser);
-            this.serInfo = ser;
-
-          }
-        );
-        this.business.getBusEmployees(this.busInfo.id).subscribe(
-          (emp) => {
-            console.log(emp);
-            this.empInfo = emp;
-          }
-        );
+            (bus) =>
+            {
+              console.log(bus);
+              this.busInfo = bus[0];
+            });
+          });
+        
+      });
+    this.clientService.getUserInfo().subscribe(
+      (data) =>
+      {
+        this.client = data;
       });
   }
 
   cancel()
-    {
-      this.location.back();
-    }
+  {
+    this.location.back();
+  }
 
 }

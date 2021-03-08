@@ -27,6 +27,7 @@ import { BusinessDealsComponent } from './client-components/search-directory/bus
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { UploadsService } from './services/uploads.service';
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
+import { AppointmentsComponent } from './client-components/appointments/appointments.component';
 // import { MomentModule } from 'ngx-moment';
 
 
@@ -45,7 +46,8 @@ import { BookingConfirmationComponent } from './client-components/booking-confir
     BusinessProfileComponent,
     BusinessListComponent,
     BusinessDealsComponent,
-    BookingConfirmationComponent
+    BookingConfirmationComponent,
+    AppointmentsComponent
     ],
   imports: [
     BrowserModule,

@@ -71,17 +71,17 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getAppointment(id: string) // get appoinment data for confirmation
+  public getAppointment(id: string) // get single appoinment data for confirmation
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef;
     docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['appointment']>('appointments', ref => ref.where('serviceId', '==', id));
+    .collection<IUser['appointment']>('appointments', ref => ref.where('appointmentId', '==', id));
     return docRef.valueChanges();
   }
 
-  public getBusinessAppointment()
+  public getBusinessAppointment() // get all appointments
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
@@ -90,4 +90,14 @@ export class BookingService {
     .collection<IUser['appointment']>('appointments');
     return docRef.valueChanges();
   }
+
+  // public getABooking() // get a single appointment
+  // {
+  //   let theUser = JSON.parse(localStorage.getItem('user'));
+  //   this.uid = theUser.uid;
+  //   let docRef;
+  //   docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)
+  //   .collection<IUser['appointment']>('appointments');
+  //   return docRef.valueChanges();
+  // }
 }

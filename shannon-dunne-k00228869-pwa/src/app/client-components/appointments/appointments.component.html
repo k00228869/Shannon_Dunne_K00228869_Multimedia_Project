@@ -11,7 +11,7 @@
         </a>
       </button>
       <button mat-menu-item>
-        <a routerLink="/search">
+        <a routerLink="/appointment/{{client.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
@@ -25,7 +25,7 @@
 
       <button mat-menu-item>
         <a routerLink="/client-notifications">
-            <mat-icon>notification_important</mat-icon>
+            <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
             <span>Notifications</span>  
         </a>
       </button>
@@ -37,37 +37,25 @@
     </button>
     </mat-menu>
     <span class="spacer"></span>
-    <span>Booking Confirmation</span>
+    <span>Appointments</span>
     <span class="spacer"></span>
 </mat-toolbar>
-<br>
-<button mat-raised-button color="warn" class="cancelButton" type="button">
-  <a routerLink="/appointment/{{client.uid}}">
-      X
-  </a>
-</button>
-<br>
-<br>
-<div class="confirmationText">
-  <h3>Your Appointment Is Booked with <br>{{busInfo.businessName}}</h3>
 
-  <p><b>Location: </b>       {{busInfo.county}}, {{busInfo.eircode}}</p>
-  <br>
-  <p><b>Date:</b>           {{appointmentInfo.date}}</p>
-  <br>
-  <p><b>Time: </b>           {{appointmentInfo.time}}</p>
-  <br>
-  <p><b>Service: </b>        {{appointmentInfo.serName}}</p>
-  <br>
-  <p><b>Empoyee:</b>         {{appointmentInfo.empName}}</p>
-  <br>
-  <p><b>Duration:</b>       </p>
-  <br>
-  <p><b>Notes:</b>          {{appointmentInfo.note}}</p>
-  <br>
+<br> 
+<mat-divider></mat-divider>
+<div *ngFor="let booking of allBookings">
+    <mat-card class="card"> 
+        <a routerLink="/booking-confirmed/{{booking.appointmentId}}">
+        <mat-card-header>
+            <mat-card-title>{{booking.serName}}</mat-card-title>
+            <mat-card-subtitle>
+            {{booking.date}}
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+            {{booking.time}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        </a>
+    </mat-card>
 </div>
-
-
-
-
-
+  <br> 

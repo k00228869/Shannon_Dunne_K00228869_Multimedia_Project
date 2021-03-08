@@ -12,6 +12,7 @@ import { ProfileBusinessViewComponent } from './business-components/profile-busi
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
+import { AppointmentsComponent } from './client-components/appointments/appointments.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -45,6 +46,8 @@ const routes: Routes = [
   {path: 'add-business', component: AddBusinessComponent},
   {path: 'business-profile/:id', component: BusinessProfileComponent},
   {path: 'booking-confirmed/:id', component: BookingConfirmationComponent},
+  {path: 'appointment/:id', component: AppointmentsComponent},
+
 
 ];
 
@@ -52,4 +55,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+}

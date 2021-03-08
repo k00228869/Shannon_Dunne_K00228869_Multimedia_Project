@@ -13,7 +13,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
-import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+// import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {  // set selected date format
@@ -55,9 +55,12 @@ export const MY_FORMATS = {  // set selected date format
 export class BookingFormComponent implements OnInit {
   profileInfo: IUser['business'];
   schedule: IUser['bookingSchedule'] = {};
-  clientAppointment: IUser['appointment'];
+  public clientAppointment: IUser['appointment'];
   employees: IUser['employee'];
-  selectedService: IUser['service'];
+  public selectedService: IUser['service'];
+  public selectedEmployee: IUser['employee'];
+  user: IUser['user'];
+  public duration: string;
   services: IUser['service'];
   theHourOfDay: IUser['hours'];
   public client: IUser['user'];
@@ -70,7 +73,7 @@ export class BookingFormComponent implements OnInit {
   sat: IUser['scheduleOfDays']['saturday'];
   sun: IUser['scheduleOfDays']['sunday'];
   addAppointmentForm: FormGroup;
-  unavailableDays: number[] = [];
+  public unavailableDays: number[] = [];
   public id: string;
   // date = new FormControl(moment());
   datesNotAvailable;
@@ -105,69 +108,49 @@ export class BookingFormComponent implements OnInit {
       (params) =>
       {
         this.id = params.get('id');
-        // console.log('params', this.id);
-        // console.log('paramid', this.id);
         this.business.getABusiness(this.id).subscribe(
           (bus) =>
           {
             this.profileInfo = bus[0];
-            // console.log(this.profileInfo.cancellationPolicy);
-            // console.log(this.profileInfo);
           });
         this.business.getBusServices(this.id).subscribe(
-            (servs) =>
-            {
-              this.services = servs;
-              // console.log('services', this.services);
-            });
+          (servs) =>
+          {
+            this.services = servs;
+          });
         this.business.getHours(params.get('id')).subscribe(
-              (data) =>
-              {
-                this.theHourOfDay = data[0];
-                // console.log(this.theHourOfDay.monday[0].startT);
-              });
+          (data) =>
+          {
+            this.theHourOfDay = data[0];
+          });
         this.business.getBusEmployees(this.id).subscribe(
-        (emps) =>
-        {
-          this.employees = emps;
-          // console.log(emps);
-        });
+          (emps) =>
+          {
+            this.employees = emps;
+          });
       });
     this.clientService.getUserInfo().subscribe(
         (data) =>
         {
           this.client = data;
-          // console.log(this.client);
         }
       );
-
     this.booking.getBookedDays(this.id).subscribe(
         (data) => {
-          console.log(data);
-          console.log(data.length);
           for(let i=0; i<data.length; i++)
           {
             if (data[0].availableTimes.length <= 1)
             {
               let d = data[i].date.slice(7, 10);
-              console.log(d);
               let asNum = parseInt(d);
-              console.log(asNum);
               this.unavailableDays.push(asNum);
-              console.log(this.unavailableDays);
             }
           }
-      //       var str = "Mon Mar 15 2021"; 
-      //       var res = str.slice(7, 10);
-          //   alert('No availabilities for this date');
-          
         });
   }
 
 
-
-
-  public onAppointSubmit(clientAppointment: IUser['appointment'])
+  public async onAppointSubmit(clientAppointment: IUser['appointment'])
   {
     if (this.addAppointmentForm.status === 'VALID')
     {
@@ -175,90 +158,82 @@ export class BookingFormComponent implements OnInit {
       this.clientAppointment.date = clientAppointment.date.toString();
       this.clientAppointment.date = this.setDate;
       this.clientAppointment.bid = this.id;
-      console.log(this.clientAppointment.serviceId);
-      // this.selectedService.id = this.clientAppointment.serviceId;
-      // console.log(this.selectedService.id);
       let theUser = JSON.parse(localStorage.getItem('user'));
       this.clientAppointment.uid = theUser.uid;
       this.clientAppointment.timeStamp = new Date();
       this.clientAppointment.appointmentId = this.firestore.createId();
-      // console.log('timeStamp', clientAppointment.timeStamp);
-      // console.log(this.clientAppointment);
-      this.booking.addClientAppointment(this.clientAppointment);
-      this.booking.addBusinessBooking(this.clientAppointment);
-
       this.booking.getServiceDuration(this.id, this.clientAppointment).subscribe(
-        (data) => {
-          this.selectedService = data[0];
-          let duration = this.selectedService.duration; // duration of service
-          let startTime = this.clientAppointment.time; // service start time
-          let endTime = moment(startTime, 'HH:mm:ss')
-          .add(duration, 'hours').format('HH:mm:ss'); // get service finish time
-          let index1 = this.day.indexOf(startTime); // get index that is = to the selected time
-          let index2 = this.day.indexOf(endTime); // get index that is = to the service end time
-          console.log('endTime', endTime);
-          console.log('indexes of start + end time', index1, index2);
-          // gets array of the times between the service start and end time
-          let newTimes = this.day.slice(index1, index2);
-          console.log('new day hours', newTimes);
-          if (index1 === -1 || index2 === -1)
-          {
-            alert('The duration of this service exceeds the available hours');
-          }
-
-          let oldTimes = Array.from(this.day); // store array from associative array
-          console.log('old day hours', oldTimes);
-
+        (ser) => {
+          this.selectedService = ser[0];
+          this.clientAppointment.serName = this.selectedService.serviceName; // store service name
+          this.duration = this.selectedService.duration; // duration of service
+          const startTime = this.clientAppointment.time; // service start time
+          const endTime = moment(startTime, 'HH:mm:ss')
+            .add(this.duration, 'hours').format('HH:mm:ss'); // get service finish time
+          const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
+          const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
+            // gets array of the times between the service start and end time
+          const newTimes = this.day.slice(index1, index2);
+          const oldTimes = Array.from(this.day); // store array from associative array
           const theDayHours = oldTimes.filter(a => !newTimes.includes(a)); // removes unavailable hours from the array
-          console.log(theDayHours); // new schedule for booked date
-          console.log(this.clientAppointment.date);
           this.schedule.date = this.clientAppointment.date; // set the date of the booked date
           this.schedule.availableTimes = [];
           this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
-          this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
-          this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
+        });
+      this.booking.getEmployeeName(this.id, this.clientAppointment).subscribe(
+          (emp) => {
+            this.selectedEmployee = emp[0];
+            this.clientAppointment.empName = this.selectedEmployee.firstName + ' ' + this.selectedEmployee.lastName; // store employee name
+          });
+      this.business.getUserInfo().subscribe(
+        async (user) => {
+          this.user = user;
+          this.clientAppointment.clientName = this.user.firstName + ' ' + this.user.lastName; // store client name
+          console.log('appointment info', this.clientAppointment);
+          await this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
+          await this.booking.addClientAppointment(this.clientAppointment);
+          await this.booking.addBusinessBooking(this.clientAppointment);
+        });
+          // console.log('new day hours', newTimes);
+          // if (index1 === -1 || index2 === -1)
+          // {
+          //   alert('The duration of this service exceeds the available hours');
+          // }
 
-        }
-      );
+      // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
     }
   }
 
-  // dateFilter = (m: moment.Moment | null): boolean => {
-  //   const day = (m || moment()).day(); // get the day num
-  //     // disable hours not available
-  //   return day !== 0 ; // disable sunday
-  // }
 
-  dateFilter = (d: moment.Moment) => {
+    dateFilter = (d: moment.Moment) => {
     const filter = this.unavailableDays.indexOf(+ d.date()) === -1;
     return filter;
+      //   const day = (m || moment()).day(); // get the day num
+  //     // disable hours not available
+  //   return day !== 0 ; // disable sunday
     // return true value index
   }
 
 
 // get duration of serv, disable time for duration when the selected dat is selected
-  newInput(event)
-  {
-
+    newInput(event)
+    {
     this.date = moment(event.value);
     const selectedDay = this.date.day();
     this.setDate = this.date.format('ddd MMM DD YYYY');
-    console.log(this.date); // moment obj
-    console.log(selectedDay); // index of day
-    console.log(this.setDate); // the selected day
+    // console.log(this.date); // moment obj
+    // console.log(selectedDay); // index of day
+    // console.log(this.setDate); // the selected day
           // let duration = moment.duration(finishTime.diff(startTime));
           // let diff = duration.hours();
-          // // console.log('thediff', diff);
     if (selectedDay)
     {
       this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
       (data) => {
-        console.log(data);
         if (data)
         {
-          console.log(data.availableTimes.length);
+          // console.log(data.availableTimes.length);
           this.day = Array.from(data.availableTimes);
-          console.log('a booked date', this.day);
           //   alert('No availabilities for this date');
         }
         else if (!data)
@@ -269,10 +244,7 @@ export class BookingFormComponent implements OnInit {
               (mon) =>
               {
                 // get monday hours
-                console.log(mon);
                 this.day = Array.from(mon[0][0]);
-                console.log('non booked date', this.day);
-                // if the hourslist = 0, get date index and disable date
               });
           }
           else if (selectedDay === 2)
@@ -281,10 +253,7 @@ export class BookingFormComponent implements OnInit {
               (tues) =>
               {
                 // get tuesday hours
-                console.log(tues);
                 this.day = Array.from(tues[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its tuesday', selectedDay);
               });
           }
           else if (selectedDay === 3)
@@ -293,10 +262,7 @@ export class BookingFormComponent implements OnInit {
               (wed) =>
               {
                 // get wednesday hours
-                console.log(wed);
                 this.day = Array.from(wed[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its wednesday', selectedDay);
               });
           }
           else if (selectedDay === 4)
@@ -305,10 +271,8 @@ export class BookingFormComponent implements OnInit {
               (thur) =>
               {
                 // get thursday hours
-                console.log(thur);
+                // console.log(thur);
                 this.day = Array.from(thur[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its thursday', selectedDay);
               });
           }
           else if (selectedDay === 5)
@@ -317,10 +281,7 @@ export class BookingFormComponent implements OnInit {
               (fri) =>
               {
                 // get firday hours
-                console.log(fri);
                 this.day = Array.from(fri[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its friday', selectedDay);
               });
           }
           else if (selectedDay === 6)
@@ -329,10 +290,7 @@ export class BookingFormComponent implements OnInit {
               (sat) =>
               {
                 // get saturday hours
-                console.log(sat);
                 this.day = Array.from(sat[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its saturday', selectedDay);
               });
           }
           else if (selectedDay === 0)
@@ -341,10 +299,7 @@ export class BookingFormComponent implements OnInit {
               (sun) =>
               {
                 // get sunday hours
-                console.log(sun);
                 this.day = Array.from(sun[0][0]);
-                console.log('non booked date', this.day);
-                console.log('its sunday', selectedDay);
               });
           }
         }

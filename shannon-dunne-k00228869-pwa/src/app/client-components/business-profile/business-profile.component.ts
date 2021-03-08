@@ -73,3 +73,9 @@ export class BusinessProfileComponent implements OnInit {
       );
   }
 }
+
+
+// get employee name by id
+// get service name by id
+// get client name by id
+// get client number by id

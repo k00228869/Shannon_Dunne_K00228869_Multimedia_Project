@@ -34,9 +34,9 @@ import { ClientGuard } from './guards/client.guard';
 
 
 const routes: Routes = [
+  {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
   {path: 'sign-up', component: SignUpComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
   {path: 'dashboard/:id', component: BusinessDashboardComponent},
   {path: 'search', component: SearchDirectoryComponent},
   {path: 'booking/:id', component: BookingFormComponent},

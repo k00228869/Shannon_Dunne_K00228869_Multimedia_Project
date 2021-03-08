@@ -49,99 +49,36 @@
 
 <mat-tab-group>
   <mat-tab label="Appointments">
-      
       <mat-list>
         <mat-divider></mat-divider>  
-        <mat-expansion-panel (opened)="panelOpenState = true"
+        <mat-expansion-panel *ngFor ="let booking of allBookings" (opened)="panelOpenState = true"
         (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
         <mat-panel-title>
-        Leanne Carter
+        {{booking.clientName}}
         </mat-panel-title>
         <mat-panel-title>
-          Mon Jan 18th
+        {{booking.date}}
         </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-panel-title>
-         Time: 10:30
+         Time: {{booking.time}}
         </mat-panel-title>
         <mat-panel-title>
-         Employee: Samantha
+         Employee: {{booking.empName}}
         </mat-panel-title>
         <mat-panel-title>
-         Service: Acrylic Nails
+         Service: {{booking.serName}}
         </mat-panel-title>
         <mat-panel-title>
           Price:&#x20AC; 60
          </mat-panel-title>
         <mat-panel-title>
-          Notes:
+          Notes: {{booking.note}}
          </mat-panel-title>
         </mat-expansion-panel>
         <mat-divider></mat-divider> 
-          
-          <mat-divider></mat-divider>  
-              <mat-expansion-panel (opened)="panelOpenState = true"
-              (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-              <mat-panel-title>
-              Carla Doherty
-              </mat-panel-title>
-              <mat-panel-title>
-                Thurs Feb 11th
-              </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-panel-title>
-               Time: 10:30
-              </mat-panel-title>
-              <mat-panel-title>
-               Employee: Julie
-              </mat-panel-title>
-              <mat-panel-title>
-               Service: Pedicure
-              </mat-panel-title>
-              <mat-panel-title>
-                Price:&#x20AC; 20
-               </mat-panel-title>
-              <mat-panel-title>
-                Notes:
-               </mat-panel-title>
-              </mat-expansion-panel>
-              <mat-divider></mat-divider>
-
-        
-          <mat-divider></mat-divider>  
-          <mat-expansion-panel (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
-          <mat-panel-title>
-          Michelle Holland
-          </mat-panel-title>
-          <mat-panel-title>
-            Fri Feb 26th
-          </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-panel-title>
-           Time: 10:30
-          </mat-panel-title>
-          <mat-panel-title>
-           Employee:Michael
-          </mat-panel-title>
-          <mat-panel-title>
-           Service: Extension Removal
-          </mat-panel-title>
-          <mat-panel-title>
-            Price:&#x20AC; 15
-           </mat-panel-title>
-           <mat-panel-title>
-            Notes:
-           </mat-panel-title>
-          </mat-expansion-panel>
-          <mat-divider></mat-divider> 
-          
-          <mat-divider></mat-divider>
-      </mat-list>
-  </mat-tab>
+  <!-- </mat-tab> -->
 
   <mat-tab label="Clients">
       <mat-list>
@@ -221,4 +158,4 @@
               <mat-divider></mat-divider>
       </mat-list>
   </mat-tab>
-</mat-tab-group>
+<!-- </mat-tab-group> -->

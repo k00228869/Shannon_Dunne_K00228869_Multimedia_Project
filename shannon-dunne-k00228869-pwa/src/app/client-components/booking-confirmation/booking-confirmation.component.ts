@@ -68,8 +68,7 @@ export class BookingConfirmationComponent implements OnInit {
             this.empInfo = emp;
           }
         );
-      }
-    )
+      });
   }
 
   cancel()

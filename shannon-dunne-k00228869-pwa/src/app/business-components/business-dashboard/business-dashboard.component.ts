@@ -17,7 +17,9 @@ export class BusinessDashboardComponent implements OnInit {
   panelOpenState = false;
   public user: IUser['user'];
   allBookings: IUser['appointment'][];
-
+  public serInfo: IUser['service'];
+  public empInfo: IUser['employee'];
+  allAppoint: string[] = [];
 
   constructor(
     public authService: AuthenticateService,
@@ -28,7 +30,7 @@ export class BusinessDashboardComponent implements OnInit {
 
   ) { }
 
- async ngOnInit()
+  ngOnInit()
  {
   if (localStorage.getItem('user') !== null) // if user is not empty
   {
@@ -43,25 +45,37 @@ export class BusinessDashboardComponent implements OnInit {
     (data) =>
     {
       this.user = data;
-      // console.log(this.user);
     }
   );
 
-  this.business.getBusiness().subscribe(
-      (data) =>
-      {
-        this.businessProfile = data;
-      }
-    );
+  // this.business.getBusiness().subscribe(
+  //     (bus) =>
+  //     {
+  //       console.log(bus);
+  //       this.businessProfile = bus;
+  //     }
+  //   );
 
   this.booking.getBusinessAppointment().subscribe(
     (data) => {
-      console.log(data);
+      console.log(data[0]);
       this.allBookings = data;
     }
-  )
+  );
 
-  
+  // this.business.getBusServices(this.businessProfile.id).subscribe(
+  //   (ser) => {
+  //     console.log(ser);
+  //     this.serInfo = ser;
+  //   }
+  // );
+
+  // this.business.getBusEmployees(this.businessProfile.id).subscribe(
+  //   (emp) => {
+  //     console.log(emp);
+  //     this.empInfo = emp;
+  //   }
+  // );
   }
 }
 

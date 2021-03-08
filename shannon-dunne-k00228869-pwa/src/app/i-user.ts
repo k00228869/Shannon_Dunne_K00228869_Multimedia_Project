@@ -34,9 +34,11 @@ export interface IUser {
         saturday?: string[];
         sunday?: string[];
     };
-    // scheduleOfDays: {
-    //     day: string[];
-    // };
+    clients?: {
+        name: string,
+        service: string,
+        phone: string,
+    };
     hours?: {
         monday: number;
         tuesday: number;
@@ -71,12 +73,15 @@ export interface IUser {
         };
     appointment?: {
         employeeId: string,
+        empName: string,
         serviceId: string,
+        serName: string
         date: string,
         time: string,
         note?: string,
         bid?: string;
         uid?: string;
+        clientName: string
         appointmentId?: string;
         timeStamp?: Date;
     };
@@ -85,4 +90,10 @@ export interface IUser {
         date?: string;
         availableTimes?: string[];
     };
+    client?: {
+        name: string;
+        uid: string;
+        phone: string;
+        paymentInfo: string[];
+    }
 }

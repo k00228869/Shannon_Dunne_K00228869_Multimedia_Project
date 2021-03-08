@@ -1,0 +1,94 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/appointment/{{client.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>exit_to_app</mat-icon> 
+      </a>
+    </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Account</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+
+
+<mat-card class="card"> 
+    
+    <mat-card-header>
+      <div mat-card-avatar class="client-image"></div>
+        <!-- <mat-card-title *ngFor="let client of clientInfo">{{client.clientName}}</mat-card-title> -->
+        <mat-card-title>
+          Welcome back {{client.firstName}}
+      </mat-card-title>
+    </mat-card-header>
+
+
+    <mat-tab-group>
+        <mat-tab label="Details">
+        <mat-divider></mat-divider>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Phone: {{client.phone}}
+                  <button mat-icon-button color="primary" aria-label="icon-button">
+                    <a routerLink="/business-profile">
+                      <mat-icon>create</mat-icon>
+                  </a>
+                  </button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+                Payment Details:
+              </mat-panel-title>
+          </mat-expansion-panel>
+          <mat-divider></mat-divider>
+        </mat-tab>
+
+        <!-- <mat-tab label="Reviews">
+            <mat-divider></mat-divider>
+            <mat-expansion-panel  (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <div mat-card-avatar class="header-image"></div>
+                <mat-panel-title>
+                 
+                </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-panel-title>
+                  
+                </mat-panel-title>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+          </mat-tab> -->
+    </mat-tab-group>
+</mat-card>

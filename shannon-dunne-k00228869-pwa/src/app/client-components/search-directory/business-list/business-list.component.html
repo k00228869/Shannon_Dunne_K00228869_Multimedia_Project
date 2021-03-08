@@ -1,0 +1,36 @@
+<mat-card class="card"> 
+    <form class="form-group">
+      <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Filter</mat-label>
+          <mat-select [(value)]="selectedValue">
+            <mat-option value="option">By Price</mat-option>
+            <mat-option value="option">By Rating</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+  
+  <br>
+  <mat-divider></mat-divider>
+  <br>
+  <ul>
+    <li *ngFor="let profile of profiles">
+      <a routerLink="/business-profile/{{profile.id}}">
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>{{profile.businessName}}</mat-card-title>
+          <mat-card-subtitle>
+            Location: {{profile.county}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </a>
+    </li>
+
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+  </ul>
+</mat-card>

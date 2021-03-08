@@ -1,0 +1,48 @@
+<h1>Register Your Account!</h1>
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit(signUpForm.value)">
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput [formControlName]="'firstName'" type="text" placeholder="firstName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput [formControlName]="'lastName'" type="text" placeholder="lastName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput [formControlName]="'phone'" type="phone" placeholder="phone">
+      </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput [formControlName]="'email'" type="email" placeholder="Email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput [formControlName]="'password'" type="password" placeholder="Password">
+      </mat-form-field>
+      <br>
+      
+        <mat-label>Select Account</mat-label> <br> <br>
+      <mat-radio-group aria-label="Select Account Type" [formControlName]="'admin'">
+        <mat-radio-button  [value]="true" >Business</mat-radio-button> <!--  let roles of roles [value]=role -->
+       
+        <mat-radio-button [value]="false" >Customer</mat-radio-button>
+      </mat-radio-group>
+      <br>
+      <br>
+
+      <button mat-raised-button color="primary" type="submit">
+          Sign Up
+      </button>
+</form>
+<br>
+<br>
+<h3>Already A Member?</h3>
+  <a [routerLink]="['/login']">
+    Login
+  </a>
+

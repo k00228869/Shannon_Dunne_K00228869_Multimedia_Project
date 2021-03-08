@@ -1,0 +1,163 @@
+
+
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/appointment/{{client.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon>notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+    </mat-menu>
+
+    <span>Business Profile</span>
+    <span class="spacer"></span>
+    
+    <button mat-icon-button class="example-icon" aria-label="edit icon"> 
+      <a routerLink="/booking/{{id}}">
+        <mat-icon>calendar_today</mat-icon>
+    </a>
+    </button>
+</mat-toolbar>
+
+
+<div>
+    <mat-card class="card"> 
+        <mat-card-header>
+            <mat-card-subtitle>
+
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content label="details">
+          <br>
+          <b>{{profileInfo.businessName}}</b>
+          <br>
+          <p>{{profileInfo.businessDescription}}</p>
+        </mat-card-content>
+
+
+        <!-- <mat-carousel
+          timings="350ms ease-in"
+          [autoplay]="true"
+          interval="5000"
+          color="primary"
+          maxWidth="auto"
+          proportion="64"
+          slides="5"
+          [loop]="true"
+          [hideArrows]="true"
+          [hideIndicators]="false"
+          [useKeyboard]="true"
+          [useMouseWheel]="false"
+          orientation="ltr">
+
+          <mat-carousel-slide
+            #matCarouselSlide
+            *ngFor="let slide of slides; let i = index"
+            [image]="slide.image"
+            overlayColor="#00000040"
+            [hideOverlay]="false">
+          </mat-carousel-slide>
+        </mat-carousel> -->
+
+        <mat-tab-group>
+          <mat-tab label="Hours and Location">
+            <mat-divider></mat-divider>
+            <br>
+            <h4><b>Location: </b>{{profileInfo.county}}</h4>
+            <br><h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
+            <mat-divider></mat-divider>
+            <br>
+            <div>
+                <!-- <mat-list-item role="listitem" >Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
+                <br>
+                <mat-list-item role="listitem" >Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
+                <br>
+                <mat-list-item role="listitem" >Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
+                <br>
+                <mat-list-item role="listitem" >Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
+                <br>
+                <mat-list-item role="listitem" >Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
+                <br>
+                <mat-list-item role="listitem" >Saturday {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> -->
+                <!-- <mat-list-item role="listitem" *ngIf="theHours.sunday" > {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item> -->
+            </div>
+            <br>
+
+          </mat-tab>
+        
+
+        <mat-tab label="Services">
+          <mat-divider></mat-divider>
+            <mat-expansion-panel  *ngFor="let service of services" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+               Name: {{service.serviceName}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  Price:  &#x20AC;{{service.servicePrice}} 
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+               Description: {{service.serviceDescription}}
+              </mat-panel-title>
+              <br>
+              <mat-panel-title>
+                Duration: {{service.duration}} Minutes
+              </mat-panel-title>
+              <mat-divider></mat-divider>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+        </mat-tab>
+getBusEmployees
+        <mat-tab label="employees">
+          <mat-divider></mat-divider>
+            <mat-expansion-panel  *ngFor="let employee of employees" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                Name: {{employee.firstName}} &nbsp; {{employee.lastName}} 
+                </mat-panel-title>
+                <mat-panel-description>
+                Description: {{employee.employeeDescription}} 
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-panel-title>
+                <!-- {{employee.employeeService}} -->
+              </mat-panel-title>
+              <br>
+              <mat-panel-title>
+              <!-- <img [src]="{{employee.empImage}}" max-width="100" max-height="100"> -->
+            </mat-panel-title>
+
+              <mat-divider></mat-divider>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+        </mat-tab>
+      </mat-tab-group>
+      </mat-card>
+</div>

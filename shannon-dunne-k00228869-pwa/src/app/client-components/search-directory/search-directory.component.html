@@ -1,0 +1,90 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/">
+            <mat-icon>notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Find a Provider</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+
+
+<form class="form-group">
+  <mat-form-field appearance="fill">
+    <mat-label>Location</mat-label>
+    <mat-select [(value)]="selectedValue">
+      <mat-option value="option">Antrim</mat-option>
+      <mat-option value="option">Armagh</mat-option>
+      <mat-option value="option">Fermanagh</mat-option>
+      <mat-option value="option">Kilkenny</mat-option>
+      <mat-option value="option">Laois</mat-option>
+      <mat-option value="option">Waterford</mat-option>
+      <mat-option value="option">Tipperary</mat-option>
+      <mat-option value="option">Tyrone</mat-option>
+      <mat-option value="option">Galway</mat-option>
+      <mat-option value="option">Cork</mat-option>
+      <mat-option value="option">Dublin</mat-option>
+    </mat-select>
+  </mat-form-field> 
+<br>
+  <mat-form-field appearance="fill">
+    <mat-label>Provider</mat-label>
+    <mat-select [(value)]="selectedValue">
+      <mat-option value="option">Hair Stylist</mat-option>
+      <mat-option value="option">Makeup artist</mat-option>
+      <mat-option value="option">Nail Technitian</mat-option>
+      <mat-option value="option">Barber</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button aria-label="search" (click)="onSearch()">Search</button>
+   
+    <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="onDeal()">
+      <a routerLink="/">
+        Deals
+    </a>
+  </button>
+   
+  
+  
+<!-- </form> -->
+
+<br>
+
+  <div *ngIf="deal">
+      <app-business-deals></app-business-deals>
+  </div>
+  
+  <!-- <div *ngIf="display"> -->
+    <app-business-list></app-business-list>
+<!-- </div> -->
+
+
+

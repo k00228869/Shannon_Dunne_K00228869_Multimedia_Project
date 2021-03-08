@@ -1,0 +1,73 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon>notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>exit_to_app</mat-icon> 
+      </a>
+    </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Booking Confirmation</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+<br>
+<button mat-raised-button color="warn" class="cancelButton" type="button">
+  <a routerLink="/appointment/{{client.uid}}">
+      X
+  </a>
+</button>
+<br>
+<br>
+<div class="confirmationText">
+  <h3>Your Appointment Is Booked with <br>{{busInfo.businessName}}</h3>
+
+  <p><b>Location: </b>       {{busInfo.county}}, {{busInfo.eircode}}</p>
+  <br>
+  <p><b>Date:</b>           {{appointmentInfo.date}}</p>
+  <br>
+  <p><b>Time: </b>           {{appointmentInfo.time}}</p>
+  <br>
+  <p><b>Service: </b>        {{appointmentInfo.serName}}</p>
+  <br>
+  <p><b>Empoyee:</b>         {{appointmentInfo.empName}}</p>
+  <br>
+  <p><b>Duration:</b>       </p>
+  <br>
+  <p><b>Notes:</b>          {{appointmentInfo.note}}</p>
+  <br>
+</div>
+
+
+
+
+

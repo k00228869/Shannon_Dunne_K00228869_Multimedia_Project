@@ -1,0 +1,69 @@
+<h1>Booking Form</h1>
+<form class="form-group" [formGroup]="addAppointmentForm" (ngSubmit)="onAppointSubmit(addAppointmentForm.value)">
+  <br>
+  <!-- <button mat-raised-button color="warn" class="cancelButton" type="button">
+    <a routerLink="/customer-appointments-list">
+      X
+    </a>
+  </button> -->
+  
+  
+  <div>
+    <h4>Appointment Information</h4>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Employee</mat-label>
+    <mat-select [formControlName]="'employeeId'">
+      <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.firstName}}&nbsp;{{employee.lastName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Service</mat-label>
+    <mat-select [formControlName]="'serviceId'">
+      <mat-option *ngFor="let service of services" [value]="service.id">{{service.serviceName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input id="bookedDate"
+     (click)="bookedDate.open()"
+    matInput [matDatepicker]="bookedDate"
+    [formControlName]="'date'"
+    placeholder="Choose a date"
+    [matDatepickerFilter] = "dateFilter"
+    (dateInput)="newInput($event)">
+    <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>
+    <mat-datepicker  #bookedDate startView = "month" ></mat-datepicker>
+    <!-- <mat-error *ngIf="addAppointmentForm.get('date').hasError('matDatepickerFilter')">Sundays are not available</mat-error> -->
+  </mat-form-field>
+ 
+  <mat-form-field appearance="outline">
+    <mat-label>Time</mat-label>
+    <mat-select [formControlName]="'time'">
+        <mat-option *ngFor="let time of day"   [value]="time">{{time}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Additional Notes</mat-label>
+    <textarea matInput [formControlName]="'note'" placeholder="Any other Information you would like to add to your appointment"></textarea>
+</mat-form-field>
+<br>
+  <div *ngIf="profileInfo">
+    <h4>Cancellation Policy</h4>
+    <h3>{{profileInfo.cancellationPolicy}}</h3>
+  <!-- <h5>Failing to attend your appointment or cancelling less than 24 hours before your appointment, will incur a charge of 50% of the service ammount. Appointments can be rescheduled 24 hours before the appointment. </h5> -->
+  <br>
+  <br>
+  </div>
+  
+  <button type="submit" mat-raised-button color="primary">
+    <!-- <a routerLink="/booking-confirmed/{{client.uid}}"> -->
+      Submit 
+  <!-- </a> -->
+</button>
+</form>

@@ -1,0 +1,61 @@
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/appointment/{{client.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>exit_to_app</mat-icon> 
+      </a>
+    </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Appointments</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+
+<br> 
+<mat-divider></mat-divider>
+<div *ngFor="let booking of allBookings">
+    <mat-card class="card"> 
+        <a routerLink="/booking-confirmed/{{booking.appointmentId}}">
+        <mat-card-header>
+            <mat-card-title>{{booking.serName}}</mat-card-title>
+            <mat-card-subtitle>
+            {{booking.date}}
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+            {{booking.time}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        </a>
+    </mat-card>
+</div>
+  <br> 

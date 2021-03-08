@@ -3,32 +3,50 @@ export interface IUser {
         uid: string;
         email: string;
         password?: string;
-        displayName?: string;
+        firstName?: string;
         lastName?: string;
         phone?: number;
-        profileImg?: string
-
-        // roles: {
-        //     subscriber?: boolean;
-        //     editor?: boolean;
-        //     admin?: boolean;
-        // };
+        profileImg?: string;
+        admin?: boolean;
     };
     slides?: {
-        image: string,
-    }[];
+        imageURL: string;
+    };
     business?: {
-        id: number,
-        profileCreated: boolean;
+        id: string,
+        profileCreated?: boolean,
         businessName: string,
         businessDescription: string,
         eircode: string,
         county: string,
-        phoneNumber: string,
-        businessType: string,
-        reminderMessage: string,
-        isMobile: boolean,
+        businessTyp?: string,
+        reminderMessage?: string,
+        isMobile?: boolean,
         cancellationPolicy?: string,
+        hours?: number[],
+    };
+    scheduleOfDays: {
+        monday?: string[];
+        tuesday?: string[];
+        wednesday?: string[];
+        thursday?: string[];
+        friday?: string[];
+        saturday?: string[];
+        sunday?: string[];
+    };
+    clients?: {
+        name: string,
+        service: string,
+        phone: string,
+    };
+    hours?: {
+        monday: number;
+        tuesday: number;
+        wednesday: number;
+        thursday: number;
+        friday: number;
+        saturday: number;
+        sunday: number;
     };
     reviews?: {
         date?: number;
@@ -38,19 +56,45 @@ export interface IUser {
         description: string;
         business: string;
         comment: string; }[];
-    employees?: {
-        id: number;
-        firstName: string;
-        lastName: string;
-        employeeDescription: string;
-        employeeServices: string;
-        emloyeeImg: string;
+    employee?: {
+        id: string,
+        firstName: string,
+        lastName: string,
+        employeeDescription: string,
+        employeeServices?: string,
         // days?: string;
-        hours?: string; }[];
-    services?: {
-        id: number;
-        serviceName: string;
-        serviceDescription: string;
-        servicePrice: number;
-        duration: number; }[];
+         };
+    service?: {
+        id: string,
+        serviceName: string,
+        serviceDescription: string,
+        servicePrice: number,
+        duration: string,
+        };
+    appointment?: {
+        employeeId: string,
+        empName: string,
+        serviceId: string,
+        serName: string
+        serPrice: number;
+        date: string,
+        time: string,
+        note?: string,
+        bid?: string;
+        uid?: string;
+        clientName: string
+        appointmentId?: string;
+        timeStamp?: Date;
+    };
+    bookingSchedule?:
+    {
+        date?: string;
+        availableTimes?: string[];
+    };
+    client?: {
+        name: string;
+        uid: string;
+        phone: string;
+        paymentInfo: string[];
+    }
 }

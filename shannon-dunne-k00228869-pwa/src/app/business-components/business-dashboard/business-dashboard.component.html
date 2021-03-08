@@ -1,0 +1,161 @@
+
+<form>
+    <!-- <button mat-raised-button color="primary" type="submit" (click)="business.logout()">
+        Logout
+    </button> -->
+</form>
+
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
+          <a routerLink="/business-view/{{user.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+        <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/dashboard/{{user.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Dashboard</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+
+
+      <button mat-menu-item>
+        <a routerLink="/dashboard/">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+    </mat-menu>
+
+    <span>Business Dashboard</span>
+    <span class="spacer"></span>
+    
+    <button mat-icon-button class="example-icon" aria-label="edit icon" (click)="authService.logout()">
+      <a routerLink="/login">
+        <mat-icon>logout</mat-icon>
+    </a>
+    </button>
+</mat-toolbar>
+
+<mat-tab-group>
+  <mat-tab label="Appointments">
+      <mat-list>
+        <mat-divider></mat-divider>  
+        <mat-expansion-panel *ngFor ="let booking of allBookings" (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+        <mat-panel-title>
+        {{booking.clientName}}
+        </mat-panel-title>
+        <mat-panel-title>
+        {{booking.date}}
+        </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-panel-title>
+         Time: {{booking.time}}
+        </mat-panel-title>
+        <mat-panel-title>
+         Employee: {{booking.empName}}
+        </mat-panel-title>
+        <mat-panel-title>
+         Service: {{booking.serName}}
+        </mat-panel-title>
+        <mat-panel-title>
+          Price:&#x20AC; 60
+         </mat-panel-title>
+        <mat-panel-title>
+          Notes: {{booking.note}}
+         </mat-panel-title>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider> 
+  <!-- </mat-tab> -->
+
+  <mat-tab label="Clients">
+      <mat-list>
+        
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+              Samantha Ryan
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0876538257
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Leanne Carter
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0876538257
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Carla Doherty
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0836838297
+        </mat-expansion-panel>
+      </mat-list>
+
+      <mat-list>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <div mat-card-avatar class="header-image"></div>
+              <mat-panel-title>
+                Michelle Holland
+              </mat-panel-title>
+        </mat-expansion-panel-header>
+          Phone: 0891848295
+        </mat-expansion-panel>
+      </mat-list>
+      <mat-divider></mat-divider>
+  </mat-tab>
+  
+    <mat-divider></mat-divider>
+    <mat-tab label="Reviews">
+      <mat-list>
+              <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+              Charlotte Jackson
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>Great job, I love my nails! would highly recommend to everybody.<br>
+                Most friendly staff ever</p>
+                <br>
+                <button mat-raised-button class="buttonText" color="primary">
+                  <a routerLink="/review">
+                    Reply
+                </a>
+              </button>
+              </mat-expansion-panel>
+              <mat-divider></mat-divider>
+      </mat-list>
+  </mat-tab>
+<!-- </mat-tab-group> -->

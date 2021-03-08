@@ -14,6 +14,7 @@ import { BusinessDashboardComponent } from './business-components/business-dashb
 import { SearchDirectoryComponent } from './client-components/search-directory/search-directory.component';
 import { BookingFormComponent } from './client-components/booking-form/booking-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HttpClient } from '@angular/common/http';
 import { ClientProfileComponent } from './client-components/client-profile/client-profile.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
@@ -55,6 +56,7 @@ import { AppointmentsComponent } from './client-components/appointments/appointm
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClient,
     MaterialModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

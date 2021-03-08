@@ -1,28 +1,29 @@
 {
-  "name": "shannon-dunne-k00228869-pwa",
-  "short_name": "shannon-dunne-k00228869-pwa",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Cosmetic Booking Application",
+  "short_name": "SelfCare Appointments",
+  "description": "SelfCare is a booking application for cosmetic appointments in Ireland. You can book hair, nail and beauty services or offer these services through the app.",
+  "theme_color": "#5795a7",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./?source=pwa",
   "icons": [
     {
-      "src": "assets/icons/icon-72x72.png",
+      "src": "https://i.imgur.com/CDv7AGO.jpg",
       "sizes": "72x72",
-      "type": "image/png",
+      "type": "image/jpg",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/icon-96x96.png",
+      "src": "https://i.imgur.com/CDv7AGO.jpg",
       "sizes": "96x96",
-      "type": "image/png",
+      "type": "image/jpg",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/icon-128x128.png",
+      "src": "https://i.imgur.com/CDv7AGO.jpg",
       "sizes": "128x128",
-      "type": "image/png",
+      "type": "image/jpg",
       "purpose": "maskable any"
     },
     {

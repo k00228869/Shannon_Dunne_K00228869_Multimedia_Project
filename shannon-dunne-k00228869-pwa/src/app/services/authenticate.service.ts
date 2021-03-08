@@ -85,10 +85,10 @@ signup(newUser: IUser['user'])
 {
     this.authenticate.createUserWithEmailAndPassword(newUser.email, newUser.password)// create a user with the details passed
     .then((credentials) => {
+
       newUser.uid = credentials.user.uid;
       this.firestore.collection<IUser>('users').doc<IUser['user']>(newUser.uid).set(newUser); // add user to the db
       window.localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
-
       this.isLoggedIn = true; // set the user to logged in
       return this.authenticate.currentUser.then(user => user.sendEmailVerification())
       // get email address of signed in user, send verification mail
@@ -97,6 +97,7 @@ signup(newUser: IUser['user'])
       });
     });
   }
+
 
 
   // CHECK WHETHER THE USER IS A BUSINESS USER AND DISPLAY APPRORIATE PAGE

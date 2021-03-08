@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { LoginComponent } from './user-components/login/login.component';
 import { SignUpComponent } from './user-components/sign-up/sign-up.component';
 import { LandingPageComponent } from './client-components/landing-page/landing-page.component';
@@ -47,8 +48,6 @@ const routes: Routes = [
   {path: 'business-profile/:id', component: BusinessProfileComponent},
   {path: 'booking-confirmed/:id', component: BookingConfirmationComponent},
   {path: 'appointment/:id', component: AppointmentsComponent},
-
-
 ];
 
 @NgModule({

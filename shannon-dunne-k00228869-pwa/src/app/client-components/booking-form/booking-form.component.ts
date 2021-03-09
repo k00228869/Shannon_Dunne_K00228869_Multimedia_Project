@@ -26,13 +26,6 @@ export const MY_FORMATS = {  // set selected date format
     dateA11yLabel: 'ddd MMM DD YYYY',
     monthYearA11yLabel: 'MMMM YYYY',
   },
-
-//   LTS  : 'h:mm:ss A',
-//  LT   : 'h:mm A',
-//  L    : 'MM/DD/YYYY',
-//  LL   : 'MMMM D, YYYY',
-//  LLL  : 'MMMM D, YYYY h:mm A',
-//  LLLL : 'dddd, MMMM D, YYYY h:mm A'
 };
 
 

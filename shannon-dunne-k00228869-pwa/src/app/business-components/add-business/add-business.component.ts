@@ -208,7 +208,7 @@ export class AddBusinessComponent implements OnInit {
       this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
       // this.addProfileForm.reset();
       // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
-
+      
       if(this.selectedHours.monday)
       {
         this.hours = [];
@@ -255,7 +255,6 @@ export class AddBusinessComponent implements OnInit {
         let w = 'wednesday';
         this.hours.push(wednesday, w);
         this.wed = this.hours;
-        // this.business.addHours(this.wed);
         this.hourService.addWed(this.wed);
 
       }
@@ -271,7 +270,6 @@ export class AddBusinessComponent implements OnInit {
         let t = 'thursday';
         this.hours.push(thursday,t);
         this.thur = this.hours;
-        // this.business.addHours(this.thur);
         this.hourService.addThur(this.thur);
 
       }
@@ -287,7 +285,6 @@ export class AddBusinessComponent implements OnInit {
         let f = 'friday';
         this.hours.push(friday,f);
         this.fri = this.hours;
-        // this.business.addHours(this.fri);
         this.hourService.addFri(this.fri);
 
       }
@@ -301,9 +298,8 @@ export class AddBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let saturday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let s = 'saturday';
-        this.hours.push(saturday,s);
+        this.hours.push(saturday, s);
         this.sat= this.hours;
-        // this.business.addHours(this.sat);
         this.hourService.addSat(this.sat);
       }
       if(this.selectedHours.sunday)
@@ -318,10 +314,7 @@ export class AddBusinessComponent implements OnInit {
         this.hours.push(sunday,s);
         this.sun = this.hours;
         this.hourService.addSun(this.sun);
-        // this.business.addHours(this.sun);
       }
-      // this.hourService.addMon(this.sun);
-      // this.business.addHours(this.newHourList);
       this.business.addBusiness(newProfile);
       this.route.navigate(['/business-view/', newProfile.id]);
 

@@ -1,5 +1,13 @@
 
-
+ <button class="button button-primary" (click)="receiveNotif()">
+  Subscribe
+</button>
 <router-outlet>
-    <app-landing-page></app-landing-page>
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+          <span>SelfCare</span>
+          <span class="spacer"></span>
+          <button mat-raised-button color="accent" (click)="downloadApp()">Donwload The App</button>
+        </mat-toolbar-row>
+      </mat-toolbar>
 </router-outlet>

@@ -16,7 +16,7 @@ export class ProfileBusinessViewComponent implements OnInit {
   employees: IUser['employee'];
   services: IUser['service'];
   public user: IUser['user'];
-  panelOpenState = false;
+  public panelOpenState = false;
   isSignedIn = false;
   // public uid: string;
   public id: string;
@@ -32,6 +32,8 @@ export class ProfileBusinessViewComponent implements OnInit {
 
   ngOnInit()
   {
+    // console.log('db variable', this.profileInfo.profileCreated);
+    // console.log('local variable', this.isCreated);
     if (localStorage.getItem('user') !== null) { // check if user is not empty
       this.isSignedIn = true; // if user is not empty they are signed in
     }
@@ -41,15 +43,28 @@ export class ProfileBusinessViewComponent implements OnInit {
     this.business.getBusiness().subscribe(
         (bus) =>
         {
+          console.log('outside if', this.isCreated);
+
+          // console.log('just observable', bus);
+          console.log('observable with dot operator', bus[0].profileCreated); // w
+          // console.log('as index', bus[0][7]); // undefined
           this.profileInfo = bus[0];
-          if (this.profileInfo.profileCreated === true)
+          console.log('1 bus', this.profileInfo);
+          console.log('without val', this.profileInfo.profileCreated); // w
+          // console.log('with val', this.profileInfo.profileCreated.valueOf()); // w
+
+          if (this.profileInfo.profileCreated)
           {
+            console.log('3. profile already created');
             this.isCreated = true;
+            console.log('true', this.isCreated);
           }
           else{
-            console.log('create a profile');
+            console.log('3. profile not created');
             this.isCreated = false;
+            console.log('false', this.isCreated);
           }
+          this.getProfile();
         }
     );
 
@@ -57,12 +72,8 @@ export class ProfileBusinessViewComponent implements OnInit {
       (data) =>
       {
         this.user = data;
-        console.log(this.user);
       }
     );
-
-    
-
 
   }
 

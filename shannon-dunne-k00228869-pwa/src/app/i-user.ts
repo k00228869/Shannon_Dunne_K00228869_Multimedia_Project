@@ -34,11 +34,6 @@ export interface IUser {
         saturday?: string[];
         sunday?: string[];
     };
-    clients?: {
-        name: string,
-        service: string,
-        phone: string,
-    };
     hours?: {
         monday: number;
         tuesday: number;
@@ -96,5 +91,19 @@ export interface IUser {
         uid: string;
         phone: string;
         paymentInfo: string[];
-    }
+    };
+    subscription?: {
+    // endpoint: string;
+    // expirationTime?: null;
+    // options: {
+    //     p256dh: string;
+    //     auth: string;
+    // }
+    userId: string,
+    endpoint: string,
+    keys: {
+        p256dh: string,
+        auth: string
+        }
+    };
 }

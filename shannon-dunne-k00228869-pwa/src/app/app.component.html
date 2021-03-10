@@ -1,13 +1,12 @@
 
- <button class="button button-primary" (click)="receiveNotif()">
-  Subscribe
-</button>
+
 <router-outlet>
     <mat-toolbar color="primary">
         <mat-toolbar-row>
           <span>SelfCare</span>
           <span class="spacer"></span>
-          <button mat-raised-button color="accent" (click)="downloadApp()">Donwload The App</button>
+          <button mat-raised-button color="accent" (click)="downloadApp()"><mat-icon>get_app</mat-icon></button>
+          <button mat-raised-button color="accent" (click)="pushSub()"><mat-icon>add_alert</mat-icon></button>
         </mat-toolbar-row>
       </mat-toolbar>
 </router-outlet>

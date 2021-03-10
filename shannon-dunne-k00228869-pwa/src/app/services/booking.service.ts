@@ -11,7 +11,6 @@ export class BookingService {
 
   constructor(
     public firestore: AngularFirestore,
-
   ) { }
 
 

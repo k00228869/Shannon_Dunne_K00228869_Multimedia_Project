@@ -28,6 +28,12 @@ import { ClientUserService } from 'src/app/services/client-user.service';
 import { UploadsService } from './services/uploads.service';
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
 import { AppointmentsComponent } from './client-components/appointments/appointments.component';
+import { BookingService } from './services/booking.service';
+import { SearchQueriesService } from './services/search-queries.service';
+import { WorkingDaysService } from './services/working-days.service';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { NotificationsService } from './services/notifications.service';
+
 // import { MomentModule } from 'ngx-moment';
 
 
@@ -58,10 +64,20 @@ import { AppointmentsComponent } from './client-components/appointments/appointm
     MaterialModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireMessagingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AngularFirestoreModule
   ],
-  providers: [AuthenticateService, BusinessService, ClientUserService, UploadsService ],
+  providers: [
+    AuthenticateService,
+    BusinessService,
+    ClientUserService,
+    UploadsService,
+    BookingService,
+    SearchQueriesService,
+    NotificationsService,
+    WorkingDaysService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -99,8 +99,9 @@ export interface IUser {
     //     p256dh: string;
     //     auth: string;
     // }
-    userId: string,
+    userId?: string,
     endpoint: string,
+    expirationTime: null | number,
     keys: {
         p256dh: string,
         auth: string

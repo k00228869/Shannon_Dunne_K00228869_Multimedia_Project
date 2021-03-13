@@ -13,17 +13,20 @@ export class NotificationsService {
   public uid: string;
   public userSub: IUser['subscription'];
   private subscrip: IUser['subscription'];
+
   constructor(
     private firestore: AngularFirestore,
   ) { }
 
-
-  addPushSubscriber(sub)
+  addPushSubscriber(subOj)
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
+    console.log(theUser.uid);
+    console.log('add sub obj to db', subOj);
     this.uid = theUser.uid;
-    this.subscrip = sub;
-    console.log(sub);
+    this.subscrip = JSON.parse(JSON.stringify(subOj));
+    this.subscrip.userId = this.uid;
+    console.log('saved subscription', this.subscrip);
     return from (this.firestore.collection<IUser['user']>('users')
     .doc<IUser['user']>(this.uid)
     .collection<IUser['subscription']>('subscriptions').add(this.subscrip));
@@ -39,4 +42,30 @@ export class NotificationsService {
     .collection<IUser['subscription']>('subscriptions');
     return docRef.valueChanges();
   }
+
+//   const reminderMessage = {}
+//    reminderMessage = notification: {
+//         title: 'Appointment Reminder',
+//         body: 'You have an appointment tomorrow at 2 pm',
+//         icon:   'https://www.pngkit.com/png/detail/220-2207568_notify-clients-purple-notification-bell-png',
+//         vibrate: [100, 50, 100],
+//         data: {
+//             dateOfArrival: Date.now(),
+//             primaryKey: 1
+//         },
+//         actions: [{
+//             action: 'explore',
+//             title: 'check your appointment details'
+//         }]
+//     }
+
+
+// webpush.sendNotification(
+
+// )
+
+
+
 }
+
+

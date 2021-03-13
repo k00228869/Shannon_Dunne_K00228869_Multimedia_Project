@@ -1,7 +1,6 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, HostListener } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
-import { duration } from 'moment';
 import { NotificationsService } from './services/notifications.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -13,7 +12,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class AppComponent {
 
 readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
-
   title = 'SelfCare';
   deferredPrompt: any;
   showButton = false;
@@ -42,7 +40,7 @@ ngOnInit(){
 
   this.swPush.messages.subscribe((message) => console.log(message));
 
-  // this.swPush.notificationClicks.subscribe( // triggered when notification prompt is clicked
+  // this.swPush.notificationClicks.subscribe( // triggered when notification is clicked
   //   ({action, notification}) => {
   //     window.open(notification.data.url); // open url when clicked
   //   }
@@ -59,7 +57,11 @@ ngOnInit(){
       return;
     }
     this.swPush.requestSubscription({serverPublicKey: this.VAPID_PUBLIC_KEY,
-    }).then(subOj => console.log(JSON.stringify(subOj)))
+    }).then(subOj => 
+      {
+        console.log(JSON.stringify(subOj));
+        this.notif.addPushSubscriber(subOj);
+      })
     .catch((err) => console.log(err));
 
   // this.swPush.requestSubscription({serverPublicKey: this.VAPID_PUBLIC_KEY}) // ask for permission

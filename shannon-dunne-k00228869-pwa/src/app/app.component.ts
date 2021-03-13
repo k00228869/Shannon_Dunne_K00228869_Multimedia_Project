@@ -38,7 +38,7 @@ ngOnInit(){
   //   console.log()
   // );
 
-  this.swPush.messages.subscribe((message) => console.log(message));
+  this.swPush.messages.subscribe((message) => console.log('theMessage', message));
 
   // this.swPush.notificationClicks.subscribe( // triggered when notification is clicked
   //   ({action, notification}) => {
@@ -57,50 +57,49 @@ ngOnInit(){
       return;
     }
     this.swPush.requestSubscription({serverPublicKey: this.VAPID_PUBLIC_KEY,
-    }).then(subOj => 
+    }).then(subOj =>
       {
-        console.log(JSON.stringify(subOj));
+        const notif = new Notification('Notifications are turned on', {
+          body: 'You will be notified about appointments',
+          icon: 'https://images.unsplash.com/photo-1515871204537-49a5fe66a31f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=674&q=80'
+        });
+        console.log('suscript object', JSON.stringify(subOj));
         this.notif.addPushSubscriber(subOj);
       })
     .catch((err) => console.log(err));
 
-  // this.swPush.requestSubscription({serverPublicKey: this.VAPID_PUBLIC_KEY}) // ask for permission
-  //     .then(pushSub => {
-  //       this.notif.addPushSubscriber(pushSub).subscribe( result => {
-  //         console.log('[App] Add subscribe request result', result);
-  //         let theSubscription = pushSub.toJSON();
-  //         console.log(theSubscription);
-  //         let snackbarRef = this.snackBar.open('You will recieve appointment reminders', null);
-  //       });
-  //     })// subscription object passed if allowed, send to server
-  //     .catch(err => console.error('could not sub to notificatiosn', err));
-  //   // }
+
+    //      let snackbarRef = this.snackBar.open('You will recieve appointment reminders', null);
+    //      subscription object passed if allowed, send to server
+    //     .catch(err => console.error('could not sub to notificatiosn', err));
+
   }
 
 
-  
 
-downloadApp()
-{
-    // hide download button
-    this.showButton = false;
-    // Show prompt
-    this.deferredPrompt.prompt();
-    // Wait for user to response
-    this.deferredPrompt.userChoice
-    .then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted')
-      {
-        console.log('User accepted add prompt');
-      } else
-      {
-        console.log('User dismissed add prompt');
-      }
-      this.deferredPrompt = null;
-    });
+  downloadApp() // when download button is clicked
+  {
+      // hide download button
+      this.showButton = false;
+      // Show prompt
+      console.log('theStashed response', this.deferredPrompt);
+      this.deferredPrompt.prompt();
+      // Wait for user to response
+      this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted')
+        {
+          console.log('User accepted add prompt');
+        } else
+        {
+          console.log('User dismissed add prompt');
+        }
+        this.deferredPrompt = null;
+      });
   }
-
 }
+
+
 
     // if (Notification.permission === 'denied' || Notification.permission === 'default') // check notif permission state
     // {

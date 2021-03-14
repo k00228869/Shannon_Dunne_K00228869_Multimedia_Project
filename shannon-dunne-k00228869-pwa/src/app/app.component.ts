@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { NotificationsService } from './services/notifications.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { UploadsService } from './services/uploads.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzc
   title = 'SelfCare';
   deferredPrompt: any;
   showButton = false;
+  slides: string[] = [];
 
   // install prompt event listener
   @HostListener('window:beforeinstallprompt', ['$event'])
@@ -30,19 +32,25 @@ readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzc
   constructor(
     private readonly swPush: SwPush,
     private notif: NotificationsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private uploads: UploadsService
     ) {}
 
 ngOnInit(){
   this.notif.getToken().subscribe(
     (data) =>
     {
-      if(!data)
+      if (!data)
       {
         this.askPermis();
       }
     }
-  )
+  );
+
+  this.uploads.getSlideshow().subscribe(
+    (data) => {
+      this.slides = Object.values(data);
+    });
 }
 
 

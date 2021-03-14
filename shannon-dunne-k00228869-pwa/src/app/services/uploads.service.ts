@@ -4,6 +4,7 @@ import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask 
 import { Observable } from 'rxjs';
 import { IUser } from '../i-user';
 import { BusinessService } from './business.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class UploadsService {
   constructor(
     private imgStorage: AngularFireStorage,
     public business: BusinessService,
+    private firestore: AngularFirestore
     ) { }
 
 
@@ -88,6 +90,10 @@ export class UploadsService {
    }
   }
 
+  getSlideshow()
+  {
+    return this.firestore.collection<string[]>('appImages').doc('slideshow').valueChanges();
+  }
 
 
   addUrl(images: string[])

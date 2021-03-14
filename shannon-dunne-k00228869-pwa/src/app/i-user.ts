@@ -80,6 +80,7 @@ export interface IUser {
         clientName: string
         appointmentId?: string;
         timeStamp?: Date;
+        price?: number;
     };
     bookingSchedule?:
     {
@@ -93,18 +94,14 @@ export interface IUser {
         paymentInfo: string[];
     };
     subscription?: {
-    // endpoint: string;
-    // expirationTime?: null;
-    // options: {
-    //     p256dh: string;
-    //     auth: string;
-    // }
-    userId?: string,
-    endpoint: string,
-    expirationTime: null | number,
-    keys: {
-        p256dh: string,
-        auth: string
-        }
+    // userId?: string,
+    // endpoint: string,
+    // expirationTime: null | number,
+    // keys: {
+    //     p256dh: string,
+    //     auth: string
+    //     }
+    token?: any;
+    id?: string;
     };
 }

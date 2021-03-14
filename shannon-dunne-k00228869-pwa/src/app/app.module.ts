@@ -61,12 +61,13 @@ import { NotificationsService } from './services/notifications.service';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    AngularFirestoreModule,
     MaterialModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    AngularFirestoreModule
+    ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production })
+ 
   ],
   providers: [
     AuthenticateService,

@@ -14,3 +14,26 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging(); // get firebase instance
 
+// this.messaging.onTokenRefresh(handleTokenRefresh);
+// handleTokenRefresh()
+//   {
+//     return this.afm.requestToken.pipe( // get token
+//         tap(token => {
+//           console.log('store token', token);
+//           let theUser = JSON.parse(localStorage.getItem('user'));
+//           console.log(theUser.uid);
+//           console.log('add token to db', token);
+//           this.uid = theUser.uid;
+//           this.subscrip = {};
+//           this.subscrip.token = token;
+//           this.subscrip.id = this.uid;
+//           console.log('saved subscription', this.subscrip);
+//           return from (this.firestore.collection<IUser['user']>('users')
+//           .doc<IUser['user']>(this.uid)
+//           .collection<IUser['subscription']>('subscriptions').add(this.subscrip)); // store token + user id
+//         })
+//       );
+//   }
+
+
+  

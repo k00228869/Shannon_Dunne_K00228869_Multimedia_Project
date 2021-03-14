@@ -34,11 +34,21 @@ readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzc
     ) {}
 
 ngOnInit(){
+  this.notif.getToken().subscribe(
+    (data) =>
+    {
+      if(!data)
+      {
+        this.askPermis();
+      }
+    }
+  )
 }
 
-  pushSub() // called when notification clicked
+
+  askPermis() // called when notification clicked
   {
-    this.notif.requestPermission().subscribe(
+    this.notif.requestPermission().subscribe( // call func to get/store notification permission
       async token => {
         message: 'token received'
         duration: 2000

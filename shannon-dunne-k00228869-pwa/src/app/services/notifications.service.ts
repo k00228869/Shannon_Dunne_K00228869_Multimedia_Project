@@ -37,7 +37,7 @@ export class NotificationsService {
   ) { }
 
   requestPermission() {
-    return this.afm.requestToken.pipe(
+    return this.afm.requestToken.pipe( // get token
       tap(token => {
         console.log('store token', token);
 
@@ -51,7 +51,7 @@ export class NotificationsService {
         console.log('saved subscription', this.subscrip);
         return from (this.firestore.collection<IUser['user']>('users')
         .doc<IUser['user']>(this.uid)
-        .collection<IUser['subscription']>('subscriptions').add(this.subscrip));
+        .collection<IUser['subscription']>('subscriptions').add(this.subscrip)); // store token + user id
       })
     );
   }
@@ -60,7 +60,7 @@ export class NotificationsService {
     return this.afm.messages;
   }
 
-  getPushSubcriber(): Observable<IUser['subscription']>
+  getToken(): Observable<IUser['subscription']>
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
@@ -71,7 +71,9 @@ export class NotificationsService {
     return docRef.valueChanges();
   }
 
+  showCustomNotif(){
 
+  }
 
 }
 

@@ -71,16 +71,16 @@ export interface IUser {
         empName: string,
         serviceId: string,
         serName: string
-        serPrice: number;
+        serPrice: number,
+        serDuration: string,
         date: string,
         time: string,
         note?: string,
-        bid?: string;
-        uid?: string;
+        bid?: string,
+        uid?: string,
         clientName: string
-        appointmentId?: string;
-        timeStamp?: Date;
-        price?: number;
+        appointmentId?: string,
+        timeStamp?: Date,
     };
     bookingSchedule?:
     {

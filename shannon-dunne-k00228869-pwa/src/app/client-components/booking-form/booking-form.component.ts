@@ -52,7 +52,7 @@ export class BookingFormComponent implements OnInit {
   public selectedService: IUser['service'];
   public selectedEmployee: IUser['employee'];
   user: IUser['user'];
-  public duration: string;
+  // public duration: string;
   services: IUser['service'];
   theHourOfDay: IUser['hours'];
   public client: IUser['user'];
@@ -157,10 +157,11 @@ export class BookingFormComponent implements OnInit {
         (ser) => {
           this.selectedService = ser[0];
           this.clientAppointment.serName = this.selectedService.serviceName; // store service name
-          this.duration = this.selectedService.duration; // duration of service
+          this.clientAppointment.serPrice = this.selectedService.servicePrice;
+          this.clientAppointment.serDuration = this.selectedService.duration;
           const startTime = this.clientAppointment.time; // service start time
           const endTime = moment(startTime, 'HH:mm:ss')
-            .add(this.duration, 'hours').format('HH:mm:ss'); // get service finish time
+            .add(this.clientAppointment.serDuration, 'hours').format('HH:mm:ss'); // get service finish time
           const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
           const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
             // gets array of the times between the service start and end time

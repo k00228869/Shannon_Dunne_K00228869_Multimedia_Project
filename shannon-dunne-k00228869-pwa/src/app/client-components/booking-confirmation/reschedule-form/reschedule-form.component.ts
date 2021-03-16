@@ -51,7 +51,6 @@ export class RescheduleFormComponent implements OnInit {
   public unavailableDays: number[] = [];
   theHourOfDay: IUser['hours'];
   public selectedService: IUser['service'];
-  public selectedEmployee: IUser['employee'];
   public duration: string;
   public day: string[] = [];
   schedule: IUser['bookingSchedule'] = {};

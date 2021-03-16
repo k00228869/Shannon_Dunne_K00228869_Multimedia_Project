@@ -13,6 +13,7 @@ import { AddBusinessComponent } from './business-components/add-business/add-bus
 import { BusinessProfileComponent } from './client-components/business-profile/business-profile.component';
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
 import { AppointmentsComponent } from './client-components/appointments/appointments.component';
+import { RescheduleFormComponent } from './client-components/booking-confirmation/reschedule-form/reschedule-form.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -47,6 +48,8 @@ const routes: Routes = [
   {path: 'business-profile/:id', component: BusinessProfileComponent},
   {path: 'booking-confirmed/:id', component: BookingConfirmationComponent},
   {path: 'appointment/:id', component: AppointmentsComponent},
+  {path: 'reschedule/:id', component: RescheduleFormComponent},
+
 
 
 ];

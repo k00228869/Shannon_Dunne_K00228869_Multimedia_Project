@@ -13,7 +13,6 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
-// import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {  // set selected date format
@@ -68,10 +67,9 @@ export class BookingFormComponent implements OnInit {
   addAppointmentForm: FormGroup;
   public unavailableDays: number[] = [];
   public id: string;
-  // date = new FormControl(moment());
-  datesNotAvailable;
+  // datesNotAvailable;
   public day: string[] = [];
-  public newDay: string[] = [];
+  // public newDay: string[] = [];
   date = moment();
   public setDate: string;
 

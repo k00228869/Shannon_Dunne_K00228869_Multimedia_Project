@@ -12,6 +12,7 @@ import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
+import { ActivatedRoute } from '@angular/router';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {  // set selected date format
   parse: {
@@ -48,10 +49,7 @@ export class RescheduleFormComponent implements OnInit {
   public setDate: string;
   public client: IUser['user'];
   public unavailableDays: number[] = [];
-  profileInfo: IUser['business'];
-  services: IUser['service'];
   theHourOfDay: IUser['hours'];
-  employees: IUser['employee'];
   public selectedService: IUser['service'];
   public selectedEmployee: IUser['employee'];
   public duration: string;
@@ -59,20 +57,19 @@ export class RescheduleFormComponent implements OnInit {
   schedule: IUser['bookingSchedule'] = {};
   user: IUser['user'];
   date = moment();
+  public id: string;
+  public appointmentInfo: IUser['appointment'];
+  public busInfo: IUser['business'];
 
   constructor(
     private editAppointment: FormBuilder,
-    public parent: BookingConfirmationComponent,
     public firestore: AngularFirestore,
     public clientService: ClientUserService,
     public bookingService: BookingService,
     public business: BusinessService,
     public reschedule: RescheduleService,
     public hourService: WorkingDaysService,
-
-
-
-
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(){
@@ -86,25 +83,28 @@ export class RescheduleFormComponent implements OnInit {
       note: new FormControl('', [Validators.required]),
     });
 
-    this.business.getABusiness(this.parent.appointmentInfo.bid).subscribe(
-      (bus) =>
+    this.route.paramMap.subscribe(
+      (params) =>
       {
-        this.profileInfo = bus[0];
+        this.id = params.get('id');
+        this.bookingService.getAppointment(this.id).subscribe(
+         (appoint) =>
+          {
+            this.appointmentInfo = appoint[0];
+            console.log(this.appointmentInfo.bid);
+            this.business.getABusiness(this.appointmentInfo.bid).subscribe(
+            (bus) =>
+            {
+              console.log(bus);
+              this.busInfo = bus[0];
+            });
+          });
       });
-    this.business.getBusServices(this.parent.appointmentInfo.bid).subscribe(
-      (servs) =>
-      {
-        this.services = servs;
-      });
-    this.business.getHours(this.parent.appointmentInfo.bid).subscribe(
+
+    this.business.getHours(this.appointmentInfo.bid).subscribe(
       (data) =>
       {
         this.theHourOfDay = data[0];
-      });
-    this.business.getBusEmployees(this.parent.appointmentInfo.bid).subscribe(
-      (emps) =>
-      {
-        this.employees = emps;
       });
 
     this.clientService.getUserInfo().subscribe(
@@ -114,7 +114,7 @@ export class RescheduleFormComponent implements OnInit {
       }
     );
 
-    this.bookingService.getBookedDays(this.parent.appointmentInfo.bid).subscribe(
+    this.bookingService.getBookedDays(this.appointmentInfo.bid).subscribe(
           (data) => {
             for(let i=0; i<data.length; i++)
             {
@@ -131,16 +131,16 @@ export class RescheduleFormComponent implements OnInit {
 
 
 
-  public async editAppointSubmit(newAppointment: IUser['appointment'])
+  public async editAppointSubmit(newAppointment: IUser['appointment'], client: IUser['user'])
   {
     this.newAppointment = this.editAppointmentForm.value;
     this.newAppointment.date = newAppointment.date.toString();
     this.newAppointment.date = this.setDate;
     this.newAppointment.timeStamp = new Date();
-    this.bookingService.getServiceDuration(this.parent.appointmentInfo.bid, newAppointment).subscribe(
+    this.bookingService.getServiceDuration(this.appointmentInfo.bid, newAppointment).subscribe(
       (ser) => {
         this.selectedService = ser[0];
-        this.newAppointment.serName = this.selectedService.serviceName; // store service name
+        this.newAppointment.serName = this.appointmentInfo.serName; // store service name
         this.duration = this.selectedService.duration; // duration of service
         const startTime = this.newAppointment.time; // service start time
         const endTime = moment(startTime, 'HH:mm:ss')
@@ -155,21 +155,14 @@ export class RescheduleFormComponent implements OnInit {
         this.schedule.availableTimes = [];
         this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
       });
-    this.bookingService.getEmployeeName(this.parent.appointmentInfo.bid, newAppointment).subscribe(
-        (emp) => {
-          this.selectedEmployee = emp[0];
-          this.newAppointment.empName = this.selectedEmployee.firstName + ' ' + this.selectedEmployee.lastName; // store employee name
-        });
-    this.business.getUserInfo().subscribe(
-      async (user) => {
-        this.user = user;
-        this.newAppointment.clientName = this.user.firstName + ' ' + this.user.lastName; // store client name
+    this.newAppointment.empName = this.appointmentInfo.empName;
+    this.newAppointment.clientName = this.client.firstName + ' ' + this.client.lastName;
         // console.log('appointment info', this.clientAppointment);
-        await this.bookingService.addBookingSchedule(newAppointment.bid, this.schedule);
-        this.reschedule.editBookingSchedule(this.parent.appointmentInfo, this.schedule);
-        this.reschedule.updateBusAppointment(this.parent.appointmentInfo, newAppointment);
-        this.reschedule.updateClientAppointment(this.parent.appointmentInfo, newAppointment);
-      });
+    await this.bookingService.addBookingSchedule(newAppointment.bid, this.schedule);
+    this.reschedule.editBookingSchedule(this.appointmentInfo, this.schedule);
+    this.reschedule.updateBusAppointment(this.appointmentInfo, newAppointment);
+    this.reschedule.updateClientAppointment(this.appointmentInfo, newAppointment);
+      // });
   }
 
 
@@ -192,7 +185,7 @@ this.setDate = this.date.format('ddd MMM DD YYYY');
       // let diff = duration.hours();
 if (selectedDay)
 {
-  this.bookingService.getBookingSchedule(this.parent.appointmentInfo.bid, this.setDate).subscribe(
+  this.bookingService.getBookingSchedule(this.appointmentInfo.bid, this.setDate).subscribe(
   (data) => {
     if (data)
     {
@@ -204,7 +197,7 @@ if (selectedDay)
     {
       if (selectedDay === 1)
       {
-        this.hourService.getMon(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getMon(this.appointmentInfo.bid).subscribe(
           (mon) =>
           {
             // get monday hours
@@ -213,7 +206,7 @@ if (selectedDay)
       }
       else if (selectedDay === 2)
       {
-        this.hourService.getTue(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getTue(this.appointmentInfo.bid).subscribe(
           (tues) =>
           {
             // get tuesday hours
@@ -222,7 +215,7 @@ if (selectedDay)
       }
       else if (selectedDay === 3)
       {
-        this.hourService.getWed(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getWed(this.appointmentInfo.bid).subscribe(
           (wed) =>
           {
             // get wednesday hours
@@ -231,7 +224,7 @@ if (selectedDay)
       }
       else if (selectedDay === 4)
       {
-        this.hourService.getThur(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getThur(this.appointmentInfo.bid).subscribe(
           (thur) =>
           {
             // get thursday hours
@@ -241,7 +234,7 @@ if (selectedDay)
       }
       else if (selectedDay === 5)
       {
-        this.hourService.getFri(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getFri(this.appointmentInfo.bid).subscribe(
           (fri) =>
           {
             // get firday hours
@@ -250,7 +243,7 @@ if (selectedDay)
       }
       else if (selectedDay === 6)
       {
-        this.hourService.getSat(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getSat(this.appointmentInfo.bid).subscribe(
           (sat) =>
           {
             // get saturday hours
@@ -259,7 +252,7 @@ if (selectedDay)
       }
       else if (selectedDay === 0)
       {
-        this.hourService.getSun(this.parent.appointmentInfo.bid).subscribe(
+        this.hourService.getSun(this.appointmentInfo.bid).subscribe(
           (sun) =>
           {
             // get sunday hours

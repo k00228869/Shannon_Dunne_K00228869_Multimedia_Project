@@ -6,6 +6,7 @@ import { ClientUserService } from 'src/app/services/client-user.service';
 import { Location } from '@angular/common';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
+import { RescheduleService } from 'src/app/services/reschedule.service';
 
 @Component({
   selector: 'app-booking-confirmation',
@@ -24,7 +25,8 @@ export class BookingConfirmationComponent implements OnInit {
     public clientService: ClientUserService,
     private location: Location,
     public authService: AuthenticateService,
-    public booking: BookingService
+    public booking: BookingService,
+    public reschedule: RescheduleService
   ) {}
 
   ngOnInit(){
@@ -44,7 +46,6 @@ export class BookingConfirmationComponent implements OnInit {
               this.busInfo = bus[0];
             });
           });
-        
       });
     this.clientService.getUserInfo().subscribe(
       (data) =>

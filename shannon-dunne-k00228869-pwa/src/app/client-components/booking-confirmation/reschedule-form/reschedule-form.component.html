@@ -9,17 +9,17 @@
   
   
   <div>
-    <h4>Reschedule Your Appointment with {{parent.busInfo.businessName}}</h4>
+    <h4>Reschedule Your Appointment with {{busInfo.businessName}}</h4>
   <mat-form-field appearance="outline">
     <mat-label>Employee</mat-label>
     <mat-select [formControlName]="'employeeId'" [disabled]="true">
-      <mat-option [value]="parent.appointmentInfo.employeeId">{{parent.appointmentInfo.empName}}</mat-option>
+      <mat-option [value]="appointmentInfo.employeeId">{{appointmentInfo.empName}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Service</mat-label>
     <mat-select [disabled]="true" [formControlName]="'serviceId'">
-      <mat-option [value]="parent.appointmentInfo.serviceId">{{parent.appointmentInfo.serName}}</mat-option>
+      <mat-option [value]="appointmentInfo.serviceId">{{appointmentInfo.serName}}</mat-option>
     </mat-select>
   </mat-form-field>
 

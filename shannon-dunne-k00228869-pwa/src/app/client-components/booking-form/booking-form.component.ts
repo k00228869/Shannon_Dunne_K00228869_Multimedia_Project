@@ -182,7 +182,7 @@ export class BookingFormComponent implements OnInit {
         async (user) => {
           this.user = user;
           this.clientAppointment.clientName = this.user.firstName + ' ' + this.user.lastName; // store client name
-          console.log('appointment info', this.clientAppointment);
+          // console.log('appointment info', this.clientAppointment);
           await this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
           await this.booking.addClientAppointment(this.clientAppointment);
           await this.booking.addBusinessBooking(this.clientAppointment);

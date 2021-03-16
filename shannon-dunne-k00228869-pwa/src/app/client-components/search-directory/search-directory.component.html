@@ -39,43 +39,36 @@
 <form class="form-group">
   <mat-form-field appearance="fill">
     <mat-label>Location</mat-label>
-    <mat-select [(value)]="selectedValue">
-      <mat-option value="option">Antrim</mat-option>
-      <mat-option value="option">Armagh</mat-option>
-      <mat-option value="option">Fermanagh</mat-option>
-      <mat-option value="option">Kilkenny</mat-option>
-      <mat-option value="option">Laois</mat-option>
-      <mat-option value="option">Waterford</mat-option>
-      <mat-option value="option">Tipperary</mat-option>
-      <mat-option value="option">Tyrone</mat-option>
-      <mat-option value="option">Galway</mat-option>
-      <mat-option value="option">Cork</mat-option>
-      <mat-option value="option">Dublin</mat-option>
+    <mat-select [(value)]="location">
+      <mat-option value="Antrim">Antrim</mat-option>
+      <mat-option value="Armagh">Armagh</mat-option>
+      <mat-option value="Fermanagh">Fermanagh</mat-option>
+      <mat-option value="Kilkenny">Kilkenny</mat-option>
+      <mat-option value="Laois">Laois</mat-option>
+      <mat-option value="Waterford">Waterford</mat-option>
+      <mat-option value="Tipperary">Tipperary</mat-option>
+      <mat-option value="Tyrone">Tyrone</mat-option>
+      <mat-option value="Galway">Galway</mat-option>
+      <mat-option value="Cork">Cork</mat-option>
+      <mat-option value="Dublin">Dublin</mat-option>
     </mat-select>
   </mat-form-field> 
-<br>
   <mat-form-field appearance="fill">
     <mat-label>Provider</mat-label>
-    <mat-select [(value)]="selectedValue">
-      <mat-option value="option">Hair Stylist</mat-option>
-      <mat-option value="option">Makeup artist</mat-option>
-      <mat-option value="option">Nail Technitian</mat-option>
-      <mat-option value="option">Barber</mat-option>
+    <mat-select [(value)]="busType">
+      <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+      <mat-option value="Makeup artist">Makeup artist</mat-option>
+      <mat-option value="Nail Technitian">Nail Technitian</mat-option>
+      <mat-option value="Barber">Barber</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button aria-label="search" (click)="onSearch()">Search</button>
-   
-    <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="onDeal()">
-      <a routerLink="/">
-        Deals
-    </a>
-  </button>
-   
+  <button mat-raised-button aria-label="search" type="submit" (click)="onSearch()">Search</button>
+  <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="onDeal()"><a routerLink="/">Deals</a></button>
+</form>  
   
   
 <!-- </form> -->
-
 <br>
 
   <div *ngIf="deal">

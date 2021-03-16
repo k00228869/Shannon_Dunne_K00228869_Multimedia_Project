@@ -77,7 +77,22 @@
             <br>
             <h4><b>Location: </b>{{profileInfo.county}}</h4>
             <br><h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
-            <mat-list-item role="listitem">Monday:    2:00 P to 6:00 PM</mat-list-item>
+            <!-- <mat-list-item role="listitem">Monday:    2:00 P to 6:00 PM</mat-list-item> -->
+            <div>
+              <mat-list-item role="listitem" >Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
+              <br>
+              <mat-list-item role="listitem" >Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
+              <br>
+              <mat-list-item role="listitem" >Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
+              <br>
+              <mat-list-item role="listitem" >Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
+              <br>
+              <mat-list-item role="listitem" >Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
+              <br>
+              <mat-list-item role="listitem" >Saturday {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
+              <br>
+              <mat-list-item role="listitem" *ngIf="theHours.sunday" > {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
+          </div>
             <br>
           </mat-tab>
         

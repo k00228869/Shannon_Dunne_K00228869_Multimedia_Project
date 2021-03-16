@@ -14,6 +14,7 @@ export class WorkingDaysService {
 
   ) { }
 
+  // adds a business's working hours for each day
   public addMon(  mon: IUser['scheduleOfDays']['monday']) // add a business details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -69,7 +70,7 @@ export class WorkingDaysService {
 
 
 
-
+// gets a business's working hours for each day
   public getMon(id: string): Observable<IUser['scheduleOfDays']['monday']>
   {
     let monday;

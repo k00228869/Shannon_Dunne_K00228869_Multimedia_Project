@@ -4,6 +4,7 @@ import { SwPush } from '@angular/service-worker';
 import { NotificationsService } from './services/notifications.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UploadsService } from './services/uploads.service';
+import { Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +17,11 @@ readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzc
   title = 'SelfCare';
   deferredPrompt: any;
   showButton = false;
-  slides: string[] = [];
-
+  routeHidden = true;
   // install prompt event listener
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(e) {
-    console.log(e);
+    // console.log(e);
     // Prevent Chrome 67 from automatically showing prompt
     e.preventDefault();
     // Stash the event so it can be triggered later.
@@ -33,7 +33,8 @@ readonly VAPID_PUBLIC_KEY = 'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzc
     private readonly swPush: SwPush,
     private notif: NotificationsService,
     private snackBar: MatSnackBar,
-    private uploads: UploadsService
+    private router: Router,
+
     ) {}
 
 ngOnInit(){
@@ -47,10 +48,17 @@ ngOnInit(){
     }
   );
 
-  this.uploads.getSlideshow().subscribe(
-    (data) => {
-      this.slides = Object.values(data);
-    });
+  this.router.events.subscribe( (e) => {
+    if (e instanceof NavigationStart) {
+      if (e.url === "/") {
+          this.routeHidden = false;
+      } else {
+          this.routeHidden = true;
+      }
+    }
+  })
+
+  
 }
 
 
@@ -67,7 +75,7 @@ ngOnInit(){
   listenForMessage()
   {
     this.notif.getMessages().subscribe(async (msg: any) => {
-      console.log('NEW MESSAGE', msg);
+      // console.log('NEW MESSAGE', msg);
       // header: msg.notification.title,
       // subHeader: msg.notification.body,
     });
@@ -78,7 +86,7 @@ ngOnInit(){
       // hide download button
       this.showButton = false;
       // Show prompt
-      console.log('theStashed response', this.deferredPrompt);
+      // console.log('theStashed response', this.deferredPrompt);
       this.deferredPrompt.prompt();
       // Wait for user to response
       this.deferredPrompt.userChoice

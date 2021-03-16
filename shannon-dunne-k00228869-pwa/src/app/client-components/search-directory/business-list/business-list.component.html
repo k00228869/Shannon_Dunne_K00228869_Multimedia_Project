@@ -1,20 +1,62 @@
-<mat-card class="card"> 
-    <form class="form-group">
-      <br>
-        <mat-form-field appearance="fill">
-          <mat-label>Filter</mat-label>
-          <mat-select [(value)]="selectedValue">
-            <mat-option value="option">By Price</mat-option>
-            <mat-option value="option">By Rating</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
-  
-  <br>
-  <mat-divider></mat-divider>
+<!-- <mat-card class="card" *ngIf ="searchComp.locationSelected"> 
   <br>
   <ul>
-    <li *ngFor="let profile of profiles">
+    <li *ngFor="let profile of searchComp.withLocation">
+      <mat-divider></mat-divider>
+      <br>
+      <a routerLink="/business-profile/{{searchComp.profile.id}}">
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>{{searchComp.profile.businessName}}</mat-card-title>
+          <mat-card-subtitle>
+            Location: {{searchComp.profile.county}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </a>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+    </li>
+  </ul>
+</mat-card> -->
+
+
+<!-- <mat-card class="card" *ngIf ="searchComp.typeSelected"> 
+  <br>
+  <ul>
+    <li *ngFor="let profile of searchComp.withType">
+      <mat-divider></mat-divider>
+      <br>
+      <a routerLink="/business-profile/{{searchComp.profile.id}}">
+        <mat-card-header>
+          <div mat-card-avatar></div>
+          <mat-card-title>{{searchComp.profile.businessName}}</mat-card-title>
+          <mat-card-subtitle>
+            Location: {{searchComp.profile.county}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </a>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+    </li>
+  </ul>
+</mat-card> -->
+
+
+
+<mat-card class="card"> 
+  <br>
+  <ul>
+    <li *ngFor="let profile of searchComp.allProfiles">
+      <mat-divider></mat-divider>
+      <br>
       <a routerLink="/business-profile/{{profile.id}}">
         <mat-card-header>
           <div mat-card-avatar></div>
@@ -27,10 +69,19 @@
           </mat-card-subtitle>
         </mat-card-header>
       </a>
+      <br>
+      <mat-divider></mat-divider>
     </li>
-
-    <br>
-    <mat-divider></mat-divider>
-    <br>
   </ul>
 </mat-card>
+
+<!-- <form class="form-group">
+      <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Filter</mat-label>
+          <mat-select [(value)]="selectedValue">
+            <mat-option value="Price">By Price</mat-option>
+            <mat-option value="Rating">By Rating</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form> -->

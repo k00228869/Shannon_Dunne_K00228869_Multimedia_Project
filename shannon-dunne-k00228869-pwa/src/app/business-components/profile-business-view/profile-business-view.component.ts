@@ -16,6 +16,7 @@ export class ProfileBusinessViewComponent implements OnInit {
   employees: IUser['employee'];
   services: IUser['service'];
   public user: IUser['user'];
+  theHours: IUser['hours'];
   public panelOpenState = false;
   isSignedIn = false;
   // public uid: string;
@@ -32,8 +33,6 @@ export class ProfileBusinessViewComponent implements OnInit {
 
   ngOnInit()
   {
-    // console.log('db variable', this.profileInfo.profileCreated);
-    // console.log('local variable', this.isCreated);
     if (localStorage.getItem('user') !== null) { // check if user is not empty
       this.isSignedIn = true; // if user is not empty they are signed in
     }
@@ -43,24 +42,14 @@ export class ProfileBusinessViewComponent implements OnInit {
     this.business.getBusiness().subscribe(
         (bus) =>
         {
-          console.log('outside if', this.isCreated);
-
-          // console.log('just observable', bus);
-          console.log('observable with dot operator', bus[0].profileCreated); // w
-          // console.log('as index', bus[0][7]); // undefined
+          // console.log('outside if', this.isCreated);
           this.profileInfo = bus[0];
-          console.log('1 bus', this.profileInfo);
-          console.log('without val', this.profileInfo.profileCreated); // w
-          // console.log('with val', this.profileInfo.profileCreated.valueOf()); // w
-
           if (this.profileInfo.profileCreated)
           {
-            console.log('3. profile already created');
             this.isCreated = true;
             console.log('true', this.isCreated);
           }
           else{
-            console.log('3. profile not created');
             this.isCreated = false;
             console.log('false', this.isCreated);
           }
@@ -72,8 +61,15 @@ export class ProfileBusinessViewComponent implements OnInit {
       (data) =>
       {
         this.user = data;
-      }
-    );
+      });
+
+    this.business.getBusinessHours().subscribe(
+      (data) =>
+      {
+        this.theHours = data[0];
+        // console.log(this.theHours.monday[0].startT);
+      });
+
 
   }
 

@@ -36,7 +36,7 @@ export class AddBusinessComponent implements OnInit {
   holdHours: string[] = [];
   public id: string;
   hourList: IDays['1'] = [];  // hold hours template
-  dailyHours: string[] = []; // held selected tomes array
+  dailyHours: string[] = []; // held selected times array
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
@@ -111,7 +111,8 @@ export class AddBusinessComponent implements OnInit {
     return employee;
  }
 
-  public addEmployeeFormGroup() {
+  public addEmployeeFormGroup()
+  {
     const employees = this.addEmployeeForm.get('employees') as FormArray;
     employees.push(this.newEmployee()); // get the formArray and add the formgArray
   }
@@ -125,8 +126,9 @@ export class AddBusinessComponent implements OnInit {
 
   public onEmployeeSubmit( adEmployee: IUser['employee'] )
   {
-    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    // {
+    // tslint:disable-next-line: max-line-length
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    {
       let employees = this.addEmployeeForm.controls.employees.value; // store form controls i.e the array
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < employees.length; i++) // loop through length of array
@@ -135,11 +137,11 @@ export class AddBusinessComponent implements OnInit {
         adEmployee.id = this.firestore.createId(); // create an id for the employee
         this.business.addEmployees(adEmployee); // pass the employee to firestore func
       }
-    // }
+    }
       // this.addEmployee.reset();
-    // else{
-    //   console.log('error in employee form');
-    // }
+    else{
+      console.log('error in employee form');
+    }
   }
 
 
@@ -170,23 +172,22 @@ export class AddBusinessComponent implements OnInit {
 
   public onServiceSubmit(adService: IUser['service'] )
   {
-    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    // {
-      // console.log(this.addServiceForm.controls.services.value);
+    // tslint:disable-next-line: max-line-length
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    {
       let services = this.addServiceForm.controls.services.value;
+      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < services.length; i++)
       {
         adService = services[i];
         adService.id = this.firestore.createId();
         this.business.addServices(adService);
       }
-    // }
-    // else{
-    //   console.log('error in service form');
-    // }
+    }
+    else{
+      console.log('error in service form');
+    }
   }
-
-
 
 
   // HANDLES HOURS DATA
@@ -201,18 +202,19 @@ export class AddBusinessComponent implements OnInit {
   // HANDLES PROFILE DATA & HOURS
   public onProfileSubmit(newProfile: IUser['business'], newHours: IUser['hours'])
   {
-    // tslint:disable-next-line: max-line-length
-    // if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
-    // {
+    if (this.addServiceForm.status === 'VALID' && this.addProfileForm.status === 'VALID' && this.addEmployeeForm.status === 'VALID') // if fields are valid
+    {
       this.selectedHours = this.addBusHours.value; // copy selected start/finish times of each day
-      this.newProfile = this.addProfileForm.value;          // set the value of the form equal to object of type userInterface
+      
+      // this.dailyWorkHours = this.selectedHours;
+      this.business.addHours(this.selectedHours);
+      this.newProfile = this.addProfileForm.value;
+      // this.newProfile.hours = this.dailyWorkHours;         // set the value of the form equal to object of type userInterface
       // this.addProfileForm.reset();
       // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
-      
       if(this.selectedHours.monday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.monday[0].startT; // get selected start time
         this.end = this.selectedHours.monday[0].finishT; // get selected finish time
         let theIndex1 = this.hourList[0].indexOf(this.start, 0); // get index of start time
@@ -222,31 +224,26 @@ export class AddBusinessComponent implements OnInit {
         this.hours.push(mondayHours, m);
         // console.log(this.hours);
         this.mon = this.hours;
-        console.log(this.mon);
-        
+        // console.log(this.mon);
         this.hourService.addMon(this.mon);
       }
       if(this.selectedHours.tuesday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.tuesday[0].startT;
         this.end = this.selectedHours.tuesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let tuesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        
         this.tues = this.hours;
         let t = 'tuesday';
         this.hours.push(tuesday, t);
         // this.business.addHours(this.tues);
         this.hourService.addTue(this.tues);
-
       }
       if(this.selectedHours.wednesday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.wednesday[0].startT;
         this.end = this.selectedHours.wednesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -256,12 +253,10 @@ export class AddBusinessComponent implements OnInit {
         this.hours.push(wednesday, w);
         this.wed = this.hours;
         this.hourService.addWed(this.wed);
-
       }
       if(this.selectedHours.thursday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.thursday[0].startT;
         this.end = this.selectedHours.thursday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -276,7 +271,6 @@ export class AddBusinessComponent implements OnInit {
       if(this.selectedHours.friday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.friday[0].startT;
         this.end = this.selectedHours.friday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -286,12 +280,10 @@ export class AddBusinessComponent implements OnInit {
         this.hours.push(friday,f);
         this.fri = this.hours;
         this.hourService.addFri(this.fri);
-
       }
       if(this.selectedHours.saturday)
       {
         this.hours = [];
-
         this.start = this.selectedHours.saturday[0].startT;
         this.end = this.selectedHours.saturday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -316,13 +308,12 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addSun(this.sun);
       }
       this.business.addBusiness(newProfile);
-      this.route.navigate(['/business-view/', newProfile.id]);
-
-
-    // }
-    // else{
-    //   console.log('error in business form');
-    // }
+      this.business.addToBusinessCol(newProfile);
+      // this.route.navigate(['/business-view/', newProfile.id]);
+    }
+    else{
+      console.log('error in business form');
+    }
   }
 
 

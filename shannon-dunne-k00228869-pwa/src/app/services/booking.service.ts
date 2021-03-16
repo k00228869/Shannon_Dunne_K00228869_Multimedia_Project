@@ -13,7 +13,6 @@ export class BookingService {
     public firestore: AngularFirestore,
   ) { }
 
-
   public async addClientAppointment(clientAppointment: IUser['appointment'])
   {
     return await from (this.firestore.collection<IUser>('users')

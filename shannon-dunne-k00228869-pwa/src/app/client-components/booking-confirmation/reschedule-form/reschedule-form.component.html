@@ -1,4 +1,19 @@
-<h1>parent Form</h1>
+<h1>Rescedule Form</h1>
+  <!-- <h4>Reschedule Your Appointment with {{busInfo.businessName}}</h4> -->
+<mat-form-field appearance="outline">
+  <mat-label>Employee</mat-label>
+  <mat-select>
+    <!-- <mat-option>{{appointmentInfo.empName}}</mat-option> -->
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Service</mat-label>
+  <mat-select>
+    <!-- <mat-option>{{appointmentInfo.serName}}</mat-option> -->
+  </mat-select>
+</mat-form-field>
+
+<br>
 <form class="form-group" [formGroup]="editAppointmentForm" (ngSubmit)="editAppointSubmit(editAppointmentForm.value)">
   <br>
   <!-- <button mat-raised-button color="warn" class="cancelButton" type="button">
@@ -6,25 +21,7 @@
       X
     </a>
   </button> -->
-  
-  
   <div>
-    <h4>Reschedule Your Appointment with {{busInfo.businessName}}</h4>
-  <mat-form-field appearance="outline">
-    <mat-label>Employee</mat-label>
-    <mat-select [formControlName]="'employeeId'" [disabled]="true">
-      <mat-option [value]="appointmentInfo.employeeId">{{appointmentInfo.empName}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Service</mat-label>
-    <mat-select [disabled]="true" [formControlName]="'serviceId'">
-      <mat-option [value]="appointmentInfo.serviceId">{{appointmentInfo.serName}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <br>
-
   <mat-form-field appearance="outline">
     <mat-label>Date</mat-label>
     <input id="bookedDate"
@@ -42,7 +39,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Time</mat-label>
     <mat-select [formControlName]="'time'">
-        <mat-option *ngFor="let time of day"   [value]="time">{{time}}</mat-option>
+        <mat-option *ngFor="let time of day" [value]="time">{{time}}</mat-option>
     </mat-select>
   </mat-form-field>
   </div>
@@ -52,9 +49,9 @@
     <textarea matInput [formControlName]="'note'" placeholder="Any other Information you would like to add to your appointment"></textarea>
 </mat-form-field>
 <br>
-  <div *ngIf="profileInfo">
+  <div *ngIf="busInfo">
     <h4>Cancellation Policy</h4>
-    <h3>{{profileInfo.cancellationPolicy}}</h3>
+    <h3>{{busInfo.cancellationPolicy}}</h3>
   <!-- <h5>Failing to attend your appointment or cancelling less than 24 hours before your appointment, will incur a charge of 50% of the service ammount. Appointments can be rescheduled 24 hours before the appointment. </h5> -->
   <br>
   <br>

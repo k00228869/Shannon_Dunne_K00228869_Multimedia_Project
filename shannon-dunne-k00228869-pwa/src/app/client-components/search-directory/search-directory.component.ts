@@ -42,7 +42,7 @@ export class SearchDirectoryComponent implements OnInit {
         this.typeSelected = false;
         this.locationSelected = false;
         this.allSelected = true;
-        console.log('all', data);
+        // console.log('all', data);
         this.allProfiles = [];
         this.allProfiles = data;
       });

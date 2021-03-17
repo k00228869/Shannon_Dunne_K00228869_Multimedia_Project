@@ -12,49 +12,41 @@ uid: string;
     public firestore: AngularFirestore,
   ) { }
 
-
-
-
-
 // update client appointment
 public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
   {
-    let docRef;
-    docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.uid)
-    .collection<IUser['appointment']>('appointments', ref => ref.where('appointmentId', '==', appointmentInfo.appointmentId));
-    return from (docRef.set(
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.uid)
+    .collection<IUser['appointment']>('appointments').doc(appointmentInfo.appointmentId).update(
       {
-        appointmentId: newAppointment.appointmentId,
+        // appointmentId: newAppointment.appointmentId,
         date: newAppointment.date,
-        note: newAppointment.time,
+        note: newAppointment.note,
         time: newAppointment.time,
         timeStamp: newAppointment.timeStamp
-      }
+      },
     ));
   }
 
 
   // update business appointment
-  public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
+public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
   {
-    let docRef;
-    docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
-    .collection<IUser['appointment']>('appointments', ref => ref.where('appointmentId', '==', appointmentInfo.appointmentId));
-    return from (docRef.set(
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
+    .collection<IUser['appointment']>('appointments').doc(appointmentInfo.appointmentId).update(
       {
         // appointmentId: newAppointment.appointmentId,
         date: newAppointment.date,
-        note: newAppointment.time,
+        note: newAppointment.note,
         time: newAppointment.time,
         timeStamp: newAppointment.timeStamp
-      }
+      },
     ));
   }
 
 
-  // add rescheduled hour back to business schedule
+  // add rescheduled time back to business schedule
   public editBookingSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule']) // add a booked date
-{
+  {
     // update booked date with new available times
      return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)   // returns promise not observable
     .collection<IUser['bookingSchedule']>('schedule').doc<IUser['bookingSchedule']>(appointmentInfo.date).update(
@@ -63,6 +55,17 @@ public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppoint
       }
     ));
   }
+
+
+  // public createRescheduleNotif()
+  // {
+
+  //   const dateA = moment('01-01-2900', 'DD-MM-YYYY');
+  //   const dateB = moment('01-01-2000', 'DD-MM-YYYY');
+  //   console.log(dateA.from(dateB));
+
+  // }
+
 
 
 }

@@ -38,11 +38,11 @@ export class BookingConfirmationComponent implements OnInit {
          (appoint) =>
           {
             this.appointmentInfo = appoint[0];
-            console.log(this.appointmentInfo.bid);
+            // console.log(this.appointmentInfo.bid);
             this.business.getABusiness(this.appointmentInfo.bid).subscribe(
             (bus) =>
             {
-              console.log(bus);
+              // console.log(bus);
               this.busInfo = bus[0];
             });
           });

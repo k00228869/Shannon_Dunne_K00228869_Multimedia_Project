@@ -82,7 +82,6 @@ export class BookingFormComponent implements OnInit {
     public booking: BookingService,
     public firestore: AngularFirestore,
     public hourService: WorkingDaysService,
-
   ) { }
 
   ngOnInit(){
@@ -126,15 +125,15 @@ export class BookingFormComponent implements OnInit {
           this.client = data;
         }
       );
-    this.booking.getBookedDays(this.id).subscribe(
+    this.booking.getBookedDays(this.id).subscribe( // pass in business id and call func to get doc for each day with a booking
         (data) => {
-          for(let i=0; i<data.length; i++)
+          for(let i=0; i<data.length; i++) // loop through the docs
           {
-            if (data[0].availableTimes.length <= 1)
+            if (data[0].availableTimes.length <= 1) // if a booking hours array has 1 or less items
             {
-              let d = data[i].date.slice(7, 10);
-              let asNum = parseInt(d);
-              this.unavailableDays.push(asNum);
+              let d = data[i].date.slice(7, 10); // slice the date value
+              let asNum = parseInt(d); // convert string to num
+              this.unavailableDays.push(asNum); // store in unavailable dates array
             }
           }
         });
@@ -145,29 +144,38 @@ export class BookingFormComponent implements OnInit {
   {
     if (this.addAppointmentForm.status === 'VALID')
     {
-      this.clientAppointment = this.addAppointmentForm.value;
-      this.clientAppointment.date = clientAppointment.date.toString();
+      this.clientAppointment = this.addAppointmentForm.value; // form values
+      this.clientAppointment.date = clientAppointment.date.toString(); // store appointment date
       this.clientAppointment.date = this.setDate;
-      this.clientAppointment.bid = this.id;
-      let theUser = JSON.parse(localStorage.getItem('user'));
-      this.clientAppointment.uid = theUser.uid;
-      this.clientAppointment.timeStamp = new Date();
-      this.clientAppointment.appointmentId = this.firestore.createId();
-      this.booking.getServiceDuration(this.id, this.clientAppointment).subscribe(
+      this.clientAppointment.bid = this.id; //set business id
+      // let theUser = JSON.parse(localStorage.getItem('user'));
+      this.clientAppointment.uid = this.client.uid; // set client id
+      this.clientAppointment.timeStamp = new Date(); // set timestamp of when appointment was made
+      this.clientAppointment.appointmentId = this.firestore.createId(); // create an appointment id
+      this.booking.getServiceDuration(this.id, this.clientAppointment).subscribe( // call func to get service data
         (ser) => {
-          this.selectedService = ser[0];
+          this.selectedService = ser[0]; // store service data
           this.clientAppointment.serName = this.selectedService.serviceName; // store service name
-          this.clientAppointment.serPrice = this.selectedService.servicePrice;
-          this.clientAppointment.serDuration = this.selectedService.duration;
-          const startTime = this.clientAppointment.time; // service start time
-          const endTime = moment(startTime, 'HH:mm:ss')
-          .add(this.clientAppointment.serDuration, 'hours').format('HH:mm:ss'); // get service finish time
-          const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
-          const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
-            // gets array of the times between the service start and end time
-          const newTimes = this.day.slice(index1, index2);
+          this.clientAppointment.serPrice = this.selectedService.servicePrice; // set booking price
+          this.clientAppointment.serDuration = this.selectedService.duration; // set booking duration
+          const startTime = this.clientAppointment.time; // set booking start time
+          const endTime = moment(startTime, 'HH:mm:ss').add(this.clientAppointment.serDuration, 'hours') // get service finish time
+          .format('HH:mm:ss');
+          console.log();
+          let index1 = this.day.indexOf(startTime); // get index that is = to the selected time
+          let index2 = this.day.indexOf(endTime); // get index that is = to the service end time
+          let newTimes
+          if (index2 == -1)
+          {
+            newTimes = this.day.slice(index1);
+          }
+          else{
+            newTimes = this.day.slice(index1, index2); // gets array of the times between the service start and end time
+
+          }
           const oldTimes = Array.from(this.day); // store array from associative array
           const theDayHours = oldTimes.filter(a => !newTimes.includes(a)); // removes unavailable hours from the array
+          console.log('filter func', theDayHours);
           this.schedule.date = this.clientAppointment.date; // set the date of the booked date
           this.schedule.availableTimes = [];
           this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
@@ -185,6 +193,9 @@ export class BookingFormComponent implements OnInit {
           await this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
           await this.booking.addClientAppointment(this.clientAppointment);
           await this.booking.addBusinessBooking(this.clientAppointment);
+          const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
+          const dateB = moment(this.date, 'DD-MM-YYYY');
+          this.booking.createRescheduleNotif(dateA, dateB);
         });
           // console.log('new day hours', newTimes);
           // if (index1 === -1 || index2 === -1)
@@ -198,7 +209,7 @@ export class BookingFormComponent implements OnInit {
 
 
     dateFilter = (d: moment.Moment) => {
-    const filter = this.unavailableDays.indexOf(+ d.date()) === -1;
+    const filter = this.unavailableDays.indexOf(+ d.date()) === -1; // disable dates in array
     return filter;
       //   const day = (m || moment()).day(); // get the day num
   //     // disable hours not available
@@ -225,7 +236,8 @@ export class BookingFormComponent implements OnInit {
         if (data)
         {
           // console.log(data.availableTimes.length);
-          this.day = Array.from(data.availableTimes);
+           let tempArr = data.availableTimes.pop();
+           this.day = Array.from(data.availableTimes);
           //   alert('No availabilities for this date');
         }
         else if (!data)

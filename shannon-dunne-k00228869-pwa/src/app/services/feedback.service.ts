@@ -10,7 +10,6 @@ export class FeedbackService {
 
   constructor(
     private firestore: AngularFirestore
-
   ) { }
 
 
@@ -25,7 +24,8 @@ export class FeedbackService {
 
   public getReviews(submittedFeedback: IUser['review'], id: string)
   {
-    return this.firestore.collection<IUser>('users').doc<IUser['user']>(id).collection<IUser['review']>('reviews').valueChanges();
+    return this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['review']>('reviews').valueChanges();
 
   }
 }

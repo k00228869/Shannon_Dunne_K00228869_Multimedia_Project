@@ -9,7 +9,12 @@ export class NotificationListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(){
+
   }
 
 }
+
+// notification is triggered by timestamp
+// get notification id
+// get data with notification id and display in list

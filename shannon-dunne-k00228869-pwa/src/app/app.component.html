@@ -1,5 +1,11 @@
+<div>
+<!-- set value to behaviour subject -->
+currentMessage:
+<h1>{{ (message | async)?.notification.title }}</h1>
+<p> {{ (message | async)?.notification.body }}</p>
+<!-- {{message | async | json}} -->
 
-
+</div>
 <router-outlet>
     <mat-toolbar color="primary">
         <mat-toolbar-row>
@@ -13,6 +19,5 @@
 <div *ngIf="!routeHidden">
   <app-landing-page></app-landing-page>
 </div>
-
 
 

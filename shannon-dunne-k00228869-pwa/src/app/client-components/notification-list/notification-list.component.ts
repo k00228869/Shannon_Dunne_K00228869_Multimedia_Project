@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/i-user';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 
@@ -12,16 +13,18 @@ export class NotificationListComponent implements OnInit {
   public appointmentInfo: IUser['appointment'];
   public id: string;
   public busInfo: IUser['business'];
-
+  client: IUser['user'];
   constructor(
     public booking: BookingService,
     public business: BusinessService,
+    public authService: AuthenticateService,
+
 
   ) { }
 
   ngOnInit(){
 
-    this.booking.getAppointment(this.id).subscribe(
+    this.booking.getBusinessAppointment().subscribe(
       (appoint) =>
        {
          this.appointmentInfo = appoint[0];
@@ -34,6 +37,12 @@ export class NotificationListComponent implements OnInit {
          });
        });
 
+    this.business.getUserInfo().subscribe(
+        (data) =>
+        {
+          this.client = data;
+        }
+      );
   }
 
 }

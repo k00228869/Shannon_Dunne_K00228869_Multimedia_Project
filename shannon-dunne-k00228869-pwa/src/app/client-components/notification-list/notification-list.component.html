@@ -24,7 +24,7 @@
       </button>
 
       <button mat-menu-item>
-        <a routerLink="/client-notifications">
+        <a routerLink="/notification/{{client.uid}}">
             <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
             <span>Notifications</span>  
         </a>
@@ -46,7 +46,7 @@
 <!-- <div *ngIf="reminder"> -->
     <mat-divider></mat-divider>
     <mat-card class="card"> 
-        <a routerLink="/booking-confirmation/{{appointmentInfo.appointmentId}}">
+        <a routerLink="/booking-confirmed/{{appointmentInfo.appointmentId}}">
           <mat-card-header>
             <mat-card-title>Appointment Reminder</mat-card-title>
             <mat-card-subtitle>

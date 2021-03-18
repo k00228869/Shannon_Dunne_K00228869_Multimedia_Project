@@ -17,15 +17,20 @@ export class FeedbackService {
   {
     return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
     .collection<IUser['review']>('reviews').add(submittedFeedback));
-
   }
 
 
 
-  public getReviews(submittedFeedback: IUser['review'], id: string)
+  public getBusinessReviews(id: string)
   {
     return this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
     .collection<IUser['review']>('reviews').valueChanges();
+  }
 
+  public getReviews()
+  {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    return this.firestore.collection<IUser>('users').doc<IUser['user']>(theUser.uid)
+    .collection<IUser['review']>('reviews').valueChanges();
   }
 }

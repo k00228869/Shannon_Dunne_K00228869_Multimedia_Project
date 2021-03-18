@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { FeedbackService } from 'src/app/services/feedback.service';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class ProfileBusinessViewComponent implements OnInit {
   isSignedIn = false;
   // public uid: string;
   public id: string;
+  reviews: IUser['review'][];
+
 
   public isCreated: boolean;
 
@@ -28,6 +31,8 @@ export class ProfileBusinessViewComponent implements OnInit {
     public business: BusinessService,
     public authService: AuthenticateService,
     private route: ActivatedRoute,
+    private feedback: FeedbackService
+
 
   ) { }
 
@@ -70,8 +75,11 @@ export class ProfileBusinessViewComponent implements OnInit {
         // console.log(this.theHours.monday[0].startT);
       });
 
-
-  }
+    this.feedback.getReviews().subscribe(
+        (data) => {
+          this.reviews = data;
+        });
+    }
 
   async getProfile()
     {

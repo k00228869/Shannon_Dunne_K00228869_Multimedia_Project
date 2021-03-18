@@ -26,7 +26,7 @@
       </button>
 
       <button mat-menu-item>
-        <a routerLink="/client-notifications">
+        <a routerLink="/notification/{{client.uid}}">
             <mat-icon>notification_important</mat-icon>
             <span>Notifications</span>  
         </a>
@@ -135,7 +135,7 @@
             <mat-divider></mat-divider>
         </mat-tab>
 
-        <mat-tab label="employees">
+        <mat-tab label="Employees">
           <mat-divider></mat-divider>
             <mat-expansion-panel  *ngFor="let employee of employees" (opened)="panelOpenState = true"
             (closed)="panelOpenState = false">
@@ -147,6 +147,29 @@
               <br>
               <mat-panel-title>
                 Description: {{employee.employeeDescription}} 
+            </mat-panel-title>
+              <mat-divider></mat-divider>
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+        </mat-tab>
+
+
+        <mat-tab label="Reviews">
+          <mat-divider></mat-divider>
+            <mat-expansion-panel  *ngFor="let review of reviews" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Client: {{review.name}}
+                </mat-panel-title>
+                <mat-panel-title>
+                  Rating: {{review.rating}} /5 stars
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <br>
+              <mat-panel-title>
+                Review: <p>{{review.comment}}</p>
+                <br>
             </mat-panel-title>
               <mat-divider></mat-divider>
             </mat-expansion-panel>

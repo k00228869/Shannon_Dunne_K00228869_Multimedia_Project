@@ -1,4 +1,4 @@
-<form class="form-group" [formGroup]="addFeedbackForm" (ngSubmit)="onSubmit(addFeedbackForm.value)">
+<form class="form-group" [formGroup]="addFeedbackForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
         <mat-label>Rating</mat-label>
         <mat-select [(value)]="selectedRating" [formControlName]="'rating'">
@@ -17,8 +17,9 @@
     <br>
     <div class="links">
      <button type="submit" mat-raised-button color="primary">
-        <a routerLink="/business-profile">
+        <!-- <a routerLink="/business-profile/{{id}}"> -->
           Submit 
-      </a></button>
+      <!-- </a> -->
+    </button>
     </div>
 </form>

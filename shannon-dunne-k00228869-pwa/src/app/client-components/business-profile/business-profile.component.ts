@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
+import { FeedbackService } from 'src/app/services/feedback.service';
 
 @Component({
   selector: 'app-business-profile',
@@ -18,12 +19,15 @@ export class BusinessProfileComponent implements OnInit {
   public id: string;
   panelOpenState: boolean;
   keys: string[];
+  reviews: IUser['review'][];
 
 
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
-    public clientService: ClientUserService
+    public clientService: ClientUserService,
+    private feedback: FeedbackService
+
   ) { }
 
   ngOnInit() {
@@ -69,6 +73,12 @@ export class BusinessProfileComponent implements OnInit {
           // console.log(this.client);
         }
       );
+
+    this.feedback.getBusinessReviews(this.id).subscribe(
+      (data) => {
+        this.reviews = data;
+      }
+    );
   }
 }
 

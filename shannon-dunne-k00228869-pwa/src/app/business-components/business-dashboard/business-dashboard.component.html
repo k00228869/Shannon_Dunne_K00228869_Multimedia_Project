@@ -71,7 +71,7 @@
          Service: {{booking.serName}}
         </mat-panel-title>
         <mat-panel-title>
-          Price:&#x20AC; 60
+          Price:&#x20AC; {{booking.servicePrice}}
          </mat-panel-title>
         <mat-panel-title>
           Notes: {{booking.note}}
@@ -139,18 +139,20 @@
     <mat-divider></mat-divider>
     <mat-tab label="Reviews">
       <mat-list>
-              <mat-expansion-panel (opened)="panelOpenState = true"
+              <mat-expansion-panel *ngFor ="let review of reviews" (opened)="panelOpenState = true"
               (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
               <mat-panel-title>
-              Charlotte Jackson
+              Client: {{review.name}}
               </mat-panel-title>
+              <mat-panel-title>
+                Rating: {{review.rating}} out of 5 stars
+                </mat-panel-title>
               </mat-expansion-panel-header>
-              <p>Great job, I love my nails! would highly recommend to everybody.<br>
-                Most friendly staff ever</p>
+              Review: <p>{{review.comment}}</p>
                 <br>
                 <button mat-raised-button class="buttonText" color="primary">
-                  <a routerLink="/review">
+                  <a routerLink="/reply">
                     Reply
                 </a>
               </button>

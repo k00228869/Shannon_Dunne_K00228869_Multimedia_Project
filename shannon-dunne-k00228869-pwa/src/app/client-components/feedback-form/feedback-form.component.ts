@@ -53,6 +53,7 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.name = this.client.firstName + ' ' + this.client.lastName;
     this.submittedFeedback.id = this.firestore.createId();
     this.submittedFeedback.bid = this.id;
+    console.log('review', this.submittedFeedback);
     this.feedbackService.addReview(this.submittedFeedback, this.id);
   }
 

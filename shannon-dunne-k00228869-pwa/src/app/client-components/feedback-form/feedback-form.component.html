@@ -1,0 +1,24 @@
+<form class="form-group">
+    <mat-form-field appearance="outline">
+        <mat-label>Rating</mat-label>
+        <mat-select [(value)]="selectedRating">
+        <mat-option value="1">1 Star</mat-option>
+        <mat-option value="2">2 Stars</mat-option>
+        <mat-option value="3">3 Stars</mat-option>
+        <mat-option value="4">4 Stars</mat-option>
+        <mat-option value="5">5 Stars</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>How Was Your Experience? </mat-label>
+        <textarea matInput></textarea>
+     </mat-form-field>
+    <br>
+    <br>
+    <div class="links">
+     <button mat-raised-button color="primary">
+        <a routerLink="/business-profile">
+          Submit 
+      </a></button>
+    </div>
+</form>

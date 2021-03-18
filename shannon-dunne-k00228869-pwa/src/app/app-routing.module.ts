@@ -14,6 +14,8 @@ import { BusinessProfileComponent } from './client-components/business-profile/b
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
 import { AppointmentsComponent } from './client-components/appointments/appointments.component';
 import { RescheduleFormComponent } from './client-components/booking-confirmation/reschedule-form/reschedule-form.component';
+import { FeedbackFormComponent } from './client-components/feedback-form/feedback-form.component';
+import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -49,6 +51,8 @@ const routes: Routes = [
   {path: 'booking-confirmed/:id', component: BookingConfirmationComponent},
   {path: 'appointment/:id', component: AppointmentsComponent},
   {path: 'reschedule/:id', component: RescheduleFormComponent},
+  {path: 'review/:id', component: FeedbackFormComponent},
+  {path: 'notification/:id', component: NotificationListComponent},
 
 
 

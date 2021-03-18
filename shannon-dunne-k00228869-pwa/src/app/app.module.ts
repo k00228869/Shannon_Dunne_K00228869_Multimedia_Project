@@ -34,6 +34,8 @@ import { WorkingDaysService } from './services/working-days.service';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { NotificationsService } from './services/notifications.service';
 import { RescheduleFormComponent } from './client-components/booking-confirmation/reschedule-form/reschedule-form.component';
+import { FeedbackFormComponent } from './client-components/feedback-form/feedback-form.component';
+import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
 
 // import { MomentModule } from 'ngx-moment';
 
@@ -55,7 +57,9 @@ import { RescheduleFormComponent } from './client-components/booking-confirmatio
     BusinessDealsComponent,
     BookingConfirmationComponent,
     AppointmentsComponent,
-    RescheduleFormComponent
+    RescheduleFormComponent,
+    FeedbackFormComponent,
+    NotificationListComponent
     ],
   imports: [
     BrowserModule,

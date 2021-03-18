@@ -65,13 +65,16 @@ export class BookingFormComponent implements OnInit {
   sat: IUser['scheduleOfDays']['saturday'];
   sun: IUser['scheduleOfDays']['sunday'];
   addAppointmentForm: FormGroup;
+  public unavailableDates: number[] = [];
   public unavailableDays: number[] = [];
+
   public id: string;
   // datesNotAvailable;
   public day: string[] = [];
   // public newDay: string[] = [];
   date = moment();
   public setDate: string;
+  public setMonth: string;
 
   constructor(
     private addAppointment: FormBuilder,
@@ -133,7 +136,7 @@ export class BookingFormComponent implements OnInit {
             {
               let d = data[i].date.slice(7, 10); // slice the date value
               let asNum = parseInt(d); // convert string to num
-              this.unavailableDays.push(asNum); // store in unavailable dates array
+              this.unavailableDates.push(asNum); // store in unavailable dates array
             }
           }
         });
@@ -209,13 +212,23 @@ export class BookingFormComponent implements OnInit {
 
 
     dateFilter = (d: moment.Moment) => {
-    const filter = this.unavailableDays.indexOf(+ d.date()) === -1; // disable dates in array
-    return filter;
-      //   const day = (m || moment()).day(); // get the day num
+    const filter = this.unavailableDates.indexOf(+ d.date()) === -1; // disable dates in array
+    // const month = (d || moment()).month(); // get the month num
+    let currentYear = moment().year();
+    const year = (d || moment()).year();
+
+    let currentMonth = moment().month();
+    const month = (d || moment()).month();
+
+    return  [
+      year <= currentYear + 1,
+      filter,
+      month <= currentMonth + 3];
   //     // disable hours not available
   //   return day !== 0 ; // disable sunday
     // return true value index
   }
+  
 
 
 // get duration of serv, disable time for duration when the selected dat is selected
@@ -224,11 +237,16 @@ export class BookingFormComponent implements OnInit {
     this.date = moment(event.value);
     const selectedDay = this.date.day();
     this.setDate = this.date.format('ddd MMM DD YYYY');
+    this.setMonth = this.date.format('MMMMM');
     // console.log(this.date); // moment obj
     // console.log(selectedDay); // index of day
     // console.log(this.setDate); // the selected day
           // let duration = moment.duration(finishTime.diff(startTime));
           // let diff = duration.hours();
+          // if (this.day.length <= 1)
+          //       {
+          //         this.unavailableDays.push(0)
+          //       }
     if (selectedDay)
     {
       this.booking.getBookingSchedule(this.id, this.setDate).subscribe(

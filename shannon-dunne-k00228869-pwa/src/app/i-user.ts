@@ -43,21 +43,21 @@ export interface IUser {
         saturday: number;
         sunday: number;
     };
-    reviews?: {
-        date?: number;
-        id: number;
+    review?: {
+        timestamp?: Date;
+        uid: string;
         rating: number;
+        bid: string;
         name: string;
-        description: string;
-        business: string;
-        comment: string; }[];
+        comment: string;
+        id: string;
+    };
     employee?: {
         id: string,
         firstName: string,
         lastName: string,
         employeeDescription: string,
         employeeServices?: string,
-        // days?: string;
          };
     service?: {
         id: string,

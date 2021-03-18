@@ -3,9 +3,12 @@
 currentMessage:
 <h1>{{ (message | async)?.notification.title }}</h1>
 <p> {{ (message | async)?.notification.body }}</p>
+<img src='{{ (message | async)?.notification.icon }}'/>
 <!-- {{message | async | json}} -->
-
+<h1>{{notification.title}}</h1>
 </div>
+
+
 <router-outlet>
     <mat-toolbar color="primary">
         <mat-toolbar-row>

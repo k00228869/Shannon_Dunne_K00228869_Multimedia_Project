@@ -1,34 +1,80 @@
-<!-- <div *ngIf="review"> -->
-<br> 
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
 
-<mat-divider></mat-divider>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/client-profile/{{client.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/appointment/{{client.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Manage Appointments</span>
+      </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/search">
+            <mat-icon>search</mat-icon>
+            <span>Find Appointment</span>  
+        </a>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/client-notifications">
+            <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
+            <span>Notifications</span>  
+        </a>
+      </button>
+
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>exit_to_app</mat-icon> 
+          <span>Logout</span>  
+      </a>
+    </button>
+    </mat-menu>
+    <span class="spacer"></span>
+    <span>Notifications</span>
+    <span class="spacer"></span>
+</mat-toolbar>
+
+
+<!-- <div *ngIf="reminder"> -->
+    <mat-divider></mat-divider>
+    <mat-card class="card"> 
+        <a routerLink="/booking-confirmation/{{appointmentInfo.appointmentId}}">
+          <mat-card-header>
+            <mat-card-title>Appointment Reminder</mat-card-title>
+            <mat-card-subtitle>
+                Dont forget your appointment with {{busInfo.businessName}} Tomorrow!
+              </mat-card-subtitle>
+            <mat-card-subtitle>
+              {{appointmentInfo.date}}<br>  {{appointmentInfo.time}} PM
+            </mat-card-subtitle>
+          </mat-card-header>
+        </a>
+    </mat-card>
+    <br>
+    <br>
+    <!-- </div> -->
+    <!-- <div *ngIf="review"> -->
+<br> 
 <mat-card class="card"> 
-    <a routerLink="/reviews/">
+    <a routerLink="/review/{{appointmentInfo.bid}}">
       <mat-card-header>
-        <mat-card-title>Review Shear Creations</mat-card-title>
+        <mat-card-title>Review {{busInfo.businessName}}</mat-card-title>
         <mat-card-subtitle>
-          We'd love to hear about your experience with Shear Creations.
+          We'd love to hear about your experience with {{busInfo.businessName}}.
         </mat-card-subtitle>
       </mat-card-header>
     </a>
+    <br>
 </mat-card>
 <!-- </div> -->
   <br> 
 
 
-<!-- <div *ngIf="reminder"> -->
-  <!-- <mat-card class="card"> 
-    <a routerLink="/booking-confirmation">
-      <mat-card-header>
-        <mat-card-title>Appointment Reminder</mat-card-title>
-        <mat-card-subtitle>
-            Dont forget your appointment with Divine Nails Tomorrow!
-          </mat-card-subtitle>
-        <mat-card-subtitle>
-          Tuesday 12th Jan <br>  2:00 PM
-        </mat-card-subtitle>
-     
-      </mat-card-header>
-    </a>
-  </mat-card> -->
-<!-- </div> -->

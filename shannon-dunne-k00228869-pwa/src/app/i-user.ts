@@ -95,14 +95,13 @@ export interface IUser {
         paymentInfo: string[];
     };
     subscription?: {
-    // userId?: string,
-    // endpoint: string,
-    // expirationTime: null | number,
-    // keys: {
-    //     p256dh: string,
-    //     auth: string
-    //     }
     token?: any;
     id?: string;
+    };
+    notification?: {
+        title?: string;
+        body?: string;
+        click_action?: string;
+        id?: string;
     };
 }

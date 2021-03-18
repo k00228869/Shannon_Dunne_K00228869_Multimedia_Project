@@ -1,7 +1,7 @@
-<form class="form-group">
+<form class="form-group" [formGroup]="addFeedbackForm" (ngSubmit)="onSubmit(addFeedbackForm.value)">
     <mat-form-field appearance="outline">
         <mat-label>Rating</mat-label>
-        <mat-select [(value)]="selectedRating">
+        <mat-select [(value)]="selectedRating" [formControlName]="'rating'">
         <mat-option value="1">1 Star</mat-option>
         <mat-option value="2">2 Stars</mat-option>
         <mat-option value="3">3 Stars</mat-option>
@@ -11,12 +11,12 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>How Was Your Experience? </mat-label>
-        <textarea matInput></textarea>
+        <textarea [formControlName]="'comment'" matInput></textarea>
      </mat-form-field>
     <br>
     <br>
     <div class="links">
-     <button mat-raised-button color="primary">
+     <button type="submit" mat-raised-button color="primary">
         <a routerLink="/business-profile">
           Submit 
       </a></button>

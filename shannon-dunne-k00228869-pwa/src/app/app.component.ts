@@ -19,9 +19,6 @@ export class AppComponent {
   showButton = false;
   routeHidden = true;
 
-  // horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  // verticalPosition: MatSnackBarVerticalPosition = 'top';
-
   // install prompt event listener
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(e) {
@@ -47,7 +44,7 @@ export class AppComponent {
       }
     });
 
-    this.listenForMessage();
+    this.notif.receiveMessages();
     this.message = this.notif.currentMessage;
 
     this.router.events.subscribe((e) => { // check route url
@@ -77,19 +74,10 @@ export class AppComponent {
     this.notif.requestPermission().subscribe(
       // call func to get/store notification permission
       async (token) => {
-        message: 'token received';
-        duration: 2000;
+        // message: 'token received';
+        // duration: 2000;
       }
     );
-  }
-
-  listenForMessage() {
-    this.notif.receiveMessages();
-    //.subscribe(async (msg: any) => {
-      // console.log('NEW MESSAGE', msg);
-      // header: msg.notification.title,
-      // subHeader: msg.notification.body,
-    //});
   }
 
   downloadApp() { // when download button is clicked

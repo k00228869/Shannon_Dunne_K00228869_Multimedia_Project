@@ -21,13 +21,13 @@ const messaging = firebase.messaging(); // get firebase messaging instance
 messaging.onBackgroundMessage((payload) => { //handle message when browser not in focus
   console.log('[firebase-messaging-sw.js] bm received', payload);
   // openSnackBar();
+  saveNotification(payload);
   const notificationTitle = 'bm title';
   const notificationOptions = {
     body: 'bm body',
     icon: 'bm icon',
-
   }
-  showNotification(notificationTitle, notificationOptions);
+  return self.showNotification(notificationTitle, notificationOptions);
 });
 
 

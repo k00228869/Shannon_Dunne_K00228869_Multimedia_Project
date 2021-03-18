@@ -16,7 +16,8 @@ export class NotificationsService {
   token = null;
   public uid: string;
   public userSub: IUser['subscription'];
-  private subscrip: IUser['subscription'];
+  private subscrip: IUser['subscription'] = {};
+  private notifObj: IUser['notification'] = {};
 
 //   notification = {
 //     title: 'Appointment Reminder',
@@ -45,12 +46,8 @@ export class NotificationsService {
     return this.afm.requestToken.pipe( // get token
       tap(token => {
         console.log('store token', token);
-
         let theUser = JSON.parse(localStorage.getItem('user'));
         console.log('uid', theUser.uid);
-        console.log('add token to db', token);
-        // this.uid = theUser.uid;
-        this.subscrip = {};
         this.subscrip.token = token;
         this.subscrip.id = theUser.uid;
         console.log('saved subscription', this.subscrip);
@@ -87,19 +84,29 @@ export class NotificationsService {
   {
     this.afm.onMessage((payload) => { // return message
       console.log('mess received', payload);
-      this.currentMessage.next(payload); //get meesage
+      this.saveNotification(payload);
+      this.currentMessage.next(payload); // log and get next message
     });
   }
 
-
+  saveNotification(payload){
+    this.notifObj.title = payload.notification.title;
+    this.notifObj.body = payload.notification.body;
+    // this.notifObj.icon = payload.notification.icon;
+    this.notifObj.click_action = payload.notification.click_action;
+    console.log('saved notification', this.notifObj);
+    let theUser = JSON.parse(localStorage.getItem('user'));
+    return from (this.firestore.collection<IUser['user']>('users')
+    .doc<IUser['user']>(theUser.uid)
+    .collection<IUser['notification']>('notifications').add(this.notifObj)); // store token + user id
+  }
 
   getToken(): Observable<IUser['subscription']> // retrieve token from db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
     let docRef;
     docRef = this.firestore.collection<IUser['user']>('users')
-    .doc<IUser['user']>(this.uid)
+    .doc<IUser['user']>(theUser.uid)
     .collection<IUser['subscription']>('subscriptions');
     return docRef.valueChanges();
   }

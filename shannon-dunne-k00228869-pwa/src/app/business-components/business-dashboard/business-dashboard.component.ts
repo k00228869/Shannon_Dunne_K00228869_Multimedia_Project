@@ -21,7 +21,7 @@ export class BusinessDashboardComponent implements OnInit {
   public serInfo: IUser['service'];
   public empInfo: IUser['employee'];
   allAppoint: string[] = [];
-  reviews: IUser['review'];
+  reviews: IUser['review'][];
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
@@ -58,7 +58,9 @@ export class BusinessDashboardComponent implements OnInit {
 
     this.feedback.getReviews().subscribe(
       (data) => {
-        this.reviews = data[0];
+        console.log(data);
+        this.reviews = data;
+        console.log('reviews', this.reviews);
       }
     )
   }

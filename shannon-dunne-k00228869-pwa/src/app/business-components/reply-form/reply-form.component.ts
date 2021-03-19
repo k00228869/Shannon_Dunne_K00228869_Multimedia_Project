@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/i-user';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 
@@ -14,13 +15,15 @@ export class ReplyFormComponent implements OnInit {
   addReplyForm: FormGroup;
   submittedReply: IUser['review'];
   public id: string;
-  public client: IUser['user'];
+  public user: IUser['user'];
 
   constructor(
     private replyMessage: FormBuilder,
     public clientService: ClientUserService,
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
+    public authService: AuthenticateService,
+
 
   ) { }
 
@@ -32,7 +35,7 @@ export class ReplyFormComponent implements OnInit {
     this.clientService.getUserInfo().subscribe(
       (data) =>
       {
-        this.client = data;
+        this.user = data;
       });
 
     this.route.paramMap.subscribe(
@@ -46,7 +49,7 @@ export class ReplyFormComponent implements OnInit {
   public onSubmit()
   {
     this.submittedReply = this.addReplyForm.value;
-
+    console.log('reply message', this.submittedReply);
     this.feedbackService.addReply(this.submittedReply, this.id);
 
   }

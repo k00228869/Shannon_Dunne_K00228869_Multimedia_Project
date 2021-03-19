@@ -146,13 +146,13 @@
               Client: {{review.name}}
               </mat-panel-title>
               <mat-panel-title>
-                Rating: {{review.rating}} out of 5 stars
+                Rating: {{review.rating}}<mat-icon>star_rate</mat-icon>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               Review: <p>{{review.comment}}</p>
                 <br>
                 <button mat-raised-button class="buttonText" color="primary">
-                  <a routerLink="/reply">
+                  <a routerLink="/reply/{{review.id}}">
                     Reply
                 </a>
               </button>

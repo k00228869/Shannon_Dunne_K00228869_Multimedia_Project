@@ -16,7 +16,7 @@ export class FeedbackService {
   public addReview(submittedFeedback: IUser['review'], id: string) // add review to business profile
   {
     return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
-    .collection<IUser['review']>('reviews').add(submittedFeedback));
+    .collection<IUser['review']>('reviews').doc(submittedFeedback.id).set(submittedFeedback));
   }
 
   public getBusinessReviews(id: string) // get reviews for the selected business profile

@@ -16,6 +16,7 @@ import { AppointmentsComponent } from './client-components/appointments/appointm
 import { RescheduleFormComponent } from './client-components/booking-confirmation/reschedule-form/reschedule-form.component';
 import { FeedbackFormComponent } from './client-components/feedback-form/feedback-form.component';
 import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
+import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 
 
 // import { canActivate } from '@angular/fire/auth-guard';
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'appointment/:id', component: AppointmentsComponent},
   {path: 'reschedule/:id', component: RescheduleFormComponent},
   {path: 'review/:id', component: FeedbackFormComponent},
+  {path: 'reply/:id', component: ReplyFormComponent},
   {path: 'notification/:id', component: NotificationListComponent},
 
 

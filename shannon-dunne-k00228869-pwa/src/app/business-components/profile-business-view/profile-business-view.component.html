@@ -37,15 +37,17 @@
 
   <span>Business Profile</span>
   <span class="spacer"></span>
+
+  <div *ngIf="isCreated">
+    <button mat-icon-button class="example-icon" aria-label="edit icon"> 
+      <a routerLink="/edit-business-profile">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </button>
+  </div>
 </mat-toolbar> 
 
-<div *ngIf="isCreated">
-  <button mat-icon-button class="example-icon" aria-label="edit icon"> 
-    <a routerLink="/edit-business-profile">
-      <mat-icon>edit</mat-icon>
-    </a>
-  </button>
-</div>
+
 
 <div *ngIf="!isCreated">
     <h2>To Start Getting Appointments, Create Your Profile Today!</h2>
@@ -142,22 +144,55 @@
 
         <mat-tab label="Reviews">
           <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let review of reviews" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
+            <mat-expansion-panel  *ngFor="let review of reviews" (opened)="panelOpenState = false"
+            (closed)="panelOpenState = true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Client: {{review.name}}
                 </mat-panel-title>
                 <mat-panel-title>
-                  Rating: {{review.rating}} /5 stars
+                  Rating: {{review.rating}}<mat-icon>star_rate</mat-icon>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <br>
               <mat-panel-title>
-               Review: <p>{{review.comment}}</p>
-                <br>
+               Review: <br>
+               <p>{{review.comment}}</p>
+              <br>
             </mat-panel-title>
               <mat-divider></mat-divider>
+              
+              <br>
+              <mat-panel-title>
+                <mat-divider></mat-divider>
+                <mat-icon>comment</mat-icon> 
+                <br>Reply From
+                <br>
+                <p>{{profileInfo.businessName}}</p>
+                 <br>
+                 <p>{{review.reply}}</p>
+                 <mat-divider></mat-divider>
+             </mat-panel-title> 
+           <br>
+
+             <!-- 
+             <mat-panel-title  *ngIf="reviews.indexOf(review.reply) > -1">
+              <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
+               <br>
+               <p>{{review.reply}}</p>
+           </mat-panel-title> -->
+
+
+           <!-- <mat-panel-title  *ngIf="reviews.indexOf(reviews.reply) == -1">
+            <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
+             <br>
+             <p>{{review.reply}}</p>
+         </mat-panel-title> -->
+<!-- 
+         <mat-panel-title  *ngIf="reviews.reply.length > 0">
+          <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
+           <br>
+           <p>{{review.reply}}</p>
+       </mat-panel-title> -->
             </mat-expansion-panel>
             <mat-divider></mat-divider>
         </mat-tab>

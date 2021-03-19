@@ -1,0 +1,61 @@
+
+<form>
+    <!-- <button mat-raised-button color="primary" type="submit" (click)="business.logout()">
+        Logout
+    </button> -->
+</form>
+
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
+          <a routerLink="/business-view/{{user.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+        <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
+        </a>
+      </button>
+      <button mat-menu-item>
+        <a routerLink="/dashboard/{{user.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Dashboard</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+
+
+      <button mat-menu-item>
+        <a routerLink="/dashboard/">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+      </a>
+      </button>
+    </mat-menu>
+
+    <span>Reply to review</span>
+    <span class="spacer"></span>
+    
+    <button mat-icon-button class="example-icon" aria-label="edit icon" (click)="authService.logout()">
+      <a routerLink="/login">
+        <mat-icon>logout</mat-icon>
+    </a>
+    </button>
+</mat-toolbar><br>
+<br>
+<form class="form-group" [formGroup]="addReplyForm" (ngSubmit)="onSubmit()">
+<mat-form-field appearance="outline">
+    <mat-label>Message</mat-label>
+    <input matInput [formControlName]="'reply'">
+  </mat-form-field>
+<br><br>
+  <button type="submit" mat-raised-button color="primary">
+    <!-- <a routerLink="/profile-business-view"> -->
+      Send 
+  <!-- </a> -->
+</button>
+</form>

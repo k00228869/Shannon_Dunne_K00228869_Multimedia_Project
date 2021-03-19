@@ -36,6 +36,8 @@ import { NotificationsService } from './services/notifications.service';
 import { RescheduleFormComponent } from './client-components/booking-confirmation/reschedule-form/reschedule-form.component';
 import { FeedbackFormComponent } from './client-components/feedback-form/feedback-form.component';
 import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
+import { BusinessNotificationsComponent } from './business-components/business-notifications/business-notifications.component';
+import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 
 // import { MomentModule } from 'ngx-moment';
 
@@ -59,7 +61,9 @@ import { NotificationListComponent } from './client-components/notification-list
     AppointmentsComponent,
     RescheduleFormComponent,
     FeedbackFormComponent,
-    NotificationListComponent
+    NotificationListComponent,
+    BusinessNotificationsComponent,
+    ReplyFormComponent
     ],
   imports: [
     BrowserModule,

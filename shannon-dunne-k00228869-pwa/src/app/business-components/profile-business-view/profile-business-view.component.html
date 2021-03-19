@@ -159,40 +159,15 @@
                <p>{{review.comment}}</p>
               <br>
             </mat-panel-title>
-              <mat-divider></mat-divider>
-              
-              <br>
-              <mat-panel-title>
-                <mat-divider></mat-divider>
-                <mat-icon>comment</mat-icon> 
-                <br>Reply From
-                <br>
-                <p>{{profileInfo.businessName}}</p>
-                 <br>
-                 <p>{{review.reply}}</p>
-                 <mat-divider></mat-divider>
-             </mat-panel-title> 
+            <br>
+            <mat-card>
+              <mat-icon>comment</mat-icon>
+              <mat-card-subtitle>&nbsp;Reply From&nbsp;{{profileInfo.businessName}}</mat-card-subtitle>
+              <mat-card-content>
+                {{review.reply}}
+              </mat-card-content>
+            </mat-card>
            <br>
-
-             <!-- 
-             <mat-panel-title  *ngIf="reviews.indexOf(review.reply) > -1">
-              <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
-               <br>
-               <p>{{review.reply}}</p>
-           </mat-panel-title> -->
-
-
-           <!-- <mat-panel-title  *ngIf="reviews.indexOf(reviews.reply) == -1">
-            <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
-             <br>
-             <p>{{review.reply}}</p>
-         </mat-panel-title> -->
-<!-- 
-         <mat-panel-title  *ngIf="reviews.reply.length > 0">
-          <mat-icon>comment</mat-icon>Reply From: <br><p>{{profileInfo.businessName}}</p>
-           <br>
-           <p>{{review.reply}}</p>
-       </mat-panel-title> -->
             </mat-expansion-panel>
             <mat-divider></mat-divider>
         </mat-tab>

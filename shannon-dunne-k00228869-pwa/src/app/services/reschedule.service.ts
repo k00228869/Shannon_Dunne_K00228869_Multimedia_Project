@@ -56,6 +56,21 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
     ));
   }
 
+// remove client booking from db
+  public cancelClientBooking(id: string, uid: string)
+  {
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
+    .collection<IUser['appointment']>('appointments').doc(id).delete());
+  }
+
+
+  // remove business booking from db
+  public cancelBusBooking(id: string, bid: string)
+  {
+    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(bid)
+    .collection<IUser['appointment']>('appointments').doc(id).delete());
+  }
+
 
   // public createRescheduleNotif()
   // {

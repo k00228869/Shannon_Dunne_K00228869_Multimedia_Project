@@ -17,25 +17,8 @@ import { RescheduleFormComponent } from './client-components/booking-confirmatio
 import { FeedbackFormComponent } from './client-components/feedback-form/feedback-form.component';
 import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
 import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
+import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
 
-
-// import { canActivate } from '@angular/fire/auth-guard';
-import { BusinessGuard } from './guards/business.guard';
-import { ClientGuard } from './guards/client.guard';
-// const adminOnly = () => hasCustomClaim('admin');
-// const redirectUnauthorizedToLogin = ( redirectUnauthorizedTo (['login']));
-// const redirectLoggedInToDashboard = ( redirectLoggedInTo (['dashboard']));
-// const routes: Routes = [
-//   {path: 'sign-up', component: SignUpComponent},
-//   {path: 'login', component: LoginComponent},
-//   {path: 'landing-page', component: LandingPageComponent, pathMatch: 'full'},
-//   {path: 'dashboard/:id', component: BusinessDashboardComponent, canActivate: [BusinessGuard]},
-//   {path: 'search', component: SearchDirectoryComponent},
-//   {path: 'booking', component: BookingFormComponent, canActivate: [ClientGuard]},
-//   {path: 'client-profile/:id', component: ClientProfileComponent, canActivate: [ClientGuard]},
-//   {path: 'business-view/:id', component: ProfileBusinessViewComponent},
-//   {path: 'add-business', component: AddBusinessComponent}
-// ];
 
 
 const routes: Routes = [
@@ -55,9 +38,7 @@ const routes: Routes = [
   {path: 'review/:id', component: FeedbackFormComponent},
   {path: 'reply/:id', component: ReplyFormComponent},
   {path: 'notification/:id', component: NotificationListComponent},
-
-
-
+  {path: 'cancel/:id', component: CancelComponent},
 ];
 
 @NgModule({

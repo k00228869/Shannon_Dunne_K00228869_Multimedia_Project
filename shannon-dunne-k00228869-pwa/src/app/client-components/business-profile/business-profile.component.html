@@ -171,7 +171,15 @@
                 Review: <p>{{review.comment}}</p>
                 <br>
             </mat-panel-title>
-              <mat-divider></mat-divider>
+            <br>
+            <mat-card>
+              <mat-icon>comment</mat-icon>
+              <mat-card-subtitle>&nbsp;Reply From&nbsp;{{profileInfo.businessName}}</mat-card-subtitle>
+              <mat-card-content>
+                {{review.reply}}
+              </mat-card-content>
+            </mat-card>
+           <br>
             </mat-expansion-panel>
             <mat-divider></mat-divider>
         </mat-tab>

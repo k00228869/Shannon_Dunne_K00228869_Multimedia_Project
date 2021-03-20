@@ -3,6 +3,9 @@ import { IUser } from 'src/app/i-user';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
+import * as _moment from 'moment';
+import { default as _rollupMoment } from 'moment';
+const moment = _rollupMoment || _moment;
 
 @Component({
   selector: 'app-business-notifications',
@@ -56,6 +59,12 @@ public completeCancel(cancelled) // pass in the id of the cancelled appointment
       this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
       let amountAsNum = parseInt(this.duration); // cast duration value to num
       let i = 0;
+
+      this.booking.getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule for date
+      .subscribe( (thedate) => {
+          this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
+        });
+
       if (amountAsNum > 1) // if the duration is more than 1 hour
         {
           while (i < amountAsNum){ // while i is less than the number of hours
@@ -69,11 +78,11 @@ public completeCancel(cancelled) // pass in the id of the cancelled appointment
         {
           this.scheduleOfDay.push(this.appointToRemove.time); // add time to array of availabilities
         }
-        this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for cancelled date
+      this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for cancelled date
+      this.reschedule.editBookingSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
       cancelled(cancelled);
     }
   );
- 
   //get appointment info
   //add hour to bus schedule
   //delete appointment
@@ -87,7 +96,6 @@ public completeCancel(cancelled) // pass in the id of the cancelled appointment
   {
     this.reschedule.deleteCancellation(cancelled, this.user.uid); // delete id from cancellation doc
     this.reschedule.cancelBusBooking(cancelled, this.user.uid); //// remove the appointment from business appointments
- 
   }
 
 

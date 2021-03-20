@@ -44,11 +44,11 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
   }
 
 
-  // add rescheduled time back to business schedule
+  // add time back to business schedule
   public editBookingSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule']) // add a booked date
   {
-    // update booked date with new available times
-     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)   // returns promise not observable
+    // update date schedule with new available times
+     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
     .collection<IUser['bookingSchedule']>('schedule').doc<IUser['bookingSchedule']>(appointmentInfo.date).update(
       {
         availableTimes: newSchedule.availableTimes

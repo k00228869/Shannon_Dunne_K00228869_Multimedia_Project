@@ -128,9 +128,9 @@ export class RescheduleFormComponent implements OnInit {
           }
         }
       });
-    this.bookingService.getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date).subscribe(
+    this.bookingService.getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date).subscribe( // get schedule for date
         (data) => {
-          this.scheduleOfDay = Array.from(data.availableTimes);
+          this.scheduleOfDay = Array.from(data.availableTimes); // store as array
         });
   }
 

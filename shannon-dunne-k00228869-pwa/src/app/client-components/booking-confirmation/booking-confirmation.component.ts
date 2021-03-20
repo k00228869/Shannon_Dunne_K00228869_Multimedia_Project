@@ -66,8 +66,6 @@ export class BookingConfirmationComponent implements OnInit {
         (data) => {
           this.scheduleOfDay = Array.from(data.availableTimes);
         });
-
-        
   }
 
   cancel()
@@ -80,7 +78,10 @@ export class BookingConfirmationComponent implements OnInit {
   {
     const dialogConfiguation = new MatDialogConfig(); // creating instance of matdialog
     dialogConfiguation.disableClose = true; // ensures dialog does not close by clicking outside the box
-    dialogConfiguation.data = {id: this.id, clientId: this.client.uid}; // set data to pass to cancel component
+    dialogConfiguation.data = {
+      id: this.id,
+      clientId: this.client.uid,
+      busId: this.appointmentInfo.bid}; // set data to pass to cancel component
     // this.dialog.open(CancelComponent, dialogConfiguation);
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
 
@@ -93,25 +94,7 @@ export class BookingConfirmationComponent implements OnInit {
   }
 
 
-  // cancelBusiness()
-  // {
-  //   this.duration = this.appointmentInfo.serDuration.slice(1, 2);
-  //   let amountAsNum = parseInt(this.duration); // cast to num
-  //   let i = 0;
-  //   if (amountAsNum > 1) // if the duration is more than 1 hour
-  //   {
-  //     while (i < amountAsNum){ // while i is less than the number of hours
-  //       const rescheduleAt = moment(this.appointmentInfo.time, 'HH:mm:ss'); // get old booking time as moment obj
-  //       let theTime = rescheduleAt.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time to get end time
-  //       this.scheduleOfDay.push(theTime); // add time value to array holding the hours for the old booking date
-  //       i++;
-  //     }
-  //   }
-  //   else if (amountAsNum <= 1)
-  //   {
-  //     this.scheduleOfDay.push(this.appointmentInfo.time); // add time to array of availabilities
-  //   }
-  // }
+
 
 }
 

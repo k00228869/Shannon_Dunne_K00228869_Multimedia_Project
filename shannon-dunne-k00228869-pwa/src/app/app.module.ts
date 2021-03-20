@@ -39,6 +39,7 @@ import { NotificationListComponent } from './client-components/notification-list
 import { BusinessNotificationsComponent } from './business-components/business-notifications/business-notifications.component';
 import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
+import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
 
 // import { MomentModule } from 'ngx-moment';
 
@@ -65,7 +66,8 @@ import { CancelComponent } from './client-components/booking-confirmation/cancel
     NotificationListComponent,
     BusinessNotificationsComponent,
     ReplyFormComponent,
-    CancelComponent
+    CancelComponent,
+    AdvertiseAppointmentComponent
     ],
   imports: [
     BrowserModule,
@@ -79,7 +81,6 @@ import { CancelComponent } from './client-components/booking-confirmation/cancel
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
     ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production })
- 
   ],
   providers: [
     AuthenticateService,

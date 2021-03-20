@@ -43,6 +43,7 @@
 
 <br> 
 <mat-divider></mat-divider>
+<div *ngIf="hidden">
 <div *ngFor="let booking of allBookings">
     <mat-card class="card"> 
         <a routerLink="/booking-confirmed/{{booking.appointmentId}}">
@@ -57,5 +58,9 @@
         </mat-card-header>
         </a>
     </mat-card>
+</div>
+</div>
+<div *ngIf="!hidden">
+  <h2>You have no appointments to manage</h2>
 </div>
   <br> 

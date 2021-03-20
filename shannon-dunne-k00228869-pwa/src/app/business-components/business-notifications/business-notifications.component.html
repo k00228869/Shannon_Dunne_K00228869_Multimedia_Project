@@ -1,1 +1,65 @@
-<p>business-notifications works!</p>
+<mat-toolbar>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+  
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
+        <a routerLink="/business-view/{{user.uid}}">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </a>
+      </button>
+  
+      <button mat-menu-item>
+        <a routerLink="/dashboard/{{user.uid}}">
+          <mat-icon>bookings</mat-icon>
+          <span>Dashboard</span>
+      </a>
+      </button>
+  
+      <button mat-menu-item>
+        <a routerLink="/dashboard/{{user.uid}}">
+          <mat-icon>notification_important</mat-icon>
+          <span>Notifications</span>
+      </a>
+      </button>
+      <!-- 
+      <button mat-menu-item class="example-icon" aria-label="logout icon" (click)="authService.logout()">
+        <a routerLink="/login">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </a>
+      </button>-->
+  
+    </mat-menu>
+    
+  
+    <span>Notifications</span>
+    <span class="spacer"></span>
+
+  </mat-toolbar> 
+  <br>
+  <div *ngFor="let cancelled of cancelledAppointments">
+  <mat-card class="card" *ngIf="!hidden">
+      <mat-card-header>
+        <mat-card-title>A client has Cancelled</mat-card-title>
+        <mat-card-subtitle>
+          A client has cancelled an appointment, <br> would you like to advertise the appointment to another client
+          <br>
+          <br>
+          <button mat-raised-button color="primary">
+            <a routerLink="/advertise-appointment/{{cancelled}}">
+              Advertise
+          </a></button>
+          <button mat-raised-button (click)="completeCancel(cancelled)" type="submit" color="primary">
+              Do not advertise
+        </button>
+        </mat-card-subtitle>
+        
+        <br>
+        <br>
+        
+      </mat-card-header>
+  </mat-card>
+</div>

@@ -102,8 +102,8 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getAppointment(
-    id: string // get single appoinment data for confirmation
+  public getAppointment(// get the appoinment document with the matching appointment id
+    id: string
   ) {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
@@ -117,7 +117,7 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getBusinessAppointment() { // get all appointments
+  public getBusinessAppointment() { // get all of business' appointments
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef;

@@ -72,6 +72,63 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
   }
 
 
+  // duplicate advertised appointment to root of db so that it can be displayed as a deal
+  public moveBusAppointment(newAppointInfo: IUser['appointment'])
+  {
+
+    // return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
+    // .collection<IUser['appointment']>('appointments').doc(appointmentInfo.appointmentId).set(newAppointment));
+
+
+    return from (this.firestore.collection<IUser>('deals').doc<IUser['appointment']>(newAppointInfo.bid)
+    .collection<IUser['appointment']>('appointments').doc(newAppointInfo.appointmentId).set(newAppointInfo));
+
+  }
+
+
+
+
+  public editBusAppointment(newAppointInfo: IUser['appointment']) // update the businesses appointment doc with the deals info and clear old client details
+  {
+
+    return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(newAppointInfo.bid)
+    .collection<IUser['appointment']>('appointments').doc(newAppointInfo.appointmentId).update(
+      {
+        serPrice: newAppointInfo.serPrice,
+        clientName: newAppointInfo.clientName,
+        note: newAppointInfo.note,
+        uid: newAppointInfo.uid,
+        timeStamp: newAppointInfo.timeStamp
+
+      },
+    ));
+  }
+
+  public addToCancelList(id: string, busId: string) // ad appointment id to cancellation list
+  {
+    return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(busId)
+    .collection<string>('cancellations').add(id));
+  }
+
+  public getCancellationList(id: string) // get document of cancelled appointment id's
+  {
+    return this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<string>('cancellations').valueChanges();
+  }
+
+  public deleteCancellation(id: string, uid: string) // delete appointment id from cancellation doc
+  {
+    let cancelledAppointment;
+    cancelledAppointment = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
+    .collection<string>('cancellations', ref => ref.where('id', '==', id))
+    cancelledAppointment.get().subscribe(item => item
+    .forEach(doc => doc.ref.delete()));
+    alert('cancellation erased');
+    // return from(cancelledAppointment).delete();
+  }
+
+
+
   // public createRescheduleNotif()
   // {
 

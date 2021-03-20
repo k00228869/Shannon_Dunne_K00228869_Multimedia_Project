@@ -16,7 +16,8 @@ export class CancelComponent implements OnInit {
     private location: Location,
     @Inject(MAT_DIALOG_DATA) public data: {
       id: string,
-      clientId: string
+      clientId: string,
+      busId: string
     }
   ) { }
 
@@ -38,6 +39,7 @@ export class CancelComponent implements OnInit {
   {
     console.log('cancel booking called');
     this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
+    this.reschedule.addToCancelList(this.data.id, this.data.busId);
     // this.cancel();
     close();
   }

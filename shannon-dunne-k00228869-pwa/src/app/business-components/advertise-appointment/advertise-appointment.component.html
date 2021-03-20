@@ -1,0 +1,36 @@
+<form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit(advertiseForm.value)">
+    <br>
+    <button mat-raised-button color="warn" class="cancelButton" type="button">
+      <a routerLink="/business-dashboard">
+        X
+      </a>
+    </button>
+    
+    <div>
+      <h3>Appointment Advert</h3>
+        <h4>
+          Carla Doherty has rescheduled an appointment for Acrylic Nails, on Thurs February 11th
+          with Julie.
+        </h4>
+        <mat-form-field appearance="outline">
+        <mat-label>Discount</mat-label>
+        <mat-select [formControlName]="'discount'">
+            <mat-option value="15">15% off</mat-option>
+            <mat-option value="20">20% off</mat-option>
+            <mat-option value="25">25% off</mat-option>
+            <mat-option value="30">30% off</mat-option>
+            <mat-option value="35">35% off</mat-option>
+            <mat-option value="40">40% off</mat-option>
+            <mat-option value="45">45% off</mat-option>
+            <mat-option value="50">50% off</mat-option>
+        </mat-select>
+        </mat-form-field> 
+        <br>
+    </div>
+    <button mat-raised-button type="submit" color="primary">
+        <!-- <a routerLink="/profile-business-view"> -->
+          Submit
+      <!-- </a> -->
+    </button>
+    
+</form>

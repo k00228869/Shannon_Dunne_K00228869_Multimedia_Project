@@ -104,4 +104,7 @@ export interface IUser {
         click_action?: string;
         id?: string;
     };
+    // cancelled: {
+    //     id: string;
+    // };
 }

@@ -12,7 +12,7 @@ import { BusinessService } from 'src/app/services/business.service';
 export class AppointmentsComponent implements OnInit {
   allBookings: IUser['appointment'][];
   public client: IUser['user'];
-
+  public hidden = true;
   constructor(
     public booking: BookingService,
     public authService: AuthenticateService,
@@ -23,6 +23,10 @@ export class AppointmentsComponent implements OnInit {
     this.booking.getBusinessAppointment().subscribe(
       (data) => {
         console.log(data[0]);
+        if (!data)
+        {
+          this.hidden = false;
+        }
         this.allBookings = data;
       }
     );

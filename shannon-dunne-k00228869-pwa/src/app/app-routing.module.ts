@@ -18,6 +18,7 @@ import { FeedbackFormComponent } from './client-components/feedback-form/feedbac
 import { NotificationListComponent } from './client-components/notification-list/notification-list.component';
 import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
+import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
 
 
 
@@ -39,6 +40,8 @@ const routes: Routes = [
   {path: 'reply/:id', component: ReplyFormComponent},
   {path: 'notification/:id', component: NotificationListComponent},
   {path: 'cancel/:id', component: CancelComponent},
+  {path: 'advertise-appointment/:id', component: AdvertiseAppointmentComponent},
+
 ];
 
 @NgModule({

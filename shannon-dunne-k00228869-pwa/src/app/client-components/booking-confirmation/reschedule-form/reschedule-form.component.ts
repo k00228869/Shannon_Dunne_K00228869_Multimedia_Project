@@ -151,7 +151,7 @@ export class RescheduleFormComponent implements OnInit {
     const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
     const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
           // gets array of the times between the service start and end time
-    const newTimes = this.day.slice(index1, index2); // 
+    const newTimes = this.day.slice(index1, index2); //
     const oldTimes = Array.from(this.day); // store array from associative array
     const theDayHours = oldTimes.filter(a => !newTimes.includes(a)); // remove unavailable hours from the available hours array
     this.schedule.date = this.newAppointment.date; // set the date of the booking

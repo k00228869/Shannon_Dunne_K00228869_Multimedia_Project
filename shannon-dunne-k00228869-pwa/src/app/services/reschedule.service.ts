@@ -12,7 +12,7 @@ uid: string;
     public firestore: AngularFirestore,
   ) { }
 
-// update client appointment
+// update client appointment with rescheduled appointment info
 public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
   {
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.uid)
@@ -28,7 +28,7 @@ public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppoint
   }
 
 
-  // update business appointment
+  // update business appointment with the resceduled appointment info
 public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
   {
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
@@ -44,7 +44,6 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
   }
 
 
-  // add time back to business schedule
   public editBookingSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule']) // add a booked date
   {
     // update date schedule with new available times
@@ -75,20 +74,13 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
   // duplicate advertised appointment to root of db so that it can be displayed as a deal
   public moveBusAppointment(newAppointInfo: IUser['appointment'])
   {
-
-    // return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
-    // .collection<IUser['appointment']>('appointments').doc(appointmentInfo.appointmentId).set(newAppointment));
-
-
     return from (this.firestore.collection<IUser>('deals').doc<IUser['appointment']>(newAppointInfo.bid)
     .collection<IUser['appointment']>('appointments').doc(newAppointInfo.appointmentId).set(newAppointInfo));
-
   }
 
 
-
-
-  public editBusAppointment(newAppointInfo: IUser['appointment']) // update the businesses appointment doc with the deals info and clear old client details
+ // update the businesses appointment doc with the deals info and clear old client details
+  public editBusAppointment(newAppointInfo: IUser['appointment'])
   {
 
     return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(newAppointInfo.bid)

@@ -26,7 +26,6 @@ export class BusinessNotificationsComponent implements OnInit {
     public business: BusinessService,
     public reschedule: RescheduleService,
     public booking: BookingService
-
   ) { }
 
   ngOnInit(){
@@ -80,13 +79,9 @@ public completeCancel(cancelled) // pass in the id of the cancelled appointment
         }
       this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for cancelled date
       this.reschedule.editBookingSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
-      cancelled(cancelled);
+      cancelled(cancelled); // call func to remove appoinment data
     }
   );
-  //get appointment info
-  //add hour to bus schedule
-  //delete appointment
-  //delete id from cancelled list
 }
 
 

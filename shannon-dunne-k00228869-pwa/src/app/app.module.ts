@@ -40,6 +40,7 @@ import { BusinessNotificationsComponent } from './business-components/business-n
 import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
 import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
+import { BookDealComponent } from './client-components/book-deal/book-deal.component';
 
 // import { MomentModule } from 'ngx-moment';
 
@@ -67,7 +68,8 @@ import { AdvertiseAppointmentComponent } from './business-components/advertise-a
     BusinessNotificationsComponent,
     ReplyFormComponent,
     CancelComponent,
-    AdvertiseAppointmentComponent
+    AdvertiseAppointmentComponent,
+    BookDealComponent
     ],
   imports: [
     BrowserModule,

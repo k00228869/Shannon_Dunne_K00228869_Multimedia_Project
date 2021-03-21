@@ -39,7 +39,7 @@
   </mat-toolbar> 
 
   <br>
-  <div *ngIf="!hidden"> 
+  <div *ngIf="!hiddenCancellation"> 
   <mat-card class="card" *ngFor="let cancelled of cancelledAppointments">
       <mat-card-header>
         <mat-card-title>A client has Cancelled</mat-card-title>

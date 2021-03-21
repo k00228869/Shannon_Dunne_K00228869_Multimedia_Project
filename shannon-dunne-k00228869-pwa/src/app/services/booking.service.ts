@@ -31,7 +31,7 @@ export class BookingService {
         .collection<IUser['appointment']>('appointments')
         .doc(clientAppointment.appointmentId)
         .set(clientAppointment)
-    ); // add user to the db
+    ); // add user booking to the db
   }
 
   public getServiceDuration(

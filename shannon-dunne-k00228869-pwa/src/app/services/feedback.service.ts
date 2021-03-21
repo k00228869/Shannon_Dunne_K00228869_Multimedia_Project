@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { IUser } from '../i-user';
 
 @Injectable({
@@ -23,6 +23,27 @@ export class FeedbackService {
   {
     return this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
     .collection<IUser['review']>('reviews').valueChanges();
+  }
+
+  // public someReviews(uid: string): Observable<IUser['review'][]> // get reviews with reply value
+  // {
+  //   let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
+  //   .collection<IUser['review']>('reviews', ref => ref.orderBy('rewiews.${reply}'));
+  //   return docRef.valueChanges();
+  // }
+
+  public completeReview(id: string) // get reviews tha have a reply
+  {
+    let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
+    .collection<IUser['review']>('reviews', ref => ref.orderBy('rewiews.${reply}').startAfter(null));
+    return docRef.valueChanges();
+  }
+
+  public someReviews(uid: string)
+  {
+    let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
+    .collection<IUser['review']>('reviews', ref => ref.where('reply', '==', null));
+    return docRef.valueChanges();
   }
 
   public getReviews() // get a business user's reviews

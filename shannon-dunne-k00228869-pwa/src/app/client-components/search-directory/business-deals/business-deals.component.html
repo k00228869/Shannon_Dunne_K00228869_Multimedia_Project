@@ -3,7 +3,7 @@
 <div *ngFor="let appoint of appointAdverts">
 <mat-card class="card"> 
     <br> 
-    <mat-divider></mat-divider> 
+    <mat-divider>
         <mat-card-header>
           <mat-card-title>{{appoint.provider}}</mat-card-title>
           <mat-card-subtitle>
@@ -20,12 +20,13 @@
           </mat-card-subtitle>
           <mat-card-subtitle>
               <button mat-raised-button color="primary">
-                  <a class="deals" routerLink="/booking-confirmed/{{appoint.appointId}}">
+                  <a class="deals" (click)="addBooking(appoint)" routerLink="/booking-confirmed/{{appoint.appointmentId}}">
                     Book Now
                 </a>
               </button>
             </mat-card-subtitle>
         </mat-card-header>
       <br>
+    </mat-divider> 
   </mat-card>
 </div>

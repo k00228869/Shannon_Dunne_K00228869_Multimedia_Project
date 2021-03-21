@@ -75,7 +75,12 @@ export class ProfileBusinessViewComponent implements OnInit {
         // console.log(this.theHours.monday[0].startT);
       });
 
-    this.feedback.getReviews().subscribe(
+    // this.feedback.getReviews().subscribe(
+    //     (data) => {
+    //       this.reviews = data;
+    //     });
+
+    this.feedback.completeReview(this.user.uid).subscribe(
         (data) => {
           this.reviews = data;
         });

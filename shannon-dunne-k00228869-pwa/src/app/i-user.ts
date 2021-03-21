@@ -51,7 +51,7 @@ export interface IUser {
         name: string;
         comment: string;
         id: string;
-        reply: string;
+        reply: string | null;
     };
     employee?: {
         id: string,

@@ -16,7 +16,7 @@ export class BusinessNotificationsComponent implements OnInit {
   public user: IUser['user'];
   public cancelledAppointments: IUser['cancellation'][];
   public appointToRemove: IUser['appointment'];
-  public hidden: boolean;
+  public hiddenCancellation: boolean;
   duration: string;
   newSchedule: IUser['bookingSchedule'] = {};
   scheduleOfDay: string[] = [];
@@ -43,10 +43,10 @@ export class BusinessNotificationsComponent implements OnInit {
             this.cancelledAppointments = [];
             this.cancelledAppointments = list;
             console.log('id list', this.cancelledAppointments);
-            this.hidden = false; // all cancelled notification to display
+            this.hiddenCancellation = false; // all cancelled notification to display
           }
           else{
-            this.hidden = true; // hide cancelled notification
+            this.hiddenCancellation = true; // hide cancelled notification
           }
         });
       });

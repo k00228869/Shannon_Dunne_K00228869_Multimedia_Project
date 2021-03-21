@@ -46,21 +46,26 @@ export class BusinessDashboardComponent implements OnInit {
     this.business.getUserInfo().subscribe(
       async (data) =>
       {
-        this.user = data;
+        this.user = data; // get users data
       }
     );
 
     this.booking.getBusinessAppointment().subscribe(
       (data) => {
-        this.allBookings = data;
+        this.allBookings = data; // get all appointments
       }
     );
 
-    this.feedback.getReviews().subscribe(
-      (data) => {
-        this.reviews = data;
-      }
-    )
+    this.feedback.someReviews(this.user.uid).subscribe(
+      (reviewList) => {
+        this.reviews = reviewList; // get all reviews
+        console.log(this.reviews);
+      });
+
+    // this.feedback.getReviews().subscribe(
+    //   (data) => {
+    //     this.reviews = data; // get all reviews
+    //   });
   }
 }
 

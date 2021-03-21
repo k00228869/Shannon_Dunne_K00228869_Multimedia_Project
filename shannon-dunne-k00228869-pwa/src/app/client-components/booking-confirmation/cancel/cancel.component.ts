@@ -37,10 +37,12 @@ export class CancelComponent implements OnInit {
 
   cancelBooking()
   {
-    console.log('cancel booking called');
-    this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
+    console.log('data passes to dialog', this.data);
     this.reschedule.addToCancelList(this.data.id, this.data.busId);
+    this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
     // this.cancel();
     close();
+    // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
+
   }
 }

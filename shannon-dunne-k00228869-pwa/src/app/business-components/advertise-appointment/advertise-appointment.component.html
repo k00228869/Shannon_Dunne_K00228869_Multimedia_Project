@@ -1,4 +1,4 @@
-<form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit(advertiseForm.value)">
+<form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit()">
     <br>
     <button mat-raised-button color="warn" class="cancelButton" type="button">
       <a routerLink="/business-dashboard">
@@ -9,9 +9,11 @@
     <div>
       <h3>Appointment Advert</h3>
         <h4>
-          Carla Doherty has rescheduled an appointment for Acrylic Nails, on Thurs February 11th
-          with Julie.
+          {{appointmentInfo.clientName}} has rescheduled an appointment for {{appointmentInfo.serName}}, <br> on {{appointmentInfo.date}} at {{appointmentInfo.time}}
+          with {{appointmentInfo.empName}}.
         </h4>
+        <br>
+        <h5>Advertise this appointment to another client at a discount</h5>
         <mat-form-field appearance="outline">
         <mat-label>Discount</mat-label>
         <mat-select [formControlName]="'discount'">

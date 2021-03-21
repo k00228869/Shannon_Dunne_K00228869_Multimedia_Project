@@ -13,6 +13,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { NotificationsService } from 'src/app/services/notifications.service';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {  // set selected date format
@@ -85,9 +86,17 @@ export class BookingFormComponent implements OnInit {
     public booking: BookingService,
     public firestore: AngularFirestore,
     public hourService: WorkingDaysService,
+    private notif: NotificationsService,
+
   ) { }
 
   ngOnInit(){
+
+    this.notif.getToken().subscribe((data) => { // call func to get user token from db
+      if (!data) { // if no token available
+        this.askPermis(); // call func to get user permis
+      }
+    });
     this.addAppointmentForm = this.addAppointment.group({
       employeeId: new FormControl('', Validators.required),
       serviceId: new FormControl('', [Validators.minLength(7)]),
@@ -97,11 +106,12 @@ export class BookingFormComponent implements OnInit {
     });
 
 
+
     this.route.paramMap.subscribe(
-      (params) =>
+      async (params) =>
       {
         this.id = params.get('id');
-        this.business.getABusiness(this.id).subscribe(
+        (await this.business.getABusiness(this.id)).subscribe(
           (bus) =>
           {
             this.profileInfo = bus[0];
@@ -142,6 +152,15 @@ export class BookingFormComponent implements OnInit {
         });
   }
 
+  askPermis(){ // called when booking button clicked
+    this.notif.requestPermission().subscribe(
+      // call func to get/store notification permission
+      async (token) => {
+        // message: 'token received';
+        // duration: 2000;
+      }
+    );
+  }
 
   public async onAppointSubmit(clientAppointment: IUser['appointment'])
   {
@@ -199,6 +218,8 @@ export class BookingFormComponent implements OnInit {
           const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
           const dateB = moment(this.date, 'DD-MM-YYYY');
           this.booking.createRescheduleNotif(dateA, dateB);
+                // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
+
         });
           // console.log('new day hours', newTimes);
           // if (index1 === -1 || index2 === -1)
@@ -228,12 +249,11 @@ export class BookingFormComponent implements OnInit {
   //   return day !== 0 ; // disable sunday
     // return true value index
   }
-  
 
 
 // get duration of serv, disable time for duration when the selected dat is selected
-    newInput(event)
-    {
+  async newInput(event)
+  {
     this.date = moment(event.value);
     const selectedDay = this.date.day();
     this.setDate = this.date.format('ddd MMM DD YYYY');
@@ -249,8 +269,8 @@ export class BookingFormComponent implements OnInit {
           //       }
     if (selectedDay)
     {
-      this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
-      (data) => {
+      await this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
+      async (data) => {
         if (data)
         {
           // console.log(data.availableTimes.length);
@@ -262,7 +282,7 @@ export class BookingFormComponent implements OnInit {
         {
           if (selectedDay === 1)
           {
-            this.hourService.getMon(this.id).subscribe(
+            await this.hourService.getMon(this.id).subscribe(
               (mon) =>
               {
                 // get monday hours
@@ -271,7 +291,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 2)
           {
-            this.hourService.getTue(this.id).subscribe(
+            await this.hourService.getTue(this.id).subscribe(
               (tues) =>
               {
                 // get tuesday hours
@@ -280,7 +300,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 3)
           {
-            this.hourService.getWed(this.id).subscribe(
+            await this.hourService.getWed(this.id).subscribe(
               (wed) =>
               {
                 // get wednesday hours
@@ -289,7 +309,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 4)
           {
-            this.hourService.getThur(this.id).subscribe(
+            await this.hourService.getThur(this.id).subscribe(
               (thur) =>
               {
                 // get thursday hours
@@ -299,7 +319,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 5)
           {
-            this.hourService.getFri(this.id).subscribe(
+            await this.hourService.getFri(this.id).subscribe(
               (fri) =>
               {
                 // get firday hours
@@ -308,7 +328,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 6)
           {
-            this.hourService.getSat(this.id).subscribe(
+            await this.hourService.getSat(this.id).subscribe(
               (sat) =>
               {
                 // get saturday hours
@@ -317,7 +337,7 @@ export class BookingFormComponent implements OnInit {
           }
           else if (selectedDay === 0)
           {
-            this.hourService.getSun(this.id).subscribe(
+            await this.hourService.getSun(this.id).subscribe(
               (sun) =>
               {
                 // get sunday hours

@@ -31,37 +31,36 @@ export class AuthenticateService {
 
 
   ){
-    this.authenticate.authState.subscribe(user => {
-      if (user)
-      {
-        this.userState = user;
-        localStorage.setItem('user', JSON.stringify(this.userState));
-        JSON.parse(localStorage.getItem('user'));
-      }
-      else{
-        window.localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    })
+    // this.authenticate.authState.subscribe(user => {
+    //   if (user)
+    //   {
+    //     this.userState = user;
+    //     localStorage.setItem('user', JSON.stringify(this.userState));
+    //     JSON.parse(localStorage.getItem('user'));
+    //   }
+    //   else{
+    //     window.localStorage.setItem('user', null);
+    //     JSON.parse(localStorage.getItem('user'));
+    //   }
+    // });
   }
 
   // USER SIGN IN FUNCTION
   signin(userSignIn: IUser['user'])
   {
     this.authenticate.signInWithEmailAndPassword(userSignIn.email, userSignIn.password)// sign the user in
-    .then(Credentials =>
+    .then(async Credentials =>
     {
       this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
-      window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storaage
+      window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storage
+      JSON.parse(localStorage.getItem('user'));
       this.isLoggedIn = true; // set the user to logged in
-
-      this.getUserData(this.uid) // pass the user id to get the users doc
-      .subscribe((data) =>   // subscribe to the data return
+      // pass the user id to get the users doc
+      await this.getUserData(this.uid).subscribe((data) =>   // subscribe to the data return
       {
         this.uData = data; // set data to IUser type
         if (this.uData.admin === true) // check if the user is an admin
         {
-
           this.router.navigate(['/dashboard/', this.uData.uid]); // display business dash
         }
         else if (this.uData.admin === false)
@@ -76,7 +75,7 @@ export class AuthenticateService {
   getUserData(uid: string): Observable<IUser['user']> // gets the user doc with the passed id
   {
     return this.firestore.collection<IUser>('users')
-    .doc<IUser['user']>(this.uid).valueChanges(); // returns the users doc to check if admin is true
+    .doc<IUser['user']>(uid).valueChanges(); // returns the users doc to check if admin is true
   }
 
 
@@ -88,7 +87,6 @@ signup(newUser: IUser['user'])
       newUser.uid = credentials.user.uid;
       this.firestore.collection<IUser>('users').doc<IUser['user']>(newUser.uid).set(newUser); // add user to the db
       window.localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
-
       this.isLoggedIn = true; // set the user to logged in
       return this.authenticate.currentUser.then(user => user.sendEmailVerification())
       // get email address of signed in user, send verification mail
@@ -100,15 +98,15 @@ signup(newUser: IUser['user'])
 
 
   // CHECK WHETHER THE USER IS A BUSINESS USER AND DISPLAY APPRORIATE PAGE
-checkUser(newUser: IUser['user'])
+  async checkUser(newUser: IUser['user'])
 {
     if (newUser.admin === true)
     {
-      this.router.navigate(['/dashboard/', newUser.uid]);
+      await this.router.navigate(['/dashboard/', newUser.uid]);
     }
     else if (newUser.admin === false)
     {
-      this.router.navigate(['/client-profile/', newUser.uid]);
+     await this.router.navigate(['/client-profile/', newUser.uid]);
     }
   }
 
@@ -116,11 +114,11 @@ checkUser(newUser: IUser['user'])
   // USER SIGN OUT
   logout()
   {
-    return this.authenticate.signOut()
+    this.authenticate.signOut()
     .then(() => {
       window.localStorage.removeItem('user');
       window.localStorage.clear();
-      this.isLoggedIn = false; // set the user to logged in
+      this.isLoggedIn = false; // set the user to logged out
      }).then(() => {
       this.router.navigate(['login']);
      });

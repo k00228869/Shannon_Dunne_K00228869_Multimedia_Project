@@ -82,6 +82,7 @@ export interface IUser {
         clientName: string
         appointmentId?: string,
         timeStamp?: Date,
+        discount?: string,
     };
     bookingSchedule?:
     {
@@ -104,7 +105,7 @@ export interface IUser {
         click_action?: string;
         id?: string;
     };
-    // cancelled: {
-    //     id: string;
-    // };
+    cancellation?: {
+        id?: string;
+    };
 }

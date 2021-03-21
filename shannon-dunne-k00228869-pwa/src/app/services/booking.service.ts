@@ -118,8 +118,8 @@ export class BookingService {
   }
 
   public getBusinessAppointment() { // get all of business' appointments
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    // let theUser = JSON.parse(localStorage.getItem('user'));
+    // this.uid = theUser.uid;
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')

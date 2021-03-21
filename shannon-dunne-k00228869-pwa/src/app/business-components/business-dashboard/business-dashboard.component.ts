@@ -44,7 +44,7 @@ export class BusinessDashboardComponent implements OnInit {
     }
 
     this.business.getUserInfo().subscribe(
-      (data) =>
+      async (data) =>
       {
         this.user = data;
       }
@@ -58,9 +58,7 @@ export class BusinessDashboardComponent implements OnInit {
 
     this.feedback.getReviews().subscribe(
       (data) => {
-        console.log(data);
         this.reviews = data;
-        console.log('reviews', this.reviews);
       }
     )
   }

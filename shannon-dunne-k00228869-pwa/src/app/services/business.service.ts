@@ -93,7 +93,7 @@ public addToBusinessCol(newProfile: IUser['business'])
     this.uid = theUser.uid;
     console.log(profileImages);
     return from (this.firestore.collection('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['slides']>('Images').add(profileImages));
+    .collection<IUser['slides']>('images').add(profileImages));
 }
 
   public addEmployees(adEmployee: IUser['employee']) // add business user's employees

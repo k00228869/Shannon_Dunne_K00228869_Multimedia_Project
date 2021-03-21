@@ -187,6 +187,8 @@ export class RescheduleFormComponent implements OnInit {
     console.log('updating booking', this.appointmentInfo, this.newAppointment);
     this.reschedule.updateBusAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
     this.reschedule.updateClientAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
+        // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
+
 
   }
 

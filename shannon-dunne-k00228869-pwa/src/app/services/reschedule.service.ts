@@ -8,6 +8,7 @@ import { IUser } from '../i-user';
 })
 export class RescheduleService {
 uid: string;
+cancellation: IUser['cancellation'] = {};
   constructor(
     public firestore: AngularFirestore,
   ) { }
@@ -43,8 +44,8 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
     ));
   }
 
-
-  public editBookingSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule']) // add a booked date
+// update schedule for a booked date
+  public editBookingSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule']) 
   {
     // update date schedule with new available times
      return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(appointmentInfo.bid)
@@ -98,21 +99,25 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
 
   public addToCancelList(id: string, busId: string) // ad appointment id to cancellation list
   {
+    this.cancellation.id = id;
     return from(this.firestore.collection<IUser>('users').doc<IUser['user']>(busId)
-    .collection<string>('cancellations').add(id));
+    .collection<IUser['cancellation']>('cancellations').add(this.cancellation));
   }
 
   public getCancellationList(id: string) // get document of cancelled appointment id's
   {
-    return this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
-    .collection<string>('cancellations').valueChanges();
+    console.log('getting ids funct');
+    let docRef = this.firestore.collection<IUser['user']>('users')
+    .doc<IUser['user']>(id)
+    .collection<IUser['cancellation']>('cancellations');
+    return docRef.valueChanges();
   }
 
   public deleteCancellation(id: string, uid: string) // delete appointment id from cancellation doc
   {
     let cancelledAppointment;
     cancelledAppointment = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
-    .collection<string>('cancellations', ref => ref.where('id', '==', id))
+    .collection<string>('cancellations', ref => ref.where('id', '==', id));
     cancelledAppointment.get().subscribe(item => item
     .forEach(doc => doc.ref.delete()));
     alert('cancellation erased');

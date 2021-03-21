@@ -61,6 +61,7 @@ export class UploadsService {
 
   uploadProfileImages = (event) =>
   {
+    let theUser = JSON.parse(localStorage.getItem('user'));
     if (event)
     {
     // tslint:disable-next-line: prefer-for-of
@@ -90,17 +91,17 @@ export class UploadsService {
    }
   }
 
-  getSlideshow()
+  getSlideshow() // get images for landing page slideshow
   {
     return this.firestore.collection<string[]>('appImages').doc('slideshow').valueChanges();
   }
 
 
-  addUrl(images: string[])
+  addUrl()
   {
     // tslint:disable-next-line: no-unused-expression
     Object.keys(this.images).length;
-    let key, count = 0;
+    let key;
     for (key in this.images)
     {
       if (this.images.hasOwnProperty(key))

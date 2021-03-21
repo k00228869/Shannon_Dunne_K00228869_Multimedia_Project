@@ -309,6 +309,8 @@ export class AddBusinessComponent implements OnInit {
       }
       this.business.addBusiness(newProfile);
       this.business.addToBusinessCol(newProfile);
+      // this.router.navigate(['/dashboard/', this.uData.uid]); // display business dash
+
       // this.route.navigate(['/business-view/', newProfile.id]);
     }
     else{

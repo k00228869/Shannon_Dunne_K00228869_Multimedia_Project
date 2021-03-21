@@ -15,9 +15,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
   public id: string;
   public newAppointInfo: IUser['appointment'];
   public appointmentInfo: IUser['appointment'];
-  deal: string;
-
-
+  public deal: string;
 
   constructor(
     private dealAppointment: FormBuilder,
@@ -33,13 +31,14 @@ export class AdvertiseAppointmentComponent implements OnInit {
     });
 
     this.route.paramMap.subscribe(
-      (params) =>
+      async (params) =>
       {
         this.id = params.get('id');
 
-        this.bookingService.getAppointment(this.id).subscribe(
+        (await this.bookingService.getAppointment(this.id)).subscribe(
         (appoint) =>
         {
+          console.log('appointt', appoint);
           this.appointmentInfo = appoint[0];
           console.log('appointInfo', this.appointmentInfo);
         });
@@ -47,18 +46,22 @@ export class AdvertiseAppointmentComponent implements OnInit {
   }
 
 
-  public  onSubmit(){
-    this.deal = this.advertiseForm.value;
-    this.newAppointInfo = this.appointmentInfo;
-    let theDiscount = parseFloat(this.deal); // convert to float
-    let percent = (theDiscount / 100) * this.appointmentInfo.serPrice; // get price after discount
-    this.newAppointInfo.serPrice = percent; // set price
-    this.newAppointInfo.uid = '';
-    this.newAppointInfo.clientName = '';
+  public onSubmit(){
+    this.appointmentInfo.discount = this.advertiseForm.controls.discount.value; // store discount value
+    this.newAppointInfo = this.appointmentInfo; // copy appointment details
+    let discount =  parseInt(this.newAppointInfo.discount, 10) / 100; // get discount value
+    let price = this.appointmentInfo.serPrice; // set booking price
+    let total = price - (price * discount); // get booking price after discount
+
+    this.newAppointInfo.serPrice = total; // set booking price after discount is applied
+    this.newAppointInfo.uid = ''; // clear old user id
+    this.newAppointInfo.clientName = ''; // clear old user name
     this.newAppointInfo.note = '';
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);
     this.reschedule.moveBusAppointment(this.newAppointInfo);
+    // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
+
   }
 
 }

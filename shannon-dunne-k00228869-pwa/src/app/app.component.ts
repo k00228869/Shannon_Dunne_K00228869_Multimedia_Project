@@ -38,18 +38,14 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.notif.getToken().subscribe((data) => { // call func to get user token from db
-      if (!data) { // if no token available
-        this.askPermis(); // call func to get user permis
-      }
-    });
+  
 
     this.notif.receiveMessages();
     this.message = this.notif.currentMessage;
 
     this.router.events.subscribe((e) => { // check route url
       if (e instanceof NavigationStart) { // to show/hide component
-        if (e.url === '/') {
+        if (e.url === '/landing-page') {
           this.routeHidden = false;
         } else {
           this.routeHidden = true;
@@ -70,15 +66,15 @@ export class AppComponent {
 //     verticalPosition: top,
 //   });
 
-  askPermis() { // called when notification clicked
-    this.notif.requestPermission().subscribe(
-      // call func to get/store notification permission
-      async (token) => {
-        // message: 'token received';
-        // duration: 2000;
-      }
-    );
-  }
+  // askPermis() { // called when notification clicked
+  //   this.notif.requestPermission().subscribe(
+  //     // call func to get/store notification permission
+  //     async (token) => {
+  //       // message: 'token received';
+  //       // duration: 2000;
+  //     }
+  //   );
+  // }
 
   downloadApp() { // when download button is clicked
     // hide download button
@@ -96,11 +92,6 @@ export class AppComponent {
       this.deferredPrompt = null;
     });
   }
-
-
-
-  
-
 }
 
 

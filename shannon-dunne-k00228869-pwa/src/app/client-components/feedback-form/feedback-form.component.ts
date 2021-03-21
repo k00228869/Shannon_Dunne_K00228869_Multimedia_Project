@@ -55,6 +55,8 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.bid = this.id;
     console.log('review', this.submittedFeedback);
     this.feedbackService.addReview(this.submittedFeedback, this.id);
+    // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
+
   }
 
 }

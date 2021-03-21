@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
@@ -22,6 +22,7 @@ export class ReplyFormComponent implements OnInit {
     public clientService: ClientUserService,
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
+    private router: Router,
     public authService: AuthenticateService,
 
 
@@ -51,8 +52,12 @@ export class ReplyFormComponent implements OnInit {
     this.submittedReply = this.addReplyForm.value;
     console.log('reply message', this.submittedReply);
     this.feedbackService.addReply(this.submittedReply, this.id);
-        // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
+    this.changeRoute();
+  }
 
 
+
+  changeRoute(){
+    this.router.navigate(['/business-view/', this.user.uid]);
   }
 }

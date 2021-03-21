@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { BookingService } from 'src/app/services/booking.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
@@ -20,6 +20,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
   constructor(
     private dealAppointment: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     public bookingService: BookingService,
     public reschedule: RescheduleService
   ) { }
@@ -60,8 +61,13 @@ export class AdvertiseAppointmentComponent implements OnInit {
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);
     this.reschedule.moveBusAppointment(this.newAppointInfo);
-    // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
+    this.changeRoute(this.newAppointInfo.bid);
+  }
 
+
+
+  changeRoute(busId: string){
+    this.router.navigate(['/business-view/', busId]);
   }
 
 }

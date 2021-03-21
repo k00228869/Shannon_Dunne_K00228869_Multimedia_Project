@@ -12,7 +12,7 @@ import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {  // set selected date format
   parse: {
@@ -72,6 +72,8 @@ export class RescheduleFormComponent implements OnInit {
     public reschedule: RescheduleService,
     public hourService: WorkingDaysService,
     private route: ActivatedRoute,
+    private router: Router,
+
   ) { }
 
   ngOnInit(){
@@ -188,7 +190,7 @@ export class RescheduleFormComponent implements OnInit {
     this.reschedule.updateBusAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
     this.reschedule.updateClientAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
         // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
-
+    this.changeRoute();
 
   }
 
@@ -198,6 +200,10 @@ dateFilter = (d: moment.Moment) => {
     return filter;
   }
 
+
+  changeRoute(){
+    this.router.navigate(['/booking-confirmed/', this.newAppointment.appointmentId]);
+  }
 
 // get duration of serv, disable time for duration when the selected dat is selected
 newInput(event) // pass in date change event

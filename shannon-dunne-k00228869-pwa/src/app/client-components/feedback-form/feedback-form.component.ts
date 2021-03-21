@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
@@ -23,6 +23,8 @@ export class FeedbackFormComponent implements OnInit {
     private firestore: AngularFirestore,
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
+    private router: Router,
+
 
   ) { }
 
@@ -55,8 +57,12 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.bid = this.id;
     console.log('review', this.submittedFeedback);
     this.feedbackService.addReview(this.submittedFeedback, this.id);
-    // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
+    this.changeRoute();
+  }
 
+
+  changeRoute(){
+    this.router.navigate(['/business-profile/', this.id]);
   }
 
 }

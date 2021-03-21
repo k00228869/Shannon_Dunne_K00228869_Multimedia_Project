@@ -218,7 +218,7 @@ export class BookingFormComponent implements OnInit {
           const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
           const dateB = moment(this.date, 'DD-MM-YYYY');
           this.booking.createRescheduleNotif(dateA, dateB);
-                // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
+          this.changeRoute;
 
         });
           // console.log('new day hours', newTimes);
@@ -273,10 +273,8 @@ export class BookingFormComponent implements OnInit {
       async (data) => {
         if (data)
         {
-          // console.log(data.availableTimes.length);
            let tempArr = data.availableTimes.pop();
            this.day = Array.from(data.availableTimes);
-          //   alert('No availabilities for this date');
         }
         else if (!data)
         {
@@ -347,5 +345,9 @@ export class BookingFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  changeRoute(){
+    this.router.navigate(['/booking-confirmed/', this.clientAppointment.appointmentId]);
   }
 }

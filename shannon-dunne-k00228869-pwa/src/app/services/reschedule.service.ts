@@ -139,9 +139,7 @@ export class RescheduleService {
   // delete deal advert
   deleteDealAdvert(id: string) {
     return from(
-      this.firestore
-        .collection<IDeals>('deals')
-        .doc<IDeals['deal']>(id)
+      this.firestore.collection<IDeals>('deals').doc<IDeals['deal']>(id)
         .delete()
     );
   }
@@ -195,7 +193,8 @@ export class RescheduleService {
         .collection<IUser>('users')
         .doc<IUser['user']>(busId)
         .collection<IUser['cancellation']>('cancellations')
-        .add(this.cancellation)
+        .doc(this.cancellation.id)
+        .set(this.cancellation)
     );
   }
 
@@ -213,13 +212,9 @@ export class RescheduleService {
     id: string,
     uid: string // delete appointment id from cancellation doc
   ) {
-    let cancelledAppointment = this.firestore
-      .collection<IUser>('users')
-      .doc<IUser['user']>(uid)
-      .collection<string>('cancellations', ref => ref.where('id', '==', id));
-    cancelledAppointment.get()
-      .subscribe((item) => item.forEach((doc) => doc.ref.delete()));
-    alert('cancellation erased');
+      return from(
+        this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
+        .collection<IUser['cancellation']>('cancellations').doc(id).delete());
   }
 
   // public createRescheduleNotif()

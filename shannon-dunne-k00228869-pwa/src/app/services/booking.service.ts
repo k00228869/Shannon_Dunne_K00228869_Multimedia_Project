@@ -12,11 +12,12 @@ export class BookingService {
 
   constructor(public firestore: AngularFirestore) {}
 
+  // add appointment data as doc on a user's appointments collection
   public async addClientAppointment(clientAppointment: IUser['appointment']) {
     return await from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(clientAppointment.uid) // returns promise not observable
+        .doc<IUser['user']>(clientAppointment.uid)
         .collection<IUser['appointment']>('appointments')
         .doc(clientAppointment.appointmentId)
         .set(clientAppointment)

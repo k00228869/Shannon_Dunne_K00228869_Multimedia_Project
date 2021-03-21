@@ -16,6 +16,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
   public newAppointInfo: IUser['appointment'];
   public appointmentInfo: IUser['appointment'];
   public deal: string;
+  provider: string;
 
   constructor(
     private dealAppointment: FormBuilder,
@@ -31,17 +32,23 @@ export class AdvertiseAppointmentComponent implements OnInit {
       discount: new FormControl('', [Validators.required]),
     });
 
+
     this.route.paramMap.subscribe(
       async (params) =>
       {
         this.id = params.get('id');
 
         (await this.bookingService.getAppointment(this.id)).subscribe(
-        (appoint) =>
+        async (appoint) =>
         {
           console.log('appointt', appoint);
           this.appointmentInfo = appoint[0];
           console.log('appointInfo', this.appointmentInfo);
+
+          await this.reschedule.getBusiness(this.appointmentInfo.bid).subscribe(
+            (busDoc) => {
+              this.provider = busDoc[0].businessName;
+            });
         });
     });
   }
@@ -60,7 +67,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
     this.newAppointInfo.note = '';
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);
-    this.reschedule.moveBusAppointment(this.newAppointInfo);
+    this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider);
     this.changeRoute(this.newAppointInfo.bid);
   }
 

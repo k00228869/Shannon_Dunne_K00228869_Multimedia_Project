@@ -1,1 +1,31 @@
-<p>business-deals works!</p>
+<H1>One click appointments</H1>
+<br>
+<div *ngFor="let appoint of appointAdverts">
+<mat-card class="card"> 
+    <br> 
+    <mat-divider></mat-divider> 
+        <mat-card-header>
+          <mat-card-title>{{appoint.provider}}</mat-card-title>
+          <mat-card-subtitle>
+              Service: {{appoint.serName}} with {{appoint.discount}}% off
+            </mat-card-subtitle>
+          <mat-card-subtitle>
+            Date: {{appoint.date}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            Time: {{appoint.time}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            Price: &euro; {{appoint.serPrice}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+              <button mat-raised-button color="primary">
+                  <a class="deals" routerLink="/booking-confirmed/{{appoint.appointId}}">
+                    Book Now
+                </a>
+              </button>
+            </mat-card-subtitle>
+        </mat-card-header>
+      <br>
+  </mat-card>
+</div>

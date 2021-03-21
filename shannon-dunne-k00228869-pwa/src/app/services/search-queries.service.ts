@@ -63,6 +63,7 @@ export class SearchQueriesService {
   }
 
 
+
   // public getAllBusinessUsers(): Observable<IUser['user'][]> // returns the business users id's
   // {
   //   let aUsers;

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IDeals } from 'src/app/i-deals';
+import { RescheduleService } from 'src/app/services/reschedule.service';
 
 @Component({
   selector: 'app-business-deals',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./business-deals.component.css']
 })
 export class BusinessDealsComponent implements OnInit {
+  public appointAdverts: IDeals['deal'][];
 
-  constructor() { }
+  constructor(
+    private reschedule: RescheduleService
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit()
+  {
+    await this.reschedule.getDeals().subscribe(
+      (data) => {
+        this.appointAdverts = data;
+        console.log('all deals', this.appointAdverts);
+      });
   }
+
 
 }

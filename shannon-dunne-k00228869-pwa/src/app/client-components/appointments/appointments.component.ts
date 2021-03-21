@@ -12,22 +12,26 @@ import { BusinessService } from 'src/app/services/business.service';
 export class AppointmentsComponent implements OnInit {
   allBookings: IUser['appointment'][];
   public client: IUser['user'];
-  public hidden = true;
+  public hidden: boolean = false;
   constructor(
     public booking: BookingService,
     public authService: AuthenticateService,
     public business: BusinessService,
   ) { }
 
-  ngOnInit() {
-    this.booking.getBusinessAppointment().subscribe(
-      (data) => {
-        console.log(data[0]);
-        if (!data)
-        {
-          this.hidden = false;
-        }
+  async ngOnInit() {
+
+    await this.booking.getBusinessAppointment().subscribe(
+     async (data) => {
+        console.log(data);
         this.allBookings = data;
+        if (this.allBookings.length == 0)
+        {
+          this.hidden = true; // hide bookings ui
+        }
+        else{
+          this.hidden = false; // show bookings ui
+        }
       }
     );
 

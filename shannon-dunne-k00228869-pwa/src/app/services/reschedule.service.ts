@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
+import { IDeals } from '../i-deals';
 import { IUser } from '../i-user';
 
 @Injectable({
@@ -9,9 +10,18 @@ import { IUser } from '../i-user';
 export class RescheduleService {
 uid: string;
 cancellation: IUser['cancellation'] = {};
+appointAdvert: IDeals['deal'];
   constructor(
     public firestore: AngularFirestore,
   ) { }
+
+  getBusiness(id: string) // get a users business details
+  {
+    let Business;
+    Business = this.firestore.collection<IUser['business']>('businesses', ref => ref.where('id', '==', id));
+    return Business.valueChanges();
+  }
+
 
 // update client appointment with rescheduled appointment info
 public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
@@ -27,7 +37,6 @@ public updateClientAppointment(appointmentInfo: IUser['appointment'], newAppoint
       },
     ));
   }
-
 
   // update business appointment with the resceduled appointment info
 public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointment: IUser['appointment']) // get single appoinment data for confirmation
@@ -73,10 +82,21 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
 
 
   // duplicate advertised appointment to root of db so that it can be displayed as a deal
-  public moveBusAppointment(newAppointInfo: IUser['appointment'])
+  public moveBusAppointment(newAppointInfo: IUser['appointment'], businessName: string)
   {
-    return from (this.firestore.collection<IUser>('deals').doc<IUser['appointment']>(newAppointInfo.bid)
-    .collection<IUser['appointment']>('appointments').doc(newAppointInfo.appointmentId).set(newAppointInfo));
+    this.appointAdvert = newAppointInfo;
+    this.appointAdvert.provider = businessName;
+    // return from (this.firestore.collection<IUser>('deals').doc<IUser['appointment']>(newAppointInfo.bid)
+    // .collection<IUser['appointment']>('appointments').doc(newAppointInfo.appointmentId).set(newAppointInfo));
+
+    return from(this.firestore.collection<IDeals>('deals').doc<IDeals['deal']>(this.appointAdvert.appointmentId).set(this.appointAdvert));
+  }
+
+
+  public getDeals() // get all deal appointments
+  {
+    let docRef = this.firestore.collection<IDeals['deal']>('deals');
+    return docRef.valueChanges();
   }
 
 
@@ -106,7 +126,6 @@ public updateBusAppointment(appointmentInfo: IUser['appointment'], newAppointmen
 
   public getCancellationList(id: string) // get document of cancelled appointment id's
   {
-    console.log('getting ids funct');
     let docRef = this.firestore.collection<IUser['user']>('users')
     .doc<IUser['user']>(id)
     .collection<IUser['cancellation']>('cancellations');

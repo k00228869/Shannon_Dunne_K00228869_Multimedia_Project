@@ -36,10 +36,10 @@
 </mat-toolbar>
 
 
-<form class="form-group">
+<form class="form-group" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="fill">
     <mat-label>Location</mat-label>
-    <mat-select [(value)]="location">
+    <mat-select [(value)]="location" (click)="getLocation = true" [formControlName]="'loc'">
       <mat-option value="Antrim">Antrim</mat-option>
       <mat-option value="Armagh">Armagh</mat-option>
       <mat-option value="Fermanagh">Fermanagh</mat-option>
@@ -55,7 +55,7 @@
   </mat-form-field> 
   <mat-form-field appearance="fill">
     <mat-label>Provider</mat-label>
-    <mat-select [(value)]="busType">
+    <mat-select [(value)]="busType" (click)="getLocation = false" [formControlName]="'type'">
       <mat-option value="Hair Stylist">Hair Stylist</mat-option>
       <mat-option value="Makeup artist">Makeup artist</mat-option>
       <mat-option value="Nail Technitian">Nail Technitian</mat-option>
@@ -63,21 +63,20 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button aria-label="search" type="submit" (click)="onSearch()">Search</button>
-  <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="onDeal()"><a routerLink="/">Deals</a></button>
+  <button mat-raised-button aria-label="search" type="submit" (click)="getDeal = false">Search</button>
+  <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="getDeal = true">Deals</button>
 </form>  
   
   
-<!-- </form> -->
 <br>
 
-  <div *ngIf="deal">
+  <div *ngIf="getDeal">
       <app-business-deals></app-business-deals>
   </div>
   
-  <!-- <div *ngIf="display"> -->
+  <div *ngIf="!getDeal">
     <app-business-list></app-business-list>
-<!-- </div> -->
+</div>
 
 
 

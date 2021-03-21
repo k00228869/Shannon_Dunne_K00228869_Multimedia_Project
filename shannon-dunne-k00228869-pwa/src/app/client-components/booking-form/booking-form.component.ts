@@ -218,7 +218,7 @@ export class BookingFormComponent implements OnInit {
           const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
           const dateB = moment(this.date, 'DD-MM-YYYY');
           this.booking.createRescheduleNotif(dateA, dateB);
-          this.changeRoute;
+          this.changeRoute();
 
         });
           // console.log('new day hours', newTimes);

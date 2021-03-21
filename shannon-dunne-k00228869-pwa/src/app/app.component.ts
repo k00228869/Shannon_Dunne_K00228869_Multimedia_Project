@@ -15,7 +15,7 @@ export class AppComponent {
     'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
   title = 'SelfCare';
   deferredPrompt: any;
-  message;
+  message; // TO DO: set tempplate design with this variable
   showButton = false;
   routeHidden = true;
 
@@ -38,17 +38,17 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-  
-
     this.notif.receiveMessages();
     this.message = this.notif.currentMessage;
 
-    this.router.events.subscribe((e) => { // check route url
-      if (e instanceof NavigationStart) { // to show/hide component
-        if (e.url === '/landing-page') {
-          this.routeHidden = false;
+    this.router.events.subscribe((e) => { // check route url and subscribe to receive event
+      if (e instanceof NavigationStart) {// event triggered on first page
+        if (e.url === '/') {
+          this.routeHidden = false; // show carousel if false
+          console.log('current page', e.url);
         } else {
-          this.routeHidden = true;
+          console.log('current page', e.url);
+          this.routeHidden = true; // show carousel if false
         }
       }
     });

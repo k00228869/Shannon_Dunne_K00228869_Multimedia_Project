@@ -32,10 +32,10 @@ export class FeedbackService {
   //   return docRef.valueChanges();
   // }
 
-  public completeReview(id: string) // get reviews tha have a reply
+  public completeReview(id: string) // get reviews that have a reply
   {
     let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(id)
-    .collection<IUser['review']>('reviews', ref => ref.orderBy('rewiews.${reply}').startAfter(null));
+    .collection<IUser['review']>('reviews', ref => ref.where('reply', '!=', null));
     return docRef.valueChanges();
   }
 

@@ -52,9 +52,9 @@ export class BusinessDashboardComponent implements OnInit {
             this.allBookings = data; // get all appointments
           }
         );
-        await this.feedback.someReviews(this.user.uid).subscribe(
+        await this.feedback.someReviews(this.user.uid).subscribe( // get  new reviews (reviews without a reply property)
           (reviewList) => {
-            this.reviews = reviewList; // get all reviews
+            this.reviews = reviewList;
             console.log(this.reviews);
           });
       }

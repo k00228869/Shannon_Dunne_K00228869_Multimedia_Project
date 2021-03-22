@@ -3,10 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { IUser } from 'src/app/i-user';
-// import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, fromCollectionRef } from '@angular/fire/firestore';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { DocumentData, DocumentReference } from '@firebase/firestore-types';
+import { AngularFirestore} from '@angular/fire/firestore';
 import { User} from '@firebase/auth-types';
 
 @Injectable({
@@ -17,32 +14,28 @@ export class AuthenticateService {
   theUser: IUser['user'];
   userState: any;
   user: Observable<User>;
-  // public id: string;
   public uid: string;
   admin: boolean;
   isLoggedIn: boolean;
 
 
   constructor(
+    public firestore: AngularFirestore,
     public authenticate: AngularFireAuth,
     private router: Router,
-    public firestore: AngularFirestore,
     private route: ActivatedRoute,
-
-
   ){
-    // this.authenticate.authState.subscribe(user => {
-    //   if (user)
-    //   {
-    //     this.userState = user;
-    //     localStorage.setItem('user', JSON.stringify(this.userState));
-    //     JSON.parse(localStorage.getItem('user'));
-    //   }
-    //   else{
-    //     window.localStorage.setItem('user', null);
-    //     JSON.parse(localStorage.getItem('user'));
-    //   }
-    // });
+    this.authenticate.authState.subscribe(user => { // check for user logged in
+      if (user) // if there is a user
+      {
+        this.userState = user; // store the user
+        localStorage.setItem('user', JSON.stringify(this.userState)); // set the user in local storage
+        JSON.parse(localStorage.getItem('user')); // get the user from local storage
+      }
+      else{
+        this.router.navigate(['/login/']); // display login
+      }
+    });
   }
 
   // USER SIGN IN FUNCTION
@@ -51,12 +44,12 @@ export class AuthenticateService {
     this.authenticate.signInWithEmailAndPassword(userSignIn.email, userSignIn.password)// sign the user in
     .then(async Credentials =>
     {
-      this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
       window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storage
-      JSON.parse(localStorage.getItem('user'));
+      JSON.parse(localStorage.getItem('user'));// get user from ls
+      this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
       this.isLoggedIn = true; // set the user to logged in
       // pass the user id to get the users doc
-      await this.getUserData(this.uid).subscribe((data) =>   // subscribe to the data return
+      await this.getUserData(this.uid).subscribe((data) =>   // subscribe to the user data returned
       {
         this.uData = data; // set data to IUser type
         if (this.uData.admin === true) // check if the user is an admin
@@ -124,6 +117,7 @@ signup(newUser: IUser['user'])
     .then(() => {
       window.localStorage.removeItem('user');
       window.localStorage.clear();
+      window.localStorage.setItem('user', null); // set user to null
       this.isLoggedIn = false; // set the user to logged out
      }).then(() => {
       this.router.navigate(['login']);
@@ -133,16 +127,11 @@ signup(newUser: IUser['user'])
 
   async getUserId(): Promise<Observable<IUser['user']>>
   {
-    let user;
-    user = JSON.parse(localStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
     // this.theUser.uid = user.id;
     this.uid = user.id;
-    let docRef;
-    docRef = await this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid).valueChanges();
-    // console.log(docRef);
+    let docRef = await this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid).valueChanges();
     return docRef;
   }
 
 }
-
-// authenticate.sendPasswordResetEmail(email);

@@ -40,7 +40,7 @@
 
   <div *ngIf="isCreated">
     <button mat-icon-button class="example-icon" aria-label="edit icon"> 
-      <a routerLink="/edit-business-profile">
+      <a routerLink="/edit-business/{{user.uid}}">
         <mat-icon>edit</mat-icon>
       </a>
     </button>

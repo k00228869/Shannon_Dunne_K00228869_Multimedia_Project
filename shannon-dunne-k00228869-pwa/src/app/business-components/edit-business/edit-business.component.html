@@ -1,0 +1,334 @@
+<h1>Edit Your Business Profile</h1>
+<form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value)">
+    <!-- (ngSubmit)="onEmployeeSubmit(editEmployeeForm.value)" (ngSubmit)="onServiceSubmit(editServiceForm.value)"> -->
+    <mat-form-field appearance="outline">
+        <mat-label>Business Name</mat-label>
+        <input  [formControlName]="'businessName'" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Business Description</mat-label>
+        <textarea [formControlName]="'businessDescription'" matInput></textarea>
+    </mat-form-field>
+    <br>
+    
+
+    <mat-form-field appearance="outline">
+        <mat-label>Eircode</mat-label>
+        <input [formControlName]="'eircode'" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>County</mat-label>
+        <mat-select [formControlName]="'county'">
+            <mat-option value="Antrim">Antrim</mat-option>
+            <mat-option value="Armagh">Armagh</mat-option>
+            <mat-option value="Carlow">Carlow</mat-option>
+            <mat-option value="Cavan">Cavan</mat-option>
+            <mat-option value="Clare">Clare</mat-option>
+            <mat-option value="Cork">Cork</mat-option>
+            <mat-option value="Derry">Derry</mat-option>
+            <mat-option value="Donegal">Donegal</mat-option>
+            <mat-option value="Down">Down</mat-option>
+            <mat-option value="Dublin">Dublin</mat-option>
+            <mat-option value="Fermanagh">Fermanagh</mat-option>
+            <mat-option value="Galway">Galway</mat-option>
+            <mat-option value="Kerry">Kerry</mat-option>
+            <mat-option value="Kildare">Kildare</mat-option>
+            <mat-option value="Kilkenny">Kilkenny</mat-option>
+            <mat-option value="Laois">Laois</mat-option>
+            <mat-option value="Leitrim">Leitrim</mat-option>
+            <mat-option value="Limerick">Limerick</mat-option>
+            <mat-option value="Longford">Longford</mat-option>
+            <mat-option value="Louth">Louth</mat-option>
+            <mat-option value="Mayo">Mayo</mat-option>
+            <mat-option value="Meath">Meath</mat-option>
+            <mat-option value="Monaghan">Monaghan</mat-option>
+            <mat-option value="Offaly">Offaly</mat-option>
+            <mat-option value="Roscommon">Roscommon</mat-option>
+            <mat-option value="Sligo">Sligo</mat-option>
+            <mat-option value="Tipperary">Tipperary</mat-option>
+            <mat-option value="Tyrone">Tyrone</mat-option>
+            <mat-option value="Waterford">Waterford</mat-option>
+            <mat-option value="Westmeath">Westmeath</mat-option>
+            <mat-option value="Wexford">Wexford</mat-option>
+            <mat-option value="Wicklow">Wicklow</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Business Type</mat-label>
+        <mat-select [formControlName]="'businessType'">
+            <mat-option value="Hair Salon">Hair Salon</mat-option>
+            <mat-option value="Barber">Barber</mat-option>
+            <mat-option value="Nail Technician">Nail Technician</mat-option>
+            <mat-option value="Beautician">Beautician</mat-option>
+            <mat-option value="Beauty therapist">Beauty therapist</mat-option>
+            <mat-option value="Masseuse">Masseuse</mat-option>
+            <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+            <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Reminder Message</mat-label>
+        <textarea [formControlName]="'reminderMessage'" matInput></textarea>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline">
+        <mat-label>Cancellation Policy</mat-label>
+        <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
+    </mat-form-field>
+    <br>
+
+    <!-- <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
+        <h2>Employees</h2>
+        <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">+</button>
+        <div formArrayName="employees">
+            <div *ngFor="let employee of addEmployeeForm.get('employees')['controls']; let i = index"
+                [formGroupName]="i">
+                <button mat-raised-button color="warm" (click)="removeEmployee(i)">X</button>
+                <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput [formControlName]="'firstName'">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [formControlName]="'lastName'">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Employee Description</mat-label>
+                    <textarea matInput [formControlName]="'employeeDescription'"></textarea>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="outline">
+                    <mat-label>Employee Position</mat-label>
+                    <mat-select [(value)]="selectedValue" [formControlName]="'employeeServices'">
+                        <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+                        <mat-option value="Nail Technitian">Nail Technitian</mat-option>
+                        <mat-option value="Beautician">Beautician</mat-option>
+                        <mat-option value="Make-up Artist">Make-up Artist</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+            </div>
+        </div>
+    </form> -->
+    <br>
+    <br>
+
+
+
+    <!-- <form [formGroup]="addServiceForm" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
+        <h2>Services</h2>
+        <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button>
+        <div formArrayName="services">
+            <div *ngFor="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
+                <mat-form-field appearance="outline">
+                    <mat-label>Service Name</mat-label>
+                    <input matInput [formControlName]="'serviceName'">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Service Description</mat-label>
+                    <textarea matInput [formControlName]="'serviceDescription'"></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Amount</mat-label>
+                    <input matInput type="number" [formControlName]="'servicePrice'" class="example-right-align">
+                    <span matPrefix>€&nbsp;</span>
+                    <span matSuffix>.00</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Duration</mat-label>
+                    <mat-select [(value)]="selectedValue" [formControlName]="'duration'">
+                        <mat-option value="01:00:00">1 Hr</mat-option>
+                        <mat-option value="02:00:00">2 Hrs</mat-option>
+                        <mat-option value="03:00:00">3 Hrs</mat-option>
+                        <mat-option value="04:00:00">3 Hrs</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <button mat-raised-button color="warm" (click)="removeService()">Remove service</button>
+            </div>
+        </div>
+    </form> -->
+    <br>
+    <br>
+    <!-- <form>
+        <button mat-raised-button color="primary" (click)="fileInput.click()">
+            Profile Images
+            <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple
+                accept="image/*">
+        </button>
+        <br>
+        <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
+        <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">
+            <a [href]="uploadSrc">Uploaded</a>
+        </div>
+
+        <div *ngIf="uploads.uploadGroupState | async; let state">
+            <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()"
+                [enabled]="!(state === 'paused' || state === 'running')">X</button>
+        </div>
+
+        <div *ngIf="uploads.downloadAllURL | async; let url">
+            <img [src]="url" max-width="100" max-height="100">
+        </div>
+        <br>
+        <br>
+        <br>
+    </form> -->
+
+
+    <!-- <form [formGroup]="addBusHours">
+        <mat-label>Working Days</mat-label><br><br>
+        <div formArrayName="monday">
+            <div *ngFor="let day of addBusHours.get('monday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Monday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+
+        <div formArrayName="tuesday">
+            <div *ngFor="let day of addBusHours.get('tuesday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Tuesday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <br>
+
+        <div formArrayName="wednesday">
+            <div *ngFor="let day of addBusHours.get('wednesday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Wednesday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+        <div formArrayName="thursday">
+            <div *ngFor="let day of addBusHours.get('thursday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Thursday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+        <div formArrayName="friday">
+            <div *ngFor="let day of addBusHours.get('friday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Friday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+        <div formArrayName="saturday">
+            <div *ngFor="let day of addBusHours.get('tuesday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Saturday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+        <div formArrayName="sunday">
+            <div *ngFor="let day of addBusHours.get('sunday')['controls']; let i = index" [formGroupName]="i">
+                <mat-label>Sunday</mat-label>
+                <mat-form-field appearance="outline">
+                    <mat-label>from</mat-label>
+                    <mat-select [formControlName]="'startT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+                    <mat-select [formControlName]="'finishT'">
+                        <mat-option *ngFor="let hour of hourList[0]" [value]="hour">{{hour}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form> -->
+    <!-- (click)="uploads.addUrl" -->
+    <button mat-raised-button color="primary" type="submit" >
+        Update Profile
+    </button>
+</form>

@@ -21,6 +21,7 @@ import { CancelComponent } from './client-components/booking-confirmation/cancel
 import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
 import { BusinessNotificationsComponent } from './business-components/business-notifications/business-notifications.component';
 import { ResetDetailsComponent } from './user-components/reset-details/reset-details.component';
+import { EditBusinessComponent } from './business-components/edit-business/edit-business.component';
 
 
 
@@ -45,6 +46,8 @@ const routes: Routes = [
   {path: 'advertise-appointment/:id', component: AdvertiseAppointmentComponent},
   {path: 'business-notification/:id', component: BusinessNotificationsComponent},
   {path: 'reset-details/:id', component: ResetDetailsComponent},
+  {path: 'edit-business/:id', component: EditBusinessComponent},
+
 
 
 

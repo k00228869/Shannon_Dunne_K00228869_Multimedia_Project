@@ -212,7 +212,7 @@ export class RescheduleService {
     id: string,
     bid: string // delete appointment id from business cancellation doc
   ) {
-      console.log('deleteCancellation called', id, bid );
+      console.log('deleteCancellation called', id, bid);
       return from(
         this.firestore
         .collection<IUser>('users')

@@ -57,17 +57,13 @@ export class BusinessService {
     .doc<IDays['1']>('monday').valueChanges();
   }
 
-
-
 // posts/gets data for a business user's profile
-
 public addToBusinessCol(newProfile: IUser['business'])
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from (this.firestore.collection('businesses').doc(this.uid).set(newProfile));
   }
-
 
   public addBusiness(newProfile: IUser['business']) // add a business details to the db
   {
@@ -78,6 +74,7 @@ public addToBusinessCol(newProfile: IUser['business'])
     return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
     .collection<IUser['business']>('business').add(newProfile)); // add user to the db
   }
+
 
   public addServices(adService: IUser['service']) // add business user's services
 {
@@ -144,9 +141,6 @@ public addToBusinessCol(newProfile: IUser['business'])
     .collection<IUser['service']>('services');
     return docRef.valueChanges();
   }
-
-
-
 
 
 // posts/gets data for a business profile available to other users

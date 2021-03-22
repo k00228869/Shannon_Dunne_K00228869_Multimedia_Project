@@ -138,10 +138,10 @@ export class RescheduleFormComponent implements OnInit {
 
   public async editAppointSubmit(newAppointment: IUser['appointment'])
 {
-    this.newAppointment = this.editAppointmentForm.value;
-    this.newAppointment.date = newAppointment.date.toString();
-    this.newAppointment.date = this.setDate;
-    this.newAppointment.timeStamp = new Date();
+    this.newAppointment = this.editAppointmentForm.value; // store form values
+    this.newAppointment.date = newAppointment.date.toString(); // format date to string
+    this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
+    this.newAppointment.timeStamp = new Date(); // set the booking timestamp
     // this.bookingService.getServiceDuration(this.appointmentInfo.bid, newAppointment).subscribe(
     //   (ser) => {
     //     this.selectedService = ser[0];
@@ -149,7 +149,7 @@ export class RescheduleFormComponent implements OnInit {
     this.duration = this.appointmentInfo.serDuration; // store duration of service
     const startTime = this.newAppointment.time; // store service start time
     const endTime = moment(startTime, 'HH:mm:ss')
-    .add(this.duration, 'hours').format('HH:mm:ss'); // get service finish time
+    .add(this.duration, 'hours').format('HH:mm:ss'); // add duration to get service finish time
     const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
     const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
           // gets array of the times between the service start and end time

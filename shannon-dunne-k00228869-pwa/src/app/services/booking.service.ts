@@ -84,7 +84,8 @@ export class BookingService {
   public getBookingSchedule(
     id: string,
     setDate: string
-  ): Observable<IUser['bookingSchedule']> { // get a booked date
+  ): Observable<IUser['bookingSchedule']> {
+    // get a booked date
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
@@ -94,7 +95,8 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getBookedDays(id: string) { // return businesses schedule doc with appointment id
+  public getBookedDays(id: string): Observable<IUser['bookingSchedule']> {
+    // return businesses schedule doc with appointment id
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
@@ -103,9 +105,10 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getAppointment(// get the appoinment document with the matching appointment id
+  public getAppointment(
+    // get the appoinment document with the matching appointment id
     id: string
-  ) {
+  ): Observable<IUser['appointment']> {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     let docRef;
@@ -118,7 +121,8 @@ export class BookingService {
     return docRef.valueChanges();
   }
 
-  public getBusinessAppointment() { // get all of business' appointments
+  public getBusinessAppointment(): Observable<IUser['appointment'][]> {
+    // get all of business' appointments
     let theUser = JSON.parse(localStorage.getItem('user'));
     let docRef;
     docRef = this.firestore
@@ -138,16 +142,11 @@ export class BookingService {
   //   return docRef.valueChanges();
   // }
 
-
-  public createRescheduleNotif(dateA: Moment, dateB: Moment)
-  {
-
+  public createRescheduleNotif(dateA: Moment, dateB: Moment) {
     // const dateA = moment(timestamp, 'DD-MM-YYYY');
     // const dateB = moment(bookingDate, 'DD-MM-YYYY');
     console.log(dateB.from(dateA));
     console.log(dateB.diff(dateA, 'hours'));
     console.log(dateB.diff(dateA, 'days'));
   }
-
 }
-

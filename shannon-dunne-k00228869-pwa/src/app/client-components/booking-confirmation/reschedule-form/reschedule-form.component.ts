@@ -85,6 +85,12 @@ export class RescheduleFormComponent implements OnInit {
       note: new FormControl('', [Validators.required]),
     });
 
+    this.clientService.getUserInfo().subscribe(
+      (data) =>
+      {
+        this.client = data;
+      });
+
     this.route.paramMap.subscribe(
       (params) =>
       {
@@ -96,12 +102,6 @@ export class RescheduleFormComponent implements OnInit {
             console.log('appointInfo', this.appointmentInfo);
             this.updateInfo();
           });
-      });
-
-    this.clientService.getUserInfo().subscribe(
-      (data) =>
-      {
-        this.client = data;
       });
   }
 
@@ -117,16 +117,17 @@ export class RescheduleFormComponent implements OnInit {
     //   {
     //     this.theHourOfDay = data[0];
     //   });
-    this.bookingService.getBookedDays(this.appointmentInfo.bid).subscribe(
+    this.bookingService.getBookedDays(this.appointmentInfo.bid).subscribe( // get documents with booked dates
       (data) => {
-        for(let i=0; i<data.length; i++) // if more than 1 time less in schedule
+        let key;
+        for (key in data) // for each document in the observ
         {
-          if (data[0].availableTimes.length <= 1) // if there is less than 1 time available in schedule
+          if (key.availableTimes.length <= 1) // if there is less than 1 time available in schedule
           {
-            let d = data[i].date.slice(7, 10); // slice date val from the date
+            let d = key.date.slice(7, 10); // slice the date val from the date
             let asNum = parseInt(d); // convert to num
             console.log(asNum);
-            this.unavailableDays.push(asNum); // add to fully booked array
+            this.unavailableDays.push(asNum); // add date value to fully booked array
           }
         }
       });
@@ -142,9 +143,7 @@ export class RescheduleFormComponent implements OnInit {
     this.newAppointment.date = newAppointment.date.toString(); // format date to string
     this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
     this.newAppointment.timeStamp = new Date(); // set the booking timestamp
-    // this.bookingService.getServiceDuration(this.appointmentInfo.bid, newAppointment).subscribe(
-    //   (ser) => {
-    //     this.selectedService = ser[0];
+
     this.newAppointment.serName = this.appointmentInfo.serName; // store service name
     this.duration = this.appointmentInfo.serDuration; // store duration of service
     const startTime = this.newAppointment.time; // store service start time
@@ -159,7 +158,7 @@ export class RescheduleFormComponent implements OnInit {
     this.schedule.date = this.newAppointment.date; // set the date of the booking
     this.schedule.availableTimes = [];
     this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
-      // });
+
     let numberOfHours = this.appointmentInfo.serDuration.slice(1, 2); // slice number of hours from duration value
     let amountAsNum = parseInt(numberOfHours); // cast to num
     let i = 0;
@@ -181,15 +180,14 @@ export class RescheduleFormComponent implements OnInit {
     this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for booked date
     // this.newAppointment.empName = this.appointmentInfo.empName;
     // this.newAppointment.clientName = this.client.firstName + ' ' + this.client.lastName; // set client name for booking
-    console.log('adding schedule', this.newAppointment.bid, this.schedule);
+    console.log('adding schedule', this.appointmentInfo.bid, this.schedule);
     await this.bookingService.addBookingSchedule(this.appointmentInfo.bid, this.schedule); // call func to update schedule of hours in db
     console.log('editing schedule', this.appointmentInfo, this.newSchedule);
     this.reschedule.editBookingSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
     console.log('updating booking', this.appointmentInfo, this.newAppointment);
     this.reschedule.updateBusAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
     this.reschedule.updateClientAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
-        // this.route.navigate(['/business-view/', this.appointmentInfo.bid]);
-    this.changeRoute();
+    this.changeRoute(this.appointmentInfo.appointmentId);
 
   }
 
@@ -200,8 +198,8 @@ dateFilter = (d: moment.Moment) => {
   }
 
 
-  changeRoute(){
-    this.router.navigate(['/booking-confirmed/', this.newAppointment.appointmentId]);
+  changeRoute(id: string){
+    this.router.navigate(['/booking-confirmed/', id]);
   }
 
 // get duration of serv, disable time for duration when the selected dat is selected
@@ -217,7 +215,7 @@ newInput(event) // pass in date change event
     (data) => {
       if (data)
       {
-        // console.log(data.availableTimes.length);
+        console.log(data.availableTimes.length);
         this.day = Array.from(data.availableTimes); // store schedule in time array
         //   alert('No availabilities for this date');
       }

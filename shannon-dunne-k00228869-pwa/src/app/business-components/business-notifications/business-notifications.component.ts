@@ -7,6 +7,7 @@ import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { Router } from '@angular/router';
 const moment = _rollupMoment || _moment;
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-business-notifications',
@@ -57,7 +58,8 @@ export class BusinessNotificationsComponent implements OnInit {
 public completeCancel(cancelled: string) // pass in the id of the cancelled appointment
 {
   console.log('completeCancel cancelled ', cancelled);
-  this.booking.getAppointment(cancelled).subscribe( // subscribe to func to get the cancelled appointments data
+   // subscribe to func to get the cancelled appointments data, take ensures this is not called when the schedule is updated
+  this.booking.getAppointment(cancelled).subscribe(
     async (data) => {
       console.log(data[0]);
       this.appointToRemove = data[0]; // the cancelled appointments data
@@ -65,7 +67,7 @@ public completeCancel(cancelled: string) // pass in the id of the cancelled appo
       this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
       let amountAsNum = parseInt(this.duration, 10); // cast duration value to num
       await this.booking.getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule for date
-      .subscribe((thedate) => {
+      .pipe(take(1)).subscribe((thedate) => {
         console.log('booked schedule received', thedate);
         this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
 

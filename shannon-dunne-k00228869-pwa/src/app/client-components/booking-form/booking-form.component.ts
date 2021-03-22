@@ -140,13 +140,18 @@ export class BookingFormComponent implements OnInit {
       );
     this.booking.getBookedDays(this.id).subscribe( // pass in business id and call func to get doc for each day with a booking
         (data) => {
-          for(let i=0; i<data.length; i++) // loop through the docs
+          // let theData = Object.keys(data).length;
+          let key;
+          for (key in data) // loop through the docs
           {
-            if (data[0].availableTimes.length <= 1) // if a booking hours array has 1 or less items
+            if (key.availableTimes.length <= 1) // if a booking hours array has 1 or less items
             {
-              let d = data[i].date.slice(7, 10); // slice the date value
+              let d = key.date.slice(7, 10); // slice the date value
               let asNum = parseInt(d); // convert string to num
               this.unavailableDates.push(asNum); // store in unavailable dates array
+            }
+            else{
+              console.log('no booking found');
             }
           }
         });
@@ -271,9 +276,10 @@ export class BookingFormComponent implements OnInit {
     {
       await this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
       async (data) => {
+        console.log('the selected date schedule', data);
         if (data)
         {
-           let tempArr = data.availableTimes.pop();
+          //  let tempArr = data.availableTimes.pop();
            this.day = Array.from(data.availableTimes);
         }
         else if (!data)

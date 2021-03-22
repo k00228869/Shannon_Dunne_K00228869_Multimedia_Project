@@ -72,6 +72,8 @@ export class RescheduleService {
     newSchedule: IUser['bookingSchedule']
   ) {
     // update date schedule with new available times
+    console.log('editBookingSchedule called', appointmentInfo, newSchedule );
+
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -98,6 +100,7 @@ export class RescheduleService {
 
   // remove business booking from db
   public cancelBusBooking(id: string, bid: string) {
+    console.log('cancelBusBooking called', id, bid );
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -113,7 +116,7 @@ export class RescheduleService {
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(dealBooking.bid)
+        .doc<IUser['user']>(dealBooking.uid)
         .collection<IUser['appointment']>('appointments')
         .doc(dealBooking.appointmentId)
         .set(dealBooking)
@@ -121,27 +124,24 @@ export class RescheduleService {
   }
 
   // update businesses appointment
-  updateDealappointment(appoint: IUser['appointment']) {
+  updateDealappointment(appointDeal: IUser['appointment']) {
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(appoint.bid)
+        .doc<IUser['user']>(appointDeal.bid)
         .collection<IUser['appointment']>('appointments')
-        .doc(appoint.appointmentId)
+        .doc(appointDeal.appointmentId)
         .update({
-          timeStamp: appoint.timeStamp,
-          uid: appoint.uid,
-          clientName: appoint.clientName,
+          timeStamp: appointDeal.timeStamp,
+          uid: appointDeal.uid,
+          clientName: appointDeal.clientName,
         })
     );
   }
 
   // delete deal advert
   deleteDealAdvert(id: string) {
-    return from(
-      this.firestore.collection<IDeals>('deals').doc<IDeals['deal']>(id)
-        .delete()
-    );
+    return from(this.firestore.collection<IDeals>('deals').doc<IDeals['deal']>(id).delete());
   }
 
   // duplicate advertised appointment to root of db so that it can be displayed as a deal
@@ -199,10 +199,10 @@ export class RescheduleService {
   }
 
   public getCancellationList(
-    id: string // get document of cancelled appointment id's
+    id: string // get document of cancelled appointment id
   ) {
     let docRef = this.firestore
-      .collection<IUser['user']>('users')
+      .collection<IUser>('users')
       .doc<IUser['user']>(id)
       .collection<IUser['cancellation']>('cancellations');
     return docRef.valueChanges();
@@ -210,11 +210,15 @@ export class RescheduleService {
 
   public deleteCancellation(
     id: string,
-    uid: string // delete appointment id from cancellation doc
+    bid: string // delete appointment id from business cancellation doc
   ) {
+      console.log('deleteCancellation called', id, bid );
       return from(
-        this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
-        .collection<IUser['cancellation']>('cancellations').doc(id).delete());
+        this.firestore
+        .collection<IUser>('users')
+        .doc<IUser['user']>(bid)
+        .collection<IUser['cancellation']>('cancellations')
+        .doc(id).delete());
   }
 
   // public createRescheduleNotif()

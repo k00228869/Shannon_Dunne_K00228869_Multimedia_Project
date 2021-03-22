@@ -25,7 +25,6 @@ export class ClientProfileComponent implements OnInit {
       (data) =>
       {
         this.client = data;
-        // console.log(this.client);
       }
     );
   }

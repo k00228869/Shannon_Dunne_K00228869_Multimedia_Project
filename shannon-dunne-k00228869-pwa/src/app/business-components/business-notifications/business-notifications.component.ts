@@ -5,6 +5,7 @@ import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { Router } from '@angular/router';
 const moment = _rollupMoment || _moment;
 
 @Component({
@@ -14,18 +15,20 @@ const moment = _rollupMoment || _moment;
 })
 export class BusinessNotificationsComponent implements OnInit {
   public user: IUser['user'];
-  public cancelledAppointments: IUser['cancellation'][];
+  public cancelledAppointments: IUser['cancellation'][] = [];
   public appointToRemove: IUser['appointment'];
   public hiddenCancellation: boolean;
   duration: string;
   newSchedule: IUser['bookingSchedule'] = {};
   scheduleOfDay: string[] = [];
+  editedSchedule: string[] = [];
 
 
   constructor(
     public business: BusinessService,
     public reschedule: RescheduleService,
-    public booking: BookingService
+    public booking: BookingService,
+    private router: Router,
   ) { }
 
    ngOnInit(){
@@ -40,7 +43,6 @@ export class BusinessNotificationsComponent implements OnInit {
           console.log('cancelled ids', list);
           if (list)
           {
-            this.cancelledAppointments = [];
             this.cancelledAppointments = list;
             console.log('id list', this.cancelledAppointments);
             this.hiddenCancellation = false; // all cancelled notification to display
@@ -54,18 +56,23 @@ export class BusinessNotificationsComponent implements OnInit {
 
 public completeCancel(cancelled: string) // pass in the id of the cancelled appointment
 {
-  console.log('id of cancelled booking', cancelled);
+  console.log('completeCancel cancelled ', cancelled);
   this.booking.getAppointment(cancelled).subscribe( // subscribe to func to get the cancelled appointments data
     (data) => {
       console.log(data[0]);
-      this.appointToRemove = data; // the cancelled appointments data
+      this.appointToRemove = data[0]; // the cancelled appointments data
+      console.log('duration', this.appointToRemove.serDuration);
       this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
       let amountAsNum = parseInt(this.duration); // cast duration value to num
 
       this.booking.getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule for date
-      .subscribe( (thedate) => {
+      .subscribe((thedate) => {
+        console.log('booked schedule received', thedate);
           this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
+          console.log('1st booking schedule', this.scheduleOfDay);
         });
+
+      console.log('2nd booking schedule', this.scheduleOfDay);
 
       let i = 0;
       if (amountAsNum > 1) // if the duration is more than 1 hour
@@ -81,6 +88,8 @@ public completeCancel(cancelled: string) // pass in the id of the cancelled appo
         {
           this.scheduleOfDay.push(this.appointToRemove.time); // add time to array of availabilities
         }
+
+      console.log('3rd booking schedule', this.scheduleOfDay);
       this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for cancelled date
       this.reschedule.editBookingSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
       this.cancelBusiness(cancelled); // call func to remove appoinment data
@@ -92,9 +101,13 @@ public completeCancel(cancelled: string) // pass in the id of the cancelled appo
 
   cancelBusiness(cancelled: string)
   {
+    console.log('cancelBusiness called', cancelled);
     this.reschedule.deleteCancellation(cancelled, this.user.uid); // delete id from cancellation doc
     this.reschedule.cancelBusBooking(cancelled, this.user.uid); //// remove the appointment from business appointments
+    this.changeRoute(this.user.uid);
   }
 
-
+  changeRoute(id: string){
+    this.router.navigate(['/business-view/', id]);
+  }
 }

@@ -20,6 +20,7 @@ import { ReplyFormComponent } from './business-components/reply-form/reply-form.
 import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
 import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
 import { BusinessNotificationsComponent } from './business-components/business-notifications/business-notifications.component';
+import { ResetDetailsComponent } from './user-components/reset-details/reset-details.component';
 
 
 
@@ -43,6 +44,8 @@ const routes: Routes = [
   {path: 'cancel/:id', component: CancelComponent},
   {path: 'advertise-appointment/:id', component: AdvertiseAppointmentComponent},
   {path: 'business-notification/:id', component: BusinessNotificationsComponent},
+  {path: 'reset-details/:id', component: ResetDetailsComponent},
+
 
 
 ];

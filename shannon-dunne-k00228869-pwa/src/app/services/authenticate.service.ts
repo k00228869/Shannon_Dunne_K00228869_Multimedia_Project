@@ -110,6 +110,12 @@ signup(newUser: IUser['user'])
     }
   }
 
+  resetPassword(email: string)
+  {
+    this.authenticate.sendPasswordResetEmail(email);
+    alert('A link to reset your details, has been sent to your email address');
+    }
+
 
   // USER SIGN OUT
   logout()

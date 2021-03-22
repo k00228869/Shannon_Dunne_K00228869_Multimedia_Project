@@ -176,7 +176,6 @@ export class RescheduleFormComponent implements OnInit {
     {
       this.scheduleOfDay.push(this.appointmentInfo.time); // add time to array of availabilities
       // this.scheduleOfDay.sort();
-
     }
     console.log('edited hours', this.scheduleOfDay);
     this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for booked date

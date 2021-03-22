@@ -30,7 +30,7 @@ export class CancelComponent implements OnInit {
   {
     console.log('dialog closed');
     this.dialogRef.close();
-    this.changeRoute();
+    
   }
 
   cancel()
@@ -45,6 +45,7 @@ export class CancelComponent implements OnInit {
     this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
     // this.cancel();
     close();
+    this.changeRoute();
   }
 
 

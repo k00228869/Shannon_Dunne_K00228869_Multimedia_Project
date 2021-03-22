@@ -68,7 +68,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);
     this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider);
-    this.reschedule.deleteCancellation(this.newAppointInfo.appointmentId, this.newAppointInfo.uid);
+    this.reschedule.deleteCancellation(this.newAppointInfo.appointmentId, this.newAppointInfo.bid);
     this.changeRoute(this.newAppointInfo.bid);
   }
 

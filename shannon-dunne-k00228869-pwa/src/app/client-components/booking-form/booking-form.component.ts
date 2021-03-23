@@ -68,11 +68,8 @@ export class BookingFormComponent implements OnInit {
   addAppointmentForm: FormGroup;
   public unavailableDates: number[] = [];
   public unavailableDays: number[] = [];
-
   public id: string;
-  // datesNotAvailable;
   public day: string[] = [];
-  // public newDay: string[] = [];
   date = moment();
   public setDate: string;
   public setMonth: string;
@@ -92,11 +89,6 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit(){
 
-    this.notif.getToken().subscribe((data) => { // call func to get user token from db
-      if (!data) { // if no token available
-        this.askPermis(); // call func to get user permis
-      }
-    });
     this.addAppointmentForm = this.addAppointment.group({
       employeeId: new FormControl('', Validators.required),
       serviceId: new FormControl('', [Validators.minLength(7)]),
@@ -111,6 +103,7 @@ export class BookingFormComponent implements OnInit {
       async (params) =>
       {
         this.id = params.get('id');
+        console.log('param id', this.id);
         (await this.business.getABusiness(this.id)).subscribe(
           (bus) =>
           {
@@ -136,6 +129,11 @@ export class BookingFormComponent implements OnInit {
         (data) =>
         {
           this.client = data;
+          this.notif.getToken(this.client.uid).subscribe((theToken) => { // call func to get user token from db
+            if (!theToken.token) { // if no token available
+              this.askPermis(); // call func to get user permis
+            }
+          });
         }
       );
     this.booking.getBookedDays(this.id).subscribe( // pass in business id and call func to get doc for each day with a booking
@@ -158,11 +156,9 @@ export class BookingFormComponent implements OnInit {
   }
 
   askPermis(){ // called when booking button clicked
-    this.notif.requestPermission().subscribe(
-      // call func to get/store notification permission
+    this.notif.requestPermission().subscribe( // func to get/store notification permission
       async (token) => {
-        // message: 'token received';
-        // duration: 2000;
+        console.log('token received', token); // token returned
       }
     );
   }
@@ -222,7 +218,9 @@ export class BookingFormComponent implements OnInit {
           await this.booking.addBusinessBooking(this.clientAppointment);
           const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
           const dateB = moment(this.date, 'DD-MM-YYYY');
-          this.booking.createRescheduleNotif(dateA, dateB);
+          // this.booking.createRescheduleNotif(dateA, dateB);
+          this.notif.appoinmtentReminder(this.clientAppointment, this.profileInfo); // call funcs to store reminders
+          this.notif.reviewReminder(this.clientAppointment, this.profileInfo);
           this.changeRoute();
 
         });
@@ -242,9 +240,11 @@ export class BookingFormComponent implements OnInit {
     // const month = (d || moment()).month(); // get the month num
     let currentYear = moment().year();
     const year = (d || moment()).year();
+    console.log(year);
 
     let currentMonth = moment().month();
     const month = (d || moment()).month();
+    console.log(month);
 
     return  [
       year <= currentYear + 1,
@@ -256,13 +256,13 @@ export class BookingFormComponent implements OnInit {
   }
 
 
-// get duration of serv, disable time for duration when the selected dat is selected
-  async newInput(event)
+   newInput(event) // triggered when the data selection changes
   {
-    this.date = moment(event.value);
-    const selectedDay = this.date.day();
-    this.setDate = this.date.format('ddd MMM DD YYYY');
-    this.setMonth = this.date.format('MMMMM');
+    this.date = moment(event.value); // the selected date as a moment obj
+    const selectedDay = this.date.day(); // the week day index of selected date
+    const selectedMonth = this.date.month(); // the month index of selected month
+    this.setDate = this.date.format('ddd MMM DD YYYY'); // formatting date
+    this.setMonth = this.date.format('MMMMM'); // formatting month
     // console.log(this.date); // moment obj
     // console.log(selectedDay); // index of day
     // console.log(this.setDate); // the selected day
@@ -270,19 +270,19 @@ export class BookingFormComponent implements OnInit {
           // let diff = duration.hours();
           // if (this.day.length <= 1)
           //       {
-          //         this.unavailableDays.push(0)
+          //         this.unavailableDays.push(this.day)
           //       }
     if (selectedDay)
     {
-      await this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
-      async (data) => {
-        console.log('the selected date schedule', data);
-        if (data)
+       this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
+      async (dateSchedule) => {
+        console.log('the selected date schedule', dateSchedule);
+        if (dateSchedule)
         {
           //  let tempArr = data.availableTimes.pop();
-           this.day = Array.from(data.availableTimes);
+           this.day = Array.from(dateSchedule.availableTimes);
         }
-        else if (!data)
+        else if (!dateSchedule)
         {
           if (selectedDay === 1)
           {

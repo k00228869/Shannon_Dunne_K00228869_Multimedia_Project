@@ -3,6 +3,7 @@ import { IUser } from 'src/app/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-notification-list',
@@ -14,28 +15,32 @@ export class NotificationListComponent implements OnInit {
   public id: string;
   public busInfo: IUser['business'];
   client: IUser['user'];
+  public reminders: IUser['notificationMessage'][];
+  public reviews: IUser['notificationMessage'][];
+
   constructor(
     public booking: BookingService,
     public business: BusinessService,
     public authService: AuthenticateService,
+    private notif: NotificationsService
 
 
   ) { }
 
   ngOnInit(){
 
-    this.booking.getBusinessAppointment().subscribe(
-      (appoint) =>
-       {
-         this.appointmentInfo = appoint[0];
-         // console.log(this.appointmentInfo.bid);
-         this.business.getABusiness(this.appointmentInfo.bid).subscribe(
-         (bus) =>
-         {
-           // console.log(bus);
-           this.busInfo = bus[0];
-         });
-       });
+    // this.booking.getBusinessAppointment().subscribe(
+    //   (appoint) =>
+    //    {
+    //      this.appointmentInfo = appoint[0];
+    //      // console.log(this.appointmentInfo.bid);
+    //      this.business.getABusiness(this.appointmentInfo.bid).subscribe(
+    //      (bus) =>
+    //      {
+    //        // console.log(bus);
+    //        this.busInfo = bus[0];
+    //      });
+    //    });
 
     this.business.getUserInfo().subscribe(
         (data) =>
@@ -43,6 +48,18 @@ export class NotificationListComponent implements OnInit {
           this.client = data;
         }
       );
+
+    this.notif.getANotifications().subscribe(
+      (data) => {
+        this.reminders = data;
+        console.log(this.reminders);
+      });
+
+    this.notif.getRNotifications().subscribe(
+        (data) => {
+          this.reviews = data;
+          console.log(this.reviews);
+        });
   }
 
 }

@@ -40,34 +40,36 @@ export class EditBusinessComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.paramMap.subscribe(
-      async (params) =>
-      {
-        this.id = params.get('id');
-        await this.reschedule.getBusiness(this.id).pipe(take(1)).subscribe(
-          (data) => {
-            this.newProfile = data;
-            this.editProfileForm.controls.businessName.setValue(this.newProfile.businessName);
-            this.editProfileForm.controls.businessDescription.setValue(this.newProfile.businessDescription);
-            this.editProfileForm.controls.eircode.setValue(this.newProfile.eircode);
-            this.editProfileForm.controls.county.setValue(this.newProfile.county);
-            this.editProfileForm.controls.businessType.setValue(this.newProfile.businessType);
-            this.editProfileForm.controls.reminderMessage.setValue(this.newProfile.reminderMessage);
-            this.editProfileForm.controls.cancellationPolicy.setValue(this.newProfile.cancellationPolicy);
-          });
-      });
+    // this.route.paramMap.subscribe(
+    //   async (params) =>
+    //   {
+    //     this.id = params.get('id');
+    //     await this.reschedule.getBusiness(this.id).pipe(take(1)).subscribe(
+    //       (data) => {
+    //         this.newProfile = data;
+    //         this.editProfileForm.controls.businessName.setValue(this.newProfile.businessName);
+    //         this.editProfileForm.controls.businessDescription.setValue(this.newProfile.businessDescription);
+    //         this.editProfileForm.controls.eircode.setValue(this.newProfile.eircode);
+    //         this.editProfileForm.controls.county.setValue(this.newProfile.county);
+    //         this.editProfileForm.controls.businessType.setValue(this.newProfile.businessType);
+    //         this.editProfileForm.controls.reminderMessage.setValue(this.newProfile.reminderMessage);
+    //         this.editProfileForm.controls.cancellationPolicy.setValue(this.newProfile.cancellationPolicy);
+    //       });
+    //   });
 
 
 
-    this.editProfileForm = this.editProfile.group({
-        businessName: new FormControl(''),
-        businessDescription: new FormControl(''),
-        businessType: new FormControl(''),
-        eircode: new FormControl('', [Validators.minLength(7), Validators.maxLength(7)]),
-        county: new FormControl(''),
-        reminderMessage: new FormControl(''),
-        cancellationPolicy: new FormControl('')
-      });
+    // this.editProfileForm = this.editProfile.group({
+    //     businessName: new FormControl(''),
+    //     businessDescription: new FormControl(''),
+    //     businessType: new FormControl(''),
+    //     eircode: new FormControl('', [Validators.minLength(7), Validators.maxLength(7)]),
+    //     county: new FormControl(''),
+    //     reminderMessage: new FormControl(''),
+    //     cancellationPolicy: new FormControl('')
+    //   });
+
+
     // this.editBusHours = this.editHours.group({
     //   monday: this.editHours.array([]),
     //   tuesday: this.editHours.array([]),
@@ -93,22 +95,22 @@ export class EditBusinessComponent implements OnInit {
 
 
 
-  public onProfileSubmit(updatedProfile: IUser['business']): void
-  {
-    if (this.editProfileForm.status == 'VALID')// if fields of formgroup are valid
-    {
-      this.newProfile.businessName = updatedProfile.businessName;
-      this.newProfile.businessDescription = updatedProfile.businessDescription;
-      this.newProfile.eircode = updatedProfile.eircode;
-      this.newProfile.county = updatedProfile.county;
-      this.newProfile.businessType = updatedProfile.businessType;
-      this.newProfile.reminderMessage = updatedProfile.reminderMessage;
-      this.newProfile.cancellationPolicy = updatedProfile.cancellationPolicy;
-      console.log('not in func', updatedProfile);
-      console.log('in func', this.newProfile);
-      this.editbusiness.updateBusiness(this.newProfile);
-    }
-  }
+  // public onProfileSubmit(updatedProfile: IUser['business']): void
+  // {
+  //   if (this.editProfileForm.status == 'VALID')// if fields of formgroup are valid
+  //   {
+  //     this.newProfile.businessName = updatedProfile.businessName;
+  //     this.newProfile.businessDescription = updatedProfile.businessDescription;
+  //     this.newProfile.eircode = updatedProfile.eircode;
+  //     this.newProfile.county = updatedProfile.county;
+  //     this.newProfile.businessType = updatedProfile.businessType;
+  //     this.newProfile.reminderMessage = updatedProfile.reminderMessage;
+  //     this.newProfile.cancellationPolicy = updatedProfile.cancellationPolicy;
+  //     console.log('not in func', updatedProfile);
+  //     console.log('in func', this.newProfile);
+  //     this.editbusiness.updateBusiness(this.newProfile);
+  //   }
+  // }
 
 
 

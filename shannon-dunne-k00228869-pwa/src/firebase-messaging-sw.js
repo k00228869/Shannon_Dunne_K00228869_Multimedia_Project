@@ -1,4 +1,4 @@
-// give sw access to firebase messaging
+// give access to firebase messaging
 importScripts('https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.3.0/firebase-messaging.js');
 
@@ -16,12 +16,13 @@ firebase.initializeApp({
 
  
 
-const messaging = firebase.messaging(); // get firebase messaging instance
+const messaging = firebase.messaging(); // access firebase messaging instance for the app
 
 messaging.onBackgroundMessage((payload) => { //handle message when browser not in focus
   console.log('[firebase-messaging-sw.js] bm received', payload);
   // openSnackBar();
   saveNotification(payload);
+  // displayNotification(payload)
   const notificationTitle = 'bm title';
   const notificationOptions = {
     body: 'bm body',

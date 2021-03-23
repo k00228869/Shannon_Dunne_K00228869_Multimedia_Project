@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-feedback-form',
@@ -24,6 +25,7 @@ export class FeedbackFormComponent implements OnInit {
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
     private router: Router,
+    private notif: NotificationsService
 
 
   ) { }
@@ -58,6 +60,7 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.reply = null;
     console.log('review', this.submittedFeedback);
     this.feedbackService.addReview(this.submittedFeedback, this.id);
+    this.notif.deleteRNotifications(this.submittedFeedback.bid);
     this.changeRoute();
   }
 

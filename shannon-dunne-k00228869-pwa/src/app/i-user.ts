@@ -89,22 +89,30 @@ export interface IUser {
         date?: string;
         availableTimes?: string[];
     };
-    client?: {
-        name: string;
-        uid: string;
-        phone: string;
-        paymentInfo: string[];
-    };
+    // client?: {
+    //     name: string;
+    //     uid: string;
+    //     phone: string;
+    //     paymentInfo: string[];
+    // };
     subscription?: {
     token?: any;
     id?: string;
     };
-    notification?: {
-        title?: string;
-        body?: string;
-        click_action?: string;
+    notificationMessage?: {
+        infoId?: string;
+    message?: {
+        token?: string;
         id?: string;
+        notification?: {
+            title?: string;
+            body?: string;
+            icon: string;
+            click_action?: string;
+            }
+        }
     };
+
     cancellation?: {
         id?: string;
     };

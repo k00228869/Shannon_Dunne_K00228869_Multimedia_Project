@@ -42,33 +42,34 @@
     <span class="spacer"></span>
 </mat-toolbar>
 
-
+<div *ngFor="let reminder of reminders">
 <!-- <div *ngIf="reminder"> -->
     <mat-divider></mat-divider>
     <mat-card class="card"> 
-        <a routerLink="/booking-confirmed/{{appointmentInfo.appointmentId}}">
+        <a routerLink="/booking-confirmed/{{reminder.infoId}}">
           <mat-card-header>
-            <mat-card-title>Appointment Reminder</mat-card-title>
+            <mat-card-title>{{reminder.message.notification.title}}</mat-card-title>
             <mat-card-subtitle>
-                Dont forget your appointment with {{busInfo.businessName}} Tomorrow!
+                {{reminder.message.notification.body}}
               </mat-card-subtitle>
-            <mat-card-subtitle>
-              {{appointmentInfo.date}}<br>  {{appointmentInfo.time}} PM
-            </mat-card-subtitle>
           </mat-card-header>
         </a>
     </mat-card>
     <br>
     <br>
     <!-- </div> -->
+
+  </div>
+
     <!-- <div *ngIf="review"> -->
+<div *ngFor="let review of reviews">
 <br> 
 <mat-card class="card"> 
-    <a routerLink="/review/{{appointmentInfo.bid}}">
+    <a routerLink="/review/{{review.infoId}}">
       <mat-card-header>
-        <mat-card-title>Review {{busInfo.businessName}}</mat-card-title>
+        <mat-card-title>{{review.message.notification.title}}</mat-card-title>
         <mat-card-subtitle>
-          We'd love to hear about your experience with {{busInfo.businessName}}.
+          {{review.message.notification.body}}
         </mat-card-subtitle>
       </mat-card-header>
     </a>
@@ -76,5 +77,6 @@
 </mat-card>
 <!-- </div> -->
   <br> 
+</div>
 
 

@@ -86,6 +86,7 @@ export class BookingService {
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
     // get a booked date
+    console.log('getting booked date', setDate, id);
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
@@ -96,7 +97,7 @@ export class BookingService {
   }
 
   public getBookedDays(id: string): Observable<IUser['bookingSchedule']> {
-    // return businesses schedule doc with appointment id
+    // return businesses schedule collection
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')

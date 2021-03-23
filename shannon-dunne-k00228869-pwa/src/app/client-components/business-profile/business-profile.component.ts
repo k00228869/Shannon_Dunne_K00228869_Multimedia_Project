@@ -35,9 +35,6 @@ export class BusinessProfileComponent implements OnInit {
       (params) =>
       {
         this.id = params.get('id');
-        // console.log('params', this.id);
-        // console.log('paramid', this.id);
-
         this.business.getABusiness(params.get('id')).subscribe(
           (bus) =>
           {
@@ -76,6 +73,7 @@ export class BusinessProfileComponent implements OnInit {
 
     this.feedback.getBusinessReviews(this.id).subscribe(
       (data) => {
+        console.log(data);
         this.reviews = data;
       }
     );

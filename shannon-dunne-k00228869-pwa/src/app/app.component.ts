@@ -40,7 +40,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.notif.receiveMessages();
+    // this.notif.receiveMessages();
     this.message = this.notif.currentMessage;
     this.router.events.subscribe((e) => { // check route url and subscribe to receive event
       if (e instanceof NavigationStart) {// event triggered on first page

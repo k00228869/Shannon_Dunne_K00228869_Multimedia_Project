@@ -14,6 +14,7 @@ import { identifierModuleUrl } from '@angular/compiler';
 })
 export class NotificationsService {
   currentMessage = new BehaviorSubject(null); // observable for new data
+
   token = null;
   public uid: string;
   public userSub: IUser['subscription'];
@@ -34,7 +35,8 @@ export class NotificationsService {
     private afm: AngularFireMessaging,
     private auth: AngularFireAuth,
     private db: AngularFireDatabase
-  ) {}
+  ) {
+  }
 
   requestPermission() {
     return this.afm.requestToken.pipe(
@@ -55,9 +57,15 @@ export class NotificationsService {
             .doc<IUser['subscription']>(theUser.uid)
             .set(this.subscrip)
         );
+      },
+      (err) =>
+      {
+        console.log('no permission', err);
       })
     );
   }
+// this.afm.tokenChanges(());
+
 
   // removeToken() {
   //   this.afm.getToken // get user token
@@ -68,15 +76,30 @@ export class NotificationsService {
   //     });
   // }
 
-  listenForMessages() {
-    // listen for foreground messages
-    // return this.afm.messages;
-    this.afm.messages.subscribe((message) => {
-      console.log('listen func', message);
-    });
-  }
 
-  receiveMessages() {
+onTokenRefresh(){
+  this.afm.requestToken.pipe( // get token
+    tap(token => {
+      let theUser = JSON.parse(localStorage.getItem('user'));
+      console.log(theUser.uid);
+      console.log('add token to db', token);
+      this.subscrip = {};
+      this.subscrip.token = token;
+      this.subscrip.id = this.uid;
+      console.log('saved subscription', this.subscrip);
+      return from (this.firestore
+      .collection<IUser>('users')
+      .doc<IUser['user']>(theUser.uid)
+      .collection<IUser>(theUser.uid)
+      .doc<IUser['subscription']>(theUser.uid)
+      .update({token: this.subscrip.token})); // store token + user id
+    })
+  );
+ 
+};
+
+
+receiveMessages() { // when message received, store it in the currentMessage obj
     // handle message when app has browser focus
     return this.afm.onMessage((payload) => {
       console.log('mess payload received', payload);
@@ -85,7 +108,7 @@ export class NotificationsService {
     });
   }
 
-  saveNotification(payload) {
+saveNotification(payload) {
     this.notifObj.message.notification.title = payload.notification.title;
     this.notifObj.message.notification.body = payload.notification.body;
     this.notifObj.message.notification.icon = payload.notification.icon;
@@ -97,7 +120,7 @@ export class NotificationsService {
     // .collection<IUser>('notifications').doc<IUser['notification']>(theUser.uid).set(this.notifObj)); // store token + user id
   }
 
-  getToken(id: string): Observable<IUser['subscription']> {
+getToken(id: string): Observable<IUser['subscription']> {
     // retrieve token from db
     let docRef;
     docRef = this.firestore
@@ -112,7 +135,7 @@ export class NotificationsService {
 
   // CLOUD FUNCTIONS NEED TO BE IMPLEMENTED HERE TO SEND THE NOTIFICATIONS
 
-  appoinmtentReminder(
+appoinmtentReminder(
     clientAppointment: IUser['appointment'],
     profileInfo: IUser['business'] // reminder set and store
   ) {
@@ -151,7 +174,7 @@ export class NotificationsService {
     });
   }
 
-  getANotifications(): Observable<IUser['notificationMessage'][]> {
+getANotifications(): Observable<IUser['notificationMessage'][]> {
     // get appoinment notifications collection
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
@@ -163,7 +186,7 @@ export class NotificationsService {
     );
   }
 
-  deleteANotifications(id: string): Observable<void> {
+deleteANotifications(id: string): Observable<void> {
     // delete appoinment notifications document
     // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -177,7 +200,7 @@ export class NotificationsService {
     );
   }
 
-  reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
+reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
     // TO DO::
     // get the appoint date, calculate time between now and booking time,
     // add 48hrs to result and set as reminder time
@@ -215,7 +238,7 @@ export class NotificationsService {
     );
   }
 
-  getRNotifications(): Observable<IUser['notificationMessage'][]> {
+getRNotifications(): Observable<IUser['notificationMessage'][]> {
     // get review notifications collection
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
@@ -227,7 +250,7 @@ export class NotificationsService {
     );
   }
 
-  deleteRNotifications(id: string): Observable<void> {
+deleteRNotifications(id: string): Observable<void> {
     // delete review notifications document
     // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));

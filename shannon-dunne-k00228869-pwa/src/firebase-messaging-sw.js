@@ -39,32 +39,3 @@ messaging.onBackgroundMessage((payload) => { //handle message when browser not i
 // self.addEventListener('notificationclick', function(event) {
 //     event.notification.close();
 // });
-
-
-
-
-
-
-this.messaging.onTokenRefresh(handleTokenRefresh);
-handleTokenRefresh()
-  {
-    this.afm.requestToken.pipe( // get token
-        tap(token => {
-          let theUser = JSON.parse(localStorage.getItem('user'));
-          console.log(theUser.uid);
-          console.log('add token to db', token);
-          this.subscrip = {};
-          this.subscrip.token = token;
-          this.subscrip.id = this.uid;
-          console.log('saved subscription', this.subscrip);
-          return from (this.firestore
-          .collection<IUser>('users')
-          .doc<IUser['user']>(theUser.uid)
-          .collection<IUser['subscription']>(theUser.uid)
-          .update({token: this.subscrip.token})); // store token + user id
-        })
-      );
-  }
-
-
-  

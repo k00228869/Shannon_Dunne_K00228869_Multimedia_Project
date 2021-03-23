@@ -26,8 +26,6 @@ export class FeedbackFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private notif: NotificationsService
-
-
   ) { }
 
   ngOnInit(){

@@ -103,7 +103,6 @@ export class BookingFormComponent implements OnInit {
       async (params) =>
       {
         this.id = params.get('id');
-        console.log('param id', this.id);
         (await this.business.getABusiness(this.id)).subscribe(
           (bus) =>
           {

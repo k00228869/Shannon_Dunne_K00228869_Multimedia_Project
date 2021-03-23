@@ -40,12 +40,12 @@ export class NotificationsService {
     return this.afm.requestToken.pipe( // get token when permission allowed
       // get token
       tap((token) => {
-        console.log('store token', token);
+        // console.log('store token', token);
         let theUser = JSON.parse(localStorage.getItem('user'));
-        console.log('uid', theUser.uid);
+        // console.log('uid', theUser.uid);
         this.subscrip.token = token; // set token + user id
         this.subscrip.id = theUser.uid;
-        console.log('saved subscription', this.subscrip);
+        // console.log('saved subscription', this.subscrip);
 
         return from( // store token + user id
           this.firestore
@@ -88,7 +88,7 @@ export class NotificationsService {
     this.notifObj.message.notification.body = payload.notification.body;
     this.notifObj.message.notification.icon = payload.notification.icon;
     // this.notifObj.click_action = payload.notification.click_action;
-    console.log('saved notification', this.notifObj);
+    // console.log('saved notification', this.notifObj);
     // let theUser = JSON.parse(localStorage.getItem('user'));
     // return from (this.firestore.collection<IUser['user']>('users')
     // .doc<IUser['user']>(theUser.uid)
@@ -112,7 +112,7 @@ export class NotificationsService {
     clientAppointment: IUser['appointment'],
     profileInfo: IUser['business'] // reminder set and store
   ) {
-    console.log('appoinmtentReminder called');
+    // console.log('appoinmtentReminder called');
     // get the appoint date, calculate time between now and booking time,
     // remove 24hrs to result and set as reminder time
     this.getToken(clientAppointment.uid).subscribe((data) => {
@@ -170,7 +170,7 @@ export class NotificationsService {
   }
 
   reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
-    console.log('ReviewReminder called');
+    // console.log('ReviewReminder called');
     // TO DO::
     // get the appoint date, calculate time between now and booking time,
     // add 48hrs to result and set as reminder time

@@ -46,11 +46,10 @@ export class NotificationsService {
         this.subscrip.token = token; // set token + user id
         this.subscrip.id = theUser.uid;
         // console.log('saved subscription', this.subscrip);
-        //call funct to create notification
         return from(
           // store token + user id
           this.firestore
-            .collection<IUser['user']>('users')
+            .collection<IUser>('users')
             .doc<IUser['user']>(theUser.uid)
             .collection<IUser>('subscriptions')
             .doc<IUser['subscription']>(theUser.uid)

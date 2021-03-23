@@ -43,6 +43,10 @@ import { AdvertiseAppointmentComponent } from './business-components/advertise-a
 import { BookDealComponent } from './client-components/book-deal/book-deal.component';
 import { ResetDetailsComponent } from './user-components/reset-details/reset-details.component';
 import { EditBusinessComponent } from './business-components/edit-business/edit-business.component';
+import { ToastService } from './services/toast.service';
+import { RescheduleService } from './services/reschedule.service';
+import { FeedbackService } from './services/feedback.service';
+import { EditBusinessService } from './services/edit-business.service';
 
 // import { MomentModule } from 'ngx-moment';
 
@@ -96,7 +100,12 @@ import { EditBusinessComponent } from './business-components/edit-business/edit-
     BookingService,
     SearchQueriesService,
     NotificationsService,
-    WorkingDaysService
+    WorkingDaysService,
+    ToastService,
+    BookingService,
+    RescheduleService,
+    FeedbackService,
+    EditBusinessService,
   ],
   bootstrap: [AppComponent]
 })

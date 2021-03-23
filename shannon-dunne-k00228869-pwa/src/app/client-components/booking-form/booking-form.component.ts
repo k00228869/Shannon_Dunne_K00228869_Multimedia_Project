@@ -239,11 +239,11 @@ export class BookingFormComponent implements OnInit {
     // const month = (d || moment()).month(); // get the month num
     let currentYear = moment().year();
     const year = (d || moment()).year();
-    console.log(year);
+    // console.log(year);
 
     let currentMonth = moment().month();
     const month = (d || moment()).month();
-    console.log(month);
+    // console.log(month);
 
     return  [
       year <= currentYear + 1,

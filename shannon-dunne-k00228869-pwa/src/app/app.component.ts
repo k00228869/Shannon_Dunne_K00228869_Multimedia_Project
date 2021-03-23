@@ -4,6 +4,7 @@ import { NotificationsService } from './services/notifications.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { UploadsService } from './services/uploads.service';
 import { Router, Event, NavigationStart } from '@angular/router';
+import { ToastService } from './services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -34,13 +35,13 @@ export class AppComponent {
     private readonly swPush: SwPush,
     private notif: NotificationsService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
     this.notif.receiveMessages();
     this.message = this.notif.currentMessage;
-
     this.router.events.subscribe((e) => { // check route url and subscribe to receive event
       if (e instanceof NavigationStart) {// event triggered on first page
         if (e.url === '/') {
@@ -66,16 +67,6 @@ export class AppComponent {
 //     verticalPosition: top,
 //   });
 
-  // askPermis() { // called when notification clicked
-  //   this.notif.requestPermission().subscribe(
-  //     // call func to get/store notification permission
-  //     async (token) => {
-  //       // message: 'token received';
-  //       // duration: 2000;
-  //     }
-  //   );
-  // }
-
   downloadApp() { // when download button is clicked
     // hide download button
     this.showButton = false;
@@ -92,6 +83,23 @@ export class AppComponent {
       this.deferredPrompt = null;
     });
   }
+
+
+
+infoMessage()
+{
+  const message = '{{this.message}}';
+  this.toast.sendMessage(message, 'info');
+
+}
+
+
+
+
+
+
+
+
 }
 
 

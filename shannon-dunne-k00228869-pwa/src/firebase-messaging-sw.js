@@ -29,6 +29,8 @@ messaging.onBackgroundMessage((payload) => { //handle message when browser not i
     icon: 'bm icon',
   }
   return self.showNotification(notificationTitle, notificationOptions);
+  
+
 });
 
 
@@ -43,26 +45,26 @@ messaging.onBackgroundMessage((payload) => { //handle message when browser not i
 
 
 
-// this.messaging.onTokenRefresh(handleTokenRefresh);
-// handleTokenRefresh()
-//   {
-//     return this.afm.requestToken.pipe( // get token
-//         tap(token => {
-//           console.log('store token', token);
-//           let theUser = JSON.parse(localStorage.getItem('user'));
-//           console.log(theUser.uid);
-//           console.log('add token to db', token);
-//           this.uid = theUser.uid;
-//           this.subscrip = {};
-//           this.subscrip.token = token;
-//           this.subscrip.id = this.uid;
-//           console.log('saved subscription', this.subscrip);
-//           return from (this.firestore.collection<IUser['user']>('users')
-//           .doc<IUser['user']>(this.uid)
-//           .collection<IUser['subscription']>('subscriptions').add(this.subscrip)); // store token + user id
-//         })
-//       );
-//   }
+this.messaging.onTokenRefresh(handleTokenRefresh);
+handleTokenRefresh()
+  {
+    this.afm.requestToken.pipe( // get token
+        tap(token => {
+          let theUser = JSON.parse(localStorage.getItem('user'));
+          console.log(theUser.uid);
+          console.log('add token to db', token);
+          this.subscrip = {};
+          this.subscrip.token = token;
+          this.subscrip.id = this.uid;
+          console.log('saved subscription', this.subscrip);
+          return from (this.firestore
+          .collection<IUser>('users')
+          .doc<IUser['user']>(theUser.uid)
+          .collection<IUser['subscription']>(theUser.uid)
+          .update({token: this.subscrip.token})); // store token + user id
+        })
+      );
+  }
 
 
   

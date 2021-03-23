@@ -1,11 +1,15 @@
-<div>
 <!-- set value to behaviour subject -->
+<!-- <div>
 currentMessage:
 <h1>{{ (message | async)?.notification.title }}</h1>
 <p> {{ (message | async)?.notification.body }}</p>
 <img src='{{ (message | async)?.notification.icon }}'/>
-<!-- {{message | async | json}} -->
-</div>
+</div> -->
+
+
+  <div [ngClass]="{'is-info': message.style == 'info'}">
+    <button>{{message.content}}</button>
+  </div>
 
 
 <router-outlet>

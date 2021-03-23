@@ -21,7 +21,7 @@ export class NotificationsService {
   private notifObj: IUser['notificationMessage'] = {};
 
   notificationMessage = {
-    //   token: '',
+    //   to: '',
     // notification : {
     //   title: '',
     //   body: '',
@@ -37,8 +37,8 @@ export class NotificationsService {
   ) {}
 
   requestPermission() {
-    return this.afm.requestToken.pipe( // get token when permission allowed
-      // get token
+    return this.afm.requestToken.pipe(
+      // get token when permission allowed
       tap((token) => {
         // console.log('store token', token);
         let theUser = JSON.parse(localStorage.getItem('user'));
@@ -46,8 +46,9 @@ export class NotificationsService {
         this.subscrip.token = token; // set token + user id
         this.subscrip.id = theUser.uid;
         // console.log('saved subscription', this.subscrip);
-
-        return from( // store token + user id
+        //call funct to create notification
+        return from(
+          // store token + user id
           this.firestore
             .collection<IUser['user']>('users')
             .doc<IUser['user']>(theUser.uid)
@@ -68,14 +69,16 @@ export class NotificationsService {
   //     });
   // }
 
-  listenForMessages() { // listen for foreground messages
+  listenForMessages() {
+    // listen for foreground messages
     // return this.afm.messages;
     this.afm.messages.subscribe((message) => {
       console.log('listen func', message);
     });
   }
 
-  receiveMessages() { // handle message when app has browser focus
+  receiveMessages() {
+    // handle message when app has browser focus
     return this.afm.onMessage((payload) => {
       console.log('mess payload received', payload);
       // this.saveNotification(payload);
@@ -95,16 +98,18 @@ export class NotificationsService {
     // .collection<IUser>('notifications').doc<IUser['notification']>(theUser.uid).set(this.notifObj)); // store token + user id
   }
 
-  getToken(
-    id: string
-  ): Observable<IUser['subscription']> { // retrieve token from db
+  getToken(id: string): Observable<IUser['subscription']> {
+    // retrieve token from db
     let docRef;
     docRef = this.firestore
       .collection<IUser['user']>('users')
       .doc<IUser['user']>(id)
-      .collection<IUser['subscription']>('subscriptions');
+      .collection<IUser>('subscriptions').doc<IUser['subscription']>(id);
     return docRef.valueChanges();
   }
+
+  // call delete notification when user deletes an appoinment
+  // call delete notification when user rescedules an appoinment, call add notification when user reschedules an appointment
 
   // CLOUD FUNCTIONS NEED TO BE IMPLEMENTED HERE TO SEND THE NOTIFICATIONS
 
@@ -112,36 +117,39 @@ export class NotificationsService {
     clientAppointment: IUser['appointment'],
     profileInfo: IUser['business'] // reminder set and store
   ) {
-    // console.log('appoinmtentReminder called');
     // get the appoint date, calculate time between now and booking time,
-    // remove 24hrs to result and set as reminder time
+    // remove 24hrs from result and set as reminder time
     this.getToken(clientAppointment.uid).subscribe((data) => {
       this.token = data.token;
-    });
-    this.notificationMessage = { // set notification message
-      infoId: clientAppointment.appointmentId,
-      message: {
-        token: this.token,
-        notification: {
-          title: 'Appointment Reminder',
-          body:
-          `You have an appointment with ${profileInfo.businessName} on ${clientAppointment.date} at ${clientAppointment.time}. Please Note:  ${profileInfo.reminderMessage}`,
-          icon: 'https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=bad03671-e38c-45bd-b606-64cd198f9792'
+      this.notificationMessage = {
+        // set notification message
+        infoId: clientAppointment.appointmentId,
+        message: {
+          token: this.token,
+          notification: {
+            title: 'Appointment Reminder',
+            body: `You have an appointment with ${profileInfo.businessName} on ${clientAppointment.date}
+             at ${clientAppointment.time}. Please Note:  ${profileInfo.reminderMessage}`,
+            icon:
+              'https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=bad03671-e38c-45bd-b606-64cd198f9792',
+          },
         },
-      },
-    };
+      };
+      console.log(this.notificationMessage);
+      // add message to db, when cloud functions are implemented,
+      // then the notification data will be stored after it has been received,
+      // rather than stored after it has created
 
-    // tslint:disable-next-line: max-line-length
-    console.log(this.notificationMessage); // add message to db, when cloud functions are implemented, then the notification data will be stored after it has been received
-
-    return from( // store appoinment notification
-      this.firestore
-        .collection<IUser>('users') // adNotification to notificationlist
-        .doc<IUser['user']>(clientAppointment.uid)
-        .collection<IUser>('appointment')
-        .doc<IUser['notificationMessage']>(clientAppointment.date)
-        .set(this.notificationMessage)
-    );
+      return from(
+        // store appoinment notification
+         this.firestore
+          .collection<IUser>('users') // adNotification to notificationlist
+          .doc<IUser['user']>(clientAppointment.uid)
+          .collection<IUser>('appointment-notification')
+          .doc<IUser['notificationMessage']>(clientAppointment.date)
+          .set(this.notificationMessage)
+      );
+    });
   }
 
   getANotifications(): Observable<IUser['notificationMessage'][]> {
@@ -151,26 +159,26 @@ export class NotificationsService {
       this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(theUser.uid)
-        .collection<IUser['notificationMessage']>('appointment')
+        .collection<IUser['notificationMessage']>('appointment-notification')
         .valueChanges()
     );
   }
 
   deleteANotifications(id: string): Observable<void> {
     // delete appoinment notifications document
+    // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(theUser.uid)
-        .collection<IUser>('appointment')
+        .collection<IUser>('appointment-notification')
         .doc<IUser['notificationMessage']>(id)
         .delete()
     );
   }
 
   reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
-    // console.log('ReviewReminder called');
     // TO DO::
     // get the appoint date, calculate time between now and booking time,
     // add 48hrs to result and set as reminder time
@@ -179,30 +187,32 @@ export class NotificationsService {
       // get user token
       (data) => {
         this.token = data.token;
-      }
-    );
 
-    // set message data
-    this.notificationMessage = {
-      infoId: clientAppointment.bid,
-      message: {
-        token: this.token,
-        notification: {
-          title: 'Review Request',
-          body:
-            `We'd love to hear about your last booking experience with ${profileInfo.businessName}` ,
-          icon: 'https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=bad03671-e38c-45bd-b606-64cd198f9792',
-        },
-      },
-    };
-    console.log(this.notificationMessage);
-    return from( // store review notification message
-      this.firestore
-        .collection<IUser>('users')
-        .doc<IUser['user']>(clientAppointment.uid)
-        .collection<IUser>('review')
-        .doc<IUser['notificationMessage']>(clientAppointment.bid)
-        .set(this.notificationMessage)
+        // set message data
+        this.notificationMessage = {
+          infoId: clientAppointment.bid,
+          message: {
+            token: this.token,
+            notification: {
+              title: 'Review Request',
+              body: `We'd love to hear about your last booking experience with ${profileInfo.businessName}`,
+              icon:
+                'https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=bad03671-e38c-45bd-b606-64cd198f9792',
+            },
+          },
+        };
+
+        console.log(this.notificationMessage);
+        return from(
+          // store review notification message
+          this.firestore
+            .collection<IUser>('users')
+            .doc<IUser['user']>(clientAppointment.uid)
+            .collection<IUser>('review-notification')
+            .doc<IUser['notificationMessage']>(clientAppointment.bid) // pass in business id as doc name
+            .set(this.notificationMessage)
+        );
+      }
     );
   }
 
@@ -213,20 +223,21 @@ export class NotificationsService {
       this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(theUser.uid)
-        .collection<IUser['notificationMessage']>('review')
+        .collection<IUser['notificationMessage']>('review-notification')
         .valueChanges()
     );
   }
 
   deleteRNotifications(id: string): Observable<void> {
     // delete review notifications document
+    // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(theUser.uid)
-        .collection<IUser>('review')
-        .doc<IUser['notificationMessage']>(id)
+        .collection<IUser>('review-notification')
+        .doc<IUser['notificationMessage']>(id) // pass in business id as doc name
         .delete()
     );
   }

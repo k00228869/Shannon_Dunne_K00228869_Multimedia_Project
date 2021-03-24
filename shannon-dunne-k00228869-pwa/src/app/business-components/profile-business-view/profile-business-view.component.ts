@@ -5,6 +5,7 @@ import { BusinessService } from 'src/app/services/business.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FeedbackService } from 'src/app/services/feedback.service';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -42,13 +43,14 @@ export class ProfileBusinessViewComponent implements OnInit {
       this.isSignedIn = true; // if user is not empty they are signed in
     }
     else {
-      this.isSignedIn = false; // if user is  empty they are signed out
+      this.isSignedIn = false; // if user is empty they are signed out
     }
-    this.business.getBusiness().subscribe(
+    this.business.getBusiness().pipe(take(1)).subscribe( // get bus doc
         (bus) =>
         {
-          // console.log('outside if', this.isCreated);
-          this.profileInfo = bus[0];
+          this.profileInfo = bus;
+          console.log(bus);
+          console.log(this.profileInfo);
           if (this.profileInfo.profileCreated)
           {
             this.isCreated = true;

@@ -37,7 +37,7 @@ export class SearchQueriesService {
       return allBusinesses.valueChanges();
 
     }
-    else
+    else if (sort === 'price')
     {
       console.log('queryPrice called');
       let allBusinesses;
@@ -47,5 +47,14 @@ export class SearchQueriesService {
       .orderBy(sort, 'asc'));
       return allBusinesses.valueChanges();
     }
+    else{
+      console.log('queryPrice called');
+      let allBusinesses;
+      allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref
+      .where('county', '==', location)
+      .where('businessType', '==', busType));
+      return allBusinesses.valueChanges();
+    }
+
   }
 }

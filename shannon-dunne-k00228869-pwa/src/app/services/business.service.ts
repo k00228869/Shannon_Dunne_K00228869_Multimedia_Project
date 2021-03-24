@@ -97,13 +97,12 @@ export class BusinessService {
     .collection<IUser['employee']>('employees').add(adEmployee));
   }
 
-
-  public getBusiness(): Observable < IUser['business'] > // get business user's business info
+  public getBusiness(): Observable<IUser['business']> // get business user's business info
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    let docRef;
-    docRef = this.firestore.collection<IUser>('businesses')
-    .doc<IUser['business']>(theUser.uid);
+    this.id = theUser.uid;
+    let docRef = this.firestore.collection<IUser>('businesses')
+    .doc<IUser['business']>(this.id);
     return docRef.valueChanges();
   }
 
@@ -115,7 +114,6 @@ export class BusinessService {
     .collection<IUser['hours']>('hours'); // add user to the db
     return docRef.valueChanges();
   }
-
 
   public async getEmployees(): Promise < Observable < IUser['employee'] >> // get business user's employees
     {
@@ -139,11 +137,14 @@ export class BusinessService {
   }
 
 
+
+
 // posts/gets data for a business profile available to other users
 getABusiness(id: string): Observable < IUser['business'] > // get a business' details
   {
     let docRef;
-    docRef = this.firestore.collection<IUser>('businesses').doc<IUser['business']>(id);
+    docRef = this.firestore.collection<IUser>('businesses')
+    .doc<IUser['business']>(id);
     return docRef.valueChanges();
   }
 

@@ -49,7 +49,9 @@ export class AdvertiseAppointmentComponent implements OnInit {
 
           await this.business.getBusiness().subscribe(
             (busDoc) => {
-              this.provider = busDoc[0].businessName;
+              console.log(busDoc);
+              this.provider = busDoc.businessName;
+              console.log(this.provider);
             });
         });
     });
@@ -65,7 +67,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
 
     this.newAppointInfo.serPrice = total; // set booking price after discount is applied
     this.newAppointInfo.uid = ''; // clear old user id
-    this.newAppointInfo.clientName = ''; // clear old user name
+    this.newAppointInfo.clientName = 'Advertised'; // clear old user name
     this.newAppointInfo.note = '';
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);

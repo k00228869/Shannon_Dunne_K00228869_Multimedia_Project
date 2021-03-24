@@ -62,17 +62,24 @@ export class FeedbackFormComponent implements OnInit {
 
     this.feedback.getBusinessReviews(this.submittedFeedback.bid).subscribe(
       (reviewCollection) => {
+        console.log('returned', reviewCollection);
         this.allRatings = reviewCollection;
+        console.log('all reviews', this.allRatings);
         let numberOfRatings = this.allRatings.length;
+        console.log('no. ratings', numberOfRatings);
+
         let sum;
 
         for (let i = 0; i <= this.allRatings.length; i++)
         {
           sum = sum + this.allRatings[i].rating; // add ratings
+          console.log('adding to sum', sum);
+
         }
         sum = sum / numberOfRatings; // divide by number of ratings to get average
+        console.log('dividing by ratings', sum);
         sum = sum.toString(); // convert to string
-        console.log(sum);
+        console.log('string sum', sum);
         this.feedback.averageRating(sum, this.submittedFeedback.bid); // add average rating to bus doc
 
       }

@@ -54,9 +54,9 @@ export class SearchDirectoryComponent implements OnInit {
         console.log('filtered list', filteredBus);
         this.filteredProfiles = [];
         this.filteredProfiles = filteredBus;
-        if (this.filteredProfiles.length < 1)
+        if (this.filteredProfiles.length === 0) // if 0 documents
         {
-          alert('no businness of that type/location, change provider type or location');
+          alert('No provider\'s matching your search, change filters and try again.');
         }
       });
   }

@@ -38,12 +38,14 @@ export class NotificationListComponent implements OnInit {
 
     this.notif.getANotifications().subscribe(
       (data) => {
+        console.log(data);
         this.reminders = data;
         console.log(this.reminders);
       });
 
     this.notif.getRNotifications().subscribe(
         (data) => {
+          console.log(data);
           this.reviews = data;
           console.log(this.reviews);
         });

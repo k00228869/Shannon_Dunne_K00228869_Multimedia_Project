@@ -106,7 +106,7 @@ export class BookingFormComponent implements OnInit {
         (await this.business.getABusiness(this.id)).subscribe(
           (bus) =>
           {
-            this.profileInfo = bus[0];
+            this.profileInfo = bus;
           });
         this.business.getBusServices(this.id).subscribe(
           (servs) =>
@@ -215,11 +215,10 @@ export class BookingFormComponent implements OnInit {
           await this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
           await this.booking.addClientAppointment(this.clientAppointment);
           await this.booking.addBusinessBooking(this.clientAppointment);
-          const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
-          const dateB = moment(this.date, 'DD-MM-YYYY');
-          // this.booking.createRescheduleNotif(dateA, dateB);
-          this.notif.appoinmtentReminder(this.clientAppointment, this.profileInfo); // call funcs to store reminders
-          this.notif.reviewReminder(this.clientAppointment, this.profileInfo);
+          await this.notif.appoinmtentReminder(this.clientAppointment, this.profileInfo); // call funcs to store reminders
+          await this.notif.reviewReminder(this.clientAppointment, this.profileInfo);
+          // const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
+          // const dateB = moment(this.date, 'DD-MM-YYYY');
           this.changeRoute();
 
         });

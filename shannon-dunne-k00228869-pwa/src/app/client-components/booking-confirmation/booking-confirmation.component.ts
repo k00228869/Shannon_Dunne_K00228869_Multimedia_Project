@@ -53,7 +53,7 @@ export class BookingConfirmationComponent implements OnInit {
             (bus) =>
             {
               // console.log(bus);
-              this.busInfo = bus[0];
+              this.busInfo = bus;
             });
           });
       });

@@ -115,7 +115,7 @@ export class RescheduleFormComponent implements OnInit {
 
   updateInfo() {
     this.business.getABusiness(this.appointmentInfo.bid).subscribe((bus) => {
-      this.busInfo = bus[0];
+      this.busInfo = bus;
     });
     // this.business.getHours(this.appointmentInfo.bid).subscribe(
     //   (data) =>

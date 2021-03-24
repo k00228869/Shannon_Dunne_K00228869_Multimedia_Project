@@ -46,9 +46,9 @@ export class AppComponent {
       if (e instanceof NavigationStart) {// event triggered on first page
         if (e.url === '/') {
           this.routeHidden = false; // show carousel if false
-          console.log('current page', e.url);
+          // console.log('current page', e.url);
         } else {
-          console.log('current page', e.url);
+          // console.log('current page', e.url);
           this.routeHidden = true; // show carousel if false
         }
       }

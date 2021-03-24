@@ -58,23 +58,19 @@ export class BusinessService {
   }
 
 // posts/gets data for a business user's profile
-public addToBusinessCol(newProfile: IUser['business'])
+// public addToBusinessCol(newProfile: IUser['business'])
+//   {
+//     let theUser = JSON.parse(localStorage.getItem('user'));
+//     return from (this.firestore.collection('businesses').doc(theUser.uid).set(newProfile));
+//   }
+
+  public addBusiness(newProfile: IUser['business']) // add a businesses details to the db
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    return from (this.firestore.collection('businesses').doc(this.uid).set(newProfile));
+    newProfile.id = theUser.uid;
+    return from (this.firestore.collection<IUser>('businesses')
+    .doc<IUser['business']>(newProfile.id).set(newProfile));
   }
-
-  public addBusiness(newProfile: IUser['business']) // add a business details to the db
-  {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    newProfile.id = this.uid;
-    // newProfile.hours = dailyHours;
-    return from (this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)   // returns promise not observable
-    .collection<IUser['business']>('business').add(newProfile)); // add user to the db
-  }
-
 
   public addServices(adService: IUser['service']) // add business user's services
 {
@@ -101,13 +97,13 @@ public addToBusinessCol(newProfile: IUser['business'])
     .collection<IUser['employee']>('employees').add(adEmployee));
   }
 
+
   public getBusiness(): Observable < IUser['business'] > // get business user's business info
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
     let docRef;
-    docRef = this.firestore.collection('users').doc<IUser['user']>(this.uid)
-    .collection<IUser['business']>('business');
+    docRef = this.firestore.collection<IUser>('businesses')
+    .doc<IUser['business']>(theUser.uid);
     return docRef.valueChanges();
   }
 
@@ -144,12 +140,10 @@ public addToBusinessCol(newProfile: IUser['business'])
 
 
 // posts/gets data for a business profile available to other users
-
 getABusiness(id: string): Observable < IUser['business'] > // get a business' details
   {
     let docRef;
-    docRef = this.firestore.collection('users').doc<IUser['user']>(id)
-    .collection<IUser['business']>('business');
+    docRef = this.firestore.collection<IUser>('businesses').doc<IUser['business']>(id);
     return docRef.valueChanges();
   }
 

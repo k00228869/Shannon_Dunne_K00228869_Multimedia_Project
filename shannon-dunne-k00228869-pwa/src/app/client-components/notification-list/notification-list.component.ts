@@ -29,19 +29,6 @@ export class NotificationListComponent implements OnInit {
 
   ngOnInit(){
 
-    // this.booking.getBusinessAppointment().subscribe(
-    //   (appoint) =>
-    //    {
-    //      this.appointmentInfo = appoint[0];
-    //      // console.log(this.appointmentInfo.bid);
-    //      this.business.getABusiness(this.appointmentInfo.bid).subscribe(
-    //      (bus) =>
-    //      {
-    //        // console.log(bus);
-    //        this.busInfo = bus[0];
-    //      });
-    //    });
-
     this.business.getUserInfo().subscribe(
         (data) =>
         {
@@ -63,7 +50,3 @@ export class NotificationListComponent implements OnInit {
   }
 
 }
-
-// notification is triggered by timestamp
-// get notification id
-// get data with notification id and display in list

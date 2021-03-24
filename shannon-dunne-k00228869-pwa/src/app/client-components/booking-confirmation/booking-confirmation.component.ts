@@ -81,7 +81,8 @@ export class BookingConfirmationComponent implements OnInit {
     dialogConfiguation.data = {
       id: this.id,
       clientId: this.client.uid,
-      busId: this.appointmentInfo.bid}; // set data to pass to cancel component
+      busId: this.appointmentInfo.bid,
+      date: this.appointmentInfo.date}; // set data to pass to cancel component
     // this.dialog.open(CancelComponent, dialogConfiguation);
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
 

@@ -12,48 +12,10 @@ export class SearchQueriesService {
   public businesses: Observable<IUser['business'][]>;
   allBus: IUser['business'][] = [];
   // bus: IUser['business'];
-  
+
   constructor(
     public firestore: AngularFirestore,
-
   ) { }
-
-  // public getAllBusUsers(): Observable<IUser['user']> // returns the business users id's
-  // {
-  //   let aUsers;
-  //   aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
-  //   return aUsers.valueChanges().then(
-  //     (data) => {
-  //       console.log('bus Ids', data);
-  //       // let key
-  //     //   for (key in data)
-  //     // {
-  //     //   let business;
-  //     //   business = this.firestore.collection('users').doc<IUser['user']>(userIds[key])
-  //     //   .collection<IUser['business']>('business');
-  //     //   return business.valueChanges();
-  //     // }
-  //     }
-  //   );
-  // }
-
-
-  // public async getAllBusinesses(userIds: string[]): Promise<Observable<IUser['business']>>
-  // {
-  //   Object.keys(userIds).length;
-  //   let key;
-  //     // tslint:disable-next-line: forin
-  //   for (key in userIds)
-  //   {
-  //     if (userIds.hasOwnProperty(key))
-  //     {
-  //       let business;
-  //       business = this.firestore.collection('users').doc<IUser['user']>(userIds[key])
-  //       .collection<IUser['business']>('business');
-  //       return await business.valueChanges();
-  //     }
-  //   }
-  // }
 
   public getAllBusinessUsers()
   {
@@ -62,28 +24,28 @@ export class SearchQueriesService {
     return allBusinesses.valueChanges();
   }
 
-
-
-  // public getAllBusinessUsers(): Observable<IUser['user'][]> // returns the business users id's
-  // {
-  //   let aUsers;
-  //   aUsers = this.firestore.collection<IUser['user']>('users', ref => ref.where('admin', '==', true));
-  //   return aUsers.valueChanges();
-  // }
-
-
-
-  public getAllBusinessLocations(location: string): Observable<IUser['user']> // returns the business users id's
+  public checkQuery(location: string, busType: string, sort: string)
   {
-    let allBusinesses;
-    allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref.where('county', '==', location));
-    return allBusinesses.valueChanges();
-  }
+    if ( sort === 'rating')
+    {
+      console.log('queryRating called');
+      let allBusinesses;
+      allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref
+      .where('county', '==', location)
+      .where('businessType', '==', busType)
+      .orderBy(sort, 'desc'));
+      return allBusinesses.valueChanges();
 
-  public getAllBusinessTypes(busType: string) // returns the business users id's
-  {
-    let allBusinesses;
-    allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref.where('businessType', '==', busType));
-    return allBusinesses.valueChanges();
+    }
+    else
+    {
+      console.log('queryPrice called');
+      let allBusinesses;
+      allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref
+      .where('county', '==', location)
+      .where('businessType', '==', busType)
+      .orderBy(sort, 'asc'));
+      return allBusinesses.valueChanges();
+    }
   }
 }

@@ -18,78 +18,47 @@ import { SearchQueriesService } from 'src/app/services/search-queries.service';
   styleUrls: ['./search-directory.component.css'],
 })
 export class SearchDirectoryComponent implements OnInit {
-  typeSelected: boolean;
-  locationSelected: boolean;
-  allSelected = true;
-  display = false;
-  deal = false;
+  public allSelected: boolean = true;
   public getDeal: boolean = false;
-  public getType: boolean = false;
-  public getLocation: boolean = false;
+  public filtered: boolean = false;
   public client: IUser['user'];
-  selectedValue: string;
   public allProfiles: IUser['business'][];
-  public withLocation: IUser['business'][];
-  public withType: IUser['business'][];
-
+  public filteredProfiles: IUser['business'][];
   location: string;
   busType: string;
-  queryForm: FormGroup;
+  sort: string;
 
   constructor(
-    private loc: FormBuilder,
     public firestore: AngularFirestore,
     public clientService: ClientUserService,
     public search: SearchQueriesService,
-    private query: FormBuilder,
-
   ) {}
 
   ngOnInit() {
-
-     this.queryForm = this.query.group({
-      loc: new FormControl(''),
-      type: new FormControl(''),
-
-    });
-
-     this.routeId();
-
-     this.search.getAllBusinessUsers().subscribe((data) => {
-      this.typeSelected = false;
-      this.locationSelected = false;
+    this.routeId();
+    this.search.getAllBusinessUsers().subscribe((unfilteredBus) => {
       this.allSelected = true;
-      // console.log('all', data);
       this.allProfiles = [];
-      this.allProfiles = data;
+      this.allProfiles = unfilteredBus;
     });
-
-    // this.search.getAllBusinessLocations(this.location).subscribe(
-    //     (data) => {
-    //       this.typeSelected = false;
-    //       this.locationSelected = true;
-    //       this.allSelected = false;
-    //       console.log('all', data);
-    //       this.withLocation = [];
-    //       this.withLocation = data;
-    //     });
-
-    // this.search.getAllBusinessTypes(this.busType).subscribe(
-    //       (data) => {
-    //         this.typeSelected = true;
-    //         this.locationSelected = false;
-    //         this.allSelected = false;
-    //         console.log('all', data);
-    //         this.withType = [];
-    //         this.withType = data;
-    //       });
   }
 
-  selectTracker() {}
-
-  public onSubmit() {
+  public getBus()
+  {
     console.log('searching for business');
-    // get bus type in the selected location
+    this.filtered = true;
+    console.log(this.location, this.busType);
+    this.search
+      .checkQuery(this.location, this.busType, this.sort)
+      .subscribe((filteredBus) => {
+        console.log('filtered list', filteredBus);
+        this.filteredProfiles = [];
+        this.filteredProfiles = filteredBus;
+        if (this.filteredProfiles.length < 1)
+        {
+          alert('no businness of that type/location, change provider type or location');
+        }
+      });
   }
 
   routeId() {
@@ -97,18 +66,4 @@ export class SearchDirectoryComponent implements OnInit {
       this.client = data;
     });
   }
-
-
-
-  // onSearch()
-  // {
-  //   this.display = true;
-  //   this.deal = false;
-  // }
-
-  // onDeal()
-  // {
-  //   this.deal = true;
-  //   this.display = false;
-  // }
 }

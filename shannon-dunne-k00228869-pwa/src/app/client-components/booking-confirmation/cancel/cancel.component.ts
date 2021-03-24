@@ -21,7 +21,8 @@ export class CancelComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       id: string,
       clientId: string,
-      busId: string
+      busId: string,
+      date: string
     }
   ) { }
 
@@ -44,7 +45,7 @@ export class CancelComponent implements OnInit {
     console.log('data passes to dialog', this.data);
     this.reschedule.addToCancelList(this.data.id, this.data.busId);
     this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
-    this.notif.deleteANotifications(this.data.id); // delete old appointment notification
+    this.notif.deleteANotifications(this.data.date); // delete old appointment notification
     this.notif.deleteRNotifications(this.data.busId); // delete old review notification
     // this.cancel();
     close();

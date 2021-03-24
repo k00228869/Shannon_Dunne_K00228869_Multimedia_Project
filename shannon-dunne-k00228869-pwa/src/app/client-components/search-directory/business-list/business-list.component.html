@@ -1,15 +1,15 @@
-<!-- <mat-card class="card" *ngIf ="searchComp.locationSelected"> 
+<mat-card class="card" *ngIf="searchComp.filtered"> 
   <br>
   <ul>
-    <li *ngFor="let profile of searchComp.withLocation">
+    <li *ngFor="let profile of searchComp.filteredProfiles">
       <mat-divider></mat-divider>
       <br>
-      <a routerLink="/business-profile/{{searchComp.profile.id}}">
+      <a routerLink="/business-profile/{{profile.id}}">
         <mat-card-header>
           <div mat-card-avatar></div>
-          <mat-card-title>{{searchComp.profile.businessName}}</mat-card-title>
+          <mat-card-title>{{profile.businessName}}</mat-card-title>
           <mat-card-subtitle>
-            Location: {{searchComp.profile.county}}
+            Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
             <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
@@ -21,37 +21,10 @@
       <br>
     </li>
   </ul>
-</mat-card> -->
+</mat-card>
 
 
-<!-- <mat-card class="card" *ngIf ="searchComp.typeSelected"> 
-  <br>
-  <ul>
-    <li *ngFor="let profile of searchComp.withType">
-      <mat-divider></mat-divider>
-      <br>
-      <a routerLink="/business-profile/{{searchComp.profile.id}}">
-        <mat-card-header>
-          <div mat-card-avatar></div>
-          <mat-card-title>{{searchComp.profile.businessName}}</mat-card-title>
-          <mat-card-subtitle>
-            Location: {{searchComp.profile.county}}
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
-          </mat-card-subtitle>
-        </mat-card-header>
-      </a>
-      <br>
-      <mat-divider></mat-divider>
-      <br>
-    </li>
-  </ul>
-</mat-card> -->
-
-
-
-<mat-card class="card"> 
+<mat-card class="card" *ngIf="!searchComp.filtered"> 
   <br>
   <ul>
     <li *ngFor="let profile of searchComp.allProfiles">
@@ -74,14 +47,3 @@
     </li>
   </ul>
 </mat-card>
-
-<!-- <form class="form-group">
-      <br>
-        <mat-form-field appearance="fill">
-          <mat-label>Filter</mat-label>
-          <mat-select [(value)]="selectedValue">
-            <mat-option value="Price">By Price</mat-option>
-            <mat-option value="Rating">By Rating</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form> -->

@@ -15,7 +15,7 @@ export class EditBusinessService {
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(this.firestore.collection('businesses')
-    .doc(theUser.uid).update({
+    .doc<IUser['business']>(theUser.uid).update({
       businessName: updatedProfile.businessName,
       businessDescription: updatedProfile.businessDescription,
       eircode: updatedProfile.eircode,

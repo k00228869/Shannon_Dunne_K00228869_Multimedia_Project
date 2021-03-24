@@ -18,7 +18,6 @@ export class ClientUserService {
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-
     return this.firestore.collection<IUser>('users')
     .doc<IUser['user']>(this.uid).valueChanges(); // returns the users doc to check if admin is true
   }

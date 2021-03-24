@@ -15,14 +15,14 @@ export class RescheduleService {
   constructor(public firestore: AngularFirestore) {}
 
   // get a users business details
-  getBusiness(id: string) {
-    let Business;
-    Business = this.firestore.collection<IUser['business']>(
-      'businesses',
-      (ref) => ref.where('id', '==', id)
-    );
-    return Business.valueChanges();
-  }
+  // getBusiness(id: string) {
+  //   let Business;
+  //   Business = this.firestore.collection<IUser>(
+  //     'businesses',
+  //     (ref) => ref.where('id', '==', id)
+  //   );
+  //   return Business.valueChanges();
+  // }
 
   // update client appointment with rescheduled appointment info
   public updateClientAppointment(

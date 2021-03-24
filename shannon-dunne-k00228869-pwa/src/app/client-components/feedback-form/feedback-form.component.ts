@@ -16,6 +16,7 @@ export class FeedbackFormComponent implements OnInit {
   selectedRating: number;
   addFeedbackForm: FormGroup;
   submittedFeedback: IUser['review'];
+  allRatings: IUser['review'][];
   public client: IUser['user'];
   public id: string;
   constructor(
@@ -25,7 +26,8 @@ export class FeedbackFormComponent implements OnInit {
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
     private router: Router,
-    private notif: NotificationsService
+    private notif: NotificationsService,
+    private feedback: FeedbackService
   ) { }
 
   ngOnInit(){
@@ -57,6 +59,24 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.bid = this.id;
     this.submittedFeedback.reply = null;
     console.log('review', this.submittedFeedback);
+
+    this.feedback.getBusinessReviews(this.submittedFeedback.bid).subscribe(
+      (reviewCollection) => {
+        this.allRatings = reviewCollection;
+        let numberOfRatings = this.allRatings.length;
+        let sum;
+
+        for (let i = 0; i <= this.allRatings.length; i++)
+        {
+          sum = sum + this.allRatings[i].rating; // add ratings
+        }
+        sum = sum / numberOfRatings; // divide by number of ratings to get average
+        sum = sum.toString(); // convert to string
+        console.log(sum);
+        this.feedback.averageRating(sum, this.submittedFeedback.bid); // add average rating to bus doc
+
+      }
+    )
     this.feedbackService.addReview(this.submittedFeedback, this.id);
     this.notif.deleteRNotifications(this.submittedFeedback.bid);
     this.changeRoute();

@@ -20,6 +20,16 @@
   <br>
 
   <mat-form-field appearance="outline">
+    <mat-label>Pricing</mat-label>
+    <mat-select [formControlName]="'price'">
+      <mat-option value="1">&euro;</mat-option>
+      <mat-option value="2">&euro;&euro;</mat-option>
+      <mat-option value="3">&euro;&euro;&euro;</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="outline">
     <mat-label>County</mat-label>
     <mat-select [formControlName]="'county'">
       <mat-option value="Antrim">Antrim</mat-option>

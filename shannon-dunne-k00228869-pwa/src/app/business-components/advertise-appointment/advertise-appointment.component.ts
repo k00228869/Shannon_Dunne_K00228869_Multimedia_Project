@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { BookingService } from 'src/app/services/booking.service';
+import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
 
 @Component({
@@ -23,7 +24,8 @@ export class AdvertiseAppointmentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public bookingService: BookingService,
-    public reschedule: RescheduleService
+    public reschedule: RescheduleService,
+    private business: BusinessService
   ) { }
 
 
@@ -45,7 +47,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
           this.appointmentInfo = appoint[0];
           console.log('appointInfo', this.appointmentInfo);
 
-          await this.reschedule.getBusiness(this.appointmentInfo.bid).subscribe(
+          await this.business.getBusiness().subscribe(
             (busDoc) => {
               this.provider = busDoc[0].businessName;
             });

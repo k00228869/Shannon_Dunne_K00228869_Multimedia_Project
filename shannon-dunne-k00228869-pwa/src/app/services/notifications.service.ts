@@ -187,7 +187,7 @@ getANotifications(): Observable<IUser['notificationMessage'][]> {
   }
 
 deleteANotifications(id: string): Observable<void> {
-    // delete appoinment notifications document
+    // delete appoinment notifications document by date
     // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
@@ -251,7 +251,7 @@ getRNotifications(): Observable<IUser['notificationMessage'][]> {
   }
 
 deleteRNotifications(id: string): Observable<void> {
-    // delete review notifications document
+    // delete review notifications document by bus id
     // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(

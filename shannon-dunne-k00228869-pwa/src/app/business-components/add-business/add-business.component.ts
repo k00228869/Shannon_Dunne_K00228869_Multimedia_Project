@@ -83,6 +83,7 @@ export class AddBusinessComponent implements OnInit {
         Validators.maxLength(7),
       ]),
       county: new FormControl('', [Validators.required]),
+      price: new FormControl('', [Validators.required]),
       businessType: new FormControl('', [Validators.required]),
       reminderMessage: new FormControl('', Validators.required),
       cancellationPolicy: new FormControl('', Validators.required),
@@ -317,7 +318,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addSun(this.sun);
       }
       this.business.addBusiness(newProfile);
-      this.business.addToBusinessCol(newProfile);
+      // this.business.addToBusinessCol(newProfile);
       this.changeRoute(newProfile);
     } else {
       console.log('error in business form');

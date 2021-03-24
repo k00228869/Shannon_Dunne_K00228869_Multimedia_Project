@@ -24,6 +24,8 @@ export interface IUser {
         isMobile?: boolean,
         cancellationPolicy?: string,
         hours?: number[],
+        price?: string,
+        rating: string;
     };
     scheduleOfDays: {
         monday?: string[];
@@ -89,12 +91,6 @@ export interface IUser {
         date?: string;
         availableTimes?: string[];
     };
-    // client?: {
-    //     name: string;
-    //     uid: string;
-    //     phone: string;
-    //     paymentInfo: string[];
-    // };
     subscription?: {
     token?: any;
     id?: string;
@@ -112,7 +108,6 @@ export interface IUser {
             }
         }
     };
-
     cancellation?: {
         id?: string;
     };

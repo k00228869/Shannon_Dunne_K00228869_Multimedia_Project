@@ -36,10 +36,10 @@
 </mat-toolbar>
 
 
-<form class="form-group" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
+<form class="form-group">
   <mat-form-field appearance="fill">
     <mat-label>Location</mat-label>
-    <mat-select [(value)]="location" (click)="getLocation = true" [formControlName]="'loc'">
+    <mat-select  [(ngModel)]="location">
       <mat-option value="Antrim">Antrim</mat-option>
       <mat-option value="Armagh">Armagh</mat-option>
       <mat-option value="Fermanagh">Fermanagh</mat-option>
@@ -51,29 +51,42 @@
       <mat-option value="Galway">Galway</mat-option>
       <mat-option value="Cork">Cork</mat-option>
       <mat-option value="Dublin">Dublin</mat-option>
+      <mat-option value="Cavan">Cavan</mat-option>
     </mat-select>
   </mat-form-field> 
   <mat-form-field appearance="fill">
     <mat-label>Provider</mat-label>
-    <mat-select [(value)]="busType" (click)="getLocation = false" [formControlName]="'type'">
+    <mat-select  [(ngModel)]="busType">
       <mat-option value="Hair Stylist">Hair Stylist</mat-option>
       <mat-option value="Makeup artist">Makeup artist</mat-option>
       <mat-option value="Nail Technitian">Nail Technitian</mat-option>
       <mat-option value="Barber">Barber</mat-option>
+      <mat-option value="Beauty Therapist">Beauty Therapist</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button aria-label="search" type="submit" (click)="getDeal = false">Search</button>
+      <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Sort</mat-label>
+          <mat-select [(ngModel)]="sort">
+            <mat-option value="price">By Price</mat-option>
+            <mat-option value="rating">By Rating</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <br>
+  <button mat-raised-button aria-label="search" (click)="getDeal = false; getBus()" >Search</button>
   <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="getDeal = true">Deals</button>
 </form>  
   
   
 <br>
 
+<!-- hide/show deals -->
   <div *ngIf="getDeal">
       <app-business-deals></app-business-deals>
   </div>
   
+  <!-- hide/show business list -->
   <div *ngIf="!getDeal">
     <app-business-list></app-business-list>
 </div>

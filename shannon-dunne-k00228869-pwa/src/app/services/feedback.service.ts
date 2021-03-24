@@ -25,6 +25,15 @@ export class FeedbackService {
     .collection<IUser['review']>('reviews').valueChanges();
   }
 
+  public averageRating(sum: string, bid: string)
+  {
+    return from(this.firestore.collection<IUser>('businesses')
+    .doc<IUser['business']>(bid).update({
+      rating: sum
+    }));
+
+  }
+
   // public someReviews(uid: string): Observable<IUser['review'][]> // get reviews with reply value
   // {
   //   let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)

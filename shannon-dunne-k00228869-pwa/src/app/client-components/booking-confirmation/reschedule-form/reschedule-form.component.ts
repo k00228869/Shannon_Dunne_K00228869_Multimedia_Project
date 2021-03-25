@@ -205,7 +205,7 @@ export class RescheduleFormComponent implements OnInit {
     this.notif.appoinmtentReminder(this.newAppointment, this.busInfo); // create appointment notification
     this.notif.reviewReminder(this.newAppointment, this.busInfo); // create review notification
     this.notif.deleteRNotifications(this.busInfo.id); // delete old review notification
-    this.notif.deleteANotifications(this.appointmentInfo.date); // delete old appointment notification
+    this.notif.deleteANotifications(this.appointmentInfo.appointmentId); // delete old appointment notification
     this.changeRoute(this.appointmentInfo.appointmentId);
   }
 

@@ -168,7 +168,7 @@ appoinmtentReminder(
           .collection<IUser>('users') // adNotification to notificationlist
           .doc<IUser['user']>(clientAppointment.uid)
           .collection<IUser>('appointment-notification')
-          .doc<IUser['notificationMessage']>(clientAppointment.date)
+          .doc<IUser['notificationMessage']>(clientAppointment.appointmentId)
           .set(this.notificationMessage)
       );
     });

@@ -12,7 +12,7 @@
             Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            {{profile.rating}} 
+            {{profile.rating.toFixed(1)}} 
             <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
           </mat-card-subtitle>
         </mat-card-header>
@@ -36,9 +36,11 @@
           <div mat-card-avatar></div>
           <mat-card-title>{{profile.businessName}}</mat-card-title>
           <mat-card-subtitle>
+            
             Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
+            {{profile.rating.toFixed(1)}} 
             <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
           </mat-card-subtitle>
         </mat-card-header>

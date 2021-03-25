@@ -71,13 +71,13 @@ export class FeedbackFormComponent implements OnInit {
     this.submittedFeedback.bid = this.id;
     this.submittedFeedback.reply = null;
 
-    (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).subscribe(
+    (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).pipe(take(1)).subscribe(
       async (reviewCollection) => {
         this.allRatings = reviewCollection;
         console.log('all reviews', this.allRatings);
         let numberOfRatings = this.allRatings.length; // number of review docs
         console.log('no. ratings', numberOfRatings);
-        for (let i = 0; i <= this.allRatings.length; i++)
+        for (let i = 0; i < this.allRatings.length; i++)
         {
           this.ratingNum = this.allRatings[i].rating; // store rating value of doc
           console.log('the rating val', this.allRatings[i].rating);

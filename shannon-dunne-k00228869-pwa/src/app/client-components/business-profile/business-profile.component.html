@@ -57,7 +57,7 @@
           <br>
           <p>{{profileInfo.businessDescription}}</p>
           <br>
-          {{profileInfo.rating}}
+          {{profileInfo.rating.toFixed(1)}}
           <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
         </mat-card-content>
 
@@ -95,19 +95,19 @@
             <mat-divider></mat-divider>
             <br>
             <div>
-                <mat-list-item role="listitem" >Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length !== 0">Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" >Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.tuesday[0].finishT.length !== 0">Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" >Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.wednesday[0].finishT.length !== 0">Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" >Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.thursday[0].finishT.length !== 0">Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" >Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.friday[0].finishT.length !== 0">Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" >Saturday {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
+                <mat-list-item role="listitem" *ngIf="theHours.saturday[0].finishT.length !== 0">Saturday: {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.sunday" > {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.sunday[0].finishT.length !== 0">Sunday: {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
             </div>
             <br>
 
@@ -175,7 +175,7 @@
                 <br>
             </mat-panel-title>
             <br>
-            <mat-card>
+            <mat-card *ngIf="review.reply !== null">
               <mat-icon>comment</mat-icon>
               <mat-card-subtitle>&nbsp;Reply From&nbsp;{{profileInfo.businessName}}</mat-card-subtitle>
               <mat-card-content>

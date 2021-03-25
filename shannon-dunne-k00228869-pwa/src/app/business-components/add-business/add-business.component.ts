@@ -162,7 +162,8 @@ export class AddBusinessComponent implements OnInit {
   }
 
   // HANDLE SERVICES DATA
-  newService(): FormGroup { // build the service group
+  newService(): FormGroup {
+    // build the service group
     let service = this.addSer.group({
       serviceName: ['', Validators.required],
       serviceDescription: ['', Validators.required],
@@ -227,7 +228,6 @@ export class AddBusinessComponent implements OnInit {
       // this.dailyWorkHours = this.selectedHours;
       this.business.addHours(this.selectedHours);
       this.newProfile = this.addProfileForm.value;
-      // this.newProfile.hours = this.dailyWorkHours;         // set the value of the form equal to object of type userInterface
       // this.addProfileForm.reset();
       // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
       if (this.selectedHours.monday) {
@@ -325,7 +325,7 @@ export class AddBusinessComponent implements OnInit {
     }
   }
 
-  changeRoute(newProfile){
+  changeRoute(newProfile) {
     this.router.navigate(['/business-view/', newProfile.id]);
   }
   cancel() {

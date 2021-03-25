@@ -64,10 +64,9 @@ export class AdvertiseAppointmentComponent implements OnInit {
     let discount =  parseInt(this.newAppointInfo.discount, 10) / 100; // get discount value
     let price = this.appointmentInfo.serPrice; // set booking price
     let total = price - (price * discount); // get booking price after discount
-
     this.newAppointInfo.serPrice = total; // set booking price after discount is applied
     this.newAppointInfo.uid = ''; // clear old user id
-    this.newAppointInfo.clientName = 'Advertised'; // clear old user name
+    this.newAppointInfo.clientName = 'Advertised'; // replace old user name
     this.newAppointInfo.note = '';
     this.newAppointInfo.timeStamp = null;
     this.reschedule.editBusAppointment(this.newAppointInfo);

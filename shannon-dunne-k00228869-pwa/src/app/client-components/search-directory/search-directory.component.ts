@@ -43,12 +43,12 @@ export class SearchDirectoryComponent implements OnInit {
     });
   }
 
-  public getBus()
+  public async getBus()
   {
     console.log('searching for business');
     this.filtered = true;
     console.log(this.location, this.busType);
-    this.search
+    await this.search
       .checkQuery(this.location, this.busType, this.sort)
       .subscribe((filteredBus) => {
         console.log('filtered list', filteredBus);

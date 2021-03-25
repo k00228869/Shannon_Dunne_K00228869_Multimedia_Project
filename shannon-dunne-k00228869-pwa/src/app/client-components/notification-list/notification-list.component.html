@@ -63,7 +63,7 @@
 
     <!-- <div *ngIf="review"> -->
 <div *ngFor="let review of reviews">
-<br> 
+  <mat-divider></mat-divider>
 <mat-card class="card"> 
     <a routerLink="/review/{{review.infoId}}">
       <mat-card-header>
@@ -73,10 +73,8 @@
         </mat-card-subtitle>
       </mat-card-header>
     </a>
-    <br>
 </mat-card>
 <!-- </div> -->
-  <br> 
 </div>
 
 

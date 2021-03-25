@@ -25,9 +25,9 @@ export class FeedbackService {
     .collection<IUser['review']>('reviews').valueChanges();
   }
 
-  public averageRating(sum: string, bid: string)
+  public averageRating(sum: number, bid: string)
   {
-    console.log('averageRating called')
+    console.log('adding rating to bus doc');
     return from(this.firestore.collection<IUser>('businesses')
     .doc<IUser['business']>(bid).update({
       rating: sum

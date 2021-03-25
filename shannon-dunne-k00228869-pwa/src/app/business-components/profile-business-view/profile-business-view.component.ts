@@ -106,3 +106,7 @@ export class ProfileBusinessViewComponent implements OnInit {
     }
 
 }
+
+// let rating = 10;
+// let starArr = Array.from(new Array(rating), (x, i) => i + 1);
+// console.log(starArr);

@@ -24,7 +24,7 @@ export class SearchQueriesService {
     return allBusinesses.valueChanges();
   }
 
-  public checkQuery(location: string, busType: string, sort: string)
+  public checkQuery(location: string, busType: string, sort: string): Observable<IUser['business'][]>
   {
     if ( sort === 'rating')
     {
@@ -35,7 +35,6 @@ export class SearchQueriesService {
       .where('businessType', '==', busType)
       .orderBy(sort, 'desc'));
       return allBusinesses.valueChanges();
-
     }
     else if (sort === 'price')
     {
@@ -48,7 +47,7 @@ export class SearchQueriesService {
       return allBusinesses.valueChanges();
     }
     else{
-      console.log('queryPrice called');
+      console.log('query loc+type called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser['business']>('businesses', ref => ref
       .where('county', '==', location)

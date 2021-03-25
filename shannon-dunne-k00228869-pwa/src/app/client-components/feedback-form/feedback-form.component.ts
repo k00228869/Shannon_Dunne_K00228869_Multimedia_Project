@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/i-user';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
@@ -15,10 +16,15 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 export class FeedbackFormComponent implements OnInit {
   selectedRating: number;
   addFeedbackForm: FormGroup;
-  submittedFeedback: IUser['review'];
+  submittedFeedback: IUser['review'] = {};
   allRatings: IUser['review'][];
   public client: IUser['user'];
   public id: string;
+  newSum: number = 0;
+  ratingNum: number = 0;
+  total: number = 0;
+
+
   constructor(
     private addFeedback: FormBuilder,
     public clientService: ClientUserService,
@@ -49,44 +55,47 @@ export class FeedbackFormComponent implements OnInit {
         });
   }
 
-  public onSubmit()
+  public async onSubmit()
   {
-    this.submittedFeedback = this.addFeedbackForm.value;
+    // console.log(this.addFeedbackForm.controls.rating.value, typeof(this.addFeedbackForm.controls.rating.value));
+    let num: number;
+    num = Number(this.addFeedbackForm.controls.rating.value);
+    console.log(num, typeof(num));
+    this.submittedFeedback.rating = num; // convert rating val to num
+    // console.log('rating as num', this.submittedFeedback.rating, typeof(this.submittedFeedback.rating));
+    this.submittedFeedback.comment = this.addFeedbackForm.controls.comment.value;
     this.submittedFeedback.timestamp = new Date();
     this.submittedFeedback.uid = this.client.uid;
     this.submittedFeedback.name = this.client.firstName + ' ' + this.client.lastName;
     this.submittedFeedback.id = this.firestore.createId();
     this.submittedFeedback.bid = this.id;
     this.submittedFeedback.reply = null;
-    console.log('review', this.submittedFeedback);
 
-    this.feedback.getBusinessReviews(this.submittedFeedback.bid).subscribe(
-      (reviewCollection) => {
-        console.log('returned', reviewCollection);
+    (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).subscribe(
+      async (reviewCollection) => {
         this.allRatings = reviewCollection;
         console.log('all reviews', this.allRatings);
-        let numberOfRatings = this.allRatings.length;
+        let numberOfRatings = this.allRatings.length; // number of review docs
         console.log('no. ratings', numberOfRatings);
-
-        let sum;
-
         for (let i = 0; i <= this.allRatings.length; i++)
         {
-          sum = sum + this.allRatings[i].rating; // add ratings
-          console.log('adding to sum', sum);
-
+          this.ratingNum = this.allRatings[i].rating; // store rating value of doc
+          console.log('the rating val', this.allRatings[i].rating);
+          this.newSum = (+this.newSum) + (+this.ratingNum); // add each rating to newSum, brackets and + prevents concating
+          console.log('newsum in loop', this.newSum);
         }
-        sum = sum / numberOfRatings; // divide by number of ratings to get average
-        console.log('dividing by ratings', sum);
-        sum = sum.toString(); // convert to string
-        console.log('string sum', sum);
-        this.feedback.averageRating(sum, this.submittedFeedback.bid); // add average rating to bus doc
-
-      }
-    )
-    this.feedbackService.addReview(this.submittedFeedback, this.id);
-    this.notif.deleteRNotifications(this.submittedFeedback.bid);
-    this.changeRoute();
+        console.log('newsum after loop', this.newSum);
+        this.newSum = (+this.newSum) + (+this.submittedFeedback.rating); // add current rating to ratings
+        console.log('newsum after adding new rating', this.newSum);
+        let ratingCount = (+1) + (+numberOfRatings); // adding current rating to number of ratings
+        this.total = (this.newSum) / ratingCount; // divide by number of ratings to get average
+        console.log('total after dividing by ratings', this.total);
+        console.log('sum type', typeof(this.total)); // type of total
+        this.notif.deleteRNotifications(this.submittedFeedback.bid);
+        this.feedback.averageRating(this.total, this.submittedFeedback.bid); // add average rating to bus doc
+        this.feedbackService.addReview(this.submittedFeedback, this.id);
+        this.changeRoute();
+      });
   }
 
 

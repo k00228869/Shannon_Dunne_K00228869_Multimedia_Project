@@ -25,7 +25,7 @@ export interface IUser {
         cancellationPolicy?: string,
         hours?: number[],
         price?: string,
-        rating: string;
+        rating: number;
     };
     scheduleOfDays: {
         monday?: string[];
@@ -47,13 +47,13 @@ export interface IUser {
     };
     review?: {
         timestamp?: Date;
-        uid: string;
-        rating: number;
-        bid: string;
-        name: string;
-        comment: string;
-        id: string;
-        reply: string | null;
+        uid?: string;
+        rating?: number;
+        bid?: string;
+        name?: string;
+        comment?: string;
+        id?: string;
+        reply?: string | null;
     };
     employee?: {
         id: string,

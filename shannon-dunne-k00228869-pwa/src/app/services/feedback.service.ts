@@ -49,7 +49,7 @@ export class FeedbackService {
     return docRef.valueChanges();
   }
 
-  public someReviews(uid: string)
+  public someReviews(uid: string) // get reviews where reply is = null
   {
     let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
     .collection<IUser['review']>('reviews', ref => ref.where('reply', '==', null));

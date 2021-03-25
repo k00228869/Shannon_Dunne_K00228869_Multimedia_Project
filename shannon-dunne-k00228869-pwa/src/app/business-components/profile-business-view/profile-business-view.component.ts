@@ -82,7 +82,7 @@ export class ProfileBusinessViewComponent implements OnInit {
     //       this.reviews = data;
     //     });
 
-    this.feedback.completeReview(this.user.uid).subscribe(
+    this.feedback.getBusinessReviews(this.user.uid).subscribe(
         (data) => {
           console.log(data);
           this.reviews = data;

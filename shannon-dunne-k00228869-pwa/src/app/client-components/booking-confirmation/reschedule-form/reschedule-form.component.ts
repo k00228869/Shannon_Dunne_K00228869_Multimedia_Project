@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BookingConfirmationComponent } from 'src/app/client-components/booking-confirmation/booking-confirmation.component';
 import { IUser } from 'src/app/i-user';
 import {
   AbstractControl,
@@ -28,6 +27,7 @@ import { RescheduleService } from 'src/app/services/reschedule.service';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { take } from 'rxjs/operators';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   // set selected date format
@@ -47,33 +47,39 @@ export const MY_FORMATS = {
   templateUrl: './reschedule-form.component.html',
   styleUrls: ['./reschedule-form.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: MY_FORMATS,
-    },
-  ],
+  // providers: [
+  //   {
+  //     provide: DateAdapter,
+  //     useClass: MomentDateAdapter,
+  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+  //   },
+  //   {
+  //     provide: MAT_DATE_FORMATS,
+  //     useValue: MY_FORMATS,
+  //   },
+  // ],
 })
 export class RescheduleFormComponent implements OnInit {
   editAppointmentForm: FormGroup;
   public newAppointment: IUser['appointment'];
   public setDate: string;
   public client: IUser['user'];
-  public unavailableDays: number[] = [];
+  selectedDay: number;
+  unavailableDays: any[] = [];
   theHourOfDay: IUser['hours'];
-  public selectedService: IUser['service'];
+  // public selectedService: IUser['service'];
   public duration: string;
   public day: string[] = [];
   schedule: IUser['bookingSchedule'] = {};
   newSchedule: IUser['bookingSchedule'] = {};
+  public weekDays: IUser['scheduleOfDays'][];
+  public notAvailable: any[] = [];
+  bookedDays: IUser['bookingSchedule'][];
   tempSchedule: string[] = [];
   user: IUser['user'];
-  public date = moment();
+  date: Date;
+  momentDate = moment();
+
   public id: string;
   public appointmentInfo: IUser['appointment'];
   public busInfo: IUser['business'];
@@ -94,13 +100,20 @@ export class RescheduleFormComponent implements OnInit {
 
   ngOnInit() {
     this.editAppointmentForm = this.editAppointment.group({
-      date: new FormControl(moment(), [Validators.required]),
-      time: new FormControl(moment().toString(), [Validators.required]),
+      date: new FormControl(Date, [Validators.required]),
+      time: new FormControl([Validators.required]),
       note: new FormControl('', [Validators.required]),
     });
 
     this.clientService.getUserInfo().subscribe((data) => {
       this.client = data;
+      this.notif.getToken(this.client.uid).subscribe((theToken) => {
+        // call func to get user token from db
+        if (!theToken.token) {
+          // if no token available
+          this.askPermis(); // call func to get user permis
+        }
+      });
     });
 
     this.route.paramMap.subscribe((params) => {
@@ -108,100 +121,152 @@ export class RescheduleFormComponent implements OnInit {
       this.bookingService.getAppointment(this.id).subscribe((appoint) => {
         this.appointmentInfo = appoint[0];
         console.log('appointInfo', this.appointmentInfo);
-        this.updateInfo();
+        this.updateInfo(this.appointmentInfo.bid);
       });
     });
   }
 
-  updateInfo() {
-    this.business.getABusiness(this.appointmentInfo.bid).subscribe((bus) => {
+  updateInfo(bid: string) {
+    this.business.getABusiness(bid).subscribe((bus) => {
       this.busInfo = bus;
     });
-    // this.business.getHours(this.appointmentInfo.bid).subscribe(
-    //   (data) =>
-    //   {
-    //     this.theHourOfDay = data[0];
-    //   });
+
+    this.hourService
+      .getAll(this.appointmentInfo.bid)
+      .pipe(take(1))
+      .subscribe(
+        // get schedule for each day, do not run after fists value
+        (all) => {
+          this.weekDays = [];
+          this.weekDays = all; // schedules for each weekday
+          for (let i = 0; i < this.weekDays.length; i++) {
+            // console.log('schedule array in loop', this.weekDays[i][0]);
+            if (
+              this.weekDays[i][0].length === 0 ||
+              this.weekDays[i][0].length === undefined
+            ) {
+              // if no hours for that day
+              // console.log('not available');
+              this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
+            } else {
+              // console.log('available day');
+            }
+          }
+        }
+      );
+
+    this.notAvailable = []; // reset array
     this.bookingService.getBookedDays(this.appointmentInfo.bid).subscribe(
       // get documents with booked dates
       (data) => {
-        let key;
-        for (key in data) { // for each document in the observ
-          if (key.availableTimes.length <= 1) {
-            // if there is less than 1 time available in schedule
-            let d = key.date.slice(7, 10); // slice the date val from the date
-            let asNum = parseInt(d); // convert to num
-            console.log(asNum);
-            this.unavailableDays.push(asNum); // add date value to fully booked array
+        this.bookedDays = data;
+        for (let i = 0; i < this.bookedDays.length; i++) {
+          // console.log(this.bookedDays[i].availableTimes.length);
+          // if a booking hours array has 1 or less items
+          if (
+            this.bookedDays[i].availableTimes.length <= 1 ||
+            this.bookedDays[i].availableTimes.length === undefined
+          ) {
+            const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
+            this.notAvailable.push(newd); // add doc name to array of unavailable dates
+          } else {
+            // console.log('no bookings found');
           }
+          // console.log(this.notAvailable);
         }
       }
     );
-    this.bookingService
-      .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
-      .subscribe(
-        // get schedule for date
-        (data) => {
-          this.scheduleOfDay = Array.from(data.availableTimes); // store as array
-        }
-      );
+  }
+
+  askPermis() {
+    // called when booking button clicked
+    this.notif.requestPermission().subscribe(
+      // func to get/store notification permission
+      async (token) => {
+        console.log('token received', token); // token returned
+      }
+    );
   }
 
   public async editAppointSubmit(newAppointment: IUser['appointment']) {
+    // setting new appoinment details
     this.newAppointment = this.editAppointmentForm.value; // store form values
     this.newAppointment.date = newAppointment.date.toString(); // format date to string
     this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
     this.newAppointment.timeStamp = new Date(); // set the booking timestamp
-
     this.newAppointment.serName = this.appointmentInfo.serName; // store service name
-    this.duration = this.appointmentInfo.serDuration; // store duration of service
-    const startTime = this.newAppointment.time; // store service start time
-    const endTime = moment(startTime, 'HH:mm:ss')
-      .add(this.duration, 'hours')
-      .format('HH:mm:ss'); // add duration to get service finish time
-    const index1 = this.day.indexOf(startTime); // get index that is = to the selected time
-    const index2 = this.day.indexOf(endTime); // get index that is = to the service end time
-    // gets array of the times between the service start and end time
-    const newTimes = this.day.slice(index1, index2); //
-    const oldTimes = Array.from(this.day); // store array from associative array
-    const theDayHours = oldTimes.filter((a) => !newTimes.includes(a)); // remove unavailable hours from the available hours array
+
+    // edit schedule for new booking
+    this.newAppointment.serDuration = this.appointmentInfo.serDuration;
+    let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours
+    let totalAsNum = parseInt(noHours, 10); // cast to num
+    let temp: any[] = [];
+    let j = 1;
+    temp.push(this.newAppointment.time); // add booked time to schedule
+    if (totalAsNum > 1) {
+      // if the hours are more than 1
+      let start = moment(this.newAppointment.time, 'HH:mm:ss'); // booked time to moment obj
+      while (j < totalAsNum) {
+        // while there are still hours to add
+        let getNextTime = start.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+        temp.push(getNextTime); // add hours to array
+        start = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
+        j++; // increase by 1
+      }
+    }
+    const theDayHours = this.day.filter((a) => !temp.includes(a)); // store hours from day that are not in temp
+    // const theDayHours = oldTimes.filter((a) => !newTimes.includes(a)); // remove unavailable hours from the available hours array
     this.schedule.date = this.newAppointment.date; // set the date of the booking
     this.schedule.availableTimes = [];
     this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
+    this.schedule.calendarIndex = this.date.toString();
+    // let tempArr: any[] = [];
+    // editing schedule for rescheduled booking
+    await this.bookingService
+      .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
+      .pipe(take(1))
+      .subscribe(
+        // get schedule for date
+        (data) => {
+          // console.log('resceduled date', data);
+          this.newSchedule.calendarIndex = data.calendarIndex;
+          this.newSchedule.date = data.date;
+          this.scheduleOfDay = Array.from(data.availableTimes); // store as array
+          let i = 1;
+          this.scheduleOfDay.push(this.appointmentInfo.time); // add booked time to schedule
+          if (totalAsNum > 1) {
+            // if the hours are more than 1
+            let theStartTime = moment(this.appointmentInfo.time, 'HH:mm:ss'); // booked time to moment obj
+            while (i < totalAsNum) {
+              // while there are still hours to add
+              let nextTime = theStartTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+              this.scheduleOfDay.push(nextTime.toString()); // add hours to array
+              theStartTime = moment(nextTime, 'HH:mm:ss'); // set start time to last added time
+              i++; // increase by 1
+            }
+          }
+          this.newSchedule.availableTimes = [];
+          this.newSchedule.availableTimes =  Array.from(this.scheduleOfDay);
+          this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
 
-    let numberOfHours = this.appointmentInfo.serDuration.slice(1, 2); // slice number of hours from duration value
-    let amountAsNum = parseInt(numberOfHours); // cast to num
-    let i = 0;
-    if (amountAsNum > 1) {
-      // if the duration is more than 1 hour
-      while (i < amountAsNum) {
-        // while i is less than the number of hours
-        const rescheduleAt = moment(this.appointmentInfo.time, 'HH:mm:ss'); // get old booking time as moment obj
-        let theTime = rescheduleAt.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time to get end time
-        this.scheduleOfDay.push(theTime); // add time value to array holding the hours for the old booking date
-        i++;
-      }
-    } else if (amountAsNum <= 1) {
-      this.scheduleOfDay.push(this.appointmentInfo.time); // add time to array of availabilities
-      // this.scheduleOfDay.sort();
-    }
-    console.log('edited hours', this.scheduleOfDay);
-    this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for booked date
-    // this.newAppointment.empName = this.appointmentInfo.empName;
-    // this.newAppointment.clientName = this.client.firstName + ' ' + this.client.lastName; // set client name for booking
-    console.log('adding schedule', this.appointmentInfo.bid, this.schedule);
+        }
+      );
+
+    // edit appointment and schedule docs
     await this.bookingService.addBookingSchedule(
       this.appointmentInfo.bid,
       this.schedule
     ); // call func to update schedule of hours in db
-    console.log('editing schedule', this.appointmentInfo, this.newSchedule);
-    this.reschedule.editBookingSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
-    console.log('updating booking', this.appointmentInfo, this.newAppointment);
+    this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
     this.reschedule.updateBusAppointment(
       this.appointmentInfo,
       this.newAppointment
     ); // call func to update appointment info in db
-    this.reschedule.updateClientAppointment(this.appointmentInfo, this.newAppointment); // call func to update appointment info in db
+    this.reschedule.updateClientAppointment(
+      this.appointmentInfo,
+      this.newAppointment
+    );
+    // handle notifications
     this.notif.appoinmtentReminder(this.newAppointment, this.busInfo); // create appointment notification
     this.notif.reviewReminder(this.newAppointment, this.busInfo); // create review notification
     this.notif.deleteRNotifications(this.busInfo.id); // delete old review notification
@@ -209,92 +274,70 @@ export class RescheduleFormComponent implements OnInit {
     this.changeRoute(this.appointmentInfo.appointmentId);
   }
 
-  dateFilter = (d: moment.Moment) => {
-    const filter = this.unavailableDays.indexOf(+d.date()) === -1; // hide dates in array
-    return filter;
+  dateFilter = (d: Date) => {
+    const day = d.getDay();
+    const ddd = d.getTime();
+    return (
+      this.notAvailable.indexOf(day) == -1 &&
+      d >= new Date() &&
+      !this.unavailableDays.find((x) => x === ddd)
+    );
   };
 
   changeRoute(id: string) {
     this.router.navigate(['/booking-confirmed/', id]);
   }
 
-  // get duration of serv, disable time for duration when the selected dat is selected
   newInput(
     event // pass in date change event
   ) {
-    this.date = moment(event.value); // store event value
-    const selectedDay = this.date.day(); // get day index of selected date
-    this.setDate = this.date.format('ddd MMM DD YYYY'); // format selected date
-
-    if (selectedDay) {
-      // if a date was selected
-      this.bookingService
-        .getBookingSchedule(this.appointmentInfo.bid, this.setDate)
-        .subscribe(
-          // call func to get business's booked days
-          (data) => {
-            if (data) {
-              console.log(data.availableTimes.length);
-              this.day = Array.from(data.availableTimes); // store schedule in time array
-              //   alert('No availabilities for this date');
-            } else if (!data) {
-              // if no data returned
-              if (selectedDay === 1) {
-                // if index of week = monday
-                this.hourService.getMon(this.appointmentInfo.bid).subscribe(
-                  // call func to get monday working hours
-                  (mon) => {
-                    // get monday hours
-                    this.day = Array.from(mon[0][0]);
-                  }
-                );
-              } else if (selectedDay === 2) {
-                this.hourService
-                  .getTue(this.appointmentInfo.bid)
-                  .subscribe((tues) => {
-                    // get tuesday hours
-                    this.day = Array.from(tues[0][0]);
-                  });
-              } else if (selectedDay === 3) {
-                this.hourService
-                  .getWed(this.appointmentInfo.bid)
-                  .subscribe((wed) => {
-                    // get wednesday hours
-                    this.day = Array.from(wed[0][0]);
-                  });
-              } else if (selectedDay === 4) {
-                this.hourService
-                  .getThur(this.appointmentInfo.bid)
-                  .subscribe((thur) => {
-                    // get thursday hours
-                    // console.log(thur);
-                    this.day = Array.from(thur[0][0]);
-                  });
-              } else if (selectedDay === 5) {
-                this.hourService
-                  .getFri(this.appointmentInfo.bid)
-                  .subscribe((fri) => {
-                    // get firday hours
-                    this.day = Array.from(fri[0][0]);
-                  });
-              } else if (selectedDay === 6) {
-                this.hourService
-                  .getSat(this.appointmentInfo.bid)
-                  .subscribe((sat) => {
-                    // get saturday hours
-                    this.day = Array.from(sat[0][0]);
-                  });
-              } else if (selectedDay === 0) {
-                this.hourService
-                  .getSun(this.appointmentInfo.bid)
-                  .subscribe((sun) => {
-                    // get sunday hours
-                    this.day = Array.from(sun[0][0]);
-                  });
-              }
+    this.date = new Date(event.value);
+    this.momentDate = moment(event.value); // the selected date as a moment obj
+    this.selectedDay = this.momentDate.day(); // the week day index of selected date
+    this.setDate = this.momentDate.format('ddd MMM DD YYYY'); // formatting date
+    this.bookingService
+      .getBookingSchedule(this.appointmentInfo.bid, this.setDate) // get schedule if booked
+      .subscribe((dateSchedule) => {
+        if (dateSchedule) {
+          this.day = Array.from(dateSchedule.availableTimes);
+        } else if (!dateSchedule) {
+          for (let i = 0; i < this.weekDays.length; i++) {
+            // if there is no booked date
+            if (this.weekDays[i][0].length > 0 && this.selectedDay === 0) {
+              this.day = Array.from(this.weekDays[i][0]); // store in selected schedule array
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 1
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 2
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 3
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 4
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 5
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 6
+            ) {
+              this.day = Array.from(this.weekDays[i][0]);
             }
           }
-        );
-    }
+        }
+      });
   }
 }

@@ -71,6 +71,7 @@ export class BookingService {
     schedule: IUser['bookingSchedule'] // add a booked date
   ) {
     // update booked date with new available times
+    // schedule.calendarIndex = schedule.calendarIndex.toString();
     return await from(
       this.firestore
         .collection<IUser>('users')
@@ -81,7 +82,7 @@ export class BookingService {
     ); // add user to the db
   }
 
-  public getBookingSchedule(
+  public getBookingSchedule( // return booked doc
     id: string,
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
@@ -92,11 +93,13 @@ export class BookingService {
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
       .collection<IUser['bookingSchedule']>('schedule')
-      .doc<IUser['bookingSchedule']>(setDate);
+      .doc<IUser['bookingSchedule']>(setDate); // change to cal index
     return docRef.valueChanges();
   }
 
-  public getBookedDays(id: string): Observable<IUser['bookingSchedule']> {
+
+
+  public getBookedDays(id: string): Observable<IUser['bookingSchedule'][]> {
     // return businesses schedule collection
     let docRef;
     docRef = this.firestore

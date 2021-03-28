@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export interface IUser {
     user: {
         uid: string;
@@ -28,13 +30,13 @@ export interface IUser {
         rating: number;
     };
     scheduleOfDays: {
-        monday?: string[];
-        tuesday?: string[];
-        wednesday?: string[];
-        thursday?: string[];
-        friday?: string[];
-        saturday?: string[];
-        sunday?: string[];
+        monday?: any[];
+        tuesday?: any[];
+        wednesday?: any[];
+        thursday?: any[];
+        friday?: any[];
+        saturday?: any[];
+        sunday?: any[];
     };
     hours?: {
         monday: number;
@@ -90,6 +92,7 @@ export interface IUser {
     {
         date?: string;
         availableTimes?: string[];
+        calendarIndex?: string;
     };
     subscription?: {
     token?: any;

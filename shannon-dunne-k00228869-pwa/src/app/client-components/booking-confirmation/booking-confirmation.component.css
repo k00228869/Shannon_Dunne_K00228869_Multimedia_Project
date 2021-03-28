@@ -1,0 +1,31 @@
+p
+{
+    text-align: center;
+}
+    
+b
+{
+    margin-right: 10px;
+    padding-right: 10%;
+}
+
+.cancelButton{
+float: right;
+margin-right: 10%;
+}
+
+.manage
+{
+    align-content: center;
+    height: 200px;
+}
+
+.manage h2
+{
+    text-align: center;
+}
+
+.manage button
+{
+    margin-left: 20%;
+}

@@ -35,7 +35,7 @@ export class AddBusinessComponent implements OnInit {
   fri: IUser['scheduleOfDays']['friday'];
   sat: IUser['scheduleOfDays']['saturday'];
   sun: IUser['scheduleOfDays']['sunday'];
-  hours: string[] = [];
+  hours: any[] = [];
   start: string;
   end: string;
   week: string[] = [
@@ -237,7 +237,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0); // get index of start time
         let theIndex2 = this.hourList[0].indexOf(this.end, 0); // get index of finish time
         let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
-        let m = 'monday';
+        let m = 1;
         this.hours.push(mondayHours, m);
         // console.log(this.hours);
         this.mon = this.hours;
@@ -252,7 +252,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let tuesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         this.tues = this.hours;
-        let t = 'tuesday';
+        let t = 2;
         this.hours.push(tuesday, t);
         // this.business.addHours(this.tues);
         this.hourService.addTue(this.tues);
@@ -264,7 +264,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let wednesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        let w = 'wednesday';
+        let w = 3;
         this.hours.push(wednesday, w);
         this.wed = this.hours;
         this.hourService.addWed(this.wed);
@@ -276,7 +276,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let thursday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        let t = 'thursday';
+        let t = 4;
         this.hours.push(thursday, t);
         this.thur = this.hours;
         this.hourService.addThur(this.thur);
@@ -288,7 +288,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let friday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        let f = 'friday';
+        let f = 5;
         this.hours.push(friday, f);
         this.fri = this.hours;
         this.hourService.addFri(this.fri);
@@ -300,7 +300,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let saturday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        let s = 'saturday';
+        let s = 6;
         this.hours.push(saturday, s);
         this.sat = this.hours;
         this.hourService.addSat(this.sat);
@@ -312,7 +312,7 @@ export class AddBusinessComponent implements OnInit {
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let sunday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
-        let s = 'sunday';
+        let s = 0;
         this.hours.push(sunday, s);
         this.sun = this.hours;
         this.hourService.addSun(this.sun);

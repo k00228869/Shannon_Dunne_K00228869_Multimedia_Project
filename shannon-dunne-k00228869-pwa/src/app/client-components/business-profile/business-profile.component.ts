@@ -21,13 +21,11 @@ export class BusinessProfileComponent implements OnInit {
   keys: string[];
   reviews: IUser['review'][];
 
-
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
     public clientService: ClientUserService,
     private feedback: FeedbackService
-
   ) { }
 
   ngOnInit() {

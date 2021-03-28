@@ -1,22 +1,39 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 // import * as moment from 'moment';
 // import {Moment} from 'moment/moment';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { take } from 'rxjs/operators';
 const moment = _rollupMoment || _moment;
 
-export const MY_FORMATS = {  // set selected date format
+export const MY_FORMATS = {
+  // set selected date format
   parse: {
     dateInput: 'ddd MMM DD YYYY',
   },
@@ -28,51 +45,46 @@ export const MY_FORMATS = {  // set selected date format
   },
 };
 
-
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    {
-      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
-    },
-  ]
+  // providers: [
+  //   {
+  //     provide: DateAdapter,
+  //     useClass: MomentDateAdapter,
+  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+  //   },
+  //   {
+  //     provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+  //   },
+  // ]
 })
 export class BookingFormComponent implements OnInit {
   profileInfo: IUser['business'];
   schedule: IUser['bookingSchedule'] = {};
+  bookedDays: IUser['bookingSchedule'][];
   public clientAppointment: IUser['appointment'];
   employees: IUser['employee'];
   public selectedService: IUser['service'];
   public selectedEmployee: IUser['employee'];
+  unavailableDays: any[] = [];
   user: IUser['user'];
+  selectedDay: number;
   // public duration: string;
   services: IUser['service'];
   theHourOfDay: IUser['hours'];
   public client: IUser['user'];
-  public newHourList: IUser['scheduleOfDays'];
-  mon: IUser['scheduleOfDays']['monday'];
-  tues: IUser['scheduleOfDays']['tuesday'];
-  wed: IUser['scheduleOfDays']['wednesday'];
-  thur: IUser['scheduleOfDays']['thursday'];
-  fri: IUser['scheduleOfDays']['friday'];
-  sat: IUser['scheduleOfDays']['saturday'];
-  sun: IUser['scheduleOfDays']['sunday'];
+  public weekDays: IUser['scheduleOfDays'][];
   addAppointmentForm: FormGroup;
   public unavailableDates: number[] = [];
-  public unavailableDays: number[] = [];
+  public notAvailable: any[] = [];
   public id: string;
   public day: string[] = [];
-  date = moment();
+  momentDate = moment();
+  date: Date;
   public setDate: string;
-  public setMonth: string;
 
   constructor(
     private addAppointment: FormBuilder,
@@ -83,275 +95,274 @@ export class BookingFormComponent implements OnInit {
     public booking: BookingService,
     public firestore: AngularFirestore,
     public hourService: WorkingDaysService,
-    private notif: NotificationsService,
+    private notif: NotificationsService
+  ) {}
 
-  ) { }
-
-  ngOnInit(){
-
+  ngOnInit() {
     this.addAppointmentForm = this.addAppointment.group({
       employeeId: new FormControl('', Validators.required),
       serviceId: new FormControl('', [Validators.minLength(7)]),
-      date: new FormControl(moment(), [Validators.required]),
-      time: new FormControl(moment().toString(), [Validators.required]),
+      date: new FormControl(Date, [Validators.required]),
+      time: new FormControl([Validators.required]),
       note: new FormControl('', [Validators.required]),
     });
-
-
-
-    this.route.paramMap.subscribe(
-      async (params) =>
-      {
-        this.id = params.get('id');
-        (await this.business.getABusiness(this.id)).subscribe(
-          (bus) =>
-          {
-            this.profileInfo = bus;
-          });
-        this.business.getBusServices(this.id).subscribe(
-          (servs) =>
-          {
-            this.services = servs;
-          });
-        this.business.getHours(params.get('id')).subscribe(
-          (data) =>
-          {
-            this.theHourOfDay = data[0];
-          });
-        this.business.getBusEmployees(this.id).subscribe(
-          (emps) =>
-          {
-            this.employees = emps;
-          });
+    this.route.paramMap.subscribe(async (params) => {
+      this.id = params.get('id');
+      (await this.business.getABusiness(this.id)).subscribe((bus) => {
+        this.profileInfo = bus;
       });
-    this.clientService.getUserInfo().subscribe(
-        (data) =>
-        {
-          this.client = data;
-          this.notif.getToken(this.client.uid).subscribe((theToken) => { // call func to get user token from db
-            if (!theToken.token) { // if no token available
-              this.askPermis(); // call func to get user permis
-            }
-          });
+      this.business.getBusServices(this.id).subscribe((servs) => {
+        this.services = servs;
+      });
+      this.business.getHours(params.get('id')).subscribe((data) => {
+        this.theHourOfDay = data[0];
+      });
+      this.business.getBusEmployees(this.id).subscribe((emps) => {
+        this.employees = emps;
+      });
+    });
+    this.clientService.getUserInfo().subscribe((data) => {
+      this.client = data;
+      this.notif.getToken(this.client.uid).subscribe((theToken) => {
+        // call func to get user token from db
+        if (!theToken.token) {
+          // if no token available
+          this.askPermis(); // call func to get user permis
         }
-      );
-    this.booking.getBookedDays(this.id).subscribe( // pass in business id and call func to get doc for each day with a booking
-        (data) => {
-          // let theData = Object.keys(data).length;
-          let key;
-          for (key in data) // loop through the docs
-          {
-            if (key.availableTimes.length <= 1) // if a booking hours array has 1 or less items
-            {
-              let d = key.date.slice(7, 10); // slice the date value
-              let asNum = parseInt(d); // convert string to num
-              this.unavailableDates.push(asNum); // store in unavailable dates array
-            }
-            else{
-              console.log('no booking found');
+      });
+    });
+    this.hourService
+      .getAll(this.id)
+      .pipe(take(1))
+      .subscribe(
+        // get schedule for each day, do not run after fists value
+        (all) => {
+          this.weekDays = [];
+          this.weekDays = all; // schedules for each weekday
+          for (let i = 0; i < this.weekDays.length; i++) {
+            console.log('schedule array in loop', this.weekDays[i][0]);
+            if (
+              this.weekDays[i][0].length === 0 ||
+              this.weekDays[i][0].length === undefined
+            ) {
+              // if no hours for that day
+              console.log('not available');
+              this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
+            } else {
+              console.log('available day');
             }
           }
-        });
+        }
+      );
+
+    this.notAvailable = []; // reset array
+    this.booking.getBookedDays(this.id).subscribe(
+      // pass in business id and call func to get booked days collection
+      (data) => {
+        this.bookedDays = data;
+        for (let i = 0; i < this.bookedDays.length; i++) {
+          console.log(this.bookedDays[i].availableTimes.length);
+          // if a booking hours array has 1 or less items
+          if (
+            this.bookedDays[i].availableTimes.length <= 1 ||
+            this.bookedDays[i].availableTimes.length === undefined
+          ) {
+            const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
+            this.notAvailable.push(newd); // add doc name to array of unavailable dates
+          } else {
+            console.log('no bookings found');
+          }
+          // console.log(this.notAvailable);
+        }
+      }
+    );
   }
 
-  askPermis(){ // called when booking button clicked
-    this.notif.requestPermission().subscribe( // func to get/store notification permission
+  askPermis() {
+    // called when booking button clicked
+    this.notif.requestPermission().subscribe(
+      // func to get/store notification permission
       async (token) => {
         console.log('token received', token); // token returned
       }
     );
   }
 
-  public async onAppointSubmit(clientAppointment: IUser['appointment'])
-  {
-    if (this.addAppointmentForm.status === 'VALID')
-    {
+  public async onAppointSubmit(clientAppointment: IUser['appointment']) {
+    if (this.addAppointmentForm.status === 'VALID') {
+
+      // setting new appoinment details
       this.clientAppointment = this.addAppointmentForm.value; // form values
       this.clientAppointment.date = clientAppointment.date.toString(); // store appointment date
       this.clientAppointment.date = this.setDate;
-      this.clientAppointment.bid = this.id; //set business id
-      // let theUser = JSON.parse(localStorage.getItem('user'));
+      this.clientAppointment.bid = this.id; // set business id
       this.clientAppointment.uid = this.client.uid; // set client id
       this.clientAppointment.timeStamp = new Date(); // set timestamp of when appointment was made
       this.clientAppointment.appointmentId = this.firestore.createId(); // create an appointment id
-      this.booking.getServiceDuration(this.id, this.clientAppointment).subscribe( // call func to get service data
-        (ser) => {
-          this.selectedService = ser[0]; // store service data
-          this.clientAppointment.serName = this.selectedService.serviceName; // store service name
-          this.clientAppointment.serPrice = this.selectedService.servicePrice; // set booking price
-          this.clientAppointment.serDuration = this.selectedService.duration; // set booking duration
-          const startTime = this.clientAppointment.time; // set booking start time
-          const endTime = moment(startTime, 'HH:mm:ss').add(this.clientAppointment.serDuration, 'hours') // get service finish time
-          .format('HH:mm:ss');
-          console.log();
-          let index1 = this.day.indexOf(startTime); // get index that is = to the selected time
-          let index2 = this.day.indexOf(endTime); // get index that is = to the service end time
-          let newTimes
-          if (index2 == -1)
-          {
-            newTimes = this.day.slice(index1);
-          }
-          else{
-            newTimes = this.day.slice(index1, index2); // gets array of the times between the service start and end time
+      this.booking
+        .getServiceDuration(this.id, this.clientAppointment)
+        .subscribe( // call func to get service data
+          (ser) => {
+            this.selectedService = ser[0]; // store service data
+            this.clientAppointment.serName = this.selectedService.serviceName; // store service name
+            this.clientAppointment.serPrice = this.selectedService.servicePrice; // set booking price
+            this.clientAppointment.serDuration = this.selectedService.duration; // set booking duration
 
+            // edit booked schedule
+            const noHours = this.clientAppointment.serDuration.slice(1, 2); // slice no. of hours
+            const totalAsNum = parseInt(noHours); // cast to num
+            const temp: any[] = [];
+            let j = 1;
+            temp.push(this.clientAppointment.time);
+            if (totalAsNum > 1) // if the hours are more than 1
+            {
+              let  start = moment(this.clientAppointment.time, 'HH:mm:ss'); // booked time to moment obj
+              while (j < totalAsNum) // while there are still hours to add
+              {
+                const getNextTime = start.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+                temp.push(getNextTime); // add hours to array
+                start = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
+                j++; // increase by 1
+              }
+            }
+            // remove common items in arrays
+            const theDayHours = this.day.filter((a) => !temp.includes(a)); // removes unavailable hours from the array
+            // setting schedule
+            this.schedule.date = this.clientAppointment.date; // set the date of the booked date
+            this.schedule.availableTimes = [];
+            this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
+            this.schedule.calendarIndex = this.date.toString();
+            console.log('cal index', this.schedule.calendarIndex);
           }
-          const oldTimes = Array.from(this.day); // store array from associative array
-          const theDayHours = oldTimes.filter(a => !newTimes.includes(a)); // removes unavailable hours from the array
-          console.log('filter func', theDayHours);
-          this.schedule.date = this.clientAppointment.date; // set the date of the booked date
-          this.schedule.availableTimes = [];
-          this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
+        );
+      this.booking
+        .getEmployeeName(this.id, this.clientAppointment)
+        .subscribe((emp) => {
+          this.selectedEmployee = emp[0];
+          this.clientAppointment.empName =
+            this.selectedEmployee.firstName +
+            ' ' +
+            this.selectedEmployee.lastName; // store employee name
         });
-      this.booking.getEmployeeName(this.id, this.clientAppointment).subscribe(
-          (emp) => {
-            this.selectedEmployee = emp[0];
-            this.clientAppointment.empName = this.selectedEmployee.firstName + ' ' + this.selectedEmployee.lastName; // store employee name
-          });
-      this.business.getUserInfo().subscribe(
-        async (user) => {
-          this.user = user;
-          this.clientAppointment.clientName = this.user.firstName + ' ' + this.user.lastName; // store client name
-          // console.log('appointment info', this.clientAppointment);
-          await this.booking.addBookingSchedule(clientAppointment.bid, this.schedule);
-          await this.booking.addClientAppointment(this.clientAppointment);
-          await this.booking.addBusinessBooking(this.clientAppointment);
-          await this.notif.appoinmtentReminder(this.clientAppointment, this.profileInfo); // call funcs to store reminders
-          await this.notif.reviewReminder(this.clientAppointment, this.profileInfo);
-          // const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
-          // const dateB = moment(this.date, 'DD-MM-YYYY');
-          this.changeRoute();
-
-        });
-          // console.log('new day hours', newTimes);
-          // if (index1 === -1 || index2 === -1)
-          // {
-          //   alert('The duration of this service exceeds the available hours');
-          // }
-
-      // this.router.navigate(['/booking-confirmed/', clientAppointment.appointmentId]); // display business dash
-    }
-  }
-
-
-    dateFilter = (d: moment.Moment) => {
-    const filter = this.unavailableDates.indexOf(+ d.date()) === -1; // disable dates in array
-    // const month = (d || moment()).month(); // get the month num
-    let currentYear = moment().year();
-    const year = (d || moment()).year();
-    // console.log(year);
-
-    let currentMonth = moment().month();
-    const month = (d || moment()).month();
-    // console.log(month);
-
-    return  [
-      year <= currentYear + 1,
-      filter,
-      month <= currentMonth + 3];
-  //     // disable hours not available
-  //   return day !== 0 ; // disable sunday
-    // return true value index
-  }
-
-
-   newInput(event) // triggered when the data selection changes
-  {
-    this.date = moment(event.value); // the selected date as a moment obj
-    const selectedDay = this.date.day(); // the week day index of selected date
-    const selectedMonth = this.date.month(); // the month index of selected month
-    this.setDate = this.date.format('ddd MMM DD YYYY'); // formatting date
-    this.setMonth = this.date.format('MMMMM'); // formatting month
-    // console.log(this.date); // moment obj
-    // console.log(selectedDay); // index of day
-    // console.log(this.setDate); // the selected day
-          // let duration = moment.duration(finishTime.diff(startTime));
-          // let diff = duration.hours();
-          // if (this.day.length <= 1)
-          //       {
-          //         this.unavailableDays.push(this.day)
-          //       }
-    if (selectedDay)
-    {
-       this.booking.getBookingSchedule(this.id, this.setDate).subscribe(
-      async (dateSchedule) => {
-        console.log('the selected date schedule', dateSchedule);
-        if (dateSchedule)
-        {
-          //  let tempArr = data.availableTimes.pop();
-           this.day = Array.from(dateSchedule.availableTimes);
-        }
-        else if (!dateSchedule)
-        {
-          if (selectedDay === 1)
-          {
-            await this.hourService.getMon(this.id).subscribe(
-              (mon) =>
-              {
-                // get monday hours
-                this.day = Array.from(mon[0][0]);
-              });
-          }
-          else if (selectedDay === 2)
-          {
-            await this.hourService.getTue(this.id).subscribe(
-              (tues) =>
-              {
-                // get tuesday hours
-                this.day = Array.from(tues[0][0]);
-              });
-          }
-          else if (selectedDay === 3)
-          {
-            await this.hourService.getWed(this.id).subscribe(
-              (wed) =>
-              {
-                // get wednesday hours
-                this.day = Array.from(wed[0][0]);
-              });
-          }
-          else if (selectedDay === 4)
-          {
-            await this.hourService.getThur(this.id).subscribe(
-              (thur) =>
-              {
-                // get thursday hours
-                // console.log(thur);
-                this.day = Array.from(thur[0][0]);
-              });
-          }
-          else if (selectedDay === 5)
-          {
-            await this.hourService.getFri(this.id).subscribe(
-              (fri) =>
-              {
-                // get firday hours
-                this.day = Array.from(fri[0][0]);
-              });
-          }
-          else if (selectedDay === 6)
-          {
-            await this.hourService.getSat(this.id).subscribe(
-              (sat) =>
-              {
-                // get saturday hours
-                this.day = Array.from(sat[0][0]);
-              });
-          }
-          else if (selectedDay === 0)
-          {
-            await this.hourService.getSun(this.id).subscribe(
-              (sun) =>
-              {
-                // get sunday hours
-                this.day = Array.from(sun[0][0]);
-              });
-          }
-        }
+      this.business.getUserInfo().subscribe(async (user) => {
+        this.user = user;
+        this.clientAppointment.clientName =
+          this.user.firstName + ' ' + this.user.lastName; // store client name
+        await this.booking.addBookingSchedule(
+          clientAppointment.bid,
+          this.schedule
+        ); // add schedule for booked date
+        await this.booking.addClientAppointment(this.clientAppointment);
+        await this.booking.addBusinessBooking(this.clientAppointment);
+        await this.notif.appoinmtentReminder(
+          this.clientAppointment,
+          this.profileInfo
+        ); // call funcs to store reminders
+        await this.notif.reviewReminder(
+          this.clientAppointment,
+          this.profileInfo
+        );
+        // const dateA = moment(this.clientAppointment.timeStamp, 'DD-MM-YYYY');
+        // const dateB = moment(this.date, 'DD-MM-YYYY');
+        this.changeRoute();
       });
     }
   }
 
-  changeRoute(){
-    this.router.navigate(['/booking-confirmed/', this.clientAppointment.appointmentId]);
+  dateFilter = (d: Date) => {
+    const day = d.getDay();
+    const ddd = d.getTime();
+    // dates not in array and dates more than the current date
+    return (
+      this.notAvailable.indexOf(+day) === -1 &&
+      d >= new Date() &&
+      !this.unavailableDays.find((x) => x === ddd)
+    );
+  }
+
+  newInput(
+    event // triggered when the date selection changes
+  ) {
+    this.date = new Date(event.value);
+    this.momentDate = moment(event.value); // the selected date as a moment obj
+    this.selectedDay = this.momentDate.day(); // the week day index of selected date
+    this.setDate = this.momentDate.format('ddd MMM DD YYYY'); // formatting date
+    this.booking
+      .getBookingSchedule(this.id, this.setDate) // get schedule if booked
+      .subscribe((dateSchedule) => {
+        console.log(dateSchedule);
+        if (dateSchedule) {
+          // if there is a booked date
+          dateSchedule.availableTimes.sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+          this.day = Array.from(dateSchedule.availableTimes);
+        } else if (!dateSchedule) {
+          // tslint:disable-next-line: prefer-for-of
+          for (let i = 0; i < this.weekDays.length; i++) {
+            // if there is no booked date
+            if (this.weekDays[i][0].length > 0 && this.selectedDay === 0) {
+              // sun
+              console.log('sunday'); // need to add sort func
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]); // store in selected schedule array
+            }
+            else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 1
+            ) {
+              // mon
+              console.log('monday');
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 2
+            ) {
+              // tue
+              console.log('tuesday');
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 3
+            ) {
+              // wed
+              console.log('wednesday');
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 4
+            ) {
+              // thur
+              console.log('thursday');
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 5
+            ) {
+              // fri
+              console.log('friday');
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.day = Array.from(this.weekDays[i][0]);
+            } else if (
+              this.weekDays[i][0].length > 0 &&
+              this.selectedDay === 6
+            ) {
+              // sat
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              console.log('saturday');
+              this.day = Array.from(this.weekDays[i][0]);
+            }
+          }
+        }
+      });
+  }
+
+  changeRoute() {
+    this.router.navigate([
+      '/booking-confirmed/',
+      this.clientAppointment.appointmentId,
+    ]);
   }
 }

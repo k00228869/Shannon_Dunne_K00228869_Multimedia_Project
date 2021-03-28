@@ -55,13 +55,13 @@
   <br>
   <p><b>Date:</b>           {{appointmentInfo.date}}</p>
   <br>
-  <p><b>Time: </b>           {{appointmentInfo.time}}</p>
+  <p><b>Time: </b>           {{appointmentInfo.time | slice: 0: -3}}</p>
   <br>
   <p><b>Service: </b>        {{appointmentInfo.serName}}</p>
   <br>
   <p><b>Empoyee:</b>         {{appointmentInfo.empName}}</p>
   <br>
-  <p><b>Duration:</b>       {{appointmentInfo.serDuration}}</p>
+  <p><b>Duration:</b>       {{appointmentInfo.serDuration | slice: 1: -6}} Hours</p>
   <br>
   <p><b>Price:</b>          &euro;{{appointmentInfo.serPrice}}</p>
   <br>
@@ -69,11 +69,12 @@
   <br>
 </div>
 
-
+<div class="manage">
 <h2>Manage Appointment</h2>
-<a routerLink="/reschedule/{{appointmentInfo.appointmentId}}"><button mat-raised-button>Reschedule</button></a>
-<button mat-raised-button (click)="openDialog()"color="warn">Cancel</button>
 
+  <a routerLink="/reschedule/{{appointmentInfo.appointmentId}}"><button mat-raised-button>Reschedule</button></a>
+  <button mat-raised-button (click)="openDialog()"color="warn">Cancel</button>
+</div>
 
 
 

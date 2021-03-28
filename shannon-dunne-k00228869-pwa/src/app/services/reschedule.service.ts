@@ -14,16 +14,6 @@ export class RescheduleService {
   dealBooking: IUser['appointment'];
   constructor(public firestore: AngularFirestore) {}
 
-  // get a users business details
-  // getBusiness(id: string) {
-  //   let Business;
-  //   Business = this.firestore.collection<IUser>(
-  //     'businesses',
-  //     (ref) => ref.where('id', '==', id)
-  //   );
-  //   return Business.valueChanges();
-  // }
-
   // update client appointment with rescheduled appointment info
   public updateClientAppointment(
     appointmentInfo: IUser['appointment'],
@@ -72,7 +62,7 @@ export class RescheduleService {
     newSchedule: IUser['bookingSchedule']
   ) {
     // update date schedule with new available times
-    console.log('editBookingSchedule called', appointmentInfo, newSchedule );
+    // console.log('editBookingSchedule called', appointmentInfo, newSchedule);
 
     return from(
       this.firestore
@@ -83,7 +73,19 @@ export class RescheduleService {
         .update({
           availableTimes: newSchedule.availableTimes,
         })
-    );
+      );
+  }
+
+  public  editSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule'])
+  {
+    console.log('to update', newSchedule);
+    // return from( do );
+    let docRef = this.firestore
+      .collection<IUser>('users')
+      .doc<IUser['user']>(appointmentInfo.bid)
+      .collection<IUser['bookingSchedule']>('schedule')
+      .doc<IUser['bookingSchedule']>(appointmentInfo.date);
+    return from(docRef.set(newSchedule));
   }
 
   // remove client booking from db

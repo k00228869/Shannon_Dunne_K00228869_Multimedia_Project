@@ -63,32 +63,29 @@ public completeCancel(cancelled: string) // pass in the id of the cancelled appo
     async (data) => {
       console.log(data[0]);
       this.appointToRemove = data[0]; // the cancelled appointments data
-      console.log('duration', this.appointToRemove.serDuration);
       this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
       let amountAsNum = parseInt(this.duration, 10); // cast duration value to num
       await this.booking.getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule for date
       .pipe(take(1)).subscribe((thedate) => {
-        console.log('booked schedule received', thedate);
+        this.newSchedule.calendarIndex = thedate.calendarIndex;
+        this.newSchedule.date = thedate.date;
         this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
-
-        let i = 0;
-        if (amountAsNum > 1) // if the duration is more than 1 hour
+        let i = 1;
+        this.scheduleOfDay.push(this.appointToRemove.time);
+        if (amountAsNum > 1) // if the hours are more than 1
         {
-          while (i < amountAsNum){ // while i is less than the number of hours
-            const rescheduleAt = moment(this.appointToRemove.time, 'HH:mm:ss'); // get the booking time as moment obj
-            let theTime = rescheduleAt.add(1, 'hour').format('HH:mm:ss'); // add an hour to the booking time to get end time
-            this.scheduleOfDay.push(theTime); // add time value to array holding the hours for the old booking date
-            i++;
+          let startTime = moment(this.appointToRemove.time, 'HH:mm:ss'); // booked time to moment obj
+          while (i < amountAsNum) // while there are still hours to add
+          {
+            let getNextTime = startTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+            this.scheduleOfDay.push(getNextTime.toString()); // add hours to array
+            startTime = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
+            i++; // increase by 1
           }
         }
-        else if (amountAsNum <= 1) // if the duration is 1 hour or less
-        {
-          this.scheduleOfDay.push(this.appointToRemove.time); // add time to array of availabilities
-        }
-
-        console.log('3rd booking schedule', this.scheduleOfDay);
-        this.newSchedule.availableTimes = this.scheduleOfDay; // set schedule for cancelled date
-        this.reschedule.editBookingSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
+        this.newSchedule.availableTimes = [];
+        this.newSchedule.availableTimes = Array.from(this.scheduleOfDay); // set schedule for cancelled date
+        this.reschedule.editSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
         this.cancelBusiness(cancelled); // call func to remove appoinment data
         });
     });

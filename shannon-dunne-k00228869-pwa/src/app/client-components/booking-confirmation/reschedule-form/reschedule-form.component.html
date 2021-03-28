@@ -2,13 +2,14 @@
 <br>
 <h4>Reschedule Your Appointment with {{busInfo.businessName}}</h4>
 <br>
+<button mat-raised-button color="warn" class="cancelButton" type="button">
+  <a routerLink="/appointment/{{client.uid}}">
+      X
+  </a>
+</button>
 <form class="form-group" [formGroup]="editAppointmentForm" (ngSubmit)="editAppointSubmit(editAppointmentForm.value)">
   <br>
-  <!-- <button mat-raised-button color="warn" class="cancelButton" type="button">
-    <a routerLink="/customer-appointments-list">
-      X
-    </a>
-  </button> -->
+
   <mat-form-field appearance="outline">
     <mat-label>Employee</mat-label>
     <mat-select>
@@ -37,7 +38,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Time</mat-label>
       <mat-select [formControlName]="'time'">
-        <mat-option *ngFor="let time of day" [value]="time">{{time}}</mat-option>
+        <mat-option *ngFor="let time of (day | slice: 0 : -1)" [value]="time">{{time}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -51,14 +52,11 @@
   <div *ngIf="busInfo">
     <h4>Cancellation Policy</h4>
     <h3>{{busInfo.cancellationPolicy}}</h3>
-    <!-- <h5>Failing to attend your appointment or cancelling less than 24 hours before your appointment, will incur a charge of 50% of the service ammount. Appointments can be rescheduled 24 hours before the appointment. </h5> -->
     <br>
     <br>
   </div>
 
-  <button type="submit" mat-raised-button color="primary">
-    <!-- <a routerLink="/parent-confirmed/{{client.uid}}"> -->
+  <button type="submit" mat-raised-button color="primary" (click)="askPermis()">
     Submit
-    <!-- </a> -->
   </button>
 </form>

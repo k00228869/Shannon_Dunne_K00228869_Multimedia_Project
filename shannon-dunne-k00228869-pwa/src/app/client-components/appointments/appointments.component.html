@@ -41,13 +41,15 @@
     <span class="spacer"></span>
 </mat-toolbar>
 
-<br> 
-<mat-divider></mat-divider>
+ 
 <div *ngIf="!hidden">
   <div *ngFor="let booking of allBookings">
+    <mat-divider></mat-divider>
+    <br>
       <mat-card class="card"> 
           <a routerLink="/booking-confirmed/{{booking.appointmentId}}">
           <mat-card-header>
+        <mat-icon>event</mat-icon> 
               <mat-card-title>{{booking.serName}}</mat-card-title>
               <mat-card-subtitle>
               {{booking.date}}
@@ -58,9 +60,10 @@
           </mat-card-header>
           </a>
       </mat-card>
+      <br>
   </div>
 </div>
-<div *ngIf="hidden">
+<div *ngIf="hidden" class="noAppointment">
   <h2>You have no appointments to manage</h2>
 </div>
   <br> 

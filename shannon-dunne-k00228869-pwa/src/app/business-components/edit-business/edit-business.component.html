@@ -1,6 +1,5 @@
-<!-- <h1>Edit Your Business Profile</h1>
-<form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value)">
-    <!-- (ngSubmit)="onEmployeeSubmit(editEmployeeForm.value)" (ngSubmit)="onServiceSubmit(editServiceForm.value)"> 
+<h1>Edit Your Business Profile</h1>
+<form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value, editBusHours.value)">
     <mat-form-field appearance="outline">
         <mat-label>Business Name</mat-label>
         <input  [formControlName]="'businessName'" matInput>
@@ -84,6 +83,16 @@
         <textarea [formControlName]="'cancellationPolicy'" matInput></textarea>
     </mat-form-field>
     <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Pricing</mat-label>
+        <mat-select [formControlName]="'price'">
+          <mat-option value="1">&euro;</mat-option>
+          <mat-option value="2">&euro;&euro;</mat-option>
+          <mat-option value="3">&euro;&euro;&euro;</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
 
     <!-- <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
         <h2>Employees</h2>
@@ -190,10 +199,10 @@
     </form> -->
 
 
-    <!-- <form [formGroup]="addBusHours">
+    <form [formGroup]="editBusHours">
         <mat-label>Working Days</mat-label><br><br>
         <div formArrayName="monday">
-            <div *ngFor="let day of addBusHours.get('monday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('monday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Monday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -213,7 +222,7 @@
         <br>
 
         <div formArrayName="tuesday">
-            <div *ngFor="let day of addBusHours.get('tuesday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('tuesday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Tuesday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -234,7 +243,7 @@
         <br>
 
         <div formArrayName="wednesday">
-            <div *ngFor="let day of addBusHours.get('wednesday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('wednesday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Wednesday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -253,7 +262,7 @@
 
         <br>
         <div formArrayName="thursday">
-            <div *ngFor="let day of addBusHours.get('thursday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('thursday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Thursday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -272,7 +281,7 @@
 
         <br>
         <div formArrayName="friday">
-            <div *ngFor="let day of addBusHours.get('friday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('friday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Friday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -291,7 +300,7 @@
 
         <br>
         <div formArrayName="saturday">
-            <div *ngFor="let day of addBusHours.get('tuesday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('saturday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Saturday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -310,7 +319,7 @@
 
         <br>
         <div formArrayName="sunday">
-            <div *ngFor="let day of addBusHours.get('sunday')['controls']; let i = index" [formGroupName]="i">
+            <div *ngFor="let day of editBusHours.get('sunday')['controls']; let i = index" [formGroupName]="i">
                 <mat-label>Sunday</mat-label>
                 <mat-form-field appearance="outline">
                     <mat-label>from</mat-label>
@@ -326,9 +335,8 @@
                 </mat-form-field>
             </div>
         </div>
-    </form> -->
-    <!-- (click)="uploads.addUrl" 
+    </form>
     <button mat-raised-button color="primary" type="submit" >
         Update Profile
     </button>
-</form> -->
+</form> 

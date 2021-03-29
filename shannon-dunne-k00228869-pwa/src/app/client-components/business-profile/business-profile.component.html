@@ -57,8 +57,10 @@
           <br>
           <p>{{profileInfo.businessDescription}}</p>
           <br>
-          {{profileInfo.rating.toFixed(1)}}
-          <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+          <p *ngIf="profileInfo.rating">
+            {{profileInfo?.rating.toFixed(1)}} 
+            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+          </p>
         </mat-card-content>
 
 

@@ -38,15 +38,15 @@ export class AddBusinessComponent implements OnInit {
   hours: any[] = [];
   start: string;
   end: string;
-  week: string[] = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ];
+  // week: string[] = [
+  //   'monday',
+  //   'tuesday',
+  //   'wednesday',
+  //   'thursday',
+  //   'friday',
+  //   'saturday',
+  //   'sunday',
+  // ];
   holdHours: string[] = [];
   public id: string;
   hourList: IDays['1'] = []; // hold hours template
@@ -59,7 +59,6 @@ export class AddBusinessComponent implements OnInit {
   profileCreated: boolean;
   dailyWorkHours: number[] = [];
   newSet: string;
-  // dailyHours: IUser['business']['hours'];
 
   constructor(
     private addProfile: FormBuilder,
@@ -75,6 +74,7 @@ export class AddBusinessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // business details form
     this.addProfileForm = this.addProfile.group({
       businessName: new FormControl('', [Validators.required]),
       businessDescription: new FormControl('', Validators.required),
@@ -90,6 +90,7 @@ export class AddBusinessComponent implements OnInit {
       profileCreated: new FormControl('true', Validators.required),
     });
 
+        // business hours form
     this.addBusHours = this.addHours.group({
       monday: this.addHours.array([this.newDay()]),
       tuesday: this.addHours.array([this.newDay()]),
@@ -100,14 +101,17 @@ export class AddBusinessComponent implements OnInit {
       sunday: this.addHours.array([this.newDay()]),
     });
 
+      // business employees form
     this.addEmployeeForm = this.addEmp.group({
       employees: this.addEmp.array([this.newEmployee()]),
     });
 
+      // business services form
     this.addServiceForm = this.addSer.group({
       services: this.addSer.array([this.newService()]),
     });
 
+    // hours template
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]);
     });
@@ -115,7 +119,7 @@ export class AddBusinessComponent implements OnInit {
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
-    // build form group
+    // build employee form group
     let employee = this.addEmp.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -143,7 +147,8 @@ export class AddBusinessComponent implements OnInit {
       this.addEmployeeForm.status === 'VALID'
     ) {
       // if fields are valid
-      let employees = this.addEmployeeForm.controls.employees.value; // store form controls i.e the array
+      // store form controls i.e the array
+      let employees = this.addEmployeeForm.controls.employees.value;
       // tslint:disable-next-line: prefer-for-of
       for (
         let i = 0;
@@ -224,12 +229,9 @@ export class AddBusinessComponent implements OnInit {
     ) {
       // if fields are valid
       this.selectedHours = this.addBusHours.value; // copy selected start/finish times of each day
-
-      // this.dailyWorkHours = this.selectedHours;
       this.business.addHours(this.selectedHours);
       this.newProfile = this.addProfileForm.value;
       // this.addProfileForm.reset();
-      // this.route.navigate(['/business-view/:{{newProfile.uid}}']);
       if (this.selectedHours.monday) {
         this.hours = [];
         this.start = this.selectedHours.monday[0].startT; // get selected start time
@@ -239,9 +241,7 @@ export class AddBusinessComponent implements OnInit {
         let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
         let m = 1;
         this.hours.push(mondayHours, m);
-        // console.log(this.hours);
         this.mon = this.hours;
-        // console.log(this.mon);
         this.hourService.addMon(this.mon);
       }
       if (this.selectedHours.tuesday) {
@@ -254,7 +254,6 @@ export class AddBusinessComponent implements OnInit {
         this.tues = this.hours;
         let t = 2;
         this.hours.push(tuesday, t);
-        // this.business.addHours(this.tues);
         this.hourService.addTue(this.tues);
       }
       if (this.selectedHours.wednesday) {
@@ -318,7 +317,6 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addSun(this.sun);
       }
       this.business.addBusiness(newProfile);
-      // this.business.addToBusinessCol(newProfile);
       this.changeRoute(newProfile);
     } else {
       console.log('error in business form');

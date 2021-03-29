@@ -274,7 +274,7 @@ export class BookingFormComponent implements OnInit {
     const ddd = d.getTime();
     // dates not in array and dates more than the current date
     return (
-      this.unavailableDays.indexOf(+day) === -1 && // unavailable days
+      this.unavailableDays.indexOf(day) === -1 && // unavailable days
       // d >= new Date() &&
       !this.unavailableDates.find((x) => x === ddd) // unavailable dates
     );

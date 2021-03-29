@@ -69,17 +69,17 @@ export class BookingFormComponent implements OnInit {
   employees: IUser['employee'];
   public selectedService: IUser['service'];
   public selectedEmployee: IUser['employee'];
-  unavailableDays: any[] = [];
   user: IUser['user'];
   selectedDay: number;
+  todaysDate: Date = new Date();
   // public duration: string;
   services: IUser['service'];
   theHourOfDay: IUser['hours'];
   public client: IUser['user'];
   public weekDays: IUser['scheduleOfDays'][];
   addAppointmentForm: FormGroup;
-  public unavailableDates: number[] = [];
-  public notAvailable: any[] = [];
+  unavailableDays: any[] = [];
+  public unavailableDates: any[] = [];
   public id: string;
   public day: string[] = [];
   momentDate = moment();
@@ -135,29 +135,29 @@ export class BookingFormComponent implements OnInit {
       .getAll(this.id)
       .pipe(take(1))
       .subscribe(
-        // get schedule for each day, do not run after fists value
+        // get schedule for each day, unsubscribe after first value
         (all) => {
           this.weekDays = [];
           this.weekDays = all; // schedules for each weekday
           for (let i = 0; i < this.weekDays.length; i++) {
-            console.log('schedule array in loop', this.weekDays[i][0]);
+            // console.log('schedule array in loop', this.weekDays[i][0]);
             if (
               this.weekDays[i][0].length === 0 ||
               this.weekDays[i][0].length === undefined
             ) {
               // if no hours for that day
-              console.log('not available');
+              // console.log('not available');
               this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
             } else {
-              console.log('available day');
+              // console.log('available day');
             }
           }
         }
       );
 
-    this.notAvailable = []; // reset array
+    this.unavailableDates = []; // reset array
     this.booking.getBookedDays(this.id).subscribe(
-      // pass in business id and call func to get booked days collection
+      // pass in business id and call func to get booked dates collection
       (data) => {
         this.bookedDays = data;
         for (let i = 0; i < this.bookedDays.length; i++) {
@@ -168,7 +168,7 @@ export class BookingFormComponent implements OnInit {
             this.bookedDays[i].availableTimes.length === undefined
           ) {
             const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
-            this.notAvailable.push(newd); // add doc name to array of unavailable dates
+            this.unavailableDates.push(newd); // add doc name to array of unavailable dates
           } else {
             console.log('no bookings found');
           }
@@ -270,13 +270,13 @@ export class BookingFormComponent implements OnInit {
   }
 
   dateFilter = (d: Date) => {
-    const day = d.getDay();
+    const day = (d || new Date()).getDay();
     const ddd = d.getTime();
     // dates not in array and dates more than the current date
     return (
-      this.notAvailable.indexOf(+day) === -1 &&
-      d >= new Date() &&
-      !this.unavailableDays.find((x) => x === ddd)
+      this.unavailableDays.indexOf(+day) === -1 && // unavailable days
+      // d >= new Date() &&
+      !this.unavailableDates.find((x) => x === ddd) // unavailable dates
     );
   }
 

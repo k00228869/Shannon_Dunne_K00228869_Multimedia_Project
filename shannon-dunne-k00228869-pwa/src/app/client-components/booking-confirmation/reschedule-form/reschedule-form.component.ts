@@ -61,6 +61,7 @@ export const MY_FORMATS = {
 })
 export class RescheduleFormComponent implements OnInit {
   editAppointmentForm: FormGroup;
+  todaysDate: Date = new Date();
   public newAppointment: IUser['appointment'];
   public setDate: string;
   public client: IUser['user'];
@@ -73,7 +74,7 @@ export class RescheduleFormComponent implements OnInit {
   schedule: IUser['bookingSchedule'] = {};
   newSchedule: IUser['bookingSchedule'] = {};
   public weekDays: IUser['scheduleOfDays'][];
-  public notAvailable: any[] = [];
+  public unavailableDates: any[] = [];
   bookedDays: IUser['bookingSchedule'][];
   tempSchedule: string[] = [];
   user: IUser['user'];
@@ -155,7 +156,7 @@ export class RescheduleFormComponent implements OnInit {
         }
       );
 
-    this.notAvailable = []; // reset array
+    this.unavailableDates = []; // reset array
     this.bookingService.getBookedDays(this.appointmentInfo.bid).subscribe(
       // get documents with booked dates
       (data) => {
@@ -168,7 +169,7 @@ export class RescheduleFormComponent implements OnInit {
             this.bookedDays[i].availableTimes.length === undefined
           ) {
             const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
-            this.notAvailable.push(newd); // add doc name to array of unavailable dates
+            this.unavailableDates.push(newd); // add doc name to array of unavailable dates
           } else {
             // console.log('no bookings found');
           }
@@ -275,14 +276,14 @@ export class RescheduleFormComponent implements OnInit {
   }
 
   dateFilter = (d: Date) => {
-    const day = d.getDay();
+    const day = (d || new Date()).getDay();
     const ddd = d.getTime();
     return (
-      this.notAvailable.indexOf(day) == -1 &&
-      d >= new Date() &&
-      !this.unavailableDays.find((x) => x === ddd)
+      this.unavailableDays.indexOf(day) === -1 &&
+      // d >= new Date() &&
+      !this.unavailableDates.find((x) => x === ddd)
     );
-  };
+  }
 
   changeRoute(id: string) {
     this.router.navigate(['/booking-confirmed/', id]);

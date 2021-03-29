@@ -27,7 +27,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Date</mat-label>
-      <input id="bookedDate" (click)="bookedDate.open()" matInput [matDatepicker]="bookedDate"
+      <input id="bookedDate" (click)="bookedDate.open()" matInput [matDatepicker]="bookedDate" [min]="todaysDate"
         [formControlName]="'date'" placeholder="Choose a date" [matDatepickerFilter]="dateFilter"
         (dateInput)="newInput($event)">
       <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>

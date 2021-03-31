@@ -12,8 +12,10 @@
             Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            {{profile.rating.toFixed(1)}} 
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+            <p *ngIf="profile.rating">
+              {{profile.rating.toFixed(1)}} 
+              <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+            </p>
           </mat-card-subtitle>
         </mat-card-header>
       </a>
@@ -40,8 +42,10 @@
             Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            {{profile.rating.toFixed(1)}} 
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+            <p *ngIf="profile.rating">
+              {{profile.rating.toFixed(1)}} 
+              <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+            </p>
           </mat-card-subtitle>
         </mat-card-header>
       </a>

@@ -23,8 +23,6 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-// import * as moment from 'moment';
-// import {Moment} from 'moment/moment';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
@@ -50,16 +48,6 @@ export const MY_FORMATS = {
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.css'],
   encapsulation: ViewEncapsulation.None,
-  // providers: [
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-  //   },
-  //   {
-  //     provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
-  //   },
-  // ]
 })
 export class BookingFormComponent implements OnInit {
   profileInfo: IUser['business'];
@@ -72,7 +60,6 @@ export class BookingFormComponent implements OnInit {
   user: IUser['user'];
   selectedDay: number;
   todaysDate: Date = new Date();
-  // public duration: string;
   services: IUser['service'];
   theHourOfDay: IUser['hours'];
   public client: IUser['user'];
@@ -140,16 +127,12 @@ export class BookingFormComponent implements OnInit {
           this.weekDays = [];
           this.weekDays = all; // schedules for each weekday
           for (let i = 0; i < this.weekDays.length; i++) {
-            // console.log('schedule array in loop', this.weekDays[i][0]);
             if (
               this.weekDays[i][0].length === 0 ||
               this.weekDays[i][0].length === undefined
             ) {
               // if no hours for that day
-              // console.log('not available');
               this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
-            } else {
-              // console.log('available day');
             }
           }
         }
@@ -169,10 +152,7 @@ export class BookingFormComponent implements OnInit {
           ) {
             const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
             this.unavailableDates.push(newd); // add doc name to array of unavailable dates
-          } else {
-            console.log('no bookings found');
           }
-          // console.log(this.notAvailable);
         }
       }
     );
@@ -275,7 +255,6 @@ export class BookingFormComponent implements OnInit {
     // dates not in array and dates more than the current date
     return (
       this.unavailableDays.indexOf(day) === -1 && // unavailable days
-      // d >= new Date() &&
       !this.unavailableDates.find((x) => x === ddd) // unavailable dates
     );
   }

@@ -28,15 +28,15 @@ export class EditBusinessService {
 
 
 
-  public updateHours(selectedHours) // add a business' hours to the db
-  {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    return from (this.firestore.collection<IUser>('users')
-    .doc<IUser['user']>(theUser.uid)
-    .collection<IUser>('hours')
-    .doc<IUser['hours']>('theHours')
-    .update(Object.assign({}, selectedHours))); // add user to the db
-  }
+  // public updateHours(selectedHours) // add a business' hours to the db
+  // {
+  //   let theUser = JSON.parse(localStorage.getItem('user'));
+  //   return from (this.firestore.collection<IUser>('users')
+  //   .doc<IUser['user']>(theUser.uid)
+  //   .collection<IUser>('hours')
+  //   .doc<IUser['hours']>('theHours')
+  //   .update(Object.assign({}, selectedHours))); // add user to the db
+  // }
 
   // public updateBusiness(newProfile: IUser['business']) // add a businesses details to the db
   // {

@@ -38,14 +38,15 @@ export class BusinessProfileComponent implements OnInit {
           {
             console.log(bus);
             this.profileInfo = bus;
-            console.log(this.profileInfo);
+            // console.log(this.profileInfo);
           });
 
-        this.business.getHours(params.get('id')).subscribe(
+        this.business.getHours(this.id).subscribe(
             (data) =>
             {
-              this.theHours = data[0];
-              // console.log(this.theHours.monday[0].startT);
+              console.log('hours', data);
+              this.theHours = data;
+              console.log('inside hours', this.theHours.monday[0].startT);
             });
 
         this.business.getBusServices(this.id).subscribe(
@@ -73,7 +74,7 @@ export class BusinessProfileComponent implements OnInit {
 
     this.feedback.getBusinessReviews(this.id).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.reviews = data;
       }
     );

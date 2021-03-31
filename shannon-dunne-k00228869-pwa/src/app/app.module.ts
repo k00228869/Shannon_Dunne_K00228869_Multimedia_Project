@@ -43,12 +43,10 @@ import { AdvertiseAppointmentComponent } from './business-components/advertise-a
 import { BookDealComponent } from './client-components/book-deal/book-deal.component';
 import { ResetDetailsComponent } from './user-components/reset-details/reset-details.component';
 import { EditBusinessComponent } from './business-components/edit-business/edit-business.component';
-import { ToastService } from './services/toast.service';
 import { RescheduleService } from './services/reschedule.service';
 import { FeedbackService } from './services/feedback.service';
 import { EditBusinessService } from './services/edit-business.service';
-
-// import { MomentModule } from 'ngx-moment';
+import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
 
 
 @NgModule({
@@ -84,6 +82,11 @@ import { EditBusinessService } from './services/edit-business.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      positionClass: 'toast-top-center',
+    }),
+    ToastContainerModule,
     ReactiveFormsModule,
     AngularFirestoreModule,
     MaterialModule,
@@ -101,7 +104,6 @@ import { EditBusinessService } from './services/edit-business.service';
     SearchQueriesService,
     NotificationsService,
     WorkingDaysService,
-    ToastService,
     BookingService,
     RescheduleService,
     FeedbackService,

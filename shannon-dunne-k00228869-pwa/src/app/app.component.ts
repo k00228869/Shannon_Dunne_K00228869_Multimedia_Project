@@ -1,10 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { NotificationsService } from './services/notifications.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { UploadsService } from './services/uploads.service';
 import { Router, Event, NavigationStart } from '@angular/router';
-import { ToastService } from './services/toast.service';
+import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -16,56 +15,62 @@ export class AppComponent {
     'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
   title = 'SelfCare';
   deferredPrompt: any;
-  message; // TO DO: set tempplate design with this variable
+  message;
   showButton = false;
   routeHidden = true;
+  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
 
-  // install prompt event listener
+
+    // install prompt event listener
   @HostListener('window:beforeinstallprompt', ['$event'])
-  onbeforeinstallprompt(e) {
+onbeforeinstallprompt(event) { // do not fire if already installed
     // console.log(e);
     // Prevent Chrome 67 from automatically showing prompt
-    e.preventDefault();
+    event.preventDefault();
     // Stash the event so it can be triggered later.
-    this.deferredPrompt = e;
-    this.showButton = true;
+    this.deferredPrompt = event;
+    this.showButton = true; // display download button
   }
 
   constructor(
-    private readonly swPush: SwPush,
     private notif: NotificationsService,
-    private snackBar: MatSnackBar,
     private router: Router,
-    private toast: ToastService
-  ) {}
+    public toastr: ToastrService,
+    public update: SwUpdate
+  ) {
+    update.available.subscribe(event => { // check versions
+      console.log('Current Version', event.current);
+      console.log('Get Newest Version', event.available);
+    });
+
+    update.activated.subscribe(event => {
+      console.log('previous version', event.previous);
+      console.log('Newest version', event.current);
+    });
+
+    update.available.subscribe(event => { // call func to update
+      if (event) {
+        update.activateUpdate().then(() => document.location.reload());
+      }
+    });
+  }
+
 
   ngOnInit() {
-    // this.notif.receiveMessages();
+    this.toastr.overlayContainer = this.toastContainer;
+    this.notif.receiveMessage();
     this.message = this.notif.currentMessage;
+
     this.router.events.subscribe((e) => { // check route url and subscribe to receive event
       if (e instanceof NavigationStart) {// event triggered on first page
         if (e.url === '/') {
           this.routeHidden = false; // show carousel if false
-          // console.log('current page', e.url);
         } else {
-          // console.log('current page', e.url);
           this.routeHidden = true; // show carousel if false
         }
       }
     });
   }
-
-//   openSnackBar()
-// {
-//   this.snackBar.open(
-//     notification.title,
-//      notification.body,
-//   {
-//     direction:
-//     duration: 2000,
-//     horizontalPosition: center,
-//     verticalPosition: top,
-//   });
 
   downloadApp() { // when download button is clicked
     // hide download button
@@ -73,7 +78,7 @@ export class AppComponent {
     // Show prompt
     // console.log('theStashed response', this.deferredPrompt);
     this.deferredPrompt.prompt();
-    // Wait for user to response
+    // Wait for user to respond
     this.deferredPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
         console.log('User accepted add prompt');
@@ -82,23 +87,11 @@ export class AppComponent {
       }
       this.deferredPrompt = null;
     });
+
+
+
+
   }
-
-
-
-infoMessage()
-{
-  const message = '{{this.message}}';
-  this.toast.sendMessage(message, 'info');
-
-}
-
-
-
-
-
-
-
 
 }
 

@@ -47,17 +47,6 @@ export const MY_FORMATS = {
   templateUrl: './reschedule-form.component.html',
   styleUrls: ['./reschedule-form.component.css'],
   encapsulation: ViewEncapsulation.None,
-  // providers: [
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-  //   },
-  //   {
-  //     provide: MAT_DATE_FORMATS,
-  //     useValue: MY_FORMATS,
-  //   },
-  // ],
 })
 export class RescheduleFormComponent implements OnInit {
   editAppointmentForm: FormGroup;
@@ -68,7 +57,6 @@ export class RescheduleFormComponent implements OnInit {
   selectedDay: number;
   unavailableDays: any[] = [];
   theHourOfDay: IUser['hours'];
-  // public selectedService: IUser['service'];
   public duration: string;
   public day: string[] = [];
   schedule: IUser['bookingSchedule'] = {};
@@ -141,16 +129,12 @@ export class RescheduleFormComponent implements OnInit {
           this.weekDays = [];
           this.weekDays = all; // schedules for each weekday
           for (let i = 0; i < this.weekDays.length; i++) {
-            // console.log('schedule array in loop', this.weekDays[i][0]);
             if (
               this.weekDays[i][0].length === 0 ||
               this.weekDays[i][0].length === undefined
             ) {
               // if no hours for that day
-              // console.log('not available');
               this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
-            } else {
-              // console.log('available day');
             }
           }
         }
@@ -170,10 +154,7 @@ export class RescheduleFormComponent implements OnInit {
           ) {
             const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
             this.unavailableDates.push(newd); // add doc name to array of unavailable dates
-          } else {
-            // console.log('no bookings found');
           }
-          // console.log(this.notAvailable);
         }
       }
     );
@@ -280,7 +261,6 @@ export class RescheduleFormComponent implements OnInit {
     const ddd = d.getTime();
     return (
       this.unavailableDays.indexOf(day) === -1 &&
-      // d >= new Date() &&
       !this.unavailableDates.find((x) => x === ddd)
     );
   }

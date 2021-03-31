@@ -30,22 +30,22 @@ export class AdvertiseAppointmentComponent implements OnInit {
 
 
   ngOnInit(){
+    // build form
     this.advertiseForm = this.dealAppointment.group({
       discount: new FormControl('', [Validators.required]),
     });
 
-
+    // get appointment id from route
     this.route.paramMap.subscribe(
       async (params) =>
       {
-        this.id = params.get('id');
+        this.id = params.get('id'); // store appointment id
 
+        // get appointment mattching the appointment id
         (await this.bookingService.getAppointment(this.id)).subscribe(
         async (appoint) =>
         {
-          console.log('appointt', appoint);
-          this.appointmentInfo = appoint[0];
-          console.log('appointInfo', this.appointmentInfo);
+          this.appointmentInfo = appoint[0]; // store the appointment
 
           await this.business.getBusiness().subscribe(
             (busDoc) => {

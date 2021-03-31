@@ -8,48 +8,39 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { take } from 'rxjs/operators';
-import { identifierModuleUrl } from '@angular/compiler';
+import {ToastrService} from 'ngx-toastr';
+
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationsService {
-  currentMessage = new BehaviorSubject(null); // observable for new data
-
+  public currentMessage = new BehaviorSubject(null); // observable for new data
+  notificationMessage = {};
   token = null;
   public uid: string;
-  public userSub: IUser['subscription'];
   private subscrip: IUser['subscription'] = {};
   private notifObj: IUser['notificationMessage'] = {};
-
-  notificationMessage = {
-    //   to: '',
-    // notification : {
-    //   title: '',
-    //   body: '',
-    //   icon: '',
-    // }
-  };
 
   constructor(
     private firestore: AngularFirestore,
     private afm: AngularFireMessaging,
     private auth: AngularFireAuth,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private toastr: ToastrService
   ) {
   }
 
+  // this function request a subscription token, stores it in an object
+  // and adds the object as a doc in the subscription collection
   requestPermission() {
     return this.afm.requestToken.pipe(
       // get token when permission allowed
       tap((token) => {
-        // console.log('store token', token);
         let theUser = JSON.parse(localStorage.getItem('user'));
-        // console.log('uid', theUser.uid);
         this.subscrip.token = token; // set token + user id
         this.subscrip.id = theUser.uid;
-        // console.log('saved subscription', this.subscrip);
         return from(
-          // store token + user id
+          // store token + user id in subscription collection
           this.firestore
             .collection<IUser>('users')
             .doc<IUser['user']>(theUser.uid)
@@ -64,29 +55,20 @@ export class NotificationsService {
       })
     );
   }
-// this.afm.tokenChanges(());
 
 
-  // removeToken() {
-  //   this.afm.getToken // get user token
-  //     .pipe(mergeMap((token) => this.afm.deleteToken(token))) // delete token
-  //     .subscribe((token) => {
-  //       // delete from db func
-  //       console.log('token deleted');
-  //     });
-  // }
-
-
+// this function request a token, stores it in an object
+// and updates the subscription collection with a new token
 onTokenRefresh(){
   this.afm.requestToken.pipe( // get token
     tap(token => {
       let theUser = JSON.parse(localStorage.getItem('user'));
-      console.log(theUser.uid);
-      console.log('add token to db', token);
       this.subscrip = {};
       this.subscrip.token = token;
       this.subscrip.id = this.uid;
       console.log('saved subscription', this.subscrip);
+
+      // store subscription object
       return from (this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(theUser.uid)
@@ -95,31 +77,46 @@ onTokenRefresh(){
       .update({token: this.subscrip.token})); // store token + user id
     })
   );
- 
-};
+}
 
 
-receiveMessages() { // when message received, store it in the currentMessage obj
-    // handle message when app has browser focus
+// this function handles messages when the application is open,
+// it triggers a toast notification to display the data from the pushed notification
+receiveMessage() {
     return this.afm.onMessage((payload) => {
       console.log('mess payload received', payload);
       // this.saveNotification(payload);
+      this.toastr.info(payload.notification.body,
+        payload.notification.title, {
+        positionClass: 'toast-top-center',
+        timeOut: 7000,
+        closeButton: true,
+      });
       this.currentMessage.next(payload); // log and get next message
     });
   }
 
-saveNotification(payload) {
-    this.notifObj.message.notification.title = payload.notification.title;
-    this.notifObj.message.notification.body = payload.notification.body;
-    this.notifObj.message.notification.icon = payload.notification.icon;
-    // this.notifObj.click_action = payload.notification.click_action;
-    // console.log('saved notification', this.notifObj);
-    // let theUser = JSON.parse(localStorage.getItem('user'));
-    // return from (this.firestore.collection<IUser['user']>('users')
-    // .doc<IUser['user']>(theUser.uid)
-    // .collection<IUser>('notifications').doc<IUser['notification']>(theUser.uid).set(this.notifObj)); // store token + user id
-  }
+// saveNotification(payload) {
+//     this.notifObj.message.notification.title = payload.notification.title;
+//     this.notifObj.message.notification.body = payload.notification.body;
+//     console.log('Saving payload', this.notifObj);
+//     // let theUser = JSON.parse(localStorage.getItem('user'));
+//     // return from (this.firestore.collection<IUser['user']>('users')
+//     // .doc<IUser['user']>(theUser.uid)
+//     // .collection<IUser>('notifications').doc<IUser['notification']>(theUser.uid).set(this.notifObj)); // store token + user id
+      // return from(
+      //   this.firestore
+      //    .collection<IUser>('users') // adNotification to notificationlist
+      //    .doc<IUser['user']>(clientAppointment.uid)
+      //    .collection<IUser>('appointment-notification')
+      //    .doc<IUser['notificationMessage']>(clientAppointment.appointmentId)
+      //    .set(this.notificationMessage)
+      // );
+      // });
+//   }
 
+
+// This get the users token, if they are already subscribed to push notifications
 getToken(id: string): Observable<IUser['subscription']> {
     // retrieve token from db
     let docRef;
@@ -130,21 +127,24 @@ getToken(id: string): Observable<IUser['subscription']> {
     return docRef.valueChanges();
   }
 
-  // call delete notification when user deletes an appoinment
-  // call delete notification when user rescedules an appoinment, call add notification when user reschedules an appointment
 
-  // CLOUD FUNCTIONS NEED TO BE IMPLEMENTED HERE TO SEND THE NOTIFICATIONS
-
+// This creates the notification for an appointment after the user has made an appointment,
+// the reminder would be triggered using Cloud Functions and the Firebase admin SDK to
+// send an appointment to the user, the reminder would need to be sent to 24 hours prior
+// to the users appointment date.
 appoinmtentReminder(
     clientAppointment: IUser['appointment'],
     profileInfo: IUser['business'] // reminder set and store
-  ) {
+  ) {// TO DO::
     // get the appoint date, calculate time between now and booking time,
     // remove 24hrs from result and set as reminder time
+    // set time to send and add to firebase messaging
     this.getToken(clientAppointment.uid).subscribe((data) => {
+      // get user token
       this.token = data.token;
+
+      // Customising notification message
       this.notificationMessage = {
-        // set notification message
         infoId: clientAppointment.appointmentId,
         message: {
           token: this.token,
@@ -157,13 +157,12 @@ appoinmtentReminder(
           },
         },
       };
-      console.log(this.notificationMessage);
-      // add message to db, when cloud functions are implemented,
-      // then the notification data will be stored after it has been received,
-      // rather than stored after it has created
-
+      // this function stores the review notification message,
+      // this code will be moved to saveNotification() so that,
+      // when notifications are fully implemented,
+      // the data will be saved stored after a message is recieved
+      // rather than stored after it was created
       return from(
-        // store appoinment notification
          this.firestore
           .collection<IUser>('users') // adNotification to notificationlist
           .doc<IUser['user']>(clientAppointment.uid)
@@ -173,9 +172,8 @@ appoinmtentReminder(
       );
     });
   }
-
-getANotifications(): Observable<IUser['notificationMessage'][]> {
-    // get appoinment notifications collection
+  // this function gets the appointment notifications collection for a user
+  getANotifications(): Observable<IUser['notificationMessage'][]> {
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
@@ -186,11 +184,15 @@ getANotifications(): Observable<IUser['notificationMessage'][]> {
     );
   }
 
+    // this function deletes the appointment notification
+      // it's triggered if the user cancels an appointment
 deleteANotifications(id: string): Observable<void> {
-    // delete appoinment notifications document by date
-    // cloud function here to remove notification from FCM
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    return from(
+  let theUser = JSON.parse(localStorage.getItem('user'));
+    // delete appoinment notifications document by appointment id
+
+    // TO DO::
+    // cloud function here to remove notification from FCM    let theUser = JSON.parse(localStorage.getItem('user'));
+  return from(
       this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(theUser.uid)
@@ -200,17 +202,23 @@ deleteANotifications(id: string): Observable<void> {
     );
   }
 
+
+
+// This creates the notification for a review after the user has made an appointment,
+// the reminder would be triggered using Cloud Functions and the Firebase admin SDK to
+// send an appointment to the user, the reminder would need to be sent to the user
+// 48 hours after the users appointment date.
 reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
     // TO DO::
     // get the appoint date, calculate time between now and booking time,
     // add 48hrs to result and set as reminder time
-
+    // set time to send and add to firebase messaging
     this.getToken(clientAppointment.uid).subscribe(
       // get user token
       (data) => {
         this.token = data.token;
 
-        // set message data
+        // customising the notification data
         this.notificationMessage = {
           infoId: clientAppointment.bid,
           message: {
@@ -224,9 +232,11 @@ reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
           },
         };
 
-        console.log(this.notificationMessage);
+
         return from(
-          // store review notification message
+          // this function stores the review notification message,
+          // this code will be moved to saveNotification when notifications are fully implemented,
+          // allowing it to trigger after a message is recieved
           this.firestore
             .collection<IUser>('users')
             .doc<IUser['user']>(clientAppointment.uid)
@@ -238,8 +248,8 @@ reviewReminder(clientAppointment: IUser['appointment'], profileInfo) {
     );
   }
 
+  // this function gets the review notifications collection for a user
 getRNotifications(): Observable<IUser['notificationMessage'][]> {
-    // get review notifications collection
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
@@ -250,8 +260,12 @@ getRNotifications(): Observable<IUser['notificationMessage'][]> {
     );
   }
 
+
+  // this function deletes the review notification
+  // it's triggered if the user cancels an appointment
 deleteRNotifications(id: string): Observable<void> {
     // delete review notifications document by bus id
+    // TO DO::
     // cloud function here to remove notification from FCM
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(

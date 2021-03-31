@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -30,6 +32,7 @@ export class EditBusinessComponent implements OnInit {
   end: string;
   selectedHours: IUser['hours']; // holds selected times
   id: string;
+  serviceCollection: IUser['service'][];
   newProfile: IUser['business'];
   mon: IUser['scheduleOfDays']['monday'];
   tues: IUser['scheduleOfDays']['tuesday'];
@@ -43,16 +46,17 @@ export class EditBusinessComponent implements OnInit {
     private editProfile: FormBuilder,
     private editHours: FormBuilder,
     // private editEmp: FormBuilder,
-    // private editSer: FormBuilder,
+    private editSer: FormBuilder,
     public editbusiness: EditBusinessService,
     public business: BusinessService,
     private reschedule: RescheduleService,
     private route: ActivatedRoute,
     public hourService: WorkingDaysService,
-    private router: Router
+    private router: Router,
+    private firestore: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.paramMap.subscribe(async (params) => {
       this.id = params.get('id');
       this.business
@@ -61,27 +65,22 @@ export class EditBusinessComponent implements OnInit {
         .subscribe((business) => {
           this.newProfile = business;
           this.editProfileForm.controls.businessName.setValue(
-            this.newProfile.businessName
-          );
+            this.newProfile.businessName);
           this.editProfileForm.controls.businessDescription.setValue(
-            this.newProfile.businessDescription
-          );
+            this.newProfile.businessDescription);
           this.editProfileForm.controls.eircode.setValue(
-            this.newProfile.eircode
-          );
+            this.newProfile.eircode);
           this.editProfileForm.controls.county.setValue(this.newProfile.county);
           this.editProfileForm.controls.businessType.setValue(
-            this.newProfile.businessType
-          );
+            this.newProfile.businessType);
           this.editProfileForm.controls.reminderMessage.setValue(
-            this.newProfile.reminderMessage
-          );
+            this.newProfile.reminderMessage);
           this.editProfileForm.controls.cancellationPolicy.setValue(
-            this.newProfile.cancellationPolicy
-          );
+            this.newProfile.cancellationPolicy);
           this.editProfileForm.controls.price.setValue(this.newProfile.price);
         });
     });
+
 
     this.editProfileForm = this.editProfile.group({
       businessName: new FormControl(''),
@@ -89,8 +88,7 @@ export class EditBusinessComponent implements OnInit {
       businessType: new FormControl(''),
       eircode: new FormControl('', [
         Validators.minLength(7),
-        Validators.maxLength(7),
-      ]),
+        Validators.maxLength(7), ]),
       county: new FormControl(''),
       reminderMessage: new FormControl(''),
       cancellationPolicy: new FormControl(''),
@@ -110,6 +108,71 @@ export class EditBusinessComponent implements OnInit {
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]); // add hours template
     });
+
+    (await this.business.getServices()).subscribe((serviceCol) => {
+      this.serviceCollection = serviceCol;
+
+      this.editServiceForm.patchValue(this.serviceCollection);
+
+      const addTheService = this.serviceCollection.map(service => {
+        return this.editSer.group({
+          serviceName: [service.serviceName],
+          serviceDescription: [service.serviceDescription],
+          servicePrice: [service.servicePrice],
+          duration: [service.duration]
+        });
+      });
+      const servicesArr: FormArray = this.editSer.array(addTheService);
+
+      this.editServiceForm.setControl('services', servicesArr);
+      // for (let i = 0; 0 < this.serviceCollection.length; i++)
+      // {
+        // push(this.newService().setValue({
+        //   serviceName: this.serviceCollection[i].serviceName,
+        //   serviceDescription: this.serviceCollection[i].serviceDescription,
+        //   servicePrice: this.serviceCollection[i].servicePrice,
+      //   //   duration: this.serviceCollection[i].duration});
+      // }
+    });
+    // business services form
+    this.editServiceForm = this.editSer.group({
+      services: this.editSer.array([]), // push service data to array
+    });
+  }
+
+  // // HANDLE SERVICES DATA
+  // newService(): FormGroup {  // populate with service data
+  //   return this.editSer.group({
+  //     serviceName: new FormControl(''),
+  //     serviceDescription: new FormControl(''),
+  //     servicePrice: new FormControl(''),
+  //     duration: new FormControl(''),
+  //   });
+  // }
+
+
+  // public addServiceFormGroup() {
+  //   const services = this.editServiceForm.get('services') as FormArray;
+  //   // services.push(this.newService());
+  // }
+
+  public onServiceSubmit(adService: IUser['service']) {
+    // tslint:disable-next-line: max-line-length
+    if (
+      this.editServiceForm.status === 'VALID' &&
+      this.editProfileForm.status === 'VALID'
+    ) {
+      // if fields are valid
+      let services = this.editServiceForm.controls.services.value;
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < services.length; i++) {
+        adService = services[i];
+        adService.id = this.firestore.createId();
+        this.business.addServices(adService);
+      }
+    } else {
+      console.log('error in service form');
+    }
   }
 
   // HANDLES HOURS DATA

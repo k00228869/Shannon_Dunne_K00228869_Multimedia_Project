@@ -134,11 +134,13 @@
 
 
 
-    <!-- <form [formGroup]="addServiceForm" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
+    <form [formGroup]="editServiceForm" (ngSubmit)="onServiceSubmit(editServiceForm.value)">
         <h2>Services</h2>
-        <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button>
-        <div formArrayName="services">
-            <div *ngFor="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
+        <!-- <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button> -->
+        <div formArrayName="servicesArr">
+            <!-- <div *ngFor="let service of editServiceForm.get('services')['controls']; let i = index" [formGroupName]="i"> -->
+                <div *ngFor="let service of editServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
+
                 <mat-form-field appearance="outline">
                     <mat-label>Service Name</mat-label>
                     <input matInput [formControlName]="'serviceName'">
@@ -162,15 +164,15 @@
                         <mat-option value="01:00:00">1 Hr</mat-option>
                         <mat-option value="02:00:00">2 Hrs</mat-option>
                         <mat-option value="03:00:00">3 Hrs</mat-option>
-                        <mat-option value="04:00:00">3 Hrs</mat-option>
+                        <mat-option value="04:00:00">4 Hrs</mat-option>
 
                     </mat-select>
                 </mat-form-field>
                 <br>
-                <button mat-raised-button color="warm" (click)="removeService()">Remove service</button>
+                <!-- <button mat-raised-button color="warm" (click)="removeService()">Remove service</button> -->
             </div>
         </div>
-    </form> -->
+    </form>
     <br>
     <br>
     <!-- <form>

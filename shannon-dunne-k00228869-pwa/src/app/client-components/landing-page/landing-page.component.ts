@@ -15,9 +15,11 @@ export class LandingPageComponent implements OnInit {
   ) { }
 
   ngOnInit(){
+
+    // get urls for slideshow images from db
     this.uploads.getSlideshow().subscribe(
       (data) => {
-        this.slides = Object.values(data);
+        this.slides = Object.values(data); // store values in array
       });
   }
 

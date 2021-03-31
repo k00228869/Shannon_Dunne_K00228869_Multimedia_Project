@@ -16,7 +16,7 @@ import { take } from 'rxjs/operators';
 export class ProfileBusinessViewComponent implements OnInit {
   profileInfo: IUser['business'];
   employees: IUser['employee'];
-  services: IUser['service'];
+  services: IUser['service'][];
   public user: IUser['user'];
   theHours: IUser['hours'];
   public panelOpenState = false;

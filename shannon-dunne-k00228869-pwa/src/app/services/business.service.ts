@@ -122,7 +122,7 @@ export class BusinessService {
     return docRef.valueChanges();
   }
 
-  public async getServices(): Promise < Observable < IUser['service'] >> // get business user's services
+  public async getServices(): Promise < Observable < IUser['service'][] >> // get business user's services
   {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;

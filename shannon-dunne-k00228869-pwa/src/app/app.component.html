@@ -1,26 +1,25 @@
+
+
 <!-- set value to behaviour subject -->
 <!-- <div>
-currentMessage:
+
 <h1>{{ (message | async)?.notification.title }}</h1>
 <p> {{ (message | async)?.notification.body }}</p>
 <img src='{{ (message | async)?.notification.icon }}'/>
 </div> -->
 
 
-  <div [ngClass]="{'is-info': message.style == 'info'}">
-    <button>{{message.content}}</button>
-  </div>
 
 
-<router-outlet>
+<router-outlet>  
+  <div toastContainer></div>
     <mat-toolbar color="primary">
         <mat-toolbar-row>
           <span>SelfCare</span>
           <span class="spacer"></span>
           <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()"><mat-icon>get_app</mat-icon></button>
-          <!-- <button mat-raised-button color="accent" (click)="askPermis()"><mat-icon>add_alert</mat-icon></button> -->
         </mat-toolbar-row>
-      </mat-toolbar>
+    </mat-toolbar>
 </router-outlet>
 <div *ngIf="!routeHidden">
   <app-landing-page></app-landing-page>

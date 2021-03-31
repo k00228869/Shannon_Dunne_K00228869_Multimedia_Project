@@ -97,19 +97,19 @@
             <mat-divider></mat-divider>
             <br>
             <div>
-                <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length !== 0">Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.tuesday[0].finishT.length !== 0">Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.tuesday[0].finishT.length > 1">Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.wednesday[0].finishT.length !== 0">Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.wednesday[0].finishT.length > 1">Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.thursday[0].finishT.length !== 0">Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.thursday[0].finishT.length > 1">Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.friday[0].finishT.length !== 0">Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.friday[0].finishT.length > 1">Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.saturday[0].finishT.length !== 0">Saturday: {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
+                <mat-list-item role="listitem" *ngIf="theHours.saturday[0].finishT.length > 1">Saturday: {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
                 <br>
-                <mat-list-item role="listitem" *ngIf="theHours.sunday[0].finishT.length !== 0">Sunday: {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="theHours.sunday[0].finishT.length > 1">Sunday: {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
             </div>
             <br>
 
@@ -122,7 +122,7 @@
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               Name: {{service.serviceName}}
+               {{service.serviceName}}
                 </mat-panel-title>
                 <mat-panel-description>
                   Price:  &#x20AC;{{service.servicePrice}} 
@@ -133,7 +133,7 @@
               </mat-panel-title>
               <br>
               <mat-panel-title>
-                Duration: {{service.duration}} Hours
+                Duration: {{service.duration}} hrs
               </mat-panel-title>
               <mat-divider></mat-divider>
             </mat-expansion-panel>
@@ -146,12 +146,12 @@
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                Name: {{employee.firstName}} &nbsp; {{employee.lastName}} 
+                {{employee.firstName}} &nbsp;{{employee.lastName}} 
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <br>
               <mat-panel-title>
-                Description: {{employee.employeeDescription}} 
+                {{employee.employeeDescription}} 
             </mat-panel-title>
               <mat-divider></mat-divider>
             </mat-expansion-panel>
@@ -165,15 +165,15 @@
             (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Client: {{review.name}}
+                  {{review.name}}
                 </mat-panel-title>
                 <mat-panel-title>
-                  Rating: {{review.rating}}<mat-icon>star_rate</mat-icon>
+                  {{review.rating}}<mat-icon>star_rate</mat-icon>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <br>
               <mat-panel-title>
-                Review: <p>{{review.comment}}</p>
+                <p>{{review.comment}}</p>
                 <br>
             </mat-panel-title>
             <br>

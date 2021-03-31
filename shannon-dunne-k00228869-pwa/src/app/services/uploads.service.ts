@@ -10,13 +10,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 export class UploadsService {
-  // employeeRef: AngularFireStorageReference;
-  // uploadState: Observable<string>;
-  // uploadProgress: Observable<number>;
-  // task: AngularFireUploadTask;
-  // downloadURL: Observable<string>;
-  // public empURL: string;
-
   businessRef: AngularFireStorageReference;
   uploadGroupProgress: Observable<number>;
   uploadGroupState: Observable<string>;
@@ -64,30 +57,29 @@ export class UploadsService {
     let theUser = JSON.parse(localStorage.getItem('user'));
     if (event)
     {
+      // let list = event.target.files;
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < event.target.files.length; i++)
-    {
-      const imgId = Math.random().toString(36).substring(2); // create random image id
-      this.businessRef = this.imgStorage.ref('/images/business/' + imgId); // create reference path to storage bucket
-      this.groupTask = this.businessRef.put(event.target.files[i]);
-      this.uploadGroupProgress = this.groupTask.snapshotChanges() // return state, download url from uploadprogress
-      .pipe(map (s => (s.bytesTransferred / s.totalBytes) * 100));
+      for (let i = 0; i === event.target.files.length; i++)
+      {
+        const imgId = Math.random().toString(36).substring(2); // create image id
+        this.businessRef = this.imgStorage.ref('/images/business/' + theUser.uid + imgId); // create reference path to storage bucket
+        this.groupTask = this.businessRef.put(event.target.files[i]); // upload to storage reference path
 
-      this.uploadGroupProgress = this.groupTask.percentageChanges(); // return current progress
-      this.groupTask.snapshotChanges().pipe(
-        finalize(async () => {
-          this.downloadAllURL = this.businessRef.getDownloadURL(); // notify when url is available
-          this.downloadAllURL.subscribe((url) => {
-            console.log('returnedurl', url);
-            // this.busURL = url.toString();
-            this.images.push(url);
-            // console.log('theUrl', this.downloadAllURL);
-            this.uploadGroupState = this.groupTask.snapshotChanges().pipe(map(s => s.state));
-          });
-          // console.log('insidefor', this.images);
-        })).subscribe();
-    }
-    console.log('outsidefor', this.images);
+        this.uploadGroupProgress = this.groupTask.snapshotChanges() // return state from upload progress
+        .pipe(map (s => (s.bytesTransferred / s.totalBytes) * 100));
+
+        this.uploadGroupProgress = this.groupTask.percentageChanges(); // return current progress
+        this.groupTask.snapshotChanges().pipe(
+          finalize(async () => {
+            this.downloadAllURL = this.businessRef.getDownloadURL(); // store download url
+            this.downloadAllURL.subscribe((url) => {
+              console.log('returnedurl', url);
+              // this.busURL = url.toString();
+              this.images.push(url); // push image url to array of urls
+              this.uploadGroupState = this.groupTask.snapshotChanges().pipe(map(s => s.state));
+            });
+          })).subscribe();
+      }
    }
   }
 
@@ -108,7 +100,6 @@ export class UploadsService {
       {
         this.profileImages.imageURL = this.images[key];
         this.business.addImages(this.profileImages);
-
       }
     }
 

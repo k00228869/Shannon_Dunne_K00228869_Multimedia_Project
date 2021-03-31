@@ -56,7 +56,7 @@ onbeforeinstallprompt(event) { // do not fire if already installed
   }
 
 
-  ngOnInit() {
+  ngOnInit(){
     this.toastr.overlayContainer = this.toastContainer;
     this.notif.receiveMessage();
     this.message = this.notif.currentMessage;

@@ -109,7 +109,7 @@ export class RescheduleFormComponent implements OnInit {
       this.id = params.get('id');
       this.bookingService.getAppointment(this.id).subscribe((appoint) => {
         this.appointmentInfo = appoint[0];
-        console.log('appointInfo', this.appointmentInfo);
+        // console.log('appointInfo', this.appointmentInfo);
         this.updateInfo(this.appointmentInfo.bid);
       });
     });
@@ -130,7 +130,7 @@ export class RescheduleFormComponent implements OnInit {
           this.weekDays = all; // schedules for each weekday
           for (let i = 0; i < this.weekDays.length; i++) {
             if (
-              this.weekDays[i][0].length === 0 ||
+              this.weekDays[i][0].length <= 1 ||
               this.weekDays[i][0].length === undefined
             ) {
               // if no hours for that day
@@ -260,7 +260,7 @@ export class RescheduleFormComponent implements OnInit {
     const day = (d || new Date()).getDay();
     const ddd = d.getTime();
     return (
-      this.unavailableDays.indexOf(day) === -1 &&
+      this.unavailableDays.indexOf(+day) === -1 &&
       !this.unavailableDates.find((x) => x === ddd)
     );
   }
@@ -285,36 +285,43 @@ export class RescheduleFormComponent implements OnInit {
           for (let i = 0; i < this.weekDays.length; i++) {
             // if there is no booked date
             if (this.weekDays[i][0].length > 0 && this.selectedDay === 0) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]); // store in selected schedule array
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 1
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 2
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 3
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 4
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 5
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 6
             ) {
+              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             }
           }

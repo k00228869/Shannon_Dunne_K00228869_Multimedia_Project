@@ -37,54 +37,78 @@
 
 
 <form class="form-group">
-  <mat-form-field appearance="fill">
-    <mat-label>Location</mat-label>
-    <mat-select  [(ngModel)]="location">
-      <mat-option value="Antrim">Antrim</mat-option>
-      <mat-option value="Armagh">Armagh</mat-option>
-      <mat-option value="Fermanagh">Fermanagh</mat-option>
-      <mat-option value="Kilkenny">Kilkenny</mat-option>
-      <mat-option value="Laois">Laois</mat-option>
-      <mat-option value="Waterford">Waterford</mat-option>
-      <mat-option value="Tipperary">Tipperary</mat-option>
-      <mat-option value="Tyrone">Tyrone</mat-option>
-      <mat-option value="Galway">Galway</mat-option>
-      <mat-option value="Cork">Cork</mat-option>
-      <mat-option value="Dublin">Dublin</mat-option>
-      <mat-option value="Cavan">Cavan</mat-option>
-    </mat-select>
-  </mat-form-field> 
-  <mat-form-field appearance="fill">
-    <mat-label>Provider</mat-label>
-    <mat-select  [(ngModel)]="busType">
-      <mat-option value="Hair Stylist">Hair Stylist</mat-option>
-      <mat-option value="Makeup artist">Makeup artist</mat-option>
-      <mat-option value="Nail Technitian">Nail Technitian</mat-option>
-      <mat-option value="Barber">Barber</mat-option>
-      <mat-option value="Beauty Therapist">Beauty Therapist</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div *ngIf="!getDeal">
+    <mat-form-field appearance="fill">
+      <mat-label>Location</mat-label>
+      <mat-select  [(ngModel)]="location">
+        <mat-option value="default">All Locations</mat-option>
+        <mat-option value="Antrim">Antrim</mat-option>
+        <mat-option value="Armagh">Armagh</mat-option>
+        <mat-option value="Carlow">Carlow</mat-option>
+        <mat-option value="Cavan">Cavan</mat-option>
+        <mat-option value="Clare">Clare</mat-option>
+        <mat-option value="Cork">Cork</mat-option>
+        <mat-option value="Derry">Derry</mat-option>
+        <mat-option value="Donegal">Donegal</mat-option>
+        <mat-option value="Down">Down</mat-option>
+        <mat-option value="Dublin">Dublin</mat-option>
+        <mat-option value="Fermanagh">Fermanagh</mat-option>
+        <mat-option value="Galway">Galway</mat-option>
+        <mat-option value="Kerry">Kerry</mat-option>
+        <mat-option value="Kildare">Kildare</mat-option>
+        <mat-option value="Kilkenny">Kilkenny</mat-option>
+        <mat-option value="Laois">Laois</mat-option>
+        <mat-option value="Leitrim">Leitrim</mat-option>
+        <mat-option value="Limerick">Limerick</mat-option>
+        <mat-option value="Longford">Longford</mat-option>
+        <mat-option value="Louth">Louth</mat-option>
+        <mat-option value="Mayo">Mayo</mat-option>
+        <mat-option value="Meath">Meath</mat-option>
+        <mat-option value="Monaghan">Monaghan</mat-option>
+        <mat-option value="Offaly">Offaly</mat-option>
+        <mat-option value="Roscommon">Roscommon</mat-option>
+        <mat-option value="Sligo">Sligo</mat-option>
+        <mat-option value="Tipperary">Tipperary</mat-option>
+        <mat-option value="Tyrone">Tyrone</mat-option>
+        <mat-option value="Waterford">Waterford</mat-option>
+        <mat-option value="Westmeath">Westmeath</mat-option>
+        <mat-option value="Wexford">Wexford</mat-option>
+        <mat-option value="Wicklow">Wicklow</mat-option>
+      </mat-select>
+    </mat-form-field> 
+    <mat-form-field appearance="fill">
+      <mat-label>Provider</mat-label>
+      <mat-select  [(ngModel)]="busType">
+        <mat-option value="default">All Types</mat-option>
+        <mat-option value="Hair Salon">Hair Salon</mat-option>
+        <mat-option value="Barber">Barber</mat-option>
+        <mat-option value="Nail Technician">Nail Technician</mat-option>
+        <mat-option value="Beautician">Beautician</mat-option>
+        <mat-option value="Beauty therapist">Beauty therapist</mat-option>
+        <mat-option value="Masseuse">Masseuse</mat-option>
+        <mat-option value="Hair Stylist">Hair Stylist</mat-option>
+        <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
+      </mat-select>
+    </mat-form-field>
 
       <br>
         <mat-form-field appearance="fill">
           <mat-label>Sort</mat-label>
           <mat-select [(ngModel)]="sort">
+            <mat-option value="default">Filter</mat-option>
             <mat-option value="price">By Price</mat-option>
             <mat-option value="rating">By Rating</mat-option>
           </mat-select>
         </mat-form-field>
       <br>
-  <button mat-raised-button aria-label="search" (click)="getDeal = false; getBus()" >Search</button>
+  </div>
+    
+  <button mat-raised-button aria-label="search" (click)="getDeal = false; getBus()">Search</button>
   <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="getDeal = true">Deals</button>
 </form>  
-  
-  
 <br>
 
-<!-- hide/show deals -->
-  <div *ngIf="getDeal">
-      <app-business-deals></app-business-deals>
-  </div>
+
   
   <!-- hide/show business list -->
   <div *ngIf="!getDeal">
@@ -92,4 +116,7 @@
 </div>
 
 
-
+<!-- hide/show deals -->
+<div *ngIf="getDeal">
+  <app-business-deals></app-business-deals>
+</div>

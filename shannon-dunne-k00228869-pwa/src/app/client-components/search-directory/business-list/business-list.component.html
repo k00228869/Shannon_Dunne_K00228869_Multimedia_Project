@@ -1,7 +1,7 @@
-<mat-card class="card" *ngIf="searchComp.filtered"> 
+<mat-card class="card"> 
   <br>
   <ul>
-    <li *ngFor="let profile of searchComp.filteredProfiles">
+    <li *ngFor="let profile of search.filteredProfiles">
       <mat-divider></mat-divider>
       <br>
       <a routerLink="/business-profile/{{profile.id}}">
@@ -22,35 +22,6 @@
       <br>
       <mat-divider></mat-divider>
       <br>
-    </li>
-  </ul>
-</mat-card>
-
-
-<mat-card class="card" *ngIf="!searchComp.filtered"> 
-  <br>
-  <ul>
-    <li *ngFor="let profile of searchComp.allProfiles">
-      <mat-divider></mat-divider>
-      <br>
-      <a routerLink="/business-profile/{{profile.id}}">
-        <mat-card-header>
-          <div mat-card-avatar></div>
-          <mat-card-title>{{profile.businessName}}</mat-card-title>
-          <mat-card-subtitle>
-            
-            Location: {{profile.county}}
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-            <p *ngIf="profile.rating">
-              {{profile.rating.toFixed(1)}} 
-              <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
-            </p>
-          </mat-card-subtitle>
-        </mat-card-header>
-      </a>
-      <br>
-      <mat-divider></mat-divider>
     </li>
   </ul>
 </mat-card>

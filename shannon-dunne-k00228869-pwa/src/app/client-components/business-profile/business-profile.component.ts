@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
@@ -29,52 +31,49 @@ export class BusinessProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.route.paramMap.subscribe(
       (params) =>
       {
         this.id = params.get('id');
-        this.business.getABusiness(params.get('id')).subscribe(
+        this.business.getABusiness(this.id).subscribe(
           (bus) =>
           {
-            console.log(bus);
+            // console.log(bus);
             this.profileInfo = bus;
-            // console.log(this.profileInfo);
           });
 
         this.business.getHours(this.id).subscribe(
             (data) =>
             {
-              console.log('hours', data);
+              // console.log('hours', data);
               this.theHours = data;
-              console.log('inside hours', this.theHours.monday[0].startT);
+              // console.log('inside hours', this.theHours.monday[0].startT);
             });
 
         this.business.getBusServices(this.id).subscribe(
             (servs) =>
             {
               this.services = servs;
-              // console.log('services', this.services);
             });
 
         this.business.getBusEmployees(this.id).subscribe(
         (emps) =>
         {
           this.employees = emps;
-          // console.log(emps);
         });
       });
 
-    this.clientService.getUserInfo().subscribe(
+    this.clientService.getUserInfo().pipe(take(1)).subscribe(
         (data) =>
         {
           this.client = data;
-          // console.log(this.client);
         }
       );
 
+
     this.feedback.getBusinessReviews(this.id).subscribe(
       (data) => {
-        // console.log(data);
         this.reviews = data;
       }
     );

@@ -261,7 +261,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addWed(this.wed);
       }
       if (this.selectedHours.thursday) {
-        this.hours = [];
+        this.thur = [];
         this.start = this.selectedHours.thursday[0].startT;
         this.end = this.selectedHours.thursday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -272,7 +272,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addThur(this.thur);
       }
       if (this.selectedHours.friday) {
-        this.hours = [];
+        this.fri = [];
         this.start = this.selectedHours.friday[0].startT;
         this.end = this.selectedHours.friday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -283,7 +283,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addFri(this.fri);
       }
       if (this.selectedHours.saturday) {
-        this.hours = [];
+        this.sat = [];
         this.start = this.selectedHours.saturday[0].startT;
         this.end = this.selectedHours.saturday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -294,7 +294,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addSat(this.sat);
       }
       if (this.selectedHours.sunday) {
-        this.hours = [];
+        this.sun = [];
         this.start = this.selectedHours.sunday[0].startT;
         this.end = this.selectedHours.sunday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);

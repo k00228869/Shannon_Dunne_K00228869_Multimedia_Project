@@ -11,6 +11,7 @@ import {
   FormArray,
 } from '@angular/forms';
 import { SearchQueriesService } from 'src/app/services/search-queries.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-directory',
@@ -20,13 +21,12 @@ import { SearchQueriesService } from 'src/app/services/search-queries.service';
 export class SearchDirectoryComponent implements OnInit {
   public allSelected: boolean = true;
   public getDeal: boolean = false;
-  public filtered: boolean = false;
+  public filtered: boolean = true;
   public client: IUser['user'];
   public allProfiles: IUser['business'][];
-  public filteredProfiles: IUser['business'][];
-  location: string;
-  busType: string;
-  sort: string;
+  location: string = 'default';
+  busType: string = 'default';
+  sort: string = 'default';
 
   constructor(
     public firestore: AngularFirestore,
@@ -35,35 +35,24 @@ export class SearchDirectoryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.routeId();
-    this.search.getAllBusinessUsers().subscribe((unfilteredBus) => {
-      this.allSelected = true;
-      this.allProfiles = [];
-      this.allProfiles = unfilteredBus;
+    this.clientService.getUserInfo().pipe(take(1)).subscribe((data) => {
+      this.client = data;
     });
   }
 
   public async getBus()
   {
-    console.log('searching for business');
-    this.filtered = true;
+    // this.filtered = true;
     console.log(this.location, this.busType);
-    await this.search
+    this.search
       .checkQuery(this.location, this.busType, this.sort)
       .subscribe((filteredBus) => {
-        console.log('filtered list', filteredBus);
-        this.filteredProfiles = [];
-        this.filteredProfiles = filteredBus;
-        if (this.filteredProfiles.length === 0) // if 0 documents
-        {
-          alert('No provider\'s matching your search, change filters and try again.');
-        }
+        this.search.filteredProfiles = [];
+        this.search.filteredProfiles = filteredBus;
+        // if (this.filteredProfiles.length === 0) // if 0 documents
+        // {
+        //   console.log('No probiders matching search');
+        // }
       });
-  }
-
-  routeId() {
-    this.clientService.getUserInfo().subscribe((data) => {
-      this.client = data;
-    });
   }
 }

@@ -1,4 +1,5 @@
 <h1>Edit Your Business Profile</h1>
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 <form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value, editBusHours.value)">
     <mat-form-field appearance="outline">
         <mat-label>Business Name</mat-label>

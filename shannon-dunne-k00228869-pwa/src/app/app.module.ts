@@ -15,7 +15,7 @@ import { SearchDirectoryComponent } from './client-components/search-directory/s
 import { BookingFormComponent } from './client-components/booking-form/booking-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ClientProfileComponent } from './client-components/client-profile/client-profile.component';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileBusinessViewComponent } from './business-components/profile-business-view/profile-business-view.component';
 import { AddBusinessComponent } from './business-components/add-business/add-business.component';
 import { BusinessService } from './services/business.service';
@@ -40,14 +40,12 @@ import { BusinessNotificationsComponent } from './business-components/business-n
 import { ReplyFormComponent } from './business-components/reply-form/reply-form.component';
 import { CancelComponent } from './client-components/booking-confirmation/cancel/cancel.component';
 import { AdvertiseAppointmentComponent } from './business-components/advertise-appointment/advertise-appointment.component';
-import { BookDealComponent } from './client-components/book-deal/book-deal.component';
 import { ResetDetailsComponent } from './user-components/reset-details/reset-details.component';
 import { EditBusinessComponent } from './business-components/edit-business/edit-business.component';
 import { RescheduleService } from './services/reschedule.service';
 import { FeedbackService } from './services/feedback.service';
 import { EditBusinessService } from './services/edit-business.service';
-import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
-
+import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -73,10 +71,9 @@ import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
     ReplyFormComponent,
     CancelComponent,
     AdvertiseAppointmentComponent,
-    BookDealComponent,
     ResetDetailsComponent,
-    EditBusinessComponent
-    ],
+    EditBusinessComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -93,7 +90,9 @@ import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireMessagingModule,
-    ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production })
+    ServiceWorkerModule.register('combined-sw.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [
     AuthenticateService,
@@ -109,6 +108,6 @@ import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
     FeedbackService,
     EditBusinessService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

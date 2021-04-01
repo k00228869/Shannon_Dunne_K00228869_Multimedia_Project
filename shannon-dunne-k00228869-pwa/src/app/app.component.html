@@ -1,28 +1,16 @@
 
-
-<!-- set value to behaviour subject -->
-<!-- <div>
-
-<h1>{{ (message | async)?.notification.title }}</h1>
-<p> {{ (message | async)?.notification.body }}</p>
-<img src='{{ (message | async)?.notification.icon }}'/>
-</div> -->
-
-
-
-
-<router-outlet>  
+<router-outlet>
   <div toastContainer></div>
-    <mat-toolbar color="primary">
-        <mat-toolbar-row>
-          <span>SelfCare</span>
-          <span class="spacer"></span>
-          <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()"><mat-icon>get_app</mat-icon></button>
-        </mat-toolbar-row>
-    </mat-toolbar>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>SelfCare</span>
+      <span class="spacer"></span>
+      <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()">
+        <mat-icon>get_app</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </router-outlet>
 <div *ngIf="!routeHidden">
   <app-landing-page></app-landing-page>
 </div>
-
-

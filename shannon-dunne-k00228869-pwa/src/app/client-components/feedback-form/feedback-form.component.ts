@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/i-user';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -33,7 +34,9 @@ export class FeedbackFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private notif: NotificationsService,
-    private feedback: FeedbackService
+    private feedback: FeedbackService,
+    public authService: AuthenticateService,
+
   ) { }
 
   ngOnInit(){

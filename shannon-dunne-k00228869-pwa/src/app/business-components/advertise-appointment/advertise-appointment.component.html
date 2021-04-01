@@ -1,10 +1,7 @@
 <form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit()">
     <br>
-    <button mat-raised-button color="warn" class="cancelButton" type="button">
-      <a routerLink="/business-dashboard">
-        X
-      </a>
-    </button>
+      <button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+
     
     <div>
       <h3>Appointment Advert</h3>
@@ -17,14 +14,23 @@
         <mat-form-field appearance="outline">
         <mat-label>Discount</mat-label>
         <mat-select [formControlName]="'discount'">
-            <mat-option value="85">15% off</mat-option>
-            <mat-option value="80">20% off</mat-option>
-            <mat-option value="75">25% off</mat-option>
-            <mat-option value="70">30% off</mat-option>
-            <mat-option value="65">35% off</mat-option>
-            <mat-option value="60">40% off</mat-option>
-            <mat-option value="55">45% off</mat-option>
+            <mat-option value="15">15% off</mat-option>
+            <mat-option value="20">20% off</mat-option>
+            <mat-option value="25">25% off</mat-option>
+            <mat-option value="30">30% off</mat-option>
+            <mat-option value="35">35% off</mat-option>
+            <mat-option value="40">40% off</mat-option>
+            <mat-option value="45">45% off</mat-option>
             <mat-option value="50">50% off</mat-option>
+            <mat-option value="55">55% off</mat-option>
+            <mat-option value="60">60% off</mat-option>
+            <mat-option value="65">65% off</mat-option>
+            <mat-option value="70">70% off</mat-option>
+            <mat-option value="75">55% off</mat-option>
+            <mat-option value="80">80% off</mat-option>
+            <mat-option value="85">85% off</mat-option>
+            <mat-option value="90">90% off</mat-option>
+            <mat-option value="95">95% off</mat-option>
         </mat-select>
         </mat-form-field> 
         <br>

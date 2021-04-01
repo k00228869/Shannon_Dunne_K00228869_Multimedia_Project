@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/i-user';
 import { IDays } from 'src/app/idays';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { EditBusinessService } from 'src/app/services/edit-business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
@@ -53,7 +54,9 @@ export class EditBusinessComponent implements OnInit {
     private route: ActivatedRoute,
     public hourService: WorkingDaysService,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    public authService: AuthenticateService,
+
   ) {}
 
   async ngOnInit() {

@@ -73,11 +73,13 @@ export class RescheduleService {
         .update({
           availableTimes: newSchedule.availableTimes,
         })
-      );
+    );
   }
 
-  public  editSchedule(appointmentInfo: IUser['appointment'], newSchedule: IUser['bookingSchedule'])
-  {
+  public editSchedule(
+    appointmentInfo: IUser['appointment'],
+    newSchedule: IUser['bookingSchedule']
+  ) {
     console.log('to update', newSchedule);
     // return from( do );
     let docRef = this.firestore
@@ -102,7 +104,7 @@ export class RescheduleService {
 
   // remove business booking from db
   public cancelBusBooking(id: string, bid: string) {
-    console.log('cancelBusBooking called', id, bid );
+    console.log('cancelBusBooking called', id, bid);
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -143,7 +145,12 @@ export class RescheduleService {
 
   // delete deal advert
   deleteDealAdvert(id: string) {
-    return from(this.firestore.collection<IDeals>('deals').doc<IDeals['deal']>(id).delete());
+    return from(
+      this.firestore
+        .collection<IDeals>('deals')
+        .doc<IDeals['deal']>(id)
+        .delete()
+    );
   }
 
   // duplicate advertised appointment to root of db so that it can be displayed as a deal
@@ -161,11 +168,11 @@ export class RescheduleService {
     );
   }
 
-  public getDeals() { // get all deal appointments
+  public getDeals() {
+    // get all deal appointments
     let docRef = this.firestore.collection<IDeals['deal']>('deals');
     return docRef.valueChanges();
   }
-
 
   // update the businesses appointment doc with the deals info and clear old client details
   public editBusAppointment(newAppointInfo: IUser['appointment']) {
@@ -214,13 +221,15 @@ export class RescheduleService {
     id: string,
     bid: string // delete appointment id from business cancellation doc
   ) {
-      console.log('deleteCancellation called', id, bid);
-      return from(
-        this.firestore
+    console.log('deleteCancellation called', id, bid);
+    return from(
+      this.firestore
         .collection<IUser>('users')
         .doc<IUser['user']>(bid)
         .collection<IUser['cancellation']>('cancellations')
-        .doc(id).delete());
+        .doc(id)
+        .delete()
+    );
   }
 
   // public createRescheduleNotif()

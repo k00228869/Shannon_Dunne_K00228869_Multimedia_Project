@@ -2,11 +2,8 @@
 <br>
 <h4>Reschedule Your Appointment with {{busInfo.businessName}}</h4>
 <br>
-<button mat-raised-button color="warn" class="cancelButton" type="button">
-  <a routerLink="/appointment/{{client.uid}}">
-      X
-  </a>
-</button>
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+
 <form class="form-group" [formGroup]="editAppointmentForm" (ngSubmit)="editAppointSubmit(editAppointmentForm.value)">
   <br>
 

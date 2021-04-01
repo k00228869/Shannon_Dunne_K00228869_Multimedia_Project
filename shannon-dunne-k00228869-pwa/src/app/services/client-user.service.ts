@@ -4,21 +4,19 @@ import { Observable } from 'rxjs';
 import { IUser } from '../i-user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientUserService {
   public uid: string;
 
-  constructor(
-    public firestore: AngularFirestore
-  ) { }
+  constructor(public firestore: AngularFirestore) {}
 
-
-  getUserInfo(): Observable<IUser['user']> // gets the user doc with the passed id
-  {
+  getUserInfo(): Observable<IUser['user']> { // gets the user doc with the passed id
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
-    return this.firestore.collection<IUser>('users')
-    .doc<IUser['user']>(this.uid).valueChanges(); // returns the users doc to check if admin is true
+    return this.firestore
+      .collection<IUser>('users')
+      .doc<IUser['user']>(this.uid)
+      .valueChanges(); // returns the users doc to check if admin is true
   }
 }

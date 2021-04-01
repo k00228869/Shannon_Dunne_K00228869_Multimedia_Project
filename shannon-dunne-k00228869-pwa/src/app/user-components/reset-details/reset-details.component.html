@@ -2,14 +2,20 @@
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput [formControlName]="'email'" type="email" placeholder="Email">
+        <mat-error *ngIf="resetForm.controls.email.hasError('email') && !resetForm.controls.email.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="resetForm.controls.email.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput [formControlName]="'password'" type="password">
-    </mat-form-field>
-      <br>
-      <br>
+    </mat-form-field> -->
+    <br>
+    <br>
     <button mat-raised-button color="primary" type="submit">
-          Reset Details
-    </button> 
+        Reset Details
+    </button>
 </form>

@@ -4,29 +4,28 @@ import { from, Observable } from 'rxjs';
 import { IUser } from '../i-user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditBusinessService {
-  constructor(
-    private firestore: AngularFirestore
-  ) { }
+  constructor(private firestore: AngularFirestore) {}
 
-  public updateBusiness(updatedProfile)
-  {
+  public updateBusiness(updatedProfile) {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    return from(this.firestore.collection('businesses')
-    .doc<IUser['business']>(theUser.uid).update({
-      businessName: updatedProfile.businessName,
-      businessDescription: updatedProfile.businessDescription,
-      eircode: updatedProfile.eircode,
-      county: updatedProfile.county,
-      businessType: updatedProfile.businessType,
-      reminderMessage: updatedProfile.reminderMessage,
-      cancellationPolicy: updatedProfile.cancellationPolicy
-    }));
+    return from(
+      this.firestore
+        .collection('businesses')
+        .doc<IUser['business']>(theUser.uid)
+        .update({
+          businessName: updatedProfile.businessName,
+          businessDescription: updatedProfile.businessDescription,
+          eircode: updatedProfile.eircode,
+          county: updatedProfile.county,
+          businessType: updatedProfile.businessType,
+          reminderMessage: updatedProfile.reminderMessage,
+          cancellationPolicy: updatedProfile.cancellationPolicy,
+        })
+    );
   }
-
-
 
   // public updateHours(selectedHours) // add a business' hours to the db
   // {
@@ -46,23 +45,31 @@ export class EditBusinessService {
   //   .doc<IUser['business']>(newProfile.id).update(newProfile));
   // }
 
-  public updateServices(adService: IUser['service']) // add business' services
-{
+  public updateServices(
+    adService: IUser['service'] // add business' services
+  ) {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    return from (this.firestore.collection('users')
-    .doc<IUser['user']>(theUser.uid)
-    .collection<IUser>('services')
-    .doc<IUser['service']>(adService.id)
-    .update(adService));
+    return from(
+      this.firestore
+        .collection('users')
+        .doc<IUser['user']>(theUser.uid)
+        .collection<IUser>('services')
+        .doc<IUser['service']>(adService.id)
+        .update(adService)
+    );
   }
 
-  public updateEmployees(adEmployee: IUser['employee']) // add business' employees
-{
+  public updateEmployees(
+    adEmployee: IUser['employee'] // add business' employees
+  ) {
     let theUser = JSON.parse(localStorage.getItem('user'));
-    return from (this.firestore.collection('users')
-    .doc<IUser['user']>(theUser.uid)
-    .collection<IUser>('employees')
-    .doc<IUser['employee']>(adEmployee.id)
-    .update(adEmployee));
+    return from(
+      this.firestore
+        .collection('users')
+        .doc<IUser['user']>(theUser.uid)
+        .collection<IUser>('employees')
+        .doc<IUser['employee']>(adEmployee.id)
+        .update(adEmployee)
+    );
   }
 }

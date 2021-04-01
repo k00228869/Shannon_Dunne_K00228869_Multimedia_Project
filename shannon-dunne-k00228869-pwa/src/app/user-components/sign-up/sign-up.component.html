@@ -1,48 +1,63 @@
 <h1>Register Your Account!</h1>
 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit(signUpForm.value)">
-    <mat-form-field appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input matInput [formControlName]="'firstName'" type="text" placeholder="firstName">
-      </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input matInput [formControlName]="'firstName'" type="text" placeholder="firstName">
+  </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput [formControlName]="'lastName'" type="text" placeholder="lastName">
-      </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input matInput [formControlName]="'lastName'" type="text" placeholder="lastName">
+  </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Phone</mat-label>
-        <input matInput [formControlName]="'phone'" type="phone" placeholder="phone">
-      </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Phone Number</mat-label>
+    <span matPrefix>+353 &nbsp;</span>
+    <input matInput [formControlName]="'phone'" type="tel" placeholder="087-928-3374">
+    <mat-error *ngIf="signUpForm.controls.phone.hasError('phone') && !signUpForm.controls.phone.hasError('required')">
+      Please enter a valid phone number
+    </mat-error>
+    <mat-error *ngIf="signUpForm.controls.phone.hasError('required')">
+      A phone number is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput [formControlName]="'email'" type="email" placeholder="Email">
-      </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput [formControlName]="'email'" type="email" placeholder="Email">
+    <mat-error *ngIf="signUpForm.controls.email.hasError('email') && !signUpForm.controls.email.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="signUpForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput [formControlName]="'password'" type="password" placeholder="Password">
-      </mat-form-field>
-      <br>
-      
-        <mat-label>Select Account</mat-label> <br> <br>
-      <mat-radio-group aria-label="Select Account Type" [formControlName]="'admin'">
-        <mat-radio-button  [value]="true" >Business</mat-radio-button> <!--  let roles of roles [value]=role -->
-       
-        <mat-radio-button [value]="false" >Customer</mat-radio-button>
-      </mat-radio-group>
-      <br>
-      <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput [formControlName]="'password'" maxlength="16" type="password" placeholder="Password">
+    <mat-error *ngIf="signUpForm.controls.password.hasError('password') && !signUpForm.controls.password.hasError('required')">
+      Password must be more than 6 characters/numbers
+    </mat-error>
+  </mat-form-field>
+  <br>
 
-      <button mat-raised-button color="primary" type="submit">
-          Sign Up
-      </button>
+  <mat-label>Select Account</mat-label> <br> <br>
+  <mat-radio-group aria-label="Select Account Type" [formControlName]="'admin'">
+    <mat-radio-button [value]="true">Business</mat-radio-button> <!--  let roles of roles [value]=role -->
+
+    <mat-radio-button [value]="false">Customer</mat-radio-button>
+  </mat-radio-group>
+  <br>
+  <br>
+
+  <button mat-raised-button color="primary" type="submit">
+    Sign Up
+  </button>
 </form>
 <br>
 <br>
 <h3>Already A Member?</h3>
-  <a [routerLink]="['/login']">
-    Login
-  </a>
-
+<a [routerLink]="['/login']">
+  Login
+</a>

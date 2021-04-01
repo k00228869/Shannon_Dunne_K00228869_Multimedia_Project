@@ -48,11 +48,9 @@ export class BookingConfirmationComponent implements OnInit {
          (appoint) =>
           {
             this.appointmentInfo = appoint[0];
-            // console.log(this.appointmentInfo.bid);
             this.business.getABusiness(this.appointmentInfo.bid).subscribe(
             (bus) =>
             {
-              // console.log(bus);
               this.busInfo = bus;
             });
           });
@@ -83,7 +81,6 @@ export class BookingConfirmationComponent implements OnInit {
       clientId: this.client.uid,
       busId: this.appointmentInfo.bid,
       date: this.appointmentInfo.date}; // set data to pass to cancel component
-    // this.dialog.open(CancelComponent, dialogConfiguation);
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
 
     dialogRef.afterClosed().subscribe(data => {

@@ -82,7 +82,8 @@ export class BookingService {
     ); // add user to the db
   }
 
-  public getBookingSchedule( // return booked doc
+  public getBookingSchedule(
+    // return booked doc
     id: string,
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
@@ -96,8 +97,6 @@ export class BookingService {
       .doc<IUser['bookingSchedule']>(setDate); // change to cal index
     return docRef.valueChanges();
   }
-
-
 
   public getBookedDays(id: string): Observable<IUser['bookingSchedule'][]> {
     // return businesses schedule collection

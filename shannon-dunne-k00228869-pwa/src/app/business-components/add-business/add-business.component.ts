@@ -13,10 +13,13 @@ import { Location } from '@angular/common';
 import { BusinessService } from 'src/app/services/business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UploadsService } from 'src/app/services/uploads.service';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import * as moment from 'moment';
 import { IDays } from 'src/app/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { finalize, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-business',
@@ -50,6 +53,12 @@ export class AddBusinessComponent implements OnInit {
   profileCreated: boolean;
   dailyWorkHours: number[] = [];
   newSet: string;
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  url: string;
+
 
   constructor(
     private addProfile: FormBuilder,
@@ -58,10 +67,12 @@ export class AddBusinessComponent implements OnInit {
     private addSer: FormBuilder,
     private firestore: AngularFirestore,
     private router: Router,
+    public authService: AuthenticateService,
     private location: Location,
     public uploads: UploadsService,
     public business: BusinessService,
-    public hourService: WorkingDaysService
+    public hourService: WorkingDaysService,
+    private afs: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -106,7 +117,36 @@ export class AddBusinessComponent implements OnInit {
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]);
     });
+
+    // this.downloadURL = this.afs.ref('/images/'+ file.name).getDownloadURL().toString();
+
   }
+
+upload = (event) => {
+  const file = event.target.files[0];
+  const randomId = Math.random().toString(36).substring(2);
+  this.ref = this.afs.ref('/images/' + randomId); // reference to storage bucket
+  this.task = this.ref.put(file); // creates upload task, and triggers upload
+
+  // snapshotChanges() returns and obkect with metadata about the upload progress
+  this.uploadProgress = this.task.snapshotChanges().pipe( // get upload progress value
+    map(s => (s.bytesTransferred / s.totalBytes) * 100));
+
+  // observe upload progress
+  this.uploadProgress = this.task.percentageChanges();
+  // notify when url available
+  this.task.snapshotChanges().pipe(
+    finalize(() => {
+      this.downloadURL = this.ref.getDownloadURL();
+      this.downloadURL.subscribe((url) => {
+        this.url = url;
+      });
+    })
+  ).subscribe();
+}
+
+
+
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
@@ -153,9 +193,6 @@ export class AddBusinessComponent implements OnInit {
         this.business.addEmployees(adEmployee); // call func to store employee in db
       }
     }
-    else {
-      console.log('error in employee form');
-    }
   }
 
   // HANDLE SERVICES DATA
@@ -199,8 +236,6 @@ export class AddBusinessComponent implements OnInit {
         adService.id = this.firestore.createId(); // create an id for the service
         this.business.addServices(adService); // call func to store service in db
       }
-    } else {
-      console.log('error in service form');
     }
   }
 
@@ -227,6 +262,10 @@ export class AddBusinessComponent implements OnInit {
       this.selectedHours = this.addBusHours.value; // store selected start/finish times of each day in obj
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
+      this.newProfile.img = this.url;
+      console.log('as string', this.url.toString());
+      console.log('not string', this.url);
+
       if (this.selectedHours.monday) { // if monday is stored
         this.mon = []; // reset array to hold times
         this.start = this.selectedHours.monday[0].startT; // get selected start time
@@ -306,8 +345,6 @@ export class AddBusinessComponent implements OnInit {
       }
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
-    } else {
-      console.log('error in business form');
     }
   }
 

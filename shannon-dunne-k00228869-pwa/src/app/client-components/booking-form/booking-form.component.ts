@@ -28,6 +28,7 @@ import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { take } from 'rxjs/operators';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -82,16 +83,18 @@ export class BookingFormComponent implements OnInit {
     public booking: BookingService,
     public firestore: AngularFirestore,
     public hourService: WorkingDaysService,
-    private notif: NotificationsService
+    private notif: NotificationsService,
+    public authService: AuthenticateService,
+
   ) {}
 
   ngOnInit() {
     this.addAppointmentForm = this.addAppointment.group({
-      employeeId: new FormControl('', Validators.required),
-      serviceId: new FormControl('', [Validators.minLength(7)]),
+      employeeId: new FormControl(''),
+      serviceId: new FormControl(''),
       date: new FormControl(Date, [Validators.required]),
       time: new FormControl([Validators.required]),
-      note: new FormControl('', [Validators.required]),
+      note: new FormControl(''),
     });
     this.route.paramMap.subscribe(async (params) => {
       this.id = params.get('id');
@@ -228,6 +231,7 @@ export class BookingFormComponent implements OnInit {
         this.user = user;
         this.clientAppointment.clientName =
           this.user.firstName + ' ' + this.user.lastName; // store client name
+        this.clientAppointment.phone = this.user.phone.toString();
         await this.booking.addBookingSchedule(
           clientAppointment.bid,
           this.schedule

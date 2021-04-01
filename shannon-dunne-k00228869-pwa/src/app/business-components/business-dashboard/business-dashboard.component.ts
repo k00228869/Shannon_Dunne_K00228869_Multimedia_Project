@@ -9,7 +9,7 @@ import { FeedbackService } from 'src/app/services/feedback.service';
 @Component({
   selector: 'app-business-dashboard',
   templateUrl: './business-dashboard.component.html',
-  styleUrls: ['./business-dashboard.component.css']
+  styleUrls: ['./business-dashboard.component.css'],
 })
 export class BusinessDashboardComponent implements OnInit {
   businessProfile: IUser['business'];
@@ -29,41 +29,33 @@ export class BusinessDashboardComponent implements OnInit {
     private router: Router,
     public booking: BookingService,
     private feedback: FeedbackService
+  ) {}
 
-  ) { }
-
-  ngOnInit()
- {
-    if (localStorage.getItem('user') !== null) // if user is not empty
-    {
+  ngOnInit() {
+    if (localStorage.getItem('user') !== null) {
+      // if user is not empty
       this.isSignedIn = true; // user is signed in
-    }
-    else {
+    } else {
       this.isSignedIn = false; // user is signed out
       this.router.navigate(['/login']); // display business dash
     }
 
-    this.business.getUserInfo().subscribe(
-      async (data) =>
-      {
-        this.user = data; // get users data
-        await this.booking.getBusinessAppointment().subscribe(
-          (data) => {
-            this.allBookings = data; // get all appointments
-          }
-        );
-        await this.feedback.someReviews(this.user.uid).subscribe( // get  new reviews (reviews without a reply property)
-          (reviewList) => {
-            this.reviews = reviewList;
-            console.log(this.reviews);
-          });
-      }
-    );
+    this.business.getUserInfo().subscribe(async (data) => {
+      this.user = data; // get users data
+      await this.booking.getBusinessAppointment().subscribe((data) => {
+        this.allBookings = data; // get all appointments
+      });
+      await this.feedback.someReviews(this.user.uid).subscribe(
+        // get  new reviews (reviews without a reply property)
+        (reviewList) => {
+          this.reviews = reviewList;
+          console.log(this.reviews);
+        }
+      );
+    });
     // this.feedback.getReviews().subscribe(
     //   (data) => {
     //     this.reviews = data; // get all reviews
     //   });
   }
 }
-
-

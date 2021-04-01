@@ -165,6 +165,10 @@
                <p>{{review.comment}}</p>
               <br>
             </mat-panel-title>
+            <mat-panel-description>
+              <p>{{review.timestamp | slice: 0: -7}}</p>
+             <br>
+           </mat-panel-description>
             <br>
             <mat-card *ngIf="review.reply !== null">
               <mat-icon>comment</mat-icon>

@@ -2,7 +2,7 @@ import { Component, HostListener, ViewChild } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { NotificationsService } from './services/notifications.service';
 import { Router, Event, NavigationStart } from '@angular/router';
-import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
@@ -18,12 +18,13 @@ export class AppComponent {
   message;
   showButton = false;
   routeHidden = true;
-  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
+  @ViewChild(ToastContainerDirective, { static: true })
+  toastContainer: ToastContainerDirective;
 
-
-    // install prompt event listener
+  // install prompt event listener
   @HostListener('window:beforeinstallprompt', ['$event'])
-onbeforeinstallprompt(event) { // do not fire if already installed
+  onbeforeinstallprompt(event) {
+    // do not fire if already installed
     // console.log(e);
     // Prevent Chrome 67 from automatically showing prompt
     event.preventDefault();
@@ -38,31 +39,34 @@ onbeforeinstallprompt(event) { // do not fire if already installed
     public toastr: ToastrService,
     public update: SwUpdate
   ) {
-    update.available.subscribe(event => { // check versions
+    update.available.subscribe((event) => {
+      // check versions
       console.log('Current Version', event.current);
       console.log('Get Newest Version', event.available);
     });
 
-    update.activated.subscribe(event => {
+    update.activated.subscribe((event) => {
       console.log('previous version', event.previous);
       console.log('Newest version', event.current);
     });
 
-    update.available.subscribe(event => { // call func to update
+    update.available.subscribe((event) => {
+      // call func to update
       if (event) {
         update.activateUpdate().then(() => document.location.reload());
       }
     });
   }
 
-
-  ngOnInit(){
+  ngOnInit() {
     this.toastr.overlayContainer = this.toastContainer;
     this.notif.receiveMessage();
     this.message = this.notif.currentMessage;
 
-    this.router.events.subscribe((e) => { // check route url and subscribe to receive event
-      if (e instanceof NavigationStart) {// event triggered on first page
+    this.router.events.subscribe((e) => {
+      // check route url and subscribe to receive event
+      if (e instanceof NavigationStart) {
+        // event triggered on first page
         if (e.url === '/') {
           this.routeHidden = false; // show carousel if false
         } else {
@@ -72,7 +76,8 @@ onbeforeinstallprompt(event) { // do not fire if already installed
     });
   }
 
-  downloadApp() { // when download button is clicked
+  downloadApp() {
+    // when download button is clicked
     // hide download button
     this.showButton = false;
     // Show prompt
@@ -87,17 +92,5 @@ onbeforeinstallprompt(event) { // do not fire if already installed
       }
       this.deferredPrompt = null;
     });
-
-
-
-
   }
-
 }
-
-
-
-
-
-
-

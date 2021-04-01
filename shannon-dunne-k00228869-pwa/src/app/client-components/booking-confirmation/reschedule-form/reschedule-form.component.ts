@@ -28,6 +28,7 @@ import { WorkingDaysService } from 'src/app/services/working-days.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { take } from 'rxjs/operators';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   // set selected date format
@@ -83,6 +84,7 @@ export class RescheduleFormComponent implements OnInit {
     public reschedule: RescheduleService,
     public hourService: WorkingDaysService,
     private route: ActivatedRoute,
+    public authService: AuthenticateService,
     private router: Router,
     private notif: NotificationsService
   ) {}
@@ -91,7 +93,7 @@ export class RescheduleFormComponent implements OnInit {
     this.editAppointmentForm = this.editAppointment.group({
       date: new FormControl(Date, [Validators.required]),
       time: new FormControl([Validators.required]),
-      note: new FormControl('', [Validators.required]),
+      note: new FormControl(''),
     });
 
     this.clientService.getUserInfo().subscribe((data) => {
@@ -177,7 +179,7 @@ export class RescheduleFormComponent implements OnInit {
     this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
     this.newAppointment.timeStamp = new Date(); // set the booking timestamp
     this.newAppointment.serName = this.appointmentInfo.serName; // store service name
-
+    this.newAppointment.phone = this.appointmentInfo.phone;
     // edit schedule for new booking
     this.newAppointment.serDuration = this.appointmentInfo.serDuration;
     let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours

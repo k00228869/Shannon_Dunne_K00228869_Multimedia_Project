@@ -1,5 +1,3 @@
-import { Moment } from "moment";
-
 export interface IUser {
     user: {
         uid: string;
@@ -12,7 +10,7 @@ export interface IUser {
         admin?: boolean;
     };
     slides?: {
-        imageURL: string;
+        imageURL: string[];
     };
     business?: {
         id: string,
@@ -25,9 +23,9 @@ export interface IUser {
         reminderMessage?: string,
         isMobile?: boolean,
         cancellationPolicy?: string,
-        hours?: number[],
         price?: string,
         rating: number;
+        img: string;
     };
     scheduleOfDays: {
         monday?: any[];
@@ -87,6 +85,7 @@ export interface IUser {
         appointmentId?: string,
         timeStamp?: Date,
         discount?: string,
+        phone?: string;
     };
     bookingSchedule?:
     {

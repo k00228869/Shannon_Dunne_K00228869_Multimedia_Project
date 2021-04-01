@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/i-user';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
@@ -25,7 +26,9 @@ export class AdvertiseAppointmentComponent implements OnInit {
     private router: Router,
     public bookingService: BookingService,
     public reschedule: RescheduleService,
-    private business: BusinessService
+    private business: BusinessService,
+    public authService: AuthenticateService,
+
   ) { }
 
 

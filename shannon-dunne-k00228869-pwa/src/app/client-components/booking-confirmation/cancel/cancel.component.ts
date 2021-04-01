@@ -4,6 +4,7 @@ import { RescheduleService } from 'src/app/services/reschedule.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 @Component({
   selector: 'app-cancel',
@@ -18,6 +19,7 @@ export class CancelComponent implements OnInit {
     private router: Router,
     private location: Location,
     private notif: NotificationsService,
+    public authService: AuthenticateService,
     @Inject(MAT_DIALOG_DATA) public data: {
       id: string,
       clientId: string,
@@ -35,10 +37,6 @@ export class CancelComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  cancel()
-  {
-    this.location.back();
-  }
 
   cancelBooking()
   {
@@ -47,7 +45,6 @@ export class CancelComponent implements OnInit {
     this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
     this.notif.deleteANotifications(this.data.id); // delete old appointment notification
     this.notif.deleteRNotifications(this.data.busId); // delete old review notification
-    // this.cancel();
     close();
     this.changeRoute();
   }

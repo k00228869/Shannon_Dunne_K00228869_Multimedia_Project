@@ -1,29 +1,38 @@
 <h1>Login</h1>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput [formControlName]="'email'" type="email" placeholder="Email">
-    </mat-form-field>
-    
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput [formControlName]="'password'" type="password">
-      </mat-form-field>
-      <br>
-      <a [routerLink]="['/reset-details/{{client.uid}}']">
-        Forgot Password?
-      </a>
-      <br>
-      <button mat-raised-button color="primary" type="submit">
-          Login
-        </button>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput [formControlName]="'email'" type="email" placeholder="email@exampleEmail.com">
+    <mat-error *ngIf="loginForm.controls.email.hasError('email') && !loginForm.controls.email.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="loginForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
-        
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput [formControlName]="'password'" type="password">
+    <mat-error *ngIf="loginForm.controls.password.hasError('password') && !loginForm.controls.password.hasError('required')">
+      Please enter a valid password with more than 6 characters
+    </mat-error>
+  </mat-form-field>
+  <br>
+  <a [routerLink]="['/reset-details/{{client.uid}}']">
+    Forgot Password?
+  </a>
+  <br>
+  <button mat-raised-button color="primary" type="submit">
+    Login
+  </button>
+
+
 </form>
 <br>
 
 <br>
-      <h3>Need an Account?</h3>
-  <a [routerLink]="['/sign-up']">
-    Sign Up
-  </a>
+<h3>Need an Account?</h3>
+<a [routerLink]="['/sign-up']">
+  Sign Up
+</a>

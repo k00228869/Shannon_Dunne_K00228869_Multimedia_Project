@@ -1,4 +1,5 @@
 <h1>Create Your Business Profile</h1>
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 <form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value, addBusHours.value)"
   (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
   <mat-form-field appearance="outline">
@@ -15,7 +16,8 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Eircode</mat-label>
-    <input [formControlName]="'eircode'" matInput>
+    <input [formControlName]="'eircode'" minlength="7" maxlength="7" matInput placeholder="Ex. A65F4E2">
+    
   </mat-form-field>
   <br>
 
@@ -149,6 +151,17 @@
         </div>
         <br> -->
 
+        <button mat-raised-button color="primary"  (click)="busImage.click()" >
+          Upload Image
+        <input type="file" hidden #busImage name="file" (change)="upload($event)" accept=".png, .jpg"/>
+      </button>
+        <progress max="100" [value]="(uploadProgress | async)"></progress>
+        <div *ngIf="downloadURL | async; let uploadSrc">
+          <a [href]="uploadSrc">File Uploaded!</a>
+        </div>
+        <div class="container" *ngIf="downloadURL | async; let url">
+          <img [src]="url">
+      </div>
         <br>
       </div>
     </div>

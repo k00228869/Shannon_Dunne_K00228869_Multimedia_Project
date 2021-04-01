@@ -52,6 +52,7 @@ export class BusinessDealsComponent implements OnInit {
       serviceId: appoint.serviceId,
       serDuration: appoint.serDuration,
       timeStamp: new Date(),
+      phone: this.client.phone.toString()
     };
     this.reschedule.updateDealappointment(this.dealBooking); // update business appointment
     this.reschedule.storeDealAppointment(this.dealBooking); // store client appointment

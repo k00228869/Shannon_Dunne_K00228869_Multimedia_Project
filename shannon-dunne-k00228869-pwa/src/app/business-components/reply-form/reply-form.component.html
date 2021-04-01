@@ -47,6 +47,8 @@
     </button>
 </mat-toolbar><br>
 <br>
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+
 <form class="form-group" [formGroup]="addReplyForm" (ngSubmit)="onSubmit()">
 <mat-form-field appearance="outline">
     <mat-label>Comment</mat-label>

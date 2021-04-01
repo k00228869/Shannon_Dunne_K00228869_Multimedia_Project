@@ -6,6 +6,7 @@ import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
+import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
   selector: 'app-business-profile',
@@ -22,26 +23,38 @@ export class BusinessProfileComponent implements OnInit {
   panelOpenState: boolean;
   keys: string[];
   reviews: IUser['review'][];
+  public slides: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
     public clientService: ClientUserService,
-    private feedback: FeedbackService
+    private feedback: FeedbackService,
+    private uploads: UploadsService
+
   ) { }
 
   ngOnInit() {
-
     this.route.paramMap.subscribe(
       (params) =>
       {
         this.id = params.get('id');
+        this.uploads.getBusinessSlideshow(this.id).subscribe(
+            (data) => {
+              console.log('as data', data);
+              let obj: string[] = [];
+              obj = Object.values(data[0]);
+              let test = Array.from(obj);
+              console.log('the obj vals', obj);
+              console.log('array from obj', test);
+              this.slides = test; // store values in array
+              console.log('as slides', this.slides);
+            });
         this.business.getABusiness(this.id).subscribe(
-          (bus) =>
-          {
-            this.profileInfo = bus;
-          });
-
+            (bus) =>
+            {
+              this.profileInfo = bus;
+            });
         this.business.getHours(this.id).subscribe(
             (data) =>
             {
@@ -67,7 +80,6 @@ export class BusinessProfileComponent implements OnInit {
           this.client = data;
         }
       );
-
 
     this.feedback.getBusinessReviews(this.id).subscribe(
       (data) => {

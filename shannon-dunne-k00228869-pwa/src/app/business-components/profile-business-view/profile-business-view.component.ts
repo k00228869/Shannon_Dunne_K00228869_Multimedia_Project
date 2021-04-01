@@ -6,6 +6,7 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { take } from 'rxjs/operators';
+import { UploadsService } from 'src/app/services/uploads.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class ProfileBusinessViewComponent implements OnInit {
   theHours: IUser['hours'];
   public panelOpenState = false;
   isSignedIn = false;
+  public slides: string[] = [];
   // public uid: string;
   public id: string;
   reviews: IUser['review'][];
@@ -32,9 +34,8 @@ export class ProfileBusinessViewComponent implements OnInit {
     public business: BusinessService,
     public authService: AuthenticateService,
     private route: ActivatedRoute,
-    private feedback: FeedbackService
-
-
+    private feedback: FeedbackService,
+    private uploads: UploadsService
   ) { }
 
   ngOnInit()
@@ -57,9 +58,7 @@ export class ProfileBusinessViewComponent implements OnInit {
             this.isCreated = false;
           }
           this.getProfile();
-        }
-    );
-
+        });
     this.business.getUserInfo().subscribe(
       (data) =>
       {
@@ -75,22 +74,33 @@ export class ProfileBusinessViewComponent implements OnInit {
         (data) => {
           this.reviews = data;
         });
+
+    this.uploads.getBusinessSlideshow(this.user.uid).subscribe(
+      (data) => {
+        console.log('as data', data);
+        let obj: string[] = [];
+        obj = Object.values(data[0]);
+        let test = Array.from(obj);
+        console.log('the obj vals', obj);
+        console.log('array from obj', test);
+        this.slides = test; // store values in array
+        console.log('as slides', this.slides);
+      });
     }
 
   async getProfile()
-    {
-      (await this.business.getEmployees()).subscribe(
-        (emps) =>
-        {
-          this.employees = emps;
-        }
-      );
-      (await this.business.getServices()).subscribe(
-        (servs) =>
-        {
-          this.services = servs;
-        }
-      );
-    }
-
+  {
+    (await this.business.getEmployees()).subscribe(
+      (emps) =>
+      {
+        this.employees = emps;
+      }
+    );
+    (await this.business.getServices()).subscribe(
+      (servs) =>
+      {
+        this.services = servs;
+      }
+    );
+  }
 }

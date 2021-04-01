@@ -5,7 +5,7 @@ import {
   AngularFireStorageReference,
   AngularFireUploadTask,
 } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { IUser } from '../i-user';
 import { BusinessService } from './business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -26,13 +26,17 @@ export class UploadsService {
   //   imageUrl: string;
   // };
   slides = {};
-url: string;
+  url: string;
   images: string[] = [];
 
+
+  uploads: any[];
+  percentAll: Observable<any>;
+  files: Observable<any>;
   constructor(
     private imgStorage: AngularFireStorage,
     public business: BusinessService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
   ) {}
 
   // uploadEmployeeImage = (event) => {
@@ -53,60 +57,96 @@ url: string;
   //   })).subscribe();
   //  }
 
-  uploadProfileImages = (event) => {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    if (event) {
-      // let list = event.target.files;
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i === event.target.files.length; i++) {
-        const imgId = Math.random().toString(36).substring(2); // create image id
-        this.businessRef = this.imgStorage.ref(
-          '/images/business/' + theUser.uid + imgId
-        ); // create reference path to storage bucket
-        this.groupTask = this.businessRef.put(event.target.files[i]); // upload to storage reference path
+  // uploadProfileImages = (event) => {
+  //   let theUser = JSON.parse(localStorage.getItem('user'));
+  //   if (event) {
+  //     // let list = event.target.files;
+  //     // tslint:disable-next-line: prefer-for-of
+  //     for (let i = 0; i === event.target.files.length; i++) {
+  //       const imgId = Math.random().toString(36).substring(2); // create image id
+  //       this.businessRef = this.imgStorage.ref(
+  //         '/images/business/' + theUser.uid + imgId
+  //       ); // create reference path to storage bucket
+  //       this.groupTask = this.businessRef.put(event.target.files[i]); // upload to storage reference path
 
-        this.uploadGroupProgress = this.groupTask
-          .snapshotChanges() // return state from upload progress
-          .pipe(map((s) => (s.bytesTransferred / s.totalBytes) * 100));
+  //       this.uploadGroupProgress = this.groupTask
+  //         .snapshotChanges() // return state from upload progress
+  //         .pipe(map((s) => (s.bytesTransferred / s.totalBytes) * 100));
 
-        this.uploadGroupProgress = this.groupTask.percentageChanges(); // return current progress
-        this.groupTask
-          .snapshotChanges()
-          .pipe(
-            finalize(() => {
-              this.uploadGroupState = this.groupTask
-              .snapshotChanges()
-              .pipe(map((s) => s.state));
-              this.downloadAllURL = this.businessRef.getDownloadURL(); // store download url
-              this.downloadAllURL.subscribe((url) => {
-                this.url = url;
-                // this.busURL = url.toString();
-                this.images.push(this.url); // push image url to array of urls
-              });
-            })
-          ).subscribe();
-      }
+  //       this.uploadGroupProgress = this.groupTask.percentageChanges(); // return current progress
+  //       this.groupTask
+  //         .snapshotChanges()
+  //         .pipe(
+  //           finalize(() => {
+  //             this.uploadGroupState = this.groupTask
+  //             .snapshotChanges()
+  //             .pipe(map((s) => s.state));
+  //             this.downloadAllURL = this.businessRef.getDownloadURL(); // store download url
+  //             this.downloadAllURL.subscribe((url) => {
+  //               this.url = url;
+  //               // this.busURL = url.toString();
+  //               this.images.push(this.url); // push image url to array of urls
+  //             });
+  //           })
+  //         ).subscribe();
+  //     }
+  //   }
+  // }
+
+
+  addBusinessImages = (event) =>
+  {
+    this.uploads = [];
+    const fileList = event.target.files;
+    const percentAll: Observable<number>[] = [];
+
+    for (let file of fileList)
+    {
+      const randomId = Math.random().toString(36).substring(2);
+      const ref = this.imgStorage.ref('/images/' + randomId);
+      const task = ref.put(file);
+      const percentage = task.percentageChanges();
+      percentAll.push(percentage);
+
+      const uploadProgress = {
+        name: file.name,
+        percent: percentage,
+      };
+
+      this.uploads.push(uploadProgress);
+      const checkTask = task.then((f) => {
+        return f.ref.getDownloadURL().then((url) => {
+        this.images.push(url);
+        });
+      });
     }
   }
 
-  getSlideshow() { // get images for landing page slideshow
+  getSlideshow(): Observable<string[]>
+  { // get images for landing page slideshow
     return this.firestore
       .collection<string[]>('appImages')
       .doc('slideshow')
       .valueChanges();
   }
 
-  addUrl() {
-    // tslint:disable-next-line: no-unused-expression
-    // Object.keys(this.images).length;
-    // let key;
-    // for (key in this.images) {
-    //   if (this.images.hasOwnProperty(key)) {
-    //     this.profileImages.imageURL = this.images[key];
-    //     this.business.addImages(this.profileImages);
-    //   }
-    // }
-    this.business.addImages(this.images);
+  getBusinessSlideshow(id: string): Observable<IUser['slides']> { // get images for landing page slideshow
+    return this.firestore
+    .collection('users')
+    .doc<IUser['user']>(id)
+    .collection<IUser>('images')
+    .doc<IUser['slides']>('images')
+    .valueChanges();
+  }
 
+  public addUrl(id: string) {
+    return from(
+      this.firestore
+        .collection('users')
+        .doc<IUser['user']>(id)
+        .collection<IUser>('images')
+        .doc<IUser['slides']>('images')
+        .set(Object.assign({ImageURL: this.images}))
+    );
   }
 }

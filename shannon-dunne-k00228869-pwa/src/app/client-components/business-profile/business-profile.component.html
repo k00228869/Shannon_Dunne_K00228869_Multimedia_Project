@@ -1,196 +1,182 @@
-
-
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
     <button mat-menu-item>
-        <a routerLink="/client-profile/{{client.uid}}">
+      <a routerLink="/client-profile/{{client.uid}}">
         <mat-icon>person</mat-icon>
         <span>Account</span>
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/appointment/{{client.uid}}">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/appointment/{{client.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/search">
-            <mat-icon>search</mat-icon>
-            <span>Find Appointment</span>  
-        </a>
-      </button>
-
-      <button mat-menu-item>
-        <a routerLink="/notification/{{client.uid}}">
-            <mat-icon>notification_important</mat-icon>
-            <span>Notifications</span>  
-        </a>
-      </button>
-    </mat-menu>
-
-    <span>Business Profile</span>
-    <span class="spacer"></span>
-    
-    <button mat-icon-button class="example-icon" aria-label="edit icon"> 
-      <a routerLink="/booking/{{id}}">
-        <mat-icon>calendar_today</mat-icon>
-    </a>
     </button>
+    <button mat-menu-item>
+      <a routerLink="/search">
+        <mat-icon>search</mat-icon>
+        <span>Find Appointment</span>
+      </a>
+    </button>
+
+    <button mat-menu-item>
+      <a routerLink="/notification/{{client.uid}}">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+      </a>
+    </button>
+  </mat-menu>
+
+  <span>Business Profile</span>
+  <span class="spacer"></span>
+
+  <button mat-icon-button class="example-icon" aria-label="edit icon">
+    <a routerLink="/booking/{{id}}">
+      <mat-icon>calendar_today</mat-icon>
+    </a>
+  </button>
 </mat-toolbar>
 
-
 <div>
-    <mat-card class="card"> 
+  <mat-card class="card">
+    <br>
+    <mat-card-header>
+      <img mat-card-avatar class="header-image" src='{{profileInfo.img}}'>
+      <mat-card-subtitle>
+        <b>{{profileInfo.businessName}}</b>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content label="details">
       <br>
-        <mat-card-header>
-          <img mat-card-avatar class="header-image" src='{{profileInfo.img}}'>
-            <mat-card-subtitle>
-              <b>{{profileInfo.businessName}}</b>
-            </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content label="details">
+      <p>{{profileInfo.businessDescription}}</p>
+      <br>
+      <p *ngIf="profileInfo.rating">
+        {{profileInfo?.rating.toFixed(1)}}
+        <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+      </p>
+    </mat-card-content>
+
+    <mat-carousel timings="350ms ease-in" [autoplay]="true" interval="5000" color="primary" maxWidth="auto"
+      proportion="60" slides="6" [loop]="true" [hideArrows]="true" [hideIndicators]="false" [useKeyboard]="true"
+      [useMouseWheel]="false" orientation="ltr">
+      <mat-carousel-slide #matCarouselSlide *ngFor="let slide of slides; let i = index" [image]="slide"
+        overlayColor="#00000040" [hideOverlay]="false">
+      </mat-carousel-slide>
+    </mat-carousel>
+
+    <mat-tab-group>
+      <mat-tab label="Hours and Location">
+        <mat-divider></mat-divider>
+        <br>
+        <h4><b>Location: </b>{{profileInfo.county}}</h4>
+        <br>
+        <h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
+        <mat-divider></mat-divider>
+        <br>
+        <div>
+          <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday:
+            {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
           <br>
-          <p>{{profileInfo.businessDescription}}</p>
+          <mat-list-item role="listitem" *ngIf="theHours.tuesday[0].finishT.length > 1">Tuesday:
+            {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
           <br>
-          <p *ngIf="profileInfo.rating">
-            {{profileInfo?.rating.toFixed(1)}} 
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
-          </p>
-        </mat-card-content>
+          <mat-list-item role="listitem" *ngIf="theHours.wednesday[0].finishT.length > 1">Wednesday:
+            {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
+          <br>
+          <mat-list-item role="listitem" *ngIf="theHours.thursday[0].finishT.length > 1">Thursday:
+            {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
+          <br>
+          <mat-list-item role="listitem" *ngIf="theHours.friday[0].finishT.length > 1">Friday:
+            {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
+          <br>
+          <mat-list-item role="listitem" *ngIf="theHours.saturday[0].finishT.length > 1">Saturday:
+            {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item>
+          <br>
+          <mat-list-item role="listitem" *ngIf="theHours.sunday[0].finishT.length > 1">Sunday:
+            {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
+        </div>
+        <br>
+      </mat-tab>
 
-
-        <!-- <mat-carousel
-          timings="350ms ease-in"
-          [autoplay]="true"
-          interval="5000"
-          color="primary"
-          maxWidth="auto"
-          proportion="64"
-          slides="5"
-          [loop]="true"
-          [hideArrows]="true"
-          [hideIndicators]="false"
-          [useKeyboard]="true"
-          [useMouseWheel]="false"
-          orientation="ltr">
-
-          <mat-carousel-slide
-            #matCarouselSlide
-            *ngFor="let slide of slides; let i = index"
-            [image]="slide.image"
-            overlayColor="#00000040"
-            [hideOverlay]="false">
-          </mat-carousel-slide>
-        </mat-carousel> -->
-
-        <mat-tab-group>
-          <mat-tab label="Hours and Location">
-            <mat-divider></mat-divider>
-            <br>
-            <h4><b>Location: </b>{{profileInfo.county}}</h4>
-            <br><h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
-            <mat-divider></mat-divider>
-            <br>
-            <div>
-                <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.tuesday[0].finishT.length > 1">Tuesday: {{theHours.tuesday[0].startT}} To {{theHours.tuesday[0].finishT}}</mat-list-item>
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.wednesday[0].finishT.length > 1">Wednesday: {{theHours.wednesday[0].startT}} To {{theHours.wednesday[0].finishT}}</mat-list-item>
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.thursday[0].finishT.length > 1">Thursday: {{theHours.thursday[0].startT}} To {{theHours.thursday[0].finishT}}</mat-list-item>
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.friday[0].finishT.length > 1">Friday: {{theHours.friday[0].startT}} To {{theHours.friday[0].finishT}}</mat-list-item>
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.saturday[0].finishT.length > 1">Saturday: {{theHours.saturday[0].startT}} To {{theHours.saturday[0].finishT}}</mat-list-item> 
-                <br>
-                <mat-list-item role="listitem" *ngIf="theHours.sunday[0].finishT.length > 1">Sunday: {{theHours.sunday[0].startT}} To {{theHours.sunday[0].finishT}}</mat-list-item>
-            </div>
-            <br>
-          </mat-tab>
-        
-
-        <mat-tab label="Services">
-          <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let service of services" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-               {{service.serviceName}}
-                </mat-panel-title>
-                <mat-panel-description>
-                  Price:  &#x20AC;{{service.servicePrice}} 
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <mat-panel-title>
-               Description: {{service.serviceDescription}}
-              </mat-panel-title>
-              <br>
-              <mat-panel-title>
-                Duration: {{service.duration}} hrs
-              </mat-panel-title>
-              <mat-divider></mat-divider>
-            </mat-expansion-panel>
-            <mat-divider></mat-divider>
-        </mat-tab>
-
-        <mat-tab label="Employees">
-          <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let employee of employees" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                {{employee.firstName}} &nbsp;{{employee.lastName}} 
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <br>
-              <mat-panel-title>
-                {{employee.employeeDescription}} 
-            </mat-panel-title>
-              <mat-divider></mat-divider>
-            </mat-expansion-panel>
-            <mat-divider></mat-divider>
-        </mat-tab>
-
-
-        <mat-tab label="Reviews">
-          <mat-divider></mat-divider>
-            <mat-expansion-panel  *ngFor="let review of reviews" (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{review.name}}
-                </mat-panel-title>
-                <mat-panel-title>
-                  {{review.rating}}<mat-icon>star_rate</mat-icon>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <br>
-              <mat-panel-title>
-                <p>{{review.comment}}</p>
-                <br>
+      <mat-tab label="Services">
+        <mat-divider></mat-divider>
+        <mat-expansion-panel *ngFor="let service of services" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{service.serviceName}}
             </mat-panel-title>
             <mat-panel-description>
-              <p>{{review.timestamp | slice: 0: -7}}</p>
-             <br>
-           </mat-panel-description>
+              Price: &#x20AC;{{service.servicePrice}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-panel-title>
+            Description: {{service.serviceDescription}}
+          </mat-panel-title>
+          <br>
+          <mat-panel-title>
+            Duration: {{service.duration}} hrs
+          </mat-panel-title>
+          <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider>
+      </mat-tab>
+
+      <mat-tab label="Employees">
+        <mat-divider></mat-divider>
+        <mat-expansion-panel *ngFor="let employee of employees" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{employee.firstName}} &nbsp;{{employee.lastName}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <mat-panel-title>
+            {{employee.employeeDescription}}
+          </mat-panel-title>
+          <mat-divider></mat-divider>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider>
+      </mat-tab>
+
+      <mat-tab label="Reviews">
+        <mat-divider></mat-divider>
+        <mat-expansion-panel *ngFor="let review of reviews" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{review.name}}
+            </mat-panel-title>
+            <mat-panel-title>
+              {{review.rating}}<mat-icon>star_rate</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <br>
+          <mat-panel-title>
+            <p>{{review.comment}}</p>
             <br>
-            <mat-card *ngIf="review.reply !== null">
-              <mat-icon>comment</mat-icon>
-              <mat-card-subtitle>&nbsp;Reply From&nbsp;{{profileInfo.businessName}}</mat-card-subtitle>
-              <mat-card-content>
-                {{review.reply}}
-              </mat-card-content>
-            </mat-card>
-           <br>
-            </mat-expansion-panel>
-            <mat-divider></mat-divider>
-        </mat-tab>
-      </mat-tab-group>
-      </mat-card>
+          </mat-panel-title>
+          <mat-panel-description>
+            <p>{{review.timestamp | slice: 0: -7}}</p>
+            <br>
+          </mat-panel-description>
+          <br>
+          <mat-card *ngIf="review.reply !== null">
+            <mat-icon>comment</mat-icon>
+            <mat-card-subtitle>&nbsp;Reply From&nbsp;{{profileInfo.businessName}}</mat-card-subtitle>
+            <mat-card-content>
+              {{review.reply}}
+            </mat-card-content>
+          </mat-card>
+          <br>
+        </mat-expansion-panel>
+        <mat-divider></mat-divider>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
 </div>

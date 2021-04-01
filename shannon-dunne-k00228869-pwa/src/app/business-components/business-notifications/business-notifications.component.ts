@@ -36,16 +36,13 @@ export class BusinessNotificationsComponent implements OnInit {
     this.business.getUserInfo().subscribe( // get the current users data
       async (data) =>
       {
-        console.log('userData', data);
         this.user = data;
         (await this.reschedule.getCancellationList(this.user.uid)).subscribe( // get the id's of cancelled appointments
         (list) =>
         {
-          console.log('cancelled ids', list);
           if (list)
           {
             this.cancelledAppointments = list;
-            console.log('id list', this.cancelledAppointments);
             this.hiddenCancellation = false; // all cancelled notification to display
           }
           else{
@@ -57,11 +54,9 @@ export class BusinessNotificationsComponent implements OnInit {
 
 public completeCancel(cancelled: string) // pass in the id of the cancelled appointment
 {
-  console.log('completeCancel cancelled ', cancelled);
    // subscribe to func to get the cancelled appointments data, take ensures this is not called when the schedule is updated
   this.booking.getAppointment(cancelled).subscribe(
     async (data) => {
-      console.log(data[0]);
       this.appointToRemove = data[0]; // the cancelled appointments data
       this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
       let amountAsNum = parseInt(this.duration, 10); // cast duration value to num
@@ -93,7 +88,6 @@ public completeCancel(cancelled: string) // pass in the id of the cancelled appo
 
   cancelBusiness(cancelled: string)
   {
-    console.log('cancelBusiness called', cancelled);
     this.reschedule.deleteCancellation(cancelled, this.user.uid); // delete id from cancellation doc
     this.reschedule.cancelBusBooking(cancelled, this.user.uid); //// remove the appointment from business appointments
     this.changeRoute(this.user.uid); // change route

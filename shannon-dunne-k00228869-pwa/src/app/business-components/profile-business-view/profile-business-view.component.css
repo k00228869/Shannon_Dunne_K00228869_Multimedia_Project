@@ -1,0 +1,11 @@
+.header-image
+{
+  margin-right:30px;
+  height:80px;
+  width:80px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  background-size: cover;
+
+}

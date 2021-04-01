@@ -52,9 +52,7 @@ export class AdvertiseAppointmentComponent implements OnInit {
 
           await this.business.getBusiness().subscribe(
             (busDoc) => {
-              console.log(busDoc);
               this.provider = busDoc.businessName;
-              console.log(this.provider);
             });
         });
     });

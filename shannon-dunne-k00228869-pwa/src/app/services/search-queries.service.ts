@@ -123,7 +123,6 @@ export class SearchQueriesService {
       location === 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('just query price + type called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('businessType', '==', busType).orderBy(sort, 'asc')
@@ -137,7 +136,6 @@ export class SearchQueriesService {
       location !== 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('just query loc + rating called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('county', '==', location).orderBy(sort, 'desc')
@@ -151,7 +149,6 @@ export class SearchQueriesService {
       location === 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('just query type + rating called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('businessType', '==', busType).orderBy(sort, 'desc')
@@ -165,7 +162,6 @@ export class SearchQueriesService {
       location === 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('just query rating called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true').orderBy(sort, 'desc')
@@ -179,7 +175,6 @@ export class SearchQueriesService {
       location === 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('just query price called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true').orderBy(sort, 'asc')
@@ -193,7 +188,6 @@ export class SearchQueriesService {
       location === 'default'
     ) {
       this.filteredProfiles = [];
-      console.log('no search terms selected');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true')

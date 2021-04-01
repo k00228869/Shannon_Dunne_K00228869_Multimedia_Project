@@ -25,7 +25,6 @@ export class AppComponent {
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(event) {
     // do not fire if already installed
-    // console.log(e);
     // Prevent Chrome 67 from automatically showing prompt
     event.preventDefault();
     // Stash the event so it can be triggered later.
@@ -39,17 +38,7 @@ export class AppComponent {
     public toastr: ToastrService,
     public update: SwUpdate
   ) {
-    update.available.subscribe((event) => {
-      // check versions
-      console.log('Current Version', event.current);
-      console.log('Get Newest Version', event.available);
-    });
-
-    update.activated.subscribe((event) => {
-      console.log('previous version', event.previous);
-      console.log('Newest version', event.current);
-    });
-
+    update.activated.subscribe();
     update.available.subscribe((event) => {
       // call func to update
       if (event) {

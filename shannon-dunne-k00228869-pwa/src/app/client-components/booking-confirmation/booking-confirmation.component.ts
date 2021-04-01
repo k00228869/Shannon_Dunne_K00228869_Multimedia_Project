@@ -83,12 +83,7 @@ export class BookingConfirmationComponent implements OnInit {
       date: this.appointmentInfo.date}; // set data to pass to cancel component
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data)
-      {
-        console.log('dialog data', data);
-      }
-    });
+    dialogRef.afterClosed();
   }
 
 

@@ -29,7 +29,6 @@ export class BusinessDealsComponent implements OnInit {
   async ngOnInit() {
     await this.reschedule.getDeals().subscribe((data) => {
       this.appointAdverts = data;
-      console.log('all deals', this.appointAdverts);
     });
 
     await this.clientService.getUserInfo().subscribe((data) => {

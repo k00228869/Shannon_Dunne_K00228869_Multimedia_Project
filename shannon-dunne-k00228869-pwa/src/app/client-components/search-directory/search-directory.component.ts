@@ -42,8 +42,6 @@ export class SearchDirectoryComponent implements OnInit {
 
   public async getBus()
   {
-    // this.filtered = true;
-    console.log(this.location, this.busType);
     this.search
       .checkQuery(this.location, this.busType, this.sort)
       .subscribe((filteredBus) => {

@@ -62,7 +62,6 @@ export class RescheduleService {
     newSchedule: IUser['bookingSchedule']
   ) {
     // update date schedule with new available times
-    // console.log('editBookingSchedule called', appointmentInfo, newSchedule);
 
     return from(
       this.firestore
@@ -80,7 +79,6 @@ export class RescheduleService {
     appointmentInfo: IUser['appointment'],
     newSchedule: IUser['bookingSchedule']
   ) {
-    console.log('to update', newSchedule);
     // return from( do );
     let docRef = this.firestore
       .collection<IUser>('users')
@@ -104,7 +102,6 @@ export class RescheduleService {
 
   // remove business booking from db
   public cancelBusBooking(id: string, bid: string) {
-    console.log('cancelBusBooking called', id, bid);
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -221,7 +218,6 @@ export class RescheduleService {
     id: string,
     bid: string // delete appointment id from business cancellation doc
   ) {
-    console.log('deleteCancellation called', id, bid);
     return from(
       this.firestore
         .collection<IUser>('users')

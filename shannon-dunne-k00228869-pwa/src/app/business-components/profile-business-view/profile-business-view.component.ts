@@ -49,16 +49,12 @@ export class ProfileBusinessViewComponent implements OnInit {
         (bus) =>
         {
           this.profileInfo = bus;
-          console.log(bus);
-          console.log(this.profileInfo);
           if (this.profileInfo.profileCreated)
           {
             this.isCreated = true;
-            console.log('true', this.isCreated);
           }
           else{
             this.isCreated = false;
-            console.log('false', this.isCreated);
           }
           this.getProfile();
         }
@@ -74,17 +70,9 @@ export class ProfileBusinessViewComponent implements OnInit {
       (data) =>
       {
         this.theHours = data[0];
-        // console.log(this.theHours.monday[0].startT);
       });
-
-    // this.feedback.getReviews().subscribe(
-    //     (data) => {
-    //       this.reviews = data;
-    //     });
-
     this.feedback.getBusinessReviews(this.user.uid).subscribe(
         (data) => {
-          console.log(data);
           this.reviews = data;
         });
     }
@@ -106,7 +94,3 @@ export class ProfileBusinessViewComponent implements OnInit {
     }
 
 }
-
-// let rating = 10;
-// let starArr = Array.from(new Array(rating), (x, i) => i + 1);
-// console.log(starArr);

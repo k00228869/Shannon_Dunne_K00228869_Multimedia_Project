@@ -46,14 +46,14 @@
 
 <div>
     <mat-card class="card"> 
+      <br>
         <mat-card-header>
+          <img mat-card-avatar class="header-image" src='{{profileInfo.img}}'>
             <mat-card-subtitle>
-
+              <b>{{profileInfo.businessName}}</b>
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content label="details">
-          <br>
-          <b>{{profileInfo.businessName}}</b>
           <br>
           <p>{{profileInfo.businessDescription}}</p>
           <br>

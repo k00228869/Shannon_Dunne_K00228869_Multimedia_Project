@@ -33,14 +33,12 @@ export class CancelComponent implements OnInit {
 
   close()
   {
-    console.log('dialog closed');
     this.dialogRef.close();
   }
 
 
   cancelBooking()
   {
-    console.log('data passes to dialog', this.data);
     this.reschedule.addToCancelList(this.data.id, this.data.busId);
     this.reschedule.cancelClientBooking(this.data.id, this.data.clientId);
     this.notif.deleteANotifications(this.data.id); // delete old appointment notification

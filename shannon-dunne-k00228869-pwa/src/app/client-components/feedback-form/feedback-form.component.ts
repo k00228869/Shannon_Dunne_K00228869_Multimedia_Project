@@ -60,12 +60,9 @@ export class FeedbackFormComponent implements OnInit {
 
   public async onSubmit()
   {
-    // console.log(this.addFeedbackForm.controls.rating.value, typeof(this.addFeedbackForm.controls.rating.value));
     let num: number;
     num = Number(this.addFeedbackForm.controls.rating.value);
-    console.log(num, typeof(num));
     this.submittedFeedback.rating = num; // convert rating val to num
-    // console.log('rating as num', this.submittedFeedback.rating, typeof(this.submittedFeedback.rating));
     this.submittedFeedback.comment = this.addFeedbackForm.controls.comment.value;
     this.submittedFeedback.timestamp = new Date();
     this.submittedFeedback.uid = this.client.uid;
@@ -77,23 +74,15 @@ export class FeedbackFormComponent implements OnInit {
     (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).pipe(take(1)).subscribe(
       async (reviewCollection) => {
         this.allRatings = reviewCollection;
-        console.log('all reviews', this.allRatings);
         let numberOfRatings = this.allRatings.length; // number of review docs
-        console.log('no. ratings', numberOfRatings);
         for (let i = 0; i < this.allRatings.length; i++)
         {
           this.ratingNum = this.allRatings[i].rating; // store rating value of doc
-          console.log('the rating val', this.allRatings[i].rating);
           this.newSum = (+this.newSum) + (+this.ratingNum); // add each rating to newSum, brackets and + prevents concating
-          console.log('newsum in loop', this.newSum);
         }
-        console.log('newsum after loop', this.newSum);
         this.newSum = (+this.newSum) + (+this.submittedFeedback.rating); // add current rating to ratings
-        console.log('newsum after adding new rating', this.newSum);
         let ratingCount = (+1) + (+numberOfRatings); // adding current rating to number of ratings
         this.total = (this.newSum) / ratingCount; // divide by number of ratings to get average
-        console.log('total after dividing by ratings', this.total);
-        console.log('sum type', typeof(this.total)); // type of total
         this.notif.deleteRNotifications(this.submittedFeedback.bid);
         this.feedback.averageRating(this.total, this.submittedFeedback.bid); // add average rating to bus doc
         this.feedbackService.addReview(this.submittedFeedback, this.id);

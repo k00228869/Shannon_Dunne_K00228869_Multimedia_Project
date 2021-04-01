@@ -50,7 +50,6 @@ export class ReplyFormComponent implements OnInit {
   public onSubmit()
   {
     this.submittedReply = this.addReplyForm.value;
-    console.log('reply message', this.submittedReply);
     this.feedbackService.addReply(this.submittedReply, this.id);
     this.changeRoute();
   }

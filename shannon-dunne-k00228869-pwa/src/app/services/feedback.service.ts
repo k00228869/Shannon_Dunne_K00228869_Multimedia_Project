@@ -34,7 +34,6 @@ export class FeedbackService {
   }
 
   public averageRating(sum: number, bid: string) {
-    console.log('adding rating to bus doc');
     return from(
       this.firestore
         .collection<IUser>('businesses')

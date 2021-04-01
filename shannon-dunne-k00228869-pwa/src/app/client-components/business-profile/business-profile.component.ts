@@ -39,16 +39,13 @@ export class BusinessProfileComponent implements OnInit {
         this.business.getABusiness(this.id).subscribe(
           (bus) =>
           {
-            // console.log(bus);
             this.profileInfo = bus;
           });
 
         this.business.getHours(this.id).subscribe(
             (data) =>
             {
-              // console.log('hours', data);
               this.theHours = data;
-              // console.log('inside hours', this.theHours.monday[0].startT);
             });
 
         this.business.getBusServices(this.id).subscribe(

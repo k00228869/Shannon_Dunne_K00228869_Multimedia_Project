@@ -111,7 +111,6 @@ export class RescheduleFormComponent implements OnInit {
       this.id = params.get('id');
       this.bookingService.getAppointment(this.id).subscribe((appoint) => {
         this.appointmentInfo = appoint[0];
-        // console.log('appointInfo', this.appointmentInfo);
         this.updateInfo(this.appointmentInfo.bid);
       });
     });
@@ -148,7 +147,6 @@ export class RescheduleFormComponent implements OnInit {
       (data) => {
         this.bookedDays = data;
         for (let i = 0; i < this.bookedDays.length; i++) {
-          // console.log(this.bookedDays[i].availableTimes.length);
           // if a booking hours array has 1 or less items
           if (
             this.bookedDays[i].availableTimes.length <= 1 ||
@@ -212,7 +210,6 @@ export class RescheduleFormComponent implements OnInit {
       .subscribe(
         // get schedule for date
         (data) => {
-          // console.log('resceduled date', data);
           this.newSchedule.calendarIndex = data.calendarIndex;
           this.newSchedule.date = data.date;
           this.scheduleOfDay = Array.from(data.availableTimes); // store as array

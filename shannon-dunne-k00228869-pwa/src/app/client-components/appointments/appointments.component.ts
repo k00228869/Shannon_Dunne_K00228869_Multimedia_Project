@@ -23,7 +23,6 @@ export class AppointmentsComponent implements OnInit {
 
     await this.booking.getBusinessAppointment().subscribe(
      async (data) => {
-        console.log(data);
         this.allBookings = data;
         if (this.allBookings.length == 0)
         {

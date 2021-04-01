@@ -263,8 +263,8 @@ upload = (event) => {
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
       this.newProfile.img = this.url;
-      console.log('as string', this.url.toString());
-      console.log('not string', this.url);
+      // console.log('as string', this.url.toString());
+      // console.log('not string', this.url);
 
       if (this.selectedHours.monday) { // if monday is stored
         this.mon = []; // reset array to hold times

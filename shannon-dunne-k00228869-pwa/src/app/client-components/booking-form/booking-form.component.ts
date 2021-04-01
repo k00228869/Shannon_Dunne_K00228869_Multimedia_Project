@@ -147,7 +147,6 @@ export class BookingFormComponent implements OnInit {
       (data) => {
         this.bookedDays = data;
         for (let i = 0; i < this.bookedDays.length; i++) {
-          // console.log(this.bookedDays[i].availableTimes.length);
           // if a booking hours array has 1 or less items
           if (
             this.bookedDays[i].availableTimes.length <= 1 ||
@@ -215,7 +214,6 @@ export class BookingFormComponent implements OnInit {
             this.schedule.availableTimes = [];
             this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
             this.schedule.calendarIndex = this.date.toString();
-            // console.log('cal index', this.schedule.calendarIndex);
           }
         );
       this.booking
@@ -274,7 +272,6 @@ export class BookingFormComponent implements OnInit {
     this.booking
       .getBookingSchedule(this.id, this.setDate) // get schedule if booked
       .subscribe((dateSchedule) => {
-        // console.log(dateSchedule);
         if (dateSchedule) {
           // if there is a booked date
           dateSchedule.availableTimes.sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
@@ -285,7 +282,6 @@ export class BookingFormComponent implements OnInit {
             // if there is no booked date
             if (this.weekDays[i][0].length > 0 && this.selectedDay === 0) {
               // sun
-              // console.log('sunday'); // need to add sort func
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]); // store in selected schedule array
             }
@@ -294,7 +290,6 @@ export class BookingFormComponent implements OnInit {
               this.selectedDay === 1
             ) {
               // mon
-              // console.log('monday');
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
@@ -302,7 +297,6 @@ export class BookingFormComponent implements OnInit {
               this.selectedDay === 2
             ) {
               // tue
-              // console.log('tuesday');
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
@@ -310,7 +304,6 @@ export class BookingFormComponent implements OnInit {
               this.selectedDay === 3
             ) {
               // wed
-              // console.log('wednesday');
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
@@ -318,7 +311,6 @@ export class BookingFormComponent implements OnInit {
               this.selectedDay === 4
             ) {
               // thur
-              // console.log('thursday');
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
@@ -326,7 +318,6 @@ export class BookingFormComponent implements OnInit {
               this.selectedDay === 5
             ) {
               // fri
-              // console.log('friday');
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
@@ -335,7 +326,6 @@ export class BookingFormComponent implements OnInit {
             ) {
               // sat
               this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
-              // console.log('saturday');
               this.day = Array.from(this.weekDays[i][0]);
             }
           }

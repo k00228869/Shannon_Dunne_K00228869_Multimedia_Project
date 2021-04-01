@@ -49,13 +49,8 @@ export class BusinessDashboardComponent implements OnInit {
         // get  new reviews (reviews without a reply property)
         (reviewList) => {
           this.reviews = reviewList;
-          console.log(this.reviews);
         }
       );
     });
-    // this.feedback.getReviews().subscribe(
-    //   (data) => {
-    //     this.reviews = data; // get all reviews
-    //   });
   }
 }

@@ -40,7 +40,6 @@ export class BookingService {
     clientAppointment: IUser['appointment']
   ): Observable<IUser['service']> {
     const serId = clientAppointment.serviceId;
-    console.log('id', serId);
     let docRef;
     docRef = this.firestore
       .collection('users')
@@ -88,7 +87,6 @@ export class BookingService {
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
     // get a booked date
-    console.log('getting booked date', setDate, id);
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
@@ -145,11 +143,11 @@ export class BookingService {
   //   return docRef.valueChanges();
   // }
 
-  public createRescheduleNotif(dateA: Moment, dateB: Moment) {
-    // const dateA = moment(timestamp, 'DD-MM-YYYY');
-    // const dateB = moment(bookingDate, 'DD-MM-YYYY');
-    console.log(dateB.from(dateA));
-    console.log(dateB.diff(dateA, 'hours'));
-    console.log(dateB.diff(dateA, 'days'));
-  }
+  // public createRescheduleNotif(dateA: Moment, dateB: Moment) {
+  //   // const dateA = moment(timestamp, 'DD-MM-YYYY');
+  //   // const dateB = moment(bookingDate, 'DD-MM-YYYY');
+  //   console.log(dateB.from(dateA));
+  //   console.log(dateB.diff(dateA, 'hours'));
+  //   console.log(dateB.diff(dateA, 'days'));
+  // }
 }

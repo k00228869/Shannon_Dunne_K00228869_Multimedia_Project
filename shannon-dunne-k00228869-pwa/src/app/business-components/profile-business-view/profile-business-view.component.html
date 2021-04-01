@@ -24,6 +24,11 @@
         <span>Notifications</span>
     </a>
     </button>
+
+    <button mat-raised-button type="submit" (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
     <!-- 
     <button mat-menu-item class="example-icon" aria-label="logout icon" (click)="authService.logout()">
       <a routerLink="/login">
@@ -31,7 +36,6 @@
         <span>Logout</span>
       </a>
     </button>-->
-
   </mat-menu>
   
 
@@ -60,22 +64,21 @@
 
 <div *ngIf="isCreated">
     <mat-card class="card"> 
+      <br>
         <mat-card-header>
+          <img mat-card-avatar class="header-image" src='{{profileInfo.img}}'>
             <mat-card-subtitle>
-
+              <b>{{profileInfo.businessName}}</b>
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content label="details">
-          <br>
-          <b>{{profileInfo.businessName}}</b>
           <br>
           <p>{{profileInfo.businessDescription}}</p>
           <br>
           <p *ngIf="profileInfo.rating">
             {{profileInfo.rating.toFixed(1)}}
-            <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="star_rating">star_rate</mat-icon>
           </p>
-          
         </mat-card-content>
 
 
@@ -84,8 +87,9 @@
             <mat-divider></mat-divider>
             <br>
             <h4><b>Location: </b>{{profileInfo.county}}</h4>
-            <br><h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
-            <!-- <mat-list-item role="listitem">Monday:    2:00 P to 6:00 PM</mat-list-item> -->
+            <h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
+            <mat-divider></mat-divider>
+            <br>
             <div>
               <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday: {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
               <br>

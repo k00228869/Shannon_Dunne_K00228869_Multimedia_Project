@@ -66,8 +66,6 @@ export class NotificationsService {
         this.subscrip = {};
         this.subscrip.token = token;
         this.subscrip.id = this.uid;
-        console.log('saved subscription', this.subscrip);
-
         // store subscription object
         return from(
           this.firestore
@@ -85,7 +83,6 @@ export class NotificationsService {
   // it triggers a toast notification to display the data from the pushed notification
   receiveMessage() {
     return this.afm.onMessage((payload) => {
-      console.log('mess payload received', payload);
       // this.saveNotification(payload);
       this.toastr.info(payload.notification.body, payload.notification.title, {
         positionClass: 'toast-top-center',

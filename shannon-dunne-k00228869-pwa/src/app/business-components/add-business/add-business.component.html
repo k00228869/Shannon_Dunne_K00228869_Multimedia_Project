@@ -1,5 +1,5 @@
 <h1>Create Your Business Profile</h1>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 <form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value, addBusHours.value)"
   (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
   <mat-form-field appearance="outline">
@@ -355,7 +355,7 @@
   </form>
 
 
-  <button mat-raised-button color="primary" type="submit">
+  <button mat-raised-button color="primary" type="submit" class="submit">
     Create Profile
   </button>
 </form>

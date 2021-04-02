@@ -39,10 +39,12 @@
   <span>Booking Confirmation</span>
   <span class="spacer"></span>
 </mat-toolbar>
+
 <br>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button">
+<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button">
   <mat-icon>arrow_back</mat-icon>
 </button>
+<br>
 <br>
 <div class="mat-table">
   <div class="mat-row">
@@ -82,8 +84,7 @@
     <h3>Manage Appointment</h3>
     <br>
     <div class="mat-row">
-      <div class="mat-cell" class="manage"><a routerLink="/reschedule/{{appointmentInfo.appointmentId}}"><button
-            mat-raised-button>Reschedule</button></a></div>
+      <div class="mat-cell" class="manage"><button mat-raised-button><a routerLink="/reschedule/{{appointmentInfo.appointmentId}}">Reschedule</a></button></div>
       <div class="mat-cell"><button mat-raised-button (click)="openDialog()" color="warn">Cancel</button></div>
     </div>
     <br>

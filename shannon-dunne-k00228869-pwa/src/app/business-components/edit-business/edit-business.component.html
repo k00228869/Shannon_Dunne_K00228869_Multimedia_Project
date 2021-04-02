@@ -1,5 +1,5 @@
 <h1>Edit Your Profile</h1>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button class="cancelButton" color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 <form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value, editBusHours.value)">
     <mat-form-field appearance="outline">
         <mat-label>Business Name</mat-label>
@@ -259,7 +259,7 @@
             </div>
         </div>
     </form>
-    <button mat-raised-button color="primary" type="submit" >
+    <button class="submit" mat-raised-button color="primary" type="submit" >
         Update Profile
     </button>
 </form> 

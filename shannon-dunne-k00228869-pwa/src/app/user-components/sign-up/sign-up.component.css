@@ -1,3 +1,10 @@
 .mat-radio-button ~ .mat-radio-button {
     margin-left: 16px;
   }
+
+
+  .submit{
+    float: right;
+    margin-right: 20%;
+    margin-bottom: 10%;
+  }

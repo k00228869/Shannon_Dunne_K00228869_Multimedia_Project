@@ -1,6 +1,6 @@
 <form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit()">
     <br>
-      <button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+      <button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 
     
     <div>
@@ -35,7 +35,7 @@
         </mat-form-field> 
         <br>
     </div>
-    <button mat-raised-button type="submit" color="primary">
+    <button class="submit" mat-raised-button type="submit" color="primary">
         <!-- <a routerLink="/profile-business-view"> -->
           Submit
       <!-- </a> -->

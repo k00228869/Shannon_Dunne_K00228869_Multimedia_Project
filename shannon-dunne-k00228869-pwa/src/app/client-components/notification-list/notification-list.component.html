@@ -1,67 +1,67 @@
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-        <a routerLink="/client-profile/{{client.uid}}">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <a routerLink="/client-profile/{{client.uid}}">
         <mat-icon>person</mat-icon>
         <span>Account</span>
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/appointment/{{client.uid}}">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/appointment/{{client.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/search">
-            <mat-icon>search</mat-icon>
-            <span>Find Appointment</span>  
-        </a>
-      </button>
-
-      <button mat-menu-item>
-        <a routerLink="/notification/{{client.uid}}">
-            <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
-            <span>Notifications</span>  
-        </a>
-      </button>
-
-      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
-          <mat-icon>exit_to_app</mat-icon> 
-          <span>Logout</span>  
     </button>
-    </mat-menu>
-    <span class="spacer"></span>
-    <span>Notifications</span>
-    <span class="spacer"></span>
+    <button mat-menu-item>
+      <a routerLink="/search">
+        <mat-icon>search</mat-icon>
+        <span>Find Appointment</span>
+      </a>
+    </button>
+
+    <button mat-menu-item>
+      <a routerLink="/notification/{{client.uid}}">
+        <mat-icon matBadge="15" matBadgeColor="warn">notification_important</mat-icon>
+        <span>Notifications</span>
+      </a>
+    </button>
+
+    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+  <span class="spacer"></span>
+  <span>Notifications</span>
+  <span class="spacer"></span>
 </mat-toolbar>
 
 <div *ngIf="reminders">
   <div *ngFor="let reminder of reminders">
     <mat-divider></mat-divider>
     <mat-card class="card">
-        <a routerLink="/booking-confirmed/{{reminder.infoId}}">
-          <mat-card-header>
-            <mat-card-title>{{reminder.message.notification.title}}</mat-card-title>
-            <mat-icon>notification_important</mat-icon>
-            <mat-card-subtitle>
-                {{reminder.message.notification.body}}
-            </mat-card-subtitle>
-          </mat-card-header>
-        </a>
+      <a routerLink="/booking-confirmed/{{reminder.infoId}}">
+        <mat-card-header>
+          <mat-card-title>{{reminder.message.notification.title}}</mat-card-title>
+          <mat-icon>notification_important</mat-icon>
+          <mat-card-subtitle>
+            {{reminder.message.notification.body}}
+          </mat-card-subtitle>
+        </mat-card-header>
+      </a>
     </mat-card>
     <br>
-    </div>
   </div>
+</div>
 
 <div *ngIf="reviews">
   <div *ngFor="let review of reviews">
     <mat-divider></mat-divider>
-    <mat-card class="card"> 
+    <mat-card class="card">
       <a routerLink="/review/{{review.infoId}}">
         <mat-card-header>
           <mat-card-title>{{review.message.notification.title}}</mat-card-title>
@@ -75,5 +75,3 @@
   </div>
 </div>
 <br>
-
-

@@ -2,3 +2,18 @@
     background: yellow;
     border-radius: 80%;
   }
+
+
+  .cancelButton{
+    float: right;
+    margin-left: 10%;
+    }
+
+.submit{
+    float: right;
+    margin-right: 20%;
+    margin-bottom: 10%;
+}
+.policy, form div h4 {
+  margin-left: 5%
+}

@@ -14,25 +14,24 @@
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
     <input matInput [formControlName]="'password'" type="password">
-    <mat-error *ngIf="loginForm.controls.password.hasError('password') && !loginForm.controls.password.hasError('required')">
+    <mat-error
+      *ngIf="loginForm.controls.password.hasError('password') && !loginForm.controls.password.hasError('required')">
       Please enter a valid password with more than 6 characters
     </mat-error>
   </mat-form-field>
   <br>
-  <a [routerLink]="['/reset-details/{{client.uid}}']">
-    Forgot Password?
-  </a>
-  <br>
-  <button mat-raised-button color="primary" type="submit">
-    Login
-  </button>
-
-
-</form>
-<br>
+    <button class="submit" mat-raised-button color="primary" type="submit">
+      Login
+    </button>
+  </form>
+  <div class="links">
+    <br><a [routerLink]="['/reset-details/{{client.uid}}']">
+      Forgot Password?
+    </a>
 
 <br>
 <h3>Need an Account?</h3>
 <a [routerLink]="['/sign-up']">
   Sign Up
 </a>
+</div>

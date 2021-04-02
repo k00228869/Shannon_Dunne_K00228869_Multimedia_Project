@@ -15,7 +15,7 @@ export class AuthenticateService {
   theUser: IUser['user'];
   userState: any;
   user: Observable<User>;
-  public uid: string;
+  private uid: string;
   admin: boolean;
   isLoggedIn: boolean;
   constructor(
@@ -25,14 +25,14 @@ export class AuthenticateService {
     private location: Location,
     private route: ActivatedRoute
   ) {
-    this.authenticate.authState.subscribe((user) => {
-      // check for user logged in
-      if (user) {
-        // if there is a user
-        this.userState = user; // store the user
-        localStorage.setItem('user', JSON.stringify(this.userState)); // set the user in local storage
-      }
-    });
+    // this.authenticate.authState.subscribe((user) => {
+    //   // check for user logged in
+    //   if (user) {
+    //     // if there is a user
+    //     this.userState = user; // store the user
+    //     localStorage.setItem('user', JSON.stringify(this.userState)); // set the user in local storage
+    //   }
+    // });
   }
 
   // USER SIGN IN FUNCTION
@@ -42,19 +42,19 @@ export class AuthenticateService {
       .then(async (Credentials) => {
         window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storage
         JSON.parse(localStorage.getItem('user')); // get user from ls
-        this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
+        // this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
         this.isLoggedIn = true; // set the user to logged in
         // pass the user id to get the users doc
-        await this.getUserData(this.uid).subscribe(
+        await this.getUserData(Credentials.user.uid).subscribe(
           (
             data // subscribe to the user data returned
           ) => {
-            this.uData = data; // set data to IUser type
-            if (this.uData.admin === true) {
+            // this.uData = data; // set data to IUser type
+            if (data.admin === true) {
               // check if the user is an admin
-              this.router.navigate(['/dashboard/', this.uData.uid]); // display business dash
-            } else if (this.uData.admin === false) {
-              this.router.navigate(['/client-profile/', this.uData.uid]); // display client profile
+              this.router.navigate(['/dashboard/', Credentials.user.uid]); // display business dash
+            } else if (data.admin === false) {
+              this.router.navigate(['/client-profile/', Credentials.user.uid]); // display client profile
             }
           }
         );

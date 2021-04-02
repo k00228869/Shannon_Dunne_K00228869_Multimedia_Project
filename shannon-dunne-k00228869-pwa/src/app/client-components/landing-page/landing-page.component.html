@@ -12,14 +12,13 @@
   </mat-carousel>
 </div>
 <div class="actions">
-  <h2><a [routerLink]="['/login']">Sign In</a></h2><h2><a [routerLink]="['/sign-up']">Sign Up</a></h2>
+  <h2 class="manage"><a [routerLink]="['/login']">Sign In</a></h2><h2><a [routerLink]="['/sign-up']">Sign Up</a></h2>
 </div>
-<div>
-  <h3>Download The app</h3>
+<div class="download">
+  <h3>Download The app wit one click</h3>
   <div>
-    <h4>One click download</h4>
-    <img>
-    <button mat-raised-button *ngIf="user.showButton" (click)="user.downloadApp()"><mat-icon>get_app</mat-icon>Download App</button>
+    <img alt="logo" src="https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=2b7a1135-5d1e-422f-aa84-e5ba40d2e29b">
+    <button class="downloadButton" mat-raised-button *ngIf="user.showButton" (click)="user.downloadApp()"><mat-icon>get_app</mat-icon>Download App</button>
   </div>
 </div>
 

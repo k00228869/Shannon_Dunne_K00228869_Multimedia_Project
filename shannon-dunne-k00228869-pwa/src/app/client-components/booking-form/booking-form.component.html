@@ -1,5 +1,5 @@
 <h1>Booking Form</h1>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 
 <form class="form-group" [formGroup]="addAppointmentForm" (ngSubmit)="onAppointSubmit(addAppointmentForm.value)">
   <br>
@@ -29,7 +29,6 @@
         (dateInput)="newInput($event)">
       <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>
       <mat-datepicker #bookedDate startView="month"></mat-datepicker>
-      <!-- <mat-error *ngIf="addAppointmentForm.get('date').hasError('matDatepickerFilter')">Sundays are not available</mat-error> -->
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -46,15 +45,14 @@
       placeholder="Any other Information you would like to add to your appointment"></textarea>
   </mat-form-field>
   <br>
-  <div *ngIf="profileInfo">
+  <div *ngIf="profileInfo" class="policy">
     <h4>Cancellation Policy</h4>
     <h3>{{profileInfo.cancellationPolicy}}</h3>
     <!-- <h5>Failing to attend your appointment or cancelling less than 24 hours before your appointment, will incur a charge of 50% of the service ammount. Appointments can be rescheduled 24 hours before the appointment. </h5> -->
     <br>
-    <br>
   </div>
-
-  <button type="submit" mat-raised-button color="primary" (click)="askPermis()">
+  <button type="submit" class="submit" mat-raised-button color="primary" (click)="askPermis()">
     Submit
   </button>
 </form>
+<br>

@@ -1,5 +1,5 @@
 <h1>Review Form</h1>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 
 <form class="form-group" [formGroup]="addFeedbackForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
@@ -19,7 +19,7 @@
     <br>
     <br>
     <div class="links">
-     <button type="submit" mat-raised-button color="primary">
+     <button type="submit" class="cancelButton" mat-raised-button color="primary">
         <!-- <a routerLink="/business-profile/{{id}}"> -->
           Submit 
       <!-- </a> -->

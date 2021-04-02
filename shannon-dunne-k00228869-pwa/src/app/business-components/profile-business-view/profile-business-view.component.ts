@@ -23,7 +23,6 @@ export class ProfileBusinessViewComponent implements OnInit {
   public panelOpenState = false;
   isSignedIn = false;
   public slides: string[] = [];
-  // public uid: string;
   public id: string;
   reviews: IUser['review'][];
 
@@ -77,14 +76,7 @@ export class ProfileBusinessViewComponent implements OnInit {
 
     this.uploads.getBusinessSlideshow(this.user.uid).subscribe(
       (data) => {
-        console.log('as data', data);
-        let obj: string[] = [];
-        obj = Object.values(data[0]);
-        let test = Array.from(obj);
-        console.log('the obj vals', obj);
-        console.log('array from obj', test);
-        this.slides = test; // store values in array
-        console.log('as slides', this.slides);
+        this.slides = data.imageURL;
       });
     }
 

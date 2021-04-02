@@ -1,9 +1,12 @@
-
 <router-outlet>
   <div toastContainer></div>
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>SelfCare</span>
+      <a routerLink="/landing-page/" class="logo">
+        <span>
+          <mat-icon>spa</mat-icon>SelfCare
+        </span>
+      </a>
       <span class="spacer"></span>
       <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()">
         <mat-icon>get_app</mat-icon>

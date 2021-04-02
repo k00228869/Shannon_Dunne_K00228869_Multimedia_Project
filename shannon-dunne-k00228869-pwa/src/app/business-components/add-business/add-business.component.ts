@@ -117,9 +117,6 @@ export class AddBusinessComponent implements OnInit {
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]);
     });
-
-    // this.downloadURL = this.afs.ref('/images/'+ file.name).getDownloadURL().toString();
-
   }
 
 upload = (event) => {
@@ -263,7 +260,7 @@ upload = (event) => {
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
       this.newProfile.img = this.url;
-      this.uploads.addUrl(this.newProfile.id);
+      this.uploads.storeBusinessImages();
       // console.log('as string', this.url.toString());
       // console.log('not string', this.url);
 

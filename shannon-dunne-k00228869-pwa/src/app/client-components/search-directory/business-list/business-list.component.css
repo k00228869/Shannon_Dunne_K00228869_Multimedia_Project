@@ -5,3 +5,19 @@ ul {
 a{
     text-decoration: none;
 }
+
+.rating{
+    vertical-align: middle;
+}
+
+
+.header-image
+{
+  margin-right:30px;
+  height:20%;
+  width:20%;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  background-size: cover;
+}

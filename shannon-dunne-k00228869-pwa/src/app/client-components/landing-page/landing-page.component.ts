@@ -19,7 +19,9 @@ export class LandingPageComponent implements OnInit {
     // get urls for slideshow images from db
     this.uploads.getSlideshow().subscribe(
       (data) => {
+        console.log('as data hp', data);
         this.slides = Object.values(data); // store values in array
+        console.log('as slides hp', this.slides);
       });
   }
 

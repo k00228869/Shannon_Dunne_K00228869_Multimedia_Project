@@ -10,7 +10,7 @@ export interface IUser {
         admin?: boolean;
     };
     slides?: {
-        imageURL: string[];
+        imageURL?: string[];
     };
     business?: {
         id: string,

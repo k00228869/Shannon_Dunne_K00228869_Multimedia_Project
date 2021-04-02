@@ -6,13 +6,13 @@
       <br>
       <a routerLink="/business-profile/{{profile.id}}">
         <mat-card-header>
-          <div mat-card-avatar><mat-icon>store</mat-icon></div>
+          <img mat-card-avatar class="header-image" src='{{profile.img}}'>
           <mat-card-title>{{profile.businessName}}</mat-card-title>
           <mat-card-subtitle>
             Location: {{profile.county}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            <p *ngIf="profile.rating">
+            <p *ngIf="profile.rating" class="rating">
               {{profile.rating.toFixed(1)}} 
               <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
             </p>

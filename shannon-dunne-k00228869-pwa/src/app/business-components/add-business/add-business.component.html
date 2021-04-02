@@ -195,7 +195,7 @@
     <button mat-raised-button color="primary" (click)="busImages.click()">
       Profile Images
       <!-- <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple accept="image/*"> -->
-      <input hidden type="file"  #busImages name="file" (change)="uploads.addBusinessImages($event)" multiple accept=".png, .jpg"/>
+      <input hidden type="file"  #busImages name="file" (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg"/>
     </button>
     <!-- <br>
     <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
@@ -356,7 +356,7 @@
   </form>
 
 
-  <button mat-raised-button color="primary" type="submit" (click)="uploads.addUrl">
+  <button mat-raised-button color="primary" type="submit">
     Create Profile
   </button>
 </form>

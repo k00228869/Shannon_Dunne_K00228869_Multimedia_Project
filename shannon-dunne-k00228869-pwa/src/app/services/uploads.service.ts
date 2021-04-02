@@ -21,10 +21,7 @@ export class UploadsService {
   groupTask: AngularFireUploadTask;
   public busURL: string;
   imgURL: string;
-  public profileImages: IUser['slides'];
-  // public profileImages: IUser['slides'] = {
-  //   imageUrl: string;
-  // };
+  profileImages: IUser['slides'] = {};
   slides = {};
   url: string;
   images: string[] = [];
@@ -94,7 +91,7 @@ export class UploadsService {
   // }
 
 
-  addBusinessImages = (event) =>
+  uploadBusinessImages = (event) =>
   {
     this.uploads = [];
     const fileList = event.target.files;
@@ -122,15 +119,17 @@ export class UploadsService {
     }
   }
 
+  // get images for landing page slideshow
   getSlideshow(): Observable<string[]>
-  { // get images for landing page slideshow
+  {
     return this.firestore
       .collection<string[]>('appImages')
       .doc('slideshow')
       .valueChanges();
   }
 
-  getBusinessSlideshow(id: string): Observable<IUser['slides']> { // get images for landing page slideshow
+  // get images for business page slideshow
+  getBusinessSlideshow(id: string): Observable<IUser['slides']> {
     return this.firestore
     .collection('users')
     .doc<IUser['user']>(id)
@@ -139,14 +138,18 @@ export class UploadsService {
     .valueChanges();
   }
 
-  public addUrl(id: string) {
+  // store images for business page slideshow
+  public storeBusinessImages(): Observable<void> {
+    let theUser = JSON.parse(localStorage.getItem('user'));
+
+    this.profileImages.imageURL = this.images;
     return from(
       this.firestore
         .collection('users')
-        .doc<IUser['user']>(id)
+        .doc<IUser['user']>(theUser.uid)
         .collection<IUser>('images')
         .doc<IUser['slides']>('images')
-        .set(Object.assign({ImageURL: this.images}))
+        .set(this.profileImages)
     );
   }
 }

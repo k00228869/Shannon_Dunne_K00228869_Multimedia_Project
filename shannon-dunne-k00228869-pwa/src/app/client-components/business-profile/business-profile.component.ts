@@ -41,14 +41,7 @@ export class BusinessProfileComponent implements OnInit {
         this.id = params.get('id');
         this.uploads.getBusinessSlideshow(this.id).subscribe(
             (data) => {
-              console.log('as data', data);
-              let obj: string[] = [];
-              obj = Object.values(data[0]);
-              let test = Array.from(obj);
-              console.log('the obj vals', obj);
-              console.log('array from obj', test);
-              this.slides = test; // store values in array
-              console.log('as slides', this.slides);
+              this.slides = data.imageURL;
             });
         this.business.getABusiness(this.id).subscribe(
             (bus) =>

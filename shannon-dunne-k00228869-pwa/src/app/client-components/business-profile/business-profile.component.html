@@ -54,7 +54,7 @@
       <br>
       <p>{{profileInfo.businessDescription}}</p>
       <br>
-      <p *ngIf="profileInfo.rating">
+      <p *ngIf="profileInfo.rating" class="rating">
         {{profileInfo?.rating.toFixed(1)}}
         <mat-icon aria-hidden="false" aria-label="Example star_rate">star_rate</mat-icon>
       </p>

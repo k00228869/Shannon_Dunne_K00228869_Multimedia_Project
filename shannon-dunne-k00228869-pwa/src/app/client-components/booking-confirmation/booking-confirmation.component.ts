@@ -1,16 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { Location } from '@angular/common';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
-import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { CancelComponent } from 'src/app/client-components/booking-confirmation/cancel/cancel.component';
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
+import { IBusiness } from 'src/app/interfaces/i-business';
 const moment = _rollupMoment || _moment;
 
 @Component({
@@ -21,7 +22,7 @@ const moment = _rollupMoment || _moment;
 export class BookingConfirmationComponent implements OnInit {
   public client: IUser['user'];
   public appointmentInfo: IUser['appointment'];
-  public busInfo: IUser['business'];
+  public busInfo: IBusiness['business'];
   public id: string;
   duration: string;
   scheduleOfDay: string[] = [];
@@ -35,7 +36,6 @@ export class BookingConfirmationComponent implements OnInit {
     public booking: BookingService,
     public reschedule: RescheduleService,
     private dialog: MatDialog
-
   ) {}
 
 
@@ -82,7 +82,6 @@ export class BookingConfirmationComponent implements OnInit {
       busId: this.appointmentInfo.bid,
       date: this.appointmentInfo.date}; // set data to pass to cancel component
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
-
     dialogRef.afterClosed();
   }
 

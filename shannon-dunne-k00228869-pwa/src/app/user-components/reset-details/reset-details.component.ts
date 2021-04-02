@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 

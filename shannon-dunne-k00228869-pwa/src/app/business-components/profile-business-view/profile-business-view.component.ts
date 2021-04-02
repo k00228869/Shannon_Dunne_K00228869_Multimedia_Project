@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { Observable } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { take } from 'rxjs/operators';
 import { UploadsService } from 'src/app/services/uploads.service';
+import { IBusiness } from 'src/app/interfaces/i-business';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { UploadsService } from 'src/app/services/uploads.service';
   styleUrls: ['./profile-business-view.component.css']
 })
 export class ProfileBusinessViewComponent implements OnInit {
-  profileInfo: IUser['business'];
+  profileInfo: IBusiness['business'];
   employees: IUser['employee'];
   services: IUser['service'][];
   public user: IUser['user'];
@@ -23,7 +24,6 @@ export class ProfileBusinessViewComponent implements OnInit {
   public panelOpenState = false;
   isSignedIn = false;
   public slides: string[] = [];
-  public id: string;
   reviews: IUser['review'][];
 
 
@@ -32,9 +32,8 @@ export class ProfileBusinessViewComponent implements OnInit {
   constructor(
     public business: BusinessService,
     public authService: AuthenticateService,
-    private route: ActivatedRoute,
     private feedback: FeedbackService,
-    private uploads: UploadsService
+    private uploads: UploadsService,
   ) { }
 
   ngOnInit()

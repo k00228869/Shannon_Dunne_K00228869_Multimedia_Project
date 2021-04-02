@@ -29,6 +29,12 @@
             <span>Notifications</span>  
         </a>
       </button>
+
+      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <mat-icon>exit_to_app</mat-icon> 
+        <span>Logout</span>  
+    </button>
+    
     </mat-menu>
     <span class="spacer"></span>
     <span>Find a Provider</span>
@@ -90,8 +96,6 @@
         <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
       </mat-select>
     </mat-form-field>
-
-      <br>
         <mat-form-field appearance="fill">
           <mat-label>Sort</mat-label>
           <mat-select [(ngModel)]="sort">

@@ -31,10 +31,10 @@
       </button>
 
       <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
-        <a routerLink="/login">
           <mat-icon>exit_to_app</mat-icon> 
-      </a>
-    </button>
+          <span>Logout</span>  
+      </button>
+
     </mat-menu>
     <span class="spacer"></span>
     <span>Appointments</span>
@@ -45,8 +45,8 @@
 <div *ngIf="!hidden">
   <div *ngFor="let booking of allBookings">
     <mat-divider></mat-divider>
-    <br>
       <mat-card class="card"> 
+        <br>
           <a routerLink="/booking-confirmed/{{booking.appointmentId}}">
           <mat-card-header>
         <mat-icon>event</mat-icon> 

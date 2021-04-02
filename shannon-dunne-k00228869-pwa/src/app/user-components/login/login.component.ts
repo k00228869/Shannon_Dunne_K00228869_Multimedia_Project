@@ -3,10 +3,8 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 @Component({
@@ -29,13 +27,6 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.minLength(6), Validators.maxLength(25)]],
     });
-
-    // if (localStorage.getItem('user') !== null) { // if there is a user in the local data storage,
-    //   this.isSignedIn = true;
-    //   } // this user is signed in
-    //   else {
-    //   // this.isSignedIn = false;
-    //   } // if there is not a user stored, then user is logged out
   }
 
   onSubmit(userSignIn: IUser['user']) {

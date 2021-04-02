@@ -10,7 +10,7 @@
     text-align: center;
 }
 .slogan{
-    margin-top: 50%;
+    margin-top: 25%;
     padding: 2%;
     position: absolute;
     z-index: 1;
@@ -32,6 +32,13 @@
 
 .actions{
     background-color: lightgrey;
+    width: 100%;
+    height: 20%;
+}
+.slogan h2 a{
+    text-decoration: none;
+
+    width: 100%;
 }
 
 .actions h2{

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import {
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
   Validators,
@@ -14,12 +13,12 @@ import { BusinessService } from 'src/app/services/business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
-import * as moment from 'moment';
-import { IDays } from 'src/app/idays';
+import { IDays } from 'src/app/interfaces/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { IBusiness } from 'src/app/interfaces/i-business';
 
 @Component({
   selector: 'app-add-business',
@@ -27,7 +26,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./add-business.component.css'],
 })
 export class AddBusinessComponent implements OnInit {
-  newProfile: IUser['business'];
+  newProfile: IBusiness['business'];
   adEmployee: IUser['employee'];
   adService: IUser['service'];
   selectedHours: IUser['hours']; // holds selected times
@@ -41,18 +40,14 @@ export class AddBusinessComponent implements OnInit {
   hours: any[] = [];
   start: string;
   end: string;
-  holdHours: string[] = [];
   public id: string;
   hourList: IDays['1'] = []; // hold hours template
-  dailyHours: string[] = []; // held selected times array
   addProfileForm: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
   addBusHours: FormGroup;
   selectedValue: string;
   profileCreated: boolean;
-  dailyWorkHours: number[] = [];
-  newSet: string;
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
@@ -248,7 +243,7 @@ upload = (event) => {
 
   // HANDLES PROFILE DATA & HOURS
   public onProfileSubmit(
-    newProfile: IUser['business'],
+    newProfile: IBusiness['business'],
     newHours: IUser['hours']
   ) {
     if ( // if all forms are valid

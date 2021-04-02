@@ -1,4 +1,4 @@
-<h1>Edit Your Business Profile</h1>
+<h1>Edit Your Profile</h1>
 <button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
 <form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value, editBusHours.value)">
     <mat-form-field appearance="outline">
@@ -93,89 +93,9 @@
           <mat-option value="3">&euro;&euro;&euro;</mat-option>
         </mat-select>
       </mat-form-field>
-      <br>
-
-    <!-- <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
-        <h2>Employees</h2>
-        <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">+</button>
-        <div formArrayName="employees">
-            <div *ngFor="let employee of addEmployeeForm.get('employees')['controls']; let i = index"
-                [formGroupName]="i">
-                <button mat-raised-button color="warm" (click)="removeEmployee(i)">X</button>
-                <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
-                    <input matInput [formControlName]="'firstName'">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput [formControlName]="'lastName'">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Employee Description</mat-label>
-                    <textarea matInput [formControlName]="'employeeDescription'"></textarea>
-                </mat-form-field>
-                <br>
-                <mat-form-field appearance="outline">
-                    <mat-label>Employee Position</mat-label>
-                    <mat-select [(value)]="selectedValue" [formControlName]="'employeeServices'">
-                        <mat-option value="Hair Stylist">Hair Stylist</mat-option>
-                        <mat-option value="Nail Technitian">Nail Technitian</mat-option>
-                        <mat-option value="Beautician">Beautician</mat-option>
-                        <mat-option value="Make-up Artist">Make-up Artist</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <br>
-            </div>
-        </div>
-    </form> -->
-    <br>
     <br>
 
 
-
-    <form [formGroup]="editServiceForm" (ngSubmit)="onServiceSubmit(editServiceForm.value)">
-        <h2>Services</h2>
-        <!-- <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button> -->
-        <div formArrayName="servicesArr">
-            <!-- <div *ngFor="let service of editServiceForm.get('services')['controls']; let i = index" [formGroupName]="i"> -->
-                <div *ngFor="let service of editServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Service Name</mat-label>
-                    <input matInput [formControlName]="'serviceName'">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Service Description</mat-label>
-                    <textarea matInput [formControlName]="'serviceDescription'"></textarea>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Amount</mat-label>
-                    <input matInput type="number" [formControlName]="'servicePrice'" class="example-right-align">
-                    <span matPrefix>€&nbsp;</span>
-                    <span matSuffix>.00</span>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Duration</mat-label>
-                    <mat-select [(value)]="selectedValue" [formControlName]="'duration'">
-                        <mat-option value="01:00:00">1 Hr</mat-option>
-                        <mat-option value="02:00:00">2 Hrs</mat-option>
-                        <mat-option value="03:00:00">3 Hrs</mat-option>
-                        <mat-option value="04:00:00">4 Hrs</mat-option>
-
-                    </mat-select>
-                </mat-form-field>
-                <br>
-                <!-- <button mat-raised-button color="warm" (click)="removeService()">Remove service</button> -->
-            </div>
-        </div>
-    </form>
-    <br>
-    <br>
     <!-- <form>
         <button mat-raised-button color="primary" (click)="fileInput.click()">
             Profile Images

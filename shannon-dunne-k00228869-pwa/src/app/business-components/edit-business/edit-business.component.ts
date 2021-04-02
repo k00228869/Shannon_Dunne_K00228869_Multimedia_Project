@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -9,8 +8,9 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IUser } from 'src/app/i-user';
-import { IDays } from 'src/app/idays';
+import { IBusiness } from 'src/app/interfaces/i-business';
+import { IUser } from 'src/app/interfaces/i-user';
+import { IDays } from 'src/app/interfaces/idays';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { EditBusinessService } from 'src/app/services/edit-business.service';
@@ -25,16 +25,13 @@ import { WorkingDaysService } from 'src/app/services/working-days.service';
 export class EditBusinessComponent implements OnInit {
   editProfileForm: FormGroup;
   editBusHours: FormGroup;
-  editEmployeeForm: FormGroup;
-  editServiceForm: FormGroup;
   hourList: IDays['1'] = []; // hold hours template
   hours: any[] = [];
   start: string;
   end: string;
   selectedHours: IUser['hours']; // holds selected times
   id: string;
-  serviceCollection: IUser['service'][];
-  newProfile: IUser['business'];
+  newProfile: IBusiness['business'];
   mon: IUser['scheduleOfDays']['monday'];
   tues: IUser['scheduleOfDays']['tuesday'];
   wed: IUser['scheduleOfDays']['wednesday'];
@@ -46,15 +43,11 @@ export class EditBusinessComponent implements OnInit {
   constructor(
     private editProfile: FormBuilder,
     private editHours: FormBuilder,
-    // private editEmp: FormBuilder,
-    private editSer: FormBuilder,
     public editbusiness: EditBusinessService,
     public business: BusinessService,
-    private reschedule: RescheduleService,
     private route: ActivatedRoute,
     public hourService: WorkingDaysService,
     private router: Router,
-    private firestore: AngularFirestore,
     public authService: AuthenticateService,
 
   ) {}
@@ -111,71 +104,6 @@ export class EditBusinessComponent implements OnInit {
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]); // add hours template
     });
-
-    (await this.business.getServices()).subscribe((serviceCol) => {
-      this.serviceCollection = serviceCol;
-
-      this.editServiceForm.patchValue(this.serviceCollection);
-
-      const addTheService = this.serviceCollection.map(service => {
-        return this.editSer.group({
-          serviceName: [service.serviceName],
-          serviceDescription: [service.serviceDescription],
-          servicePrice: [service.servicePrice],
-          duration: [service.duration]
-        });
-      });
-      const servicesArr: FormArray = this.editSer.array(addTheService);
-
-      this.editServiceForm.setControl('services', servicesArr);
-      // for (let i = 0; 0 < this.serviceCollection.length; i++)
-      // {
-        // push(this.newService().setValue({
-        //   serviceName: this.serviceCollection[i].serviceName,
-        //   serviceDescription: this.serviceCollection[i].serviceDescription,
-        //   servicePrice: this.serviceCollection[i].servicePrice,
-      //   //   duration: this.serviceCollection[i].duration});
-      // }
-    });
-    // business services form
-    this.editServiceForm = this.editSer.group({
-      services: this.editSer.array([]), // push service data to array
-    });
-  }
-
-  // // HANDLE SERVICES DATA
-  // newService(): FormGroup {  // populate with service data
-  //   return this.editSer.group({
-  //     serviceName: new FormControl(''),
-  //     serviceDescription: new FormControl(''),
-  //     servicePrice: new FormControl(''),
-  //     duration: new FormControl(''),
-  //   });
-  // }
-
-
-  // public addServiceFormGroup() {
-  //   const services = this.editServiceForm.get('services') as FormArray;
-  //   // services.push(this.newService());
-  // }
-
-  public onServiceSubmit(adService: IUser['service']) {
-    // tslint:disable-next-line: max-line-length
-    if (
-      this.editServiceForm.status === 'VALID' &&
-      this.editProfileForm.status === 'VALID'
-    ) {
-      // if fields are valid
-      let services = this.editServiceForm.controls.services.value;
-      // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i < services.length; i++) {
-        adService = services[i];
-        adService.id = this.firestore.createId();
-        this.business.addServices(adService);
-      }
-    } else {
-      console.log('error in service form');
-    }
   }
 
   // HANDLES HOURS DATA
@@ -188,7 +116,7 @@ export class EditBusinessComponent implements OnInit {
   }
 
   public onProfileSubmit(
-    updatedProfile: IUser['business'],
+    updatedProfile: IBusiness['business'],
     selectedHours: IUser['hours']
   ) {
     if (this.editProfileForm.status === 'VALID') {

@@ -6,7 +6,7 @@ import {
   AngularFireUploadTask,
 } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { IUser } from '../i-user';
+import { IUser } from '../interfaces/i-user';
 import { BusinessService } from './business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 

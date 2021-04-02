@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, from, merge, Observable } from 'rxjs';
-import { IUser } from '../i-user';
-import { AngularFireModule } from '@angular/fire';
+import { IUser } from '../interfaces/i-user';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { mergeMap, tap } from 'rxjs/operators';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { take } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { IBusiness } from '../interfaces/i-business';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +16,13 @@ export class NotificationsService {
   token = null;
   public uid: string;
   private subscrip: IUser['subscription'] = {};
-  private notifObj: IUser['notificationMessage'] = {};
+  // private notifObj: IUser['notificationMessage'] = {};
 
   constructor(
     private firestore: AngularFirestore,
     private afm: AngularFireMessaging,
-    private auth: AngularFireAuth,
-    private db: AngularFireDatabase,
+    // private auth: AngularFireAuth,
+    // private db: AngularFireDatabase,
     private toastr: ToastrService
   ) {}
 
@@ -130,7 +127,7 @@ export class NotificationsService {
   // to the users appointment date.
   appoinmtentReminder(
     clientAppointment: IUser['appointment'],
-    profileInfo: IUser['business'] // reminder set and store
+    profileInfo: IBusiness['business'] // reminder set and store
   ) {
     // TO DO::
     // get the appoint date, calculate time between now and booking time,

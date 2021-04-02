@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
@@ -17,7 +17,6 @@ export class AdvertiseAppointmentComponent implements OnInit {
   public id: string;
   public newAppointInfo: IUser['appointment'];
   public appointmentInfo: IUser['appointment'];
-  public deal: string;
   provider: string;
 
   constructor(

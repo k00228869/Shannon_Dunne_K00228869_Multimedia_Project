@@ -29,6 +29,11 @@
         <span>Notifications</span>
       </a>
     </button>
+
+    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <mat-icon>exit_to_app</mat-icon> 
+        <span>Logout</span>  
+  </button>
   </mat-menu>
 
   <span>Business Profile</span>
@@ -77,7 +82,7 @@
         <h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
         <mat-divider></mat-divider>
         <br>
-        <div>
+        <div class="schedule">
           <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday:
             {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
           <br>
@@ -111,15 +116,16 @@
               {{service.serviceName}}
             </mat-panel-title>
             <mat-panel-description>
-              Price: &#x20AC;{{service.servicePrice}}
+              &#x20AC;{{service.servicePrice}}
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-panel-title>
-            Description: {{service.serviceDescription}}
+          {{service.serviceDescription}}
           </mat-panel-title>
           <br>
           <mat-panel-title>
-            Duration: {{service.duration}} hrs
+            {{service.duration | slice :0 :-6}} hrs
+            <br>
           </mat-panel-title>
           <mat-divider></mat-divider>
         </mat-expansion-panel>
@@ -162,7 +168,7 @@
             <br>
           </mat-panel-title>
           <mat-panel-description>
-            <p>{{review.timestamp | slice: 0: -7}}</p>
+            <p>{{review.timestamp}}</p>
             <br>
           </mat-panel-description>
           <br>

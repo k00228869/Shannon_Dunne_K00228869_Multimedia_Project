@@ -4,13 +4,10 @@
     <mat-toolbar-row>
       <a routerLink="/landing-page/" class="logo">
         <span>
-          <mat-icon>spa</mat-icon>SelfCare
+          Self<mat-icon>spa</mat-icon>Care
         </span>
       </a>
-      <span class="spacer"></span>
-      <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()">
-        <mat-icon>get_app</mat-icon>
-      </button>
+      <!-- <button *ngIf="showButton" mat-raised-button color="accent" (click)="downloadApp()"> -->
     </mat-toolbar-row>
   </mat-toolbar>
 </router-outlet>

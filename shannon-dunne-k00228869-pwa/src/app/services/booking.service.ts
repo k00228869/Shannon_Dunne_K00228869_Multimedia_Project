@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import moment, { Moment } from 'moment';
 import { from, Observable } from 'rxjs';
-import { IUser } from '../i-user';
+import { IUser } from '../interfaces/i-user';
 
 @Injectable({
   providedIn: 'root',

@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RescheduleService } from 'src/app/services/reschedule.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 @Component({
   selector: 'app-cancel',
@@ -17,9 +15,7 @@ export class CancelComponent implements OnInit {
     public dialogRef: MatDialogRef<CancelComponent>,
     public reschedule: RescheduleService,
     private router: Router,
-    private location: Location,
     private notif: NotificationsService,
-    public authService: AuthenticateService,
     @Inject(MAT_DIALOG_DATA) public data: {
       id: string,
       clientId: string,

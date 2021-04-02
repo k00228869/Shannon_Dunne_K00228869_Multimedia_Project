@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { IUser } from '../i-user';
+import { IUser } from '../interfaces/i-user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkingDaysService {
-  uid: string;
+  // uid: string;
+  user: IUser['user'];
 
   constructor(public firestore: AngularFirestore) {}
 
@@ -15,12 +16,11 @@ export class WorkingDaysService {
   public addMon(
     mon: IUser['scheduleOfDays']['monday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid)
+        .doc<IUser['user']>(this.user.uid)
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['monday']>('mon')
         .set(Object.assign({}, mon))
@@ -30,12 +30,11 @@ export class WorkingDaysService {
   public addTue(
     tues: IUser['scheduleOfDays']['tuesday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid)
+        .doc<IUser['user']>(this.user.uid)
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['tuesday']>('tue')
         .set(Object.assign({}, tues))
@@ -44,12 +43,11 @@ export class WorkingDaysService {
   public addWed(
     wed: IUser['scheduleOfDays']['wednesday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.user.uid) // returns promise not observable
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['wednesday']>('wed')
         .set(Object.assign({}, wed))
@@ -58,12 +56,11 @@ export class WorkingDaysService {
   public addThur(
     thur: IUser['scheduleOfDays']['thursday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.user.uid) // returns promise not observable
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['thursday']>('thur')
         .set(Object.assign({}, thur))
@@ -72,12 +69,11 @@ export class WorkingDaysService {
   public addFri(
     fri: IUser['scheduleOfDays']['friday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.user.uid) // returns promise not observable
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['friday']>('fri')
         .set(Object.assign({}, fri))
@@ -86,12 +82,11 @@ export class WorkingDaysService {
   public addSat(
     sat: IUser['scheduleOfDays']['saturday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.user.uid) // returns promise not observable
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['saturday']>('sat')
         .set(Object.assign({}, sat))
@@ -100,12 +95,11 @@ export class WorkingDaysService {
   public addSun(
     sun: IUser['scheduleOfDays']['sunday'] // add a business details to the db
   ) {
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.user = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.user.uid) // returns promise not observable
         .collection<IUser['scheduleOfDays']>('hoursOfWorkingDays')
         .doc<IUser['scheduleOfDays']['sunday']>('sun')
         .set(Object.assign({}, sun))

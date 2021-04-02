@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IDeals } from 'src/app/i-deals';
-import { IUser } from 'src/app/i-user';
+import { IBusiness } from 'src/app/interfaces/i-business';
+import { IDeals } from 'src/app/interfaces/i-deals';
+import { IUser } from 'src/app/interfaces/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -16,7 +17,7 @@ export class BusinessDealsComponent implements OnInit {
   public appointAdverts: IDeals['deal'][];
   dealBooking: IUser['appointment'];
   client: IUser['user'];
-  bookedBusiness: IUser['business'];
+  bookedBusiness: IBusiness['business'];
 
   constructor(
     private reschedule: RescheduleService,

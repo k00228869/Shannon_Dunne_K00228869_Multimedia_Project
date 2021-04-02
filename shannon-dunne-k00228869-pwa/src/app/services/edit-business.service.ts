@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
-import { IUser } from '../i-user';
+import { from } from 'rxjs';
+import { IBusiness } from '../interfaces/i-business';
+import { IUser } from '../interfaces/i-user';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,8 @@ export class EditBusinessService {
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore
-        .collection('businesses')
-        .doc<IUser['business']>(theUser.uid)
+        .collection<IBusiness>('businesses')
+        .doc<IBusiness['business']>(theUser.uid)
         .update({
           businessName: updatedProfile.businessName,
           businessDescription: updatedProfile.businessDescription,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
@@ -8,6 +8,7 @@ import { default as _rollupMoment } from 'moment';
 import { Router } from '@angular/router';
 const moment = _rollupMoment || _moment;
 import { take } from 'rxjs/operators';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 @Component({
   selector: 'app-business-notifications',
@@ -22,14 +23,14 @@ export class BusinessNotificationsComponent implements OnInit {
   duration: string;
   newSchedule: IUser['bookingSchedule'] = {};
   scheduleOfDay: string[] = [];
-  editedSchedule: string[] = [];
-
 
   constructor(
     public business: BusinessService,
     public reschedule: RescheduleService,
     public booking: BookingService,
     private router: Router,
+    public authService: AuthenticateService,
+
   ) { }
 
    ngOnInit(){

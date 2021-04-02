@@ -1,73 +1,49 @@
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-        <a routerLink="/client-profile/{{client.uid}}">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <a routerLink="/client-profile/{{client.uid}}">
         <mat-icon>person</mat-icon>
         <span>Account</span>
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/search">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/search">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/search">
-            <mat-icon>search</mat-icon>
-            <span>Find Appointment</span>  
-        </a>
-      </button>
-
-      <button mat-menu-item>
-        <a routerLink="/notification/{{client.uid}}">
-            <mat-icon>notification_important</mat-icon>
-            <span>Notifications</span>  
-        </a>
-      </button>
-
-      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
-        <a routerLink="/login">
-          <mat-icon>exit_to_app</mat-icon> 
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/search">
+        <mat-icon>search</mat-icon>
+        <span>Find Appointment</span>
       </a>
     </button>
-    </mat-menu>
-    <span class="spacer"></span>
-    <span>Booking Confirmation</span>
-    <span class="spacer"></span>
+
+    <button mat-menu-item>
+      <a routerLink="/notification/{{client.uid}}">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+      </a>
+    </button>
+
+    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>  
+    </button>
+  </mat-menu>
+  <span class="spacer"></span>
+  <span>Booking Confirmation</span>
+  <span class="spacer"></span>
 </mat-toolbar>
 <br>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
-
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 <br>
-<!-- <br>
-<div class="confirmationText">
-  <h3>Your Appointment Is Booked with <br>{{busInfo.businessName}}</h3>
-
-  <p><b>Location: </b>       {{busInfo.county}}, {{busInfo.eircode}}</p>
-  <br>
-  <p><b>Date:</b>           {{appointmentInfo.date}}</p>
-  <br>
-  <p><b>Time: </b>           {{appointmentInfo.time | slice: 0: -3}}</p>
-  <br>
-  <p><b>Service: </b>        {{appointmentInfo.serName}}</p>
-  <br>
-  <p><b>Employee:</b>         {{appointmentInfo.empName}}</p>
-  <br>
-  <p><b>Duration:</b>       {{appointmentInfo.serDuration | slice: 1: -6}} Hours</p>
-  <br>
-  <p><b>Price:</b>          &euro;{{appointmentInfo.serPrice}}</p>
-  <br>
-  <p><b>Notes:</b>          {{appointmentInfo.note}}</p>
-  <br>
-
-
-</div> -->
-
 <div class="mat-table">
   <div class="mat-row">
     <div class="mat-cell">Location</div>
@@ -97,7 +73,7 @@
     <div class="mat-cell">Price</div>
     <div class="mat-cell">&euro;{{appointmentInfo.serPrice}}</div>
   </div>
-    <div class="mat-row">
+  <div class="mat-row">
     <div class="mat-cell">Notes</div>
     <div class="mat-cell">{{appointmentInfo.note}}</div>
   </div>
@@ -106,18 +82,10 @@
     <h3>Manage Appointment</h3>
     <br>
     <div class="mat-row">
-      <div class="mat-cell" class="manage"><a routerLink="/reschedule/{{appointmentInfo.appointmentId}}"><button mat-raised-button>Reschedule</button></a></div>
-          <div class="mat-cell"><button mat-raised-button (click)="openDialog()"color="warn">Cancel</button></div>
+      <div class="mat-cell" class="manage"><a routerLink="/reschedule/{{appointmentInfo.appointmentId}}"><button
+            mat-raised-button>Reschedule</button></a></div>
+      <div class="mat-cell"><button mat-raised-button (click)="openDialog()" color="warn">Cancel</button></div>
     </div>
+    <br>
+  </div>
 </div>
-</div>
-
-<!-- <div class="manage">
-<h2>Manage Appointment</h2>
-
-  
-  <button mat-raised-button (click)="openDialog()"color="warn">Cancel</button>
-</div> -->
-
-
-

@@ -5,8 +5,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 @Component({

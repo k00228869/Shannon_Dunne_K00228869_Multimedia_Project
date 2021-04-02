@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
-import { IDeals } from '../i-deals';
-import { IUser } from '../i-user';
+import { IDeals } from '../interfaces/i-deals';
+import { IUser } from '../interfaces/i-user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RescheduleService {
-  uid: string;
   cancellation: IUser['cancellation'] = {};
   appointAdvert: IDeals['deal'];
-  dealBooking: IUser['appointment'];
+
   constructor(public firestore: AngularFirestore) {}
 
   // update client appointment with rescheduled appointment info

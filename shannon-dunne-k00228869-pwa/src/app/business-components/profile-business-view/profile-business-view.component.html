@@ -29,15 +29,7 @@
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>
-    <!-- 
-    <button mat-menu-item class="example-icon" aria-label="logout icon" (click)="authService.logout()">
-      <a routerLink="/login">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </a>
-    </button>-->
   </mat-menu>
-
 
   <span>Business Profile</span>
   <span class="spacer"></span>
@@ -95,7 +87,7 @@
         <h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
         <mat-divider></mat-divider>
         <br>
-        <div>
+        <div class="schedule">
           <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday:
             {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
           <br>
@@ -130,15 +122,15 @@
               {{service.serviceName}}
             </mat-panel-title>
             <mat-panel-description>
-              Price: &#x20AC;{{service.servicePrice}}
+              &#x20AC;{{service.servicePrice}}
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-panel-title>
-            Description: {{service.serviceDescription}}
+          {{service.serviceDescription}}
           </mat-panel-title>
           <br>
           <mat-panel-title>
-            Duration: {{service.duration}} hrs
+          {{service.duration | slice :0 :-6}} hrs
           </mat-panel-title>
           <mat-divider></mat-divider>
         </mat-expansion-panel>

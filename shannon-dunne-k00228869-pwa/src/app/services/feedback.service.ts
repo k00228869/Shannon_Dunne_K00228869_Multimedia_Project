@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
-import { IUser } from '../i-user';
+import { from } from 'rxjs';
+import { IBusiness } from '../interfaces/i-business';
+import { IUser } from '../interfaces/i-user';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +37,8 @@ export class FeedbackService {
   public averageRating(sum: number, bid: string) {
     return from(
       this.firestore
-        .collection<IUser>('businesses')
-        .doc<IUser['business']>(bid)
+        .collection<IBusiness>('businesses')
+        .doc<IBusiness['business']>(bid)
         .update({
           rating: sum,
         })

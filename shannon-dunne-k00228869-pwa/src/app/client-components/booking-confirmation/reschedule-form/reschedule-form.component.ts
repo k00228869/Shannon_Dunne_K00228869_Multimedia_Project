@@ -1,22 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
-} from '@angular/material-moment-adapter';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-} from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -29,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { IBusiness } from 'src/app/interfaces/i-business';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   // set selected date format
@@ -72,7 +62,7 @@ export class RescheduleFormComponent implements OnInit {
 
   public id: string;
   public appointmentInfo: IUser['appointment'];
-  public busInfo: IUser['business'];
+  public busInfo: IBusiness['business'];
   scheduleOfDay: string[] = [];
 
   constructor(

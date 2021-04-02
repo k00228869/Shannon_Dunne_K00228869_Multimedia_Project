@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { ClientUserService } from 'src/app/services/client-user.service';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  FormArray,
-} from '@angular/forms';
 import { SearchQueriesService } from 'src/app/services/search-queries.service';
 import { take } from 'rxjs/operators';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { IBusiness } from 'src/app/interfaces/i-business';
 
 @Component({
   selector: 'app-search-directory',
@@ -23,7 +17,7 @@ export class SearchDirectoryComponent implements OnInit {
   public getDeal: boolean = false;
   public filtered: boolean = true;
   public client: IUser['user'];
-  public allProfiles: IUser['business'][];
+  public allProfiles: IBusiness['business'][];
   location: string = 'default';
   busType: string = 'default';
   sort: string = 'default';
@@ -32,6 +26,8 @@ export class SearchDirectoryComponent implements OnInit {
     public firestore: AngularFirestore,
     public clientService: ClientUserService,
     public search: SearchQueriesService,
+    public authService: AuthenticateService,
+
   ) {}
 
   ngOnInit() {

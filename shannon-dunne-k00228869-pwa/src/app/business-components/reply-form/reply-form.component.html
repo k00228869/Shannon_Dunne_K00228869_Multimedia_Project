@@ -40,15 +40,16 @@
     <span>Reply to review</span>
     <span class="spacer"></span>
     
-    <button mat-icon-button class="example-icon" aria-label="edit icon" (click)="authService.logout()">
-      <a routerLink="/login">
-        <mat-icon>logout</mat-icon>
-    </a>
-    </button>
-</mat-toolbar><br>
-<br>
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+    <button mat-raised-button type="submit" (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+  </button>
 
+</mat-toolbar>
+<br>
+
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<br>
 <form class="form-group" [formGroup]="addReplyForm" (ngSubmit)="onSubmit()">
 <mat-form-field appearance="outline">
     <mat-label>Comment</mat-label>

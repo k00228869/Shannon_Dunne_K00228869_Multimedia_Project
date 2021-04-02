@@ -11,7 +11,15 @@
     </mat-carousel-slide>
   </mat-carousel>
 </div>
-
 <div class="actions">
   <h2><a [routerLink]="['/login']">Sign In</a></h2><h2><a [routerLink]="['/sign-up']">Sign Up</a></h2>
 </div>
+<div>
+  <h3>Download The app</h3>
+  <div>
+    <h4>One click download</h4>
+    <img>
+    <button mat-raised-button *ngIf="user.showButton" (click)="user.downloadApp()"><mat-icon>get_app</mat-icon>Download App</button>
+  </div>
+</div>
+

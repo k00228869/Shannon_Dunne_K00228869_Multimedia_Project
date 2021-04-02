@@ -1,3 +1,3 @@
 export interface IDays {
-    1: string[];
+  1: string[];
 }

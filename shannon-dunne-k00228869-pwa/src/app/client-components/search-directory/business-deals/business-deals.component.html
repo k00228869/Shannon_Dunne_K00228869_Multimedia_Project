@@ -1,20 +1,19 @@
 <H1>One click appointments</H1>
 <br>
 <div *ngFor="let appoint of appointAdverts">
-<mat-card class="card"> 
-     
-    <mat-divider></mat-divider> 
+  <mat-divider></mat-divider>
+  <mat-card class="card"> 
     <br>
         <mat-card-header>
           <mat-card-title>{{appoint.provider}}</mat-card-title>
           <mat-card-subtitle>
-              Service: {{appoint.serName}} with {{appoint.discount}}% off
+              Service: {{appoint.serName}} with {{appoint.discount}}% off <mat-icon>local_offer</mat-icon>
             </mat-card-subtitle>
           <mat-card-subtitle>
             Date: {{appoint.date}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            Time: {{appoint.time}}
+            Time: {{appoint.time | slice :0 :-3}}
           </mat-card-subtitle>
           <mat-card-subtitle>
             Price: &euro; {{appoint.serPrice.toFixed(2)}}
@@ -25,6 +24,5 @@
               </button>
             </mat-card-subtitle>
         </mat-card-header>
-      <br>
   </mat-card>
 </div>

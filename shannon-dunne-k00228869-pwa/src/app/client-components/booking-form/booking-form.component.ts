@@ -1,34 +1,23 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
-} from '@angular/material-moment-adapter';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-} from '@angular/material/core';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { IBusiness } from 'src/app/interfaces/i-business';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -51,7 +40,7 @@ export const MY_FORMATS = {
   encapsulation: ViewEncapsulation.None,
 })
 export class BookingFormComponent implements OnInit {
-  profileInfo: IUser['business'];
+  profileInfo: IBusiness['business'];
   schedule: IUser['bookingSchedule'] = {};
   bookedDays: IUser['bookingSchedule'][];
   public clientAppointment: IUser['appointment'];

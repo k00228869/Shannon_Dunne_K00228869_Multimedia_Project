@@ -5,7 +5,6 @@
 
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
-        <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
           <a routerLink="/business-view/{{user.uid}}">
         <mat-icon>person</mat-icon>
         <span>Profile</span>
@@ -28,19 +27,11 @@
       <button mat-raised-button type="submit" (click)="authService.logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
-    </button>
+      </button>
     </mat-menu>
 
     <span>Business Dashboard</span>
     <span class="spacer"></span>
-<!--     
-    <button mat-icon-button class="example-icon" aria-label="edit icon" (click)="authService.logout()">
-      <a routerLink="/login">
-        <mat-icon>logout</mat-icon>
-                <span>Logout</span>
-
-    </a>
-    </button> -->
 </mat-toolbar>
 
 <mat-tab-group>
@@ -95,7 +86,7 @@
               </mat-expansion-panel-header>
               Review: <p>{{review.comment}}</p>
               <mat-panel-description>
-                <p>{{review.timestamp | slice: 0: -7}}</p>
+                <p>{{review.timestamp}}</p>
                <br>
              </mat-panel-description>
                 <br>

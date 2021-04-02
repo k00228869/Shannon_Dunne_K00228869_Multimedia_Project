@@ -1,26 +1,19 @@
-import { keyframes } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { observable, Observable, from, of } from 'rxjs';
-import { IUser } from '../i-user';
+import { Observable } from 'rxjs';
+import { IBusiness } from '../interfaces/i-business';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchQueriesService {
-  // public bus: Observable<IUser['business'][]>;
-  public businesses: Observable<IUser['business'][]>;
-  allBus: IUser['business'][] = [];
-  public filteredProfiles: IUser['business'][];
-
-  // bus: IUser['business'];
-
+  public filteredProfiles: IBusiness['business'][];
   constructor(public firestore: AngularFirestore) {}
 
   // public getAllBusinessUsers() // get all businesses with a profile
   // {
   //   let allBusinesses;
-  //   allBusinesses = this.firestore.collection<IUser>('businesses', ref => ref
+  //   allBusinesses = this.firestore.collection<IBussiness>('businesses', ref => ref
   //   .where('profileCreated', '==', 'true').limit(20));
   //   return allBusinesses.valueChanges();
   // }
@@ -29,13 +22,13 @@ export class SearchQueriesService {
     location: string,
     busType: string,
     sort: string
-  ): Observable<IUser['business'][]> {
+  ): Observable<IBusiness['business'][]> {
     // if busType and location were selected with rating
     if (sort === 'rating' && location !== 'default' && busType !== 'default') {
       this.filteredProfiles = [];
       console.log('query rating + loc + type');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref
           .where('county', '==', location)
           .where('businessType', '==', busType)
@@ -52,7 +45,7 @@ export class SearchQueriesService {
       this.filteredProfiles = [];
       console.log('query price + loc + type');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref
           .where('county', '==', location)
           .where('businessType', '==', busType)
@@ -69,7 +62,7 @@ export class SearchQueriesService {
       this.filteredProfiles = [];
       console.log('just query location and type');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('county', '==', location).where('businessType', '==', busType)
       );
       return allBusinesses.valueChanges();
@@ -83,7 +76,7 @@ export class SearchQueriesService {
       this.filteredProfiles = [];
       console.log('just query type');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('businessType', '==', busType)
       );
       return allBusinesses.valueChanges();
@@ -97,7 +90,7 @@ export class SearchQueriesService {
       this.filteredProfiles = [];
       console.log('just query loc');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('county', '==', location)
       );
       return allBusinesses.valueChanges();
@@ -111,7 +104,7 @@ export class SearchQueriesService {
       this.filteredProfiles = [];
       console.log('just query price + location called');
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('county', '==', location).orderBy(sort, 'asc')
       );
       return allBusinesses.valueChanges();
@@ -124,7 +117,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('businessType', '==', busType).orderBy(sort, 'asc')
       );
       return allBusinesses.valueChanges();
@@ -137,7 +130,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('county', '==', location).orderBy(sort, 'desc')
       );
       return allBusinesses.valueChanges();
@@ -150,7 +143,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('businessType', '==', busType).orderBy(sort, 'desc')
       );
       return allBusinesses.valueChanges();
@@ -163,7 +156,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true').orderBy(sort, 'desc')
       );
       return allBusinesses.valueChanges();
@@ -176,7 +169,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true').orderBy(sort, 'asc')
       );
       return allBusinesses.valueChanges();
@@ -189,7 +182,7 @@ export class SearchQueriesService {
     ) {
       this.filteredProfiles = [];
       let allBusinesses;
-      allBusinesses = this.firestore.collection<IUser>('businesses', (ref) =>
+      allBusinesses = this.firestore.collection<IBusiness>('businesses', (ref) =>
         ref.where('profileCreated', '==', 'true')
       );
       return allBusinesses.valueChanges();

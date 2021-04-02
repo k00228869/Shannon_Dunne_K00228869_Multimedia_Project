@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { BusinessService } from 'src/app/services/business.service';
@@ -24,7 +24,7 @@ export class AppointmentsComponent implements OnInit {
     await this.booking.getBusinessAppointment().subscribe(
      async (data) => {
         this.allBookings = data;
-        if (this.allBookings.length == 0)
+        if (this.allBookings.length === 0)
         {
           this.hidden = true; // hide bookings ui
         }

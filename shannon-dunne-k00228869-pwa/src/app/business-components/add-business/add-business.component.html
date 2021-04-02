@@ -194,7 +194,6 @@
     <mat-label>Upload images of your business, employees or services</mat-label>
     <button mat-raised-button color="primary" (click)="busImages.click()">
       Profile Images
-      <!-- <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple accept="image/*"> -->
       <input hidden type="file"  #busImages name="file" (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg"/>
     </button>
     <!-- <br>

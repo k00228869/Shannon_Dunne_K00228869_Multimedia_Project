@@ -1,9 +1,9 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
 import { NotificationsService } from './services/notifications.service';
-import { Router, Event, NavigationStart } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { SwUpdate } from '@angular/service-worker';
+import { ClientUserService } from './services/client-user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +11,11 @@ import { SwUpdate } from '@angular/service-worker';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  public routeHidden: boolean = true;
   readonly VAPID_PUBLIC_KEY =
     'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
   title = 'SelfCare';
-  deferredPrompt: any;
   message;
-  showButton = false;
-  routeHidden = true;
   @ViewChild(ToastContainerDirective, { static: true })
   toastContainer: ToastContainerDirective;
 
@@ -28,24 +26,25 @@ export class AppComponent {
     // Prevent Chrome 67 from automatically showing prompt
     event.preventDefault();
     // Stash the event so it can be triggered later.
-    this.deferredPrompt = event;
-    this.showButton = true; // display download button
+    this.user.deferredPrompt = event;
+    this.user.showButton = true; // display download button
   }
 
   constructor(
     private notif: NotificationsService,
     private router: Router,
     public toastr: ToastrService,
-    public update: SwUpdate
-  ) {
-    update.activated.subscribe();
-    update.available.subscribe((event) => {
-      // call func to update
-      if (event) {
-        update.activateUpdate().then(() => document.location.reload());
-      }
-    });
-  }
+    public update: SwUpdate,
+    public user: ClientUserService)
+    {
+      update.activated.subscribe();
+      update.available.subscribe((event) => {
+        // call func to update
+        if (event) {
+          update.activateUpdate().then(() => document.location.reload());
+        }
+      });
+    }
 
   ngOnInit() {
     this.toastr.overlayContainer = this.toastContainer;
@@ -58,28 +57,11 @@ export class AppComponent {
         // event triggered on first page
         if (e.url === '/') {
           this.routeHidden = false; // show carousel if false
-        } else {
+        }
+        else {
           this.routeHidden = true; // show carousel if false
         }
       }
-    });
-  }
-
-  downloadApp() {
-    // when download button is clicked
-    // hide download button
-    this.showButton = false;
-    // Show prompt
-    // console.log('theStashed response', this.deferredPrompt);
-    this.deferredPrompt.prompt();
-    // Wait for user to respond
-    this.deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted add prompt');
-      } else {
-        console.log('User dismissed add prompt');
-      }
-      this.deferredPrompt = null;
     });
   }
 }

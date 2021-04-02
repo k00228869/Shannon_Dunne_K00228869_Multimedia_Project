@@ -1,34 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  AngularFirestoreModule,
-} from '@angular/fire/firestore';
-import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { from, observable, Observable, of } from 'rxjs';
-import { IUser } from 'src/app/i-user';
-import { map } from 'rxjs/operators';
-import { IDays } from '../idays';
-// import { UploadsService } from './uploads.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { from, Observable, of } from 'rxjs';
+import { IUser } from 'src/app/interfaces/i-user';
+import { IDays } from '../interfaces/idays';
+import { IBusiness } from '../interfaces/i-business';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
   public uid: string;
-  public userId: Observable<string[]>;
   public id: string;
-  users: Observable<IUser['user']>;
-  busCollection: AngularFirestoreCollection<IUser['business']>;
-  business: Observable<IUser['business'][]>;
-  hourList: Observable<IDays['1']>[];
 
   constructor(
     public firestore: AngularFirestore,
-    public authenticate: AngularFireAuth,
-    public db: AuthenticateService,
-    public imgStorage: AngularFirestoreModule
   ) {}
 
   // add business
@@ -55,16 +40,15 @@ export class BusinessService {
   }
 
   public addBusiness(
-    newProfile: IUser['business'] // add a businesses details to the db
+    newProfile // add a businesses details to the db
   ) {
     let theUser = JSON.parse(localStorage.getItem('user'));
     newProfile.id = theUser.uid;
     return from(
       this.firestore
-        .collection<IUser>('businesses')
-        .doc<IUser['business']>(newProfile.id)
-        .set(newProfile)
-    );
+        .collection<IBusiness>('businesses')
+        .doc<IBusiness['business']>(newProfile.id)
+        .set(newProfile));
   }
 
   public addServices(
@@ -112,12 +96,12 @@ export class BusinessService {
     );
   }
 
-  public getBusiness(): Observable<IUser['business']> { // get business user's business info
+  public getBusiness(): Observable<IBusiness['business']> { // get business user's business info
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.id = theUser.uid;
     let docRef = this.firestore
-      .collection<IUser>('businesses')
-      .doc<IUser['business']>(this.id);
+      .collection<IBusiness>('businesses')
+      .doc<IBusiness['business']>(this.id);
     return docRef.valueChanges();
   }
 
@@ -157,11 +141,11 @@ export class BusinessService {
   // posts/gets data for a business profile available to other users
   getABusiness(
     id: string
-  ): Observable<IUser['business']> { // get a business' details
+  ): Observable<IBusiness['business']> { // get a business' details
     let docRef;
     docRef = this.firestore
-      .collection<IUser>('businesses')
-      .doc<IUser['business']>(id);
+      .collection<IBusiness>('businesses')
+      .doc<IBusiness['business']>(id);
     return docRef.valueChanges();
   }
 

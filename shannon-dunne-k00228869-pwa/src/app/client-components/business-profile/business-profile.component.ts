@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IUser } from 'src/app/i-user';
+import { IBusiness } from 'src/app/interfaces/i-business';
+import { IUser } from 'src/app/interfaces/i-user';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
@@ -14,14 +16,13 @@ import { UploadsService } from 'src/app/services/uploads.service';
   styleUrls: ['./business-profile.component.css']
 })
 export class BusinessProfileComponent implements OnInit {
-  profileInfo: IUser['business'];
+  profileInfo: IBusiness['business'];
   theHours: IUser['hours'];
   employees: IUser['employee'];
   services: IUser['service'];
   public client: IUser['user'];
   public id: string;
   panelOpenState: boolean;
-  keys: string[];
   reviews: IUser['review'][];
   public slides: string[] = [];
 
@@ -30,7 +31,9 @@ export class BusinessProfileComponent implements OnInit {
     public business: BusinessService,
     public clientService: ClientUserService,
     private feedback: FeedbackService,
-    private uploads: UploadsService
+    private uploads: UploadsService,
+    public authService: AuthenticateService,
+
 
   ) { }
 

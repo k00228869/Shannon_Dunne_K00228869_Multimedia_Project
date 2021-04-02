@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
 
@@ -17,7 +15,6 @@ export class ClientProfileComponent implements OnInit {
   constructor(
     public clientService: ClientUserService,
     public authService: AuthenticateService,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnInit()

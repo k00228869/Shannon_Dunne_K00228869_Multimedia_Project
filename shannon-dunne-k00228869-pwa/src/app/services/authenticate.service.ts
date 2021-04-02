@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '@firebase/auth-types';
 import { Location } from '@angular/common';
@@ -18,7 +18,6 @@ export class AuthenticateService {
   public uid: string;
   admin: boolean;
   isLoggedIn: boolean;
-
   constructor(
     public firestore: AngularFirestore,
     public authenticate: AngularFireAuth,
@@ -32,9 +31,6 @@ export class AuthenticateService {
         // if there is a user
         this.userState = user; // store the user
         localStorage.setItem('user', JSON.stringify(this.userState)); // set the user in local storage
-        JSON.parse(localStorage.getItem('user')); // get the user from local storage
-      } else {
-        this.router.navigate(['/login/']); // display login
       }
     });
   }
@@ -116,8 +112,8 @@ export class AuthenticateService {
       .signOut()
       .then(() => {
         window.localStorage.removeItem('user');
-        window.localStorage.clear();
-        window.localStorage.setItem('user', null); // set user to null
+        // window.localStorage.clear();
+        // window.localStorage.setItem('user', null); // set user to null
         this.isLoggedIn = false; // set the user to logged out
       })
       .then(() => {
@@ -125,16 +121,14 @@ export class AuthenticateService {
       });
   }
 
-  async getUserId(): Promise<Observable<IUser['user']>> {
-    let user = JSON.parse(localStorage.getItem('user'));
-    // this.theUser.uid = user.id;
-    this.uid = user.id;
-    let docRef = await this.firestore
-      .collection<IUser>('users')
-      .doc<IUser['user']>(this.uid)
-      .valueChanges();
-    return docRef;
-  }
+  // async getUserId(): Promise<Observable<IUser['user']>> {
+  //   let user = JSON.parse(localStorage.getItem('user'));
+  //   let docRef = await this.firestore
+  //     .collection<IUser>('users')
+  //     .doc<IUser['user']>(user.uid)
+  //     .valueChanges();
+  //   return docRef;
+  // }
 
   cancel() {
     this.location.back();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { IUser } from 'src/app/i-user';
+import { IUser } from 'src/app/interfaces/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
@@ -12,20 +12,14 @@ import { FeedbackService } from 'src/app/services/feedback.service';
   styleUrls: ['./business-dashboard.component.css'],
 })
 export class BusinessDashboardComponent implements OnInit {
-  businessProfile: IUser['business'];
   public isSignedIn = false;
-  public id: string;
   panelOpenState = false;
   public user: IUser['user'];
   allBookings: IUser['appointment'][];
-  public serInfo: IUser['service'];
-  public empInfo: IUser['employee'];
-  allAppoint: string[] = [];
   reviews: IUser['review'][];
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
-    private route: ActivatedRoute,
     private router: Router,
     public booking: BookingService,
     private feedback: FeedbackService

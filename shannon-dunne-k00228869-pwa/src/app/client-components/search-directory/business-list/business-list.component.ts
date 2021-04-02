@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { IUser } from 'src/app/i-user';
 import { BusinessService } from 'src/app/services/business.service';
 import { SearchQueriesService } from 'src/app/services/search-queries.service';
 import {SearchDirectoryComponent} from 'src/app/client-components/search-directory/search-directory.component';

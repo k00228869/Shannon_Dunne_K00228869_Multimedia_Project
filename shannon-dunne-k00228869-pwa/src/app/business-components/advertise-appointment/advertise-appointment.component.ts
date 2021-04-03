@@ -58,20 +58,26 @@ export class AdvertiseAppointmentComponent implements OnInit {
 
 
   public onSubmit(){
-    this.appointmentInfo.discount = this.advertiseForm.controls.discount.value; // store discount value
-    this.newAppointInfo = this.appointmentInfo; // copy appointment details
-    let discount =  parseInt(this.newAppointInfo.discount, 10) / 100; // get discount value
-    let price = this.appointmentInfo.serPrice; // set booking price
-    let total = price - (price * discount); // get booking price after discount
-    this.newAppointInfo.serPrice = total; // set booking price after discount is applied
-    this.newAppointInfo.uid = ''; // clear old user id
-    this.newAppointInfo.clientName = 'Advertised'; // replace old user name
-    this.newAppointInfo.note = '';
-    this.newAppointInfo.timeStamp = null;
-    this.reschedule.editBusAppointment(this.newAppointInfo);
-    this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider);
-    this.reschedule.deleteCancellation(this.newAppointInfo.appointmentId, this.newAppointInfo.bid);
-    this.changeRoute(this.newAppointInfo.bid);
+    if (this.advertiseForm.status === 'VALID'){
+      this.appointmentInfo.discount = this.advertiseForm.controls.discount.value; // store discount value
+      this.newAppointInfo = this.appointmentInfo; // copy appointment details
+      let discount =  parseInt(this.newAppointInfo.discount, 10) / 100; // get discount value
+      let price = this.appointmentInfo.serPrice; // set booking price
+      let total = price - (price * discount); // get booking price after discount
+      this.newAppointInfo.serPrice = total; // set booking price after discount is applied
+      this.newAppointInfo.uid = ''; // clear old user id
+      this.newAppointInfo.clientName = 'Advertised'; // replace old user name
+      this.newAppointInfo.note = '';
+      this.newAppointInfo.timeStamp = null;
+      this.reschedule.editBusAppointment(this.newAppointInfo);
+      this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider);
+      this.reschedule.deleteCancellation(this.newAppointInfo.appointmentId, this.newAppointInfo.bid);
+      this.changeRoute(this.newAppointInfo.bid);
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   changeRoute(busId: string){

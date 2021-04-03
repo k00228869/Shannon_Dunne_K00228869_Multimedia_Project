@@ -58,5 +58,9 @@ export class SignUpComponent implements OnInit {
         this.isSignedIn = true; // set boolean to true as user is signed in
       }
     }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 }

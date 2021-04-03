@@ -60,34 +60,40 @@ export class FeedbackFormComponent implements OnInit {
 
   public async onSubmit()
   {
-    let num: number;
-    num = Number(this.addFeedbackForm.controls.rating.value);
-    this.submittedFeedback.rating = num; // convert rating val to num
-    this.submittedFeedback.comment = this.addFeedbackForm.controls.comment.value;
-    this.submittedFeedback.timestamp = new Date();
-    this.submittedFeedback.uid = this.client.uid;
-    this.submittedFeedback.name = this.client.firstName + ' ' + this.client.lastName;
-    this.submittedFeedback.id = this.firestore.createId();
-    this.submittedFeedback.bid = this.id;
-    this.submittedFeedback.reply = null;
-
-    (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).pipe(take(1)).subscribe(
-      async (reviewCollection) => {
-        this.allRatings = reviewCollection;
-        let numberOfRatings = this.allRatings.length; // number of review docs
-        for (let i = 0; i < this.allRatings.length; i++)
-        {
-          this.ratingNum = this.allRatings[i].rating; // store rating value of doc
-          this.newSum = (+this.newSum) + (+this.ratingNum); // add each rating to newSum, brackets and + prevents concating
-        }
-        this.newSum = (+this.newSum) + (+this.submittedFeedback.rating); // add current rating to ratings
-        let ratingCount = (+1) + (+numberOfRatings); // adding current rating to number of ratings
-        this.total = (this.newSum) / ratingCount; // divide by number of ratings to get average
-        this.notif.deleteRNotifications(this.submittedFeedback.bid);
-        this.feedback.averageRating(this.total, this.submittedFeedback.bid); // add average rating to bus doc
-        this.feedbackService.addReview(this.submittedFeedback, this.id);
-        this.changeRoute();
-      });
+    if (this.addFeedbackForm.status === 'VALID'){
+      let num: number;
+      num = Number(this.addFeedbackForm.controls.rating.value);
+      this.submittedFeedback.rating = num; // convert rating val to num
+      this.submittedFeedback.comment = this.addFeedbackForm.controls.comment.value;
+      this.submittedFeedback.timestamp = new Date();
+      this.submittedFeedback.uid = this.client.uid;
+      this.submittedFeedback.name = this.client.firstName + ' ' + this.client.lastName;
+      this.submittedFeedback.id = this.firestore.createId();
+      this.submittedFeedback.bid = this.id;
+      this.submittedFeedback.reply = null;
+  
+      (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).pipe(take(1)).subscribe(
+        async (reviewCollection) => {
+          this.allRatings = reviewCollection;
+          let numberOfRatings = this.allRatings.length; // number of review docs
+          for (let i = 0; i < this.allRatings.length; i++)
+          {
+            this.ratingNum = this.allRatings[i].rating; // store rating value of doc
+            this.newSum = (+this.newSum) + (+this.ratingNum); // add each rating to newSum, brackets and + prevents concating
+          }
+          this.newSum = (+this.newSum) + (+this.submittedFeedback.rating); // add current rating to ratings
+          let ratingCount = (+1) + (+numberOfRatings); // adding current rating to number of ratings
+          this.total = (this.newSum) / ratingCount; // divide by number of ratings to get average
+          this.notif.deleteRNotifications(this.submittedFeedback.bid);
+          this.feedback.averageRating(this.total, this.submittedFeedback.bid); // add average rating to bus doc
+          this.feedbackService.addReview(this.submittedFeedback, this.id);
+          this.changeRoute();
+        });
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
 

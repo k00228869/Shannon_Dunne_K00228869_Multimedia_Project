@@ -218,8 +218,9 @@ export class EditBusinessComponent implements OnInit {
       }
       this.editbusiness.updateBusiness(this.newProfile);
       this.changeRoute(this.newProfile);
-    } else {
-      console.log('error in form');
+    } else{
+      alert('Correct the invalid fields before submitting');
+      return;
     }
   }
 

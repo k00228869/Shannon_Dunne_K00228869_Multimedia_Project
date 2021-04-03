@@ -38,5 +38,9 @@ export class LoginComponent implements OnInit {
         this.isSignedIn = true; // user is signed in
       }
     }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 }

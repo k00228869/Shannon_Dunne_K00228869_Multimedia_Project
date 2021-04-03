@@ -247,6 +247,10 @@ export class RescheduleFormComponent implements OnInit {
       this.notif.deleteANotifications(this.appointmentInfo.appointmentId); // delete old appointment notification
       this.changeRoute(this.appointmentInfo.appointmentId);
     }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   dateFilter = (d: Date) => {

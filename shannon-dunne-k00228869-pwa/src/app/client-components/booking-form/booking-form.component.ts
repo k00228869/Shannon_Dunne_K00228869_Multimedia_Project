@@ -238,6 +238,10 @@ export class BookingFormComponent implements OnInit {
         this.changeRoute();
       });
     }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   dateFilter = (d: Date) => {

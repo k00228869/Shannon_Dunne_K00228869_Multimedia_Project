@@ -35,5 +35,9 @@ export class ResetDetailsComponent implements OnInit {
       this.userReset = this.resetForm.controls.email.value; // get email value and set to userReset
       this.auth.resetPassword(this.userReset);
     }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 }

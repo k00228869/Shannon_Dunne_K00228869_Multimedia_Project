@@ -49,9 +49,16 @@ export class ReplyFormComponent implements OnInit {
 
   public onSubmit()
   {
-    this.submittedReply = this.addReplyForm.value;
-    this.feedbackService.addReply(this.submittedReply, this.id);
-    this.changeRoute();
+    if (this.addReplyForm.status === 'Valid')
+    {
+      this.submittedReply = this.addReplyForm.value;
+      this.feedbackService.addReply(this.submittedReply, this.id);
+      this.changeRoute();
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
 

@@ -192,14 +192,14 @@ export class AddBusinessComponent implements OnInit {
   }
 
   public onEmployeeSubmit(adEmployee: IUser['employee']) {
-    // if (
-    //   // if all forms valid
-    //   this.addServiceForm.status === 'VALID' &&
-    //   this.addProfileForm.status === 'VALID' &&
-    //   this.addEmployeeForm.status === 'VALID' &&
-    //   this.addBusImgGroup.status === 'VALID' &&
-    //   this.addBusHours.status === 'VALID'
-    // ) {
+    if (
+      // if all forms valid
+      this.addServiceForm.status === 'VALID' &&
+      this.addProfileForm.status === 'VALID' &&
+      this.addEmployeeForm.status === 'VALID' &&
+      this.addBusImgGroup.status === 'VALID' &&
+      this.addBusHours.status === 'VALID'
+    ) {
       // store the employees array
       let employees = this.addEmployeeForm.controls.employees.value;
       // tslint:disable-next-line: prefer-for-of
@@ -212,7 +212,11 @@ export class AddBusinessComponent implements OnInit {
         adEmployee.id = this.firestore.createId(); // create an id for the employee
         this.business.addEmployees(adEmployee); // call func to store employee in db
       }
-    // }
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   // HANDLE SERVICES DATA
@@ -243,14 +247,14 @@ export class AddBusinessComponent implements OnInit {
 
   public onServiceSubmit(adService: IUser['service']) {
     // tslint:disable-next-line: max-line-length
-    // if (
-    //   // if all forms valid
-    //   this.addServiceForm.status === 'VALID' &&
-    //   this.addProfileForm.status === 'VALID' &&
-    //   this.addEmployeeForm.status === 'VALID' &&
-    //   this.addBusImgGroup.status === 'VALID' &&
-    //   this.addBusHours.status === 'VALID'
-    // ) {
+    if (
+      // if all forms valid
+      this.addServiceForm.status === 'VALID' &&
+      this.addProfileForm.status === 'VALID' &&
+      this.addEmployeeForm.status === 'VALID' &&
+      this.addBusImgGroup.status === 'VALID' &&
+      this.addBusHours.status === 'VALID'
+    ) {
       // store the employees array
       let services = this.addServiceForm.controls.services.value;
       // tslint:disable-next-line: prefer-for-of
@@ -260,7 +264,11 @@ export class AddBusinessComponent implements OnInit {
         adService.id = this.firestore.createId(); // create an id for the service
         this.business.addServices(adService); // call func to store service in db
       }
-    // }
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   // HANDLES HOURS DATA
@@ -278,14 +286,14 @@ export class AddBusinessComponent implements OnInit {
     newProfile: IBusiness['business'],
     newHours: IUser['hours']
   ) {
-    // if (
-    //   // if all forms are valid
-    //   this.addServiceForm.status === 'VALID' &&
-    //   this.addProfileForm.status === 'VALID' &&
-    //   this.addEmployeeForm.status === 'VALID' &&
-    //   this.addBusImgGroup.status === 'VALID' &&
-    //   this.addBusHours.status === 'VALID'
-    // ) {
+    if (
+      // if all forms are valid
+      this.addServiceForm.status === 'VALID' &&
+      this.addProfileForm.status === 'VALID' &&
+      this.addEmployeeForm.status === 'VALID' &&
+      this.addBusImgGroup.status === 'VALID' &&
+      this.addBusHours.status === 'VALID'
+    ) {
       this.selectedHours = this.addBusHours.value; // store selected start/finish times of each day in obj
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
@@ -374,7 +382,11 @@ export class AddBusinessComponent implements OnInit {
       }
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
-    // }
+    }
+    else{
+      alert('Correct the invalid fields before submitting');
+      return;
+    }
   }
 
   changeRoute(newProfile) {

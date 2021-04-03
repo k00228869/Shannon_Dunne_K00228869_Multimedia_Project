@@ -40,6 +40,8 @@
   <span class="spacer"></span>
 </mat-toolbar>
 
+
+<div *ngIf="!reminders && !reviews"> Your have 0 new notifications</div>
 <div *ngIf="reminders">
   <div *ngFor="let reminder of reminders">
     <mat-divider></mat-divider>

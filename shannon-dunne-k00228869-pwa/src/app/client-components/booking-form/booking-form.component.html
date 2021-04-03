@@ -29,6 +29,9 @@
         (dateInput)="newInput($event)">
       <mat-datepicker-toggle matSuffix [for]="bookedDate"></mat-datepicker-toggle>
       <mat-datepicker #bookedDate startView="month"></mat-datepicker>
+      <mat-error *ngIf="addAppointmentForm.get('date').hasError('required')">
+        Valid date required.
+     </mat-error> 
     </mat-form-field>
 
     <mat-form-field appearance="outline">

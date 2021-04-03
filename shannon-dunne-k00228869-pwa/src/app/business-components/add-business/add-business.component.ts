@@ -12,7 +12,11 @@ import { Location } from '@angular/common';
 import { BusinessService } from 'src/app/services/business.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UploadsService } from 'src/app/services/uploads.service';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
+import {
+  AngularFireStorage,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+} from '@angular/fire/storage';
 import { IDays } from 'src/app/interfaces/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
@@ -43,6 +47,7 @@ export class AddBusinessComponent implements OnInit {
   public id: string;
   hourList: IDays['1'] = []; // hold hours template
   addProfileForm: FormGroup;
+  addBusImgGroup: FormGroup;
   addServiceForm: FormGroup;
   addEmployeeForm: FormGroup;
   addBusHours: FormGroup;
@@ -52,11 +57,13 @@ export class AddBusinessComponent implements OnInit {
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
+  notValid: boolean = true;
   url: string;
-
 
   constructor(
     private addProfile: FormBuilder,
+    private addBusImgs: FormBuilder,
+
     private addHours: FormBuilder,
     private addEmp: FormBuilder,
     private addSer: FormBuilder,
@@ -71,21 +78,24 @@ export class AddBusinessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.addBusImgGroup = this.addBusImgs.group({
+      imgGroup: new FormControl('', [Validators.required]),
+    });
+
     // build form for business details, with validators
     this.addProfileForm = this.addProfile.group({
       businessName: new FormControl('', [Validators.required]),
       businessDescription: new FormControl('', Validators.required),
       eircode: new FormControl('', [
         Validators.minLength(7),
-        Validators.maxLength(7),
-      ]),
+        Validators.maxLength(7),]),
       county: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
       businessType: new FormControl('', [Validators.required]),
       reminderMessage: new FormControl(''),
       cancellationPolicy: new FormControl(''),
       profileCreated: new FormControl('true', Validators.required),
-      img: new FormControl('', Validators.required)
+      img: new FormControl('', Validators.required),
     });
 
     // build form for business hours, with an array of formgroup for each day
@@ -113,33 +123,47 @@ export class AddBusinessComponent implements OnInit {
     this.business.getHoursList().subscribe((data) => {
       this.hourList.push(data[1]);
     });
+
+
+    if (
+      // if all forms valid
+      this.addServiceForm.status === 'VALID' &&
+      this.addProfileForm.status === 'VALID' &&
+      this.addEmployeeForm.status === 'VALID' &&
+      this.addBusImgGroup.status === 'VALID' &&
+      this.addBusHours.status === 'VALID'
+    ){
+      this.notValid = false;
+    }
   }
 
-upload = (event) => {
-  const file = event.target.files[0];
-  const randomId = Math.random().toString(36).substring(2);
-  this.ref = this.afs.ref('/images/' + randomId); // reference to storage bucket
-  this.task = this.ref.put(file); // creates upload task, and triggers upload
+  upload = (event) => {
+    const file = event.target.files[0];
+    const randomId = Math.random().toString(36).substring(2);
+    this.ref = this.afs.ref('/images/' + randomId); // reference to storage bucket
+    this.task = this.ref.put(file); // creates upload task, and triggers upload
 
-  // snapshotChanges() returns and obkect with metadata about the upload progress
-  this.uploadProgress = this.task.snapshotChanges().pipe( // get upload progress value
-    map(s => (s.bytesTransferred / s.totalBytes) * 100));
+    // snapshotChanges() returns and obkect with metadata about the upload progress
+    this.uploadProgress = this.task.snapshotChanges().pipe(
+      // get upload progress value
+      map((s) => (s.bytesTransferred / s.totalBytes) * 100)
+    );
 
-  // observe upload progress
-  this.uploadProgress = this.task.percentageChanges();
-  // notify when url available
-  this.task.snapshotChanges().pipe(
-    finalize(() => {
-      this.downloadURL = this.ref.getDownloadURL();
-      this.downloadURL.subscribe((url) => {
-        this.url = url;
-      });
-    })
-  ).subscribe();
-}
-
-
-
+    // observe upload progress
+    this.uploadProgress = this.task.percentageChanges();
+    // notify when url available
+    this.task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.downloadURL = this.ref.getDownloadURL();
+          this.downloadURL.subscribe((url) => {
+            this.url = url;
+          });
+        })
+      )
+      .subscribe();
+  };
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
@@ -168,11 +192,14 @@ upload = (event) => {
   }
 
   public onEmployeeSubmit(adEmployee: IUser['employee']) {
-    if ( // if all forms valid
-      this.addServiceForm.status === 'VALID' &&
-      this.addProfileForm.status === 'VALID' &&
-      this.addEmployeeForm.status === 'VALID'
-    ) {
+    // if (
+    //   // if all forms valid
+    //   this.addServiceForm.status === 'VALID' &&
+    //   this.addProfileForm.status === 'VALID' &&
+    //   this.addEmployeeForm.status === 'VALID' &&
+    //   this.addBusImgGroup.status === 'VALID' &&
+    //   this.addBusHours.status === 'VALID'
+    // ) {
       // store the employees array
       let employees = this.addEmployeeForm.controls.employees.value;
       // tslint:disable-next-line: prefer-for-of
@@ -185,7 +212,7 @@ upload = (event) => {
         adEmployee.id = this.firestore.createId(); // create an id for the employee
         this.business.addEmployees(adEmployee); // call func to store employee in db
       }
-    }
+    // }
   }
 
   // HANDLE SERVICES DATA
@@ -207,7 +234,7 @@ upload = (event) => {
     services.push(this.newService());
   }
 
-    // triggered when remove x button is selected on a service
+  // triggered when remove x button is selected on a service
   // it gets the services array and removes a formgroup at the index it was selected
   removeService(i: number): void {
     const services = this.addServiceForm.get('services') as FormArray;
@@ -216,28 +243,32 @@ upload = (event) => {
 
   public onServiceSubmit(adService: IUser['service']) {
     // tslint:disable-next-line: max-line-length
-    if ( // if all forms valid
-      this.addServiceForm.status === 'VALID' &&
-      this.addProfileForm.status === 'VALID' &&
-      this.addEmployeeForm.status === 'VALID'
-    ) {
+    // if (
+    //   // if all forms valid
+    //   this.addServiceForm.status === 'VALID' &&
+    //   this.addProfileForm.status === 'VALID' &&
+    //   this.addEmployeeForm.status === 'VALID' &&
+    //   this.addBusImgGroup.status === 'VALID' &&
+    //   this.addBusHours.status === 'VALID'
+    // ) {
       // store the employees array
       let services = this.addServiceForm.controls.services.value;
       // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i < services.length; i++) { // loop through length of services array
+      for (let i = 0; i < services.length; i++) {
+        // loop through length of services array
         adService = services[i]; // store each item of array in an service obj
         adService.id = this.firestore.createId(); // create an id for the service
         this.business.addServices(adService); // call func to store service in db
       }
-    }
+    // }
   }
 
   // HANDLES HOURS DATA
   newDay(): FormGroup {
     // build business hours form group
     let day = this.addHours.group({
-      startT: ('') ,
-      finishT: (''),
+      startT: '',
+      finishT: '',
     });
     return day;
   }
@@ -247,11 +278,14 @@ upload = (event) => {
     newProfile: IBusiness['business'],
     newHours: IUser['hours']
   ) {
-    if ( // if all forms are valid
-      this.addServiceForm.status === 'VALID' &&
-      this.addProfileForm.status === 'VALID' &&
-      this.addEmployeeForm.status === 'VALID'
-    ) {
+    // if (
+    //   // if all forms are valid
+    //   this.addServiceForm.status === 'VALID' &&
+    //   this.addProfileForm.status === 'VALID' &&
+    //   this.addEmployeeForm.status === 'VALID' &&
+    //   this.addBusImgGroup.status === 'VALID' &&
+    //   this.addBusHours.status === 'VALID'
+    // ) {
       this.selectedHours = this.addBusHours.value; // store selected start/finish times of each day in obj
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
@@ -260,7 +294,8 @@ upload = (event) => {
       // console.log('as string', this.url.toString());
       // console.log('not string', this.url);
 
-      if (this.selectedHours.monday) { // if monday is stored
+      if (this.selectedHours.monday) {
+        // if monday is stored
         this.mon = []; // reset array to hold times
         this.start = this.selectedHours.monday[0].startT; // get selected start time
         this.end = this.selectedHours.monday[0].finishT; // get selected finish time
@@ -339,7 +374,7 @@ upload = (event) => {
       }
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
-    }
+    // }
   }
 
   changeRoute(newProfile) {

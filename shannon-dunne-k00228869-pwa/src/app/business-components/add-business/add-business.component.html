@@ -98,18 +98,46 @@
   <br>
 
   <mat-label>Upload a profile image for your businesss</mat-label>
-        <button mat-raised-button color="primary" (click)="busImage.click()">
-          Upload Image
-          <input [formControlName]="'img'" type="file" hidden #busImage name="file" (change)="upload($event)" accept=".png, .jpg" />
-        </button>
-        <progress max="100" [value]="(uploadProgress | async)"></progress>
-        <div *ngIf="downloadURL | async; let uploadSrc">
-          <a [href]="uploadSrc">File Uploaded!</a>
-        </div>
-        <div class="container" *ngIf="downloadURL | async; let url">
-          <img [src]="url">
-        </div>
-        <br>
+  <button mat-raised-button color="primary" (click)="busImage.click()">
+    Upload Image
+    <input [formControlName]="'img'" type="file" hidden #busImage name="file" (change)="upload($event)"
+      accept=".png, .jpg" />
+  </button>
+  <progress max="100" [value]="(uploadProgress | async)"></progress>
+  <div *ngIf="downloadURL | async; let uploadSrc">
+    <a [href]="uploadSrc">File Uploaded!</a>
+  </div>
+  <div class="container" *ngIf="downloadURL | async; let url">
+    <img [src]="url">
+  </div>
+  <br>
+
+  <form [formGroup]="addBusImgGroup">
+    <mat-label>Upload images of your business, employees or services</mat-label>
+    <button mat-raised-button color="primary" (click)="busImages.click()">
+      Profile Images
+      <input [formControlName]="'imgGroup'" hidden type="file" #busImages name="file"
+        (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg" />
+    </button>
+    <!-- <br>
+    <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
+    <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">
+      <a [href]="uploadSrc">Uploaded</a>
+    </div>
+
+    <div *ngIf="uploads.uploadGroupState | async; let state">
+      <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()"
+        [enabled]="!(state === 'paused' || state === 'running')">X</button>
+    </div>
+
+    <div *ngIf="uploads.downloadAllURL | async; let url">
+      <img [src]="url" max-width="100" max-height="100">
+    </div> -->
+    <!-- <br>
+    <br> -->
+    <br>
+
+  </form>
 
   <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
@@ -191,32 +219,7 @@
   <br>
   <br>
 
-  <form>
-    <mat-label>Upload images of your business, employees or services</mat-label>
-    <button mat-raised-button color="primary" (click)="busImages.click()">
-      Profile Images
-      <input hidden type="file" #busImages name="file" (change)="uploads.uploadBusinessImages($event)" multiple
-        accept=".png, .jpg" />
-    </button>
-    <!-- <br>
-    <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
-    <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">
-      <a [href]="uploadSrc">Uploaded</a>
-    </div>
-
-    <div *ngIf="uploads.uploadGroupState | async; let state">
-      <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()"
-        [enabled]="!(state === 'paused' || state === 'running')">X</button>
-    </div>
-
-    <div *ngIf="uploads.downloadAllURL | async; let url">
-      <img [src]="url" max-width="100" max-height="100">
-    </div> -->
-    <!-- <br>
-    <br> -->
-    <br>
-
-  </form>
+  
   <form [formGroup]="addBusHours">
     <mat-label>Working Days</mat-label><br><br>
     <div formArrayName="monday">
@@ -236,7 +239,6 @@
         </mat-form-field>
       </div>
     </div>
-
     <br>
 
     <div formArrayName="tuesday">

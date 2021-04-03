@@ -17,10 +17,11 @@ export class SignUpComponent implements OnInit {
   newUser: IUser['user'];
   signUpForm: FormGroup;
   isSignedIn = false;
+  radioButton: string;
 
   constructor(
     private signUp: FormBuilder,
-    private auth: AuthenticateService
+    public auth: AuthenticateService
   ) {}
 
   ngOnInit() {
@@ -48,7 +49,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(newUser: IUser['user']) {
-    if (this.signUpForm.status === 'VALID') {
+    if (this.signUpForm.status === 'VALID' ) {
       // if fields are valid
       this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
       this.auth.signup(newUser); // pass the values to the signUp function in the service

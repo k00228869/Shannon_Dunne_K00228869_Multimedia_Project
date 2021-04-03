@@ -34,6 +34,8 @@
     <span class="spacer"></span>
 </mat-toolbar>
 
+<div class= "note" *ngIf="noAppointments"> You have 0 appointments</div>
+
 <mat-tab-group>
   <mat-tab label="Appointments" *ngIf="!noAppointments">
       <mat-list>

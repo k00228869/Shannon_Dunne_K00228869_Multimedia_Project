@@ -76,14 +76,14 @@ export class AppComponent implements OnInit, OnDestroy{
     //   this.connectionState = 'Offline';
     // }));
 
-    if (this.connectionState !== 'Online')
-    {
-      this.toastr.info(this.isConnectionMessage, 'Connection Error', {
-        positionClass: 'toast-bottom',
-        timeOut: 7000,
-        closeButton: true,
-      });
-    }
+    // if (this.connectionState !== 'Online')
+    // {
+    //   this.toastr.info(this.isConnectionMessage, 'Connection Error', {
+    //     positionClass: 'toast-bottom',
+    //     timeOut: 7000,
+    //     closeButton: true,
+    //   });
+    // }
 
     this.toastr.overlayContainer = this.toastContainer;
     this.notif.receiveMessage();

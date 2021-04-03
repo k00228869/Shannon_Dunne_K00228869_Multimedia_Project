@@ -7,21 +7,30 @@
     float: right;
     margin-right: 20%;
     margin-top: 5%;
+    margin-bottom: 5%;
   }
 
   .accountType{
     padding-top:5%;
     padding-top:5%;
-    margin-left: 35%;
+  }
+  .accountType .mat-radio-group{
+    margin-left: 20%;
   }
 
   .accountType .mat-label{
     font-size: 20px;
     text-align: center;
+    margin-left: 35%;
   }
 
   .redirect h3, .redirect a{
     text-align: center;
     margin-top: 10%;
+  }
+
+  .redirect a{
+    margin-left:45%;
+    margin-bottom: 10%;;
   }
 

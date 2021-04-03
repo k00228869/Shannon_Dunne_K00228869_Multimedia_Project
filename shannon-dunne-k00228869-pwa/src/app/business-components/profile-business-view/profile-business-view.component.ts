@@ -38,12 +38,12 @@ export class ProfileBusinessViewComponent implements OnInit {
 
   ngOnInit()
   {
-    if (localStorage.getItem('user') !== null) { // check if user is not empty
-      this.isSignedIn = true; // if user is not empty they are signed in
-    }
-    else {
-      this.isSignedIn = false; // if user is empty they are signed out
-    }
+    // if (localStorage.getItem('user') !== null) { // check if user is not empty
+    //   this.isSignedIn = true; // if user is not empty they are signed in
+    // }
+    // else {
+    //   this.isSignedIn = false; // if user is empty they are signed out
+    // }
     this.business.getBusiness().pipe(take(1)).subscribe( // get bus doc
         (bus) =>
         {

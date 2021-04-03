@@ -46,6 +46,7 @@ import { RescheduleService } from './services/reschedule.service';
 import { FeedbackService } from './services/feedback.service';
 import { EditBusinessService } from './services/edit-business.service';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
+import { SplashScreenComponent } from './user-components/splash-screen/splash-screen.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
     AdvertiseAppointmentComponent,
     ResetDetailsComponent,
     EditBusinessComponent,
+    SplashScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +94,8 @@ import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
     AngularFireMessagingModule,
     ServiceWorkerModule.register('combined-sw.js', {
       enabled: environment.production,
+      registrationStrategy: 'registerImmediately'
+
     }),
   ],
   providers: [

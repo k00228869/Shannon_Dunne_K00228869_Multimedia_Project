@@ -35,7 +35,7 @@
 </mat-toolbar>
 
 <mat-tab-group>
-  <mat-tab label="Appointments">
+  <mat-tab label="Appointments" *ngIf="!noAppointments">
       <mat-list>
         <mat-divider></mat-divider>  
         <mat-expansion-panel *ngFor ="let booking of allBookings" (opened)="panelOpenState = true"
@@ -44,6 +44,7 @@
         <mat-panel-title>
         {{booking.clientName}}
         </mat-panel-title>
+        <br>
         <mat-panel-title>
           {{booking.phone}}
         </mat-panel-title>
@@ -72,7 +73,7 @@
   
   <div>
     <mat-divider></mat-divider>
-    <mat-tab label="Reviews">
+    <mat-tab label="Reviews" *ngIf="!noReviews">
       <mat-list>
               <mat-expansion-panel *ngFor ="let review of reviews" (opened)="panelOpenState = true"
               (closed)="panelOpenState = false">

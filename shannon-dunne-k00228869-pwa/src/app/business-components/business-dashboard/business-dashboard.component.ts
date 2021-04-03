@@ -17,6 +17,9 @@ export class BusinessDashboardComponent implements OnInit {
   public user: IUser['user'];
   allBookings: IUser['appointment'][];
   reviews: IUser['review'][];
+  public noAppointments: boolean = false;
+  public noReviews: boolean = false;
+
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
@@ -38,11 +41,25 @@ export class BusinessDashboardComponent implements OnInit {
       this.user = data; // get users data
       await this.booking.getBusinessAppointment().subscribe((data) => {
         this.allBookings = data; // get all appointments
+        if (this.reviews.length === 0)
+          {
+            this.noAppointments = true; // no appointments
+          }
+          else{
+            this.noAppointments = false; // there is appointments
+          }
       });
       await this.feedback.someReviews(this.user.uid).subscribe(
         // get  new reviews (reviews without a reply property)
         (reviewList) => {
           this.reviews = reviewList;
+          if (this.reviews.length === 0)
+          {
+            this.noReviews = true; // no appointments
+          }
+          else{
+            this.noReviews = false; // there is appointments
+          }
         }
       );
     });

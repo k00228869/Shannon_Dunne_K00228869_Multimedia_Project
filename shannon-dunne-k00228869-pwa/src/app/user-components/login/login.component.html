@@ -20,18 +20,15 @@
     </mat-error>
   </mat-form-field>
   <br>
-    <button class="submit" mat-raised-button color="primary" type="submit">
-      Login
-    </button>
-  </form>
-  <div class="links">
-    <br><a [routerLink]="['/reset-details/{{client.uid}}']">
-      Forgot Password?
-    </a>
-
-<br>
-<h3>Need an Account?</h3>
-<a [routerLink]="['/sign-up']">
-  Sign Up
-</a>
+  <a class="reset" [routerLink]="['/reset-details/{{client.uid}}']">
+    Forgot Password?
+  </a>
+  <br>
+  <button class="login" mat-raised-button color="primary" type="submit">
+    Login
+  </button>
+</form>
+<div class="links">
+  <br>
+  <h3>Need an Account?</h3><a [routerLink]="['/sign-up']">Sign Up</a>
 </div>

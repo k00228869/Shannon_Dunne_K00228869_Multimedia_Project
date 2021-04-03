@@ -1,5 +1,7 @@
 <h1>Create Your Business Profile</h1>
-<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 <form [formGroup]="addProfileForm" (ngSubmit)="onProfileSubmit(addProfileForm.value, addBusHours.value)"
   (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
   <mat-form-field appearance="outline">
@@ -17,7 +19,6 @@
   <mat-form-field appearance="outline">
     <mat-label>Eircode</mat-label>
     <input [formControlName]="'eircode'" minlength="7" maxlength="7" matInput placeholder="Ex. A65F4E2">
-    
   </mat-form-field>
   <br>
 
@@ -96,6 +97,20 @@
   </mat-form-field>
   <br>
 
+  <mat-label>Upload a profile image for your businesss</mat-label>
+        <button mat-raised-button color="primary" (click)="busImage.click()">
+          Upload Image
+          <input [formControlName]="'img'" type="file" hidden #busImage name="file" (change)="upload($event)" accept=".png, .jpg" />
+        </button>
+        <progress max="100" [value]="(uploadProgress | async)"></progress>
+        <div *ngIf="downloadURL | async; let uploadSrc">
+          <a [href]="uploadSrc">File Uploaded!</a>
+        </div>
+        <div class="container" *ngIf="downloadURL | async; let url">
+          <img [src]="url">
+        </div>
+        <br>
+
   <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
     <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">+</button>
@@ -129,20 +144,6 @@
             <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
           </mat-select>
         </mat-form-field>
-  
-        <mat-label>Upload a profile image for your businesss</mat-label>
-        <button mat-raised-button color="primary"  (click)="busImage.click()" >
-          Upload Image
-        <input type="file" hidden #busImage name="file" (change)="upload($event)" accept=".png, .jpg"/>
-      </button>
-        <progress max="100" [value]="(uploadProgress | async)"></progress>
-        <div *ngIf="downloadURL | async; let uploadSrc">
-          <a [href]="uploadSrc">File Uploaded!</a>
-        </div>
-        <div class="container" *ngIf="downloadURL | async; let url">
-          <img [src]="url">
-      </div>
-        <br>
       </div>
     </div>
   </form>
@@ -194,7 +195,8 @@
     <mat-label>Upload images of your business, employees or services</mat-label>
     <button mat-raised-button color="primary" (click)="busImages.click()">
       Profile Images
-      <input hidden type="file"  #busImages name="file" (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg"/>
+      <input hidden type="file" #busImages name="file" (change)="uploads.uploadBusinessImages($event)" multiple
+        accept=".png, .jpg" />
     </button>
     <!-- <br>
     <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
@@ -355,7 +357,7 @@
   </form>
 
 
-  <button mat-raised-button color="primary" type="submit" class="submit">
+  <button mat-raised-button color="primary" type="submit" class="submit" [disabled]="notValid">
     Create Profile
   </button>
 </form>

@@ -3,10 +3,10 @@
   "short_name": "SelfCare",
   "description": "Search today! and find your next hair, nail or beauty appointment with SelfCare Ireland",
   "gcm_sender_id": "103953800507",
-  "theme_color": "#1976d2",
+  "theme_color": "#673ab7",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": ".",
+  "scope": "./",
   "start_url": "./",
   "icons": [
     {

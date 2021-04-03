@@ -1,12 +1,25 @@
-.submit{
-    float: right;
-    margin-right: 20%;
+.login{
+    width: 60%;
+    margin-left:20%;
+    margin-top: 10%;
     margin-bottom: 10%;
+    height: 40px;
+
   }
 
-
-
 .links{
-    margin-left: 5%;
+    text-align: center;
+    padding-top: 5%;
+}
+
+.reset{
+  width:30%;
+  margin-left: 40%;
+}
+
+
+h1{
+  text-align: center;
+  padding-top: 10%;
 }
 

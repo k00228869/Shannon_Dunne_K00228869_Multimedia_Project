@@ -11,11 +11,11 @@ import { Location } from '@angular/common';
   providedIn: 'root',
 })
 export class AuthenticateService {
-  uData: IUser['user'];
-  theUser: IUser['user'];
-  userState: any;
-  user: Observable<User>;
-  private uid: string;
+  // uData: IUser['user'];
+  // theUser: IUser['user'];
+  // userState: any;
+  // user: Observable<User>;
+  // private uid: string;
   admin: boolean;
   isLoggedIn: boolean;
   constructor(
@@ -41,20 +41,20 @@ export class AuthenticateService {
       .signInWithEmailAndPassword(userSignIn.email, userSignIn.password) // sign the user in
       .then(async (Credentials) => {
         window.localStorage.setItem('user', JSON.stringify(Credentials.user)); // store current user in local storage
-        JSON.parse(localStorage.getItem('user')); // get user from ls
+        let user = JSON.parse(localStorage.getItem('user')); // get user from ls
         // this.uid = Credentials.user.uid; // set the id of the user equal to the current users id
         this.isLoggedIn = true; // set the user to logged in
         // pass the user id to get the users doc
-        await this.getUserData(Credentials.user.uid).subscribe(
+        (await this.getUserData(user.uid)).subscribe(
           (
             data // subscribe to the user data returned
           ) => {
             // this.uData = data; // set data to IUser type
             if (data.admin === true) {
               // check if the user is an admin
-              this.router.navigate(['/dashboard/', Credentials.user.uid]); // display business dash
+              this.router.navigate(['/dashboard/', user.uid]); // display business dash
             } else if (data.admin === false) {
-              this.router.navigate(['/client-profile/', Credentials.user.uid]); // display client profile
+              this.router.navigate(['/client-profile/', user.uid]); // display client profile
             }
           }
         );
@@ -108,8 +108,7 @@ export class AuthenticateService {
 
   // USER SIGN OUT
   logout() {
-    this.authenticate
-      .signOut()
+    this.authenticate.signOut()
       .then(() => {
         window.localStorage.removeItem('user');
         // window.localStorage.clear();

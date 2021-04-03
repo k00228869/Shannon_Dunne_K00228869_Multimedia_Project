@@ -1,16 +1,26 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from './services/notifications.service';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { SwUpdate } from '@angular/service-worker';
 import { ClientUserService } from './services/client-user.service';
+import { SplashScreenComponent } from './user-components/splash-screen/splash-screen.component';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
+  offline: Observable<Event>;
+  online: Observable<Event>;
+  subscriptions: Subscription[] = [];
+  isConnectionMessage: string;
+  isNotConnectionMessage: string;
+  connectionState: string;
+
+
   public routeHidden: boolean = true;
   readonly VAPID_PUBLIC_KEY =
     'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
@@ -47,6 +57,31 @@ export class AppComponent {
     }
 
   ngOnInit() {
+    // get conectivity status from browser window
+    this.online = fromEvent(window, 'online');
+    this.offline = fromEvent(window, 'offline');
+
+    this.subscriptions.push(this.online.subscribe(event => {  // if online
+      this.isConnectionMessage = 'Connected to the Internet';
+      this.connectionState = 'Online';
+
+    }));
+
+
+    this.subscriptions.push(this.offline.subscribe(event => { // if offline
+      this.isConnectionMessage = 'Connection lost, Please connect to the internet to use this app';
+      this.connectionState = 'Offline';
+    }));
+
+    if (this.connectionState !== 'Online')
+    {
+      this.toastr.info(this.isConnectionMessage, 'Connection Error', {
+        positionClass: 'toast-bottom',
+        timeOut: 7000,
+        closeButton: true,
+      });
+    }
+
     this.toastr.overlayContainer = this.toastContainer;
     this.notif.receiveMessage();
     this.message = this.notif.currentMessage;
@@ -63,5 +98,17 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  
+
+
+  
+
+
+  ngOnDestroy(): void {
+
+    // Unsubscribe all subscriptions to avoid memory leak
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

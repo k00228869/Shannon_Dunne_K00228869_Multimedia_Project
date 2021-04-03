@@ -82,9 +82,10 @@ export class AddBusinessComponent implements OnInit {
       county: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
       businessType: new FormControl('', [Validators.required]),
-      reminderMessage: new FormControl('', Validators.required),
-      cancellationPolicy: new FormControl('', Validators.required),
+      reminderMessage: new FormControl(''),
+      cancellationPolicy: new FormControl(''),
       profileCreated: new FormControl('true', Validators.required),
+      img: new FormControl('', Validators.required)
     });
 
     // build form for business hours, with an array of formgroup for each day
@@ -235,8 +236,8 @@ upload = (event) => {
   newDay(): FormGroup {
     // build business hours form group
     let day = this.addHours.group({
-      startT: ['', Validators.required],
-      finishT: ['', Validators.required],
+      startT: ('') ,
+      finishT: (''),
     });
     return day;
   }

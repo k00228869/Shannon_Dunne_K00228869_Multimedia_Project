@@ -20,13 +20,13 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private signUp: FormBuilder,
-    private authentication: AuthenticateService
+    private auth: AuthenticateService
   ) {}
 
   ngOnInit() {
     this.signUpForm = this.signUp.group({
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
       phone: new FormControl('', [
         Validators.minLength(7),
         Validators.maxLength(10),
@@ -51,8 +51,8 @@ export class SignUpComponent implements OnInit {
     if (this.signUpForm.status === 'VALID') {
       // if fields are valid
       this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
-      this.authentication.signup(newUser); // pass the values to the signUp function in the service
-      if (this.authentication.isLoggedIn) {
+      this.auth.signup(newUser); // pass the values to the signUp function in the service
+      if (this.auth.isLoggedIn) {
         // if the boolean in the service is true
         console.log('you are signed in');
         this.isSignedIn = true; // set boolean to true as user is signed in

@@ -1,24 +1,31 @@
-<div class="banner">
-  <div class="slogan">
-    <h2>It's what You Deserve</h2><br>
-    <h4>Book Now</h4>
+<div class="container">
+  <div class="banner">
+    <div class="slogan">
+      <h2>It's what You Deserve</h2><br>
+      <a [routerLink]="['/search']">
+        <h4>Book Now</h4>
+      </a>
+    </div>
+    <mat-carousel timings="350ms ease-in" [autoplay]="true" interval="5000" color="primary" maxWidth="auto"
+      proportion="60" slides="6" [loop]="true" [hideArrows]="true" [hideIndicators]="false" [useKeyboard]="true"
+      [useMouseWheel]="true" orientation="ltr">
+      <mat-carousel-slide #matCarouselSlide *ngFor="let slide of slides; let i = index" [image]="slide"
+        overlayColor="#00000040" [hideOverlay]="false">
+      </mat-carousel-slide>
+    </mat-carousel>
   </div>
-  <mat-carousel timings="350ms ease-in" [autoplay]="true" interval="5000" color="primary" maxWidth="auto"
-    proportion="60" slides="6" [loop]="true" [hideArrows]="true" [hideIndicators]="false" [useKeyboard]="true"
-    [useMouseWheel]="true" orientation="ltr">
-    <mat-carousel-slide #matCarouselSlide *ngFor="let slide of slides; let i = index" [image]="slide"
-      overlayColor="#00000040" [hideOverlay]="false">
-    </mat-carousel-slide>
-  </mat-carousel>
-</div>
-<div class="actions">
-  <h2 class="manage"><a [routerLink]="['/login']">Sign In</a></h2><h2><a [routerLink]="['/sign-up']">Sign Up</a></h2>
-</div>
-<div class="download">
-  <h3>Download The app wit one click</h3>
-  <div>
-    <img alt="logo" src="https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=2b7a1135-5d1e-422f-aa84-e5ba40d2e29b">
-    <button class="downloadButton" mat-raised-button *ngIf="user.showButton" (click)="user.downloadApp()"><mat-icon>get_app</mat-icon>Download App</button>
+  <div class="actions" *ngIf="!auth.isLoggedIn">
+    <h2 class="manage"><a [routerLink]="['/login']">Sign In</a></h2>
+    <h2><a [routerLink]="['/sign-up']">Sign Up</a></h2>
+  </div>
+  <div class="download">
+    <h3>Download The App With 1 Click</h3>
+    <div class="appSpotlight">
+      <img alt="logo"
+        src="https://firebasestorage.googleapis.com/v0/b/appointment-pwa.appspot.com/o/slideshow%2Ficon-72x72.png?alt=media&token=2b7a1135-5d1e-422f-aa84-e5ba40d2e29b">
+      <button class="downloadButton" mat-raised-button *ngIf="user.showButton" (click)="user.downloadApp()">
+        <mat-icon>get_app</mat-icon>Download App
+      </button>
+    </div>
   </div>
 </div>
-

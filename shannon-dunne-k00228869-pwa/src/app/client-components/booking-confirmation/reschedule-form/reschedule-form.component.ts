@@ -161,88 +161,92 @@ export class RescheduleFormComponent implements OnInit {
   }
 
   public async editAppointSubmit(newAppointment: IUser['appointment']) {
-    // setting new appoinment details
-    this.newAppointment = this.editAppointmentForm.value; // store form values
-    this.newAppointment.date = newAppointment.date.toString(); // format date to string
-    this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
-    this.newAppointment.timeStamp = new Date(); // set the booking timestamp
-    this.newAppointment.serName = this.appointmentInfo.serName; // store service name
-    this.newAppointment.phone = this.appointmentInfo.phone;
-    // edit schedule for new booking
-    this.newAppointment.serDuration = this.appointmentInfo.serDuration;
-    let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours
-    let totalAsNum = parseInt(noHours, 10); // cast to num
-    let temp: any[] = [];
-    let j = 1;
-    temp.push(this.newAppointment.time); // add booked time to schedule
-    if (totalAsNum > 1) {
-      // if the hours are more than 1
-      let start = moment(this.newAppointment.time, 'HH:mm:ss'); // booked time to moment obj
-      while (j < totalAsNum) {
-        // while there are still hours to add
-        let getNextTime = start.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
-        temp.push(getNextTime); // add hours to array
-        start = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
-        j++; // increase by 1
-      }
-    }
-    const theDayHours = this.day.filter((a) => !temp.includes(a)); // store hours from day that are not in temp
-    // const theDayHours = oldTimes.filter((a) => !newTimes.includes(a)); // remove unavailable hours from the available hours array
-    this.schedule.date = this.newAppointment.date; // set the date of the booking
-    this.schedule.availableTimes = [];
-    this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
-    this.schedule.calendarIndex = this.date.toString();
-    // let tempArr: any[] = [];
-    // editing schedule for rescheduled booking
-    await this.bookingService
-      .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
-      .pipe(take(1))
-      .subscribe(
-        // get schedule for date
-        (data) => {
-          this.newSchedule.calendarIndex = data.calendarIndex;
-          this.newSchedule.date = data.date;
-          this.scheduleOfDay = Array.from(data.availableTimes); // store as array
-          let i = 1;
-          this.scheduleOfDay.push(this.appointmentInfo.time); // add booked time to schedule
-          if (totalAsNum > 1) {
-            // if the hours are more than 1
-            let theStartTime = moment(this.appointmentInfo.time, 'HH:mm:ss'); // booked time to moment obj
-            while (i < totalAsNum) {
-              // while there are still hours to add
-              let nextTime = theStartTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
-              this.scheduleOfDay.push(nextTime.toString()); // add hours to array
-              theStartTime = moment(nextTime, 'HH:mm:ss'); // set start time to last added time
-              i++; // increase by 1
-            }
-          }
-          this.newSchedule.availableTimes = [];
-          this.newSchedule.availableTimes =  Array.from(this.scheduleOfDay);
-          this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
 
+    if (this.editAppointmentForm.status === 'Valid')
+    {
+      // setting new appoinment details
+      this.newAppointment = this.editAppointmentForm.value; // store form values
+      this.newAppointment.date = newAppointment.date.toString(); // format date to string
+      this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
+      this.newAppointment.timeStamp = new Date(); // set the booking timestamp
+      this.newAppointment.serName = this.appointmentInfo.serName; // store service name
+      this.newAppointment.phone = this.appointmentInfo.phone;
+      // edit schedule for new booking
+      this.newAppointment.serDuration = this.appointmentInfo.serDuration;
+      let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours
+      let totalAsNum = parseInt(noHours, 10); // cast to num
+      let temp: any[] = [];
+      let j = 1;
+      temp.push(this.newAppointment.time); // add booked time to schedule
+      if (totalAsNum > 1) {
+        // if the hours are more than 1
+        let start = moment(this.newAppointment.time, 'HH:mm:ss'); // booked time to moment obj
+        while (j < totalAsNum) {
+          // while there are still hours to add
+          let getNextTime = start.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+          temp.push(getNextTime); // add hours to array
+          start = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
+          j++; // increase by 1
         }
-      );
+      }
+      const theDayHours = this.day.filter((a) => !temp.includes(a)); // store hours from day that are not in temp
+      // const theDayHours = oldTimes.filter((a) => !newTimes.includes(a)); // remove unavailable hours from the available hours array
+      this.schedule.date = this.newAppointment.date; // set the date of the booking
+      this.schedule.availableTimes = [];
+      this.schedule.availableTimes = theDayHours; // set the new hours of the booked date
+      this.schedule.calendarIndex = this.date.toString();
+      // let tempArr: any[] = [];
+      // editing schedule for rescheduled booking
+      await this.bookingService
+        .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
+        .pipe(take(1))
+        .subscribe(
+          // get schedule for date
+          (data) => {
+            this.newSchedule.calendarIndex = data.calendarIndex;
+            this.newSchedule.date = data.date;
+            this.scheduleOfDay = Array.from(data.availableTimes); // store as array
+            let i = 1;
+            this.scheduleOfDay.push(this.appointmentInfo.time); // add booked time to schedule
+            if (totalAsNum > 1) {
+              // if the hours are more than 1
+              let theStartTime = moment(this.appointmentInfo.time, 'HH:mm:ss'); // booked time to moment obj
+              while (i < totalAsNum) {
+                // while there are still hours to add
+                let nextTime = theStartTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+                this.scheduleOfDay.push(nextTime.toString()); // add hours to array
+                theStartTime = moment(nextTime, 'HH:mm:ss'); // set start time to last added time
+                i++; // increase by 1
+              }
+            }
+            this.newSchedule.availableTimes = [];
+            this.newSchedule.availableTimes =  Array.from(this.scheduleOfDay);
+            this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
 
-    // edit appointment and schedule docs
-    await this.bookingService.addBookingSchedule(
-      this.appointmentInfo.bid,
-      this.schedule
-    ); // call func to update schedule of hours in db
-    this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
-    this.reschedule.updateBusAppointment(
-      this.appointmentInfo,
-      this.newAppointment
-    ); // call func to update appointment info in db
-    this.reschedule.updateClientAppointment(
-      this.appointmentInfo,
-      this.newAppointment
-    );
-    // handle notifications
-    this.notif.appoinmtentReminder(this.newAppointment, this.busInfo); // create appointment notification
-    this.notif.reviewReminder(this.newAppointment, this.busInfo); // create review notification
-    this.notif.deleteRNotifications(this.busInfo.id); // delete old review notification
-    this.notif.deleteANotifications(this.appointmentInfo.appointmentId); // delete old appointment notification
-    this.changeRoute(this.appointmentInfo.appointmentId);
+          }
+        );
+
+      // edit appointment and schedule docs
+      await this.bookingService.addBookingSchedule(
+        this.appointmentInfo.bid,
+        this.schedule
+      ); // call func to update schedule of hours in db
+      this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule); // call func to update schedule of hours in db
+      this.reschedule.updateBusAppointment(
+        this.appointmentInfo,
+        this.newAppointment
+      ); // call func to update appointment info in db
+      this.reschedule.updateClientAppointment(
+        this.appointmentInfo,
+        this.newAppointment
+      );
+      // handle notifications
+      this.notif.appoinmtentReminder(this.newAppointment, this.busInfo); // create appointment notification
+      this.notif.reviewReminder(this.newAppointment, this.busInfo); // create review notification
+      this.notif.deleteRNotifications(this.busInfo.id); // delete old review notification
+      this.notif.deleteANotifications(this.appointmentInfo.appointmentId); // delete old appointment notification
+      this.changeRoute(this.appointmentInfo.appointmentId);
+    }
   }
 
   dateFilter = (d: Date) => {

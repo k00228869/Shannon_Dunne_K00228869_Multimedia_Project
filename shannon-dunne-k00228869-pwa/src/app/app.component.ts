@@ -6,6 +6,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { ClientUserService } from './services/client-user.service';
 import { SplashScreenComponent } from './user-components/splash-screen/splash-screen.component';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { AuthenticateService } from './services/authenticate.service';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy{
     private router: Router,
     public toastr: ToastrService,
     public update: SwUpdate,
-    public user: ClientUserService)
+    public user: ClientUserService,
+    public auth: AuthenticateService)
     {
       update.activated.subscribe();
       update.available.subscribe((event) => {
@@ -58,20 +60,21 @@ export class AppComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     // get conectivity status from browser window
-    this.online = fromEvent(window, 'online');
-    this.offline = fromEvent(window, 'offline');
+    console.log(this.auth.isLoggedIn);
+    // this.online = fromEvent(window, 'online');
+    // this.offline = fromEvent(window, 'offline');
 
-    this.subscriptions.push(this.online.subscribe(event => {  // if online
-      this.isConnectionMessage = 'Connected to the Internet';
-      this.connectionState = 'Online';
+    // this.subscriptions.push(this.online.subscribe(event => {  // if online
+    //   this.isConnectionMessage = 'Connected to the Internet';
+    //   this.connectionState = 'Online';
 
-    }));
+    // }));
 
 
-    this.subscriptions.push(this.offline.subscribe(event => { // if offline
-      this.isConnectionMessage = 'Connection lost, Please connect to the internet to use this app';
-      this.connectionState = 'Offline';
-    }));
+    // this.subscriptions.push(this.offline.subscribe(event => { // if offline
+    //   this.isConnectionMessage = 'Connection lost, Please connect to the internet to use this app';
+    //   this.connectionState = 'Offline';
+    // }));
 
     if (this.connectionState !== 'Online')
     {
@@ -100,15 +103,10 @@ export class AppComponent implements OnInit, OnDestroy{
     });
   }
 
-  
-
-
-  
-
 
   ngOnDestroy(): void {
 
     // Unsubscribe all subscriptions to avoid memory leak
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    // this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

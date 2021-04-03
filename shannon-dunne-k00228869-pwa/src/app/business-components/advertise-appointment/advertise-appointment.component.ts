@@ -48,7 +48,6 @@ export class AdvertiseAppointmentComponent implements OnInit {
         async (appoint) =>
         {
           this.appointmentInfo = appoint[0]; // store the appointment
-
           await this.business.getBusiness().subscribe(
             (busDoc) => {
               this.provider = busDoc.businessName;
@@ -74,8 +73,6 @@ export class AdvertiseAppointmentComponent implements OnInit {
     this.reschedule.deleteCancellation(this.newAppointInfo.appointmentId, this.newAppointInfo.bid);
     this.changeRoute(this.newAppointInfo.bid);
   }
-
-
 
   changeRoute(busId: string){
     this.router.navigate(['/business-view/', busId]);

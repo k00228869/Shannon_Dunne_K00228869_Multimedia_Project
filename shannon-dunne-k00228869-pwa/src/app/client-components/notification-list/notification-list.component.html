@@ -41,8 +41,8 @@
 </mat-toolbar>
 
 
-<div *ngIf="!reminders && !reviews"> Your have 0 new notifications</div>
-<div *ngIf="reminders">
+<div class="note" *ngIf="!isReminders && !isReviews"> Your have 0 new notifications</div>
+<div *ngIf="isReminders">
   <div *ngFor="let reminder of reminders">
     <mat-divider></mat-divider>
     <mat-card class="card">
@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div *ngIf="reviews">
+<div *ngIf="isReviews">
   <div *ngFor="let review of reviews">
     <mat-divider></mat-divider>
     <mat-card class="card">

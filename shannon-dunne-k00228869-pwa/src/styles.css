@@ -57,4 +57,6 @@ h1{
     text-decoration: none;
   }
 
-
+.mat-carousel-slide, mat-carousel{
+  max-width: 360;
+}

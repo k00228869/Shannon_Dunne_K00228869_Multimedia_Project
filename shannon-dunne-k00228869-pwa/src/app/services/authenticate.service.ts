@@ -17,7 +17,7 @@ export class AuthenticateService {
   // user: Observable<User>;
   // private uid: string;
   admin: boolean;
-  isLoggedIn: boolean;
+  public isLoggedIn: boolean;
   constructor(
     public firestore: AngularFirestore,
     public authenticate: AngularFireAuth,
@@ -25,14 +25,17 @@ export class AuthenticateService {
     private location: Location,
     private route: ActivatedRoute
   ) {
-    // this.authenticate.authState.subscribe((user) => {
-    //   // check for user logged in
-    //   if (user) {
-    //     // if there is a user
-    //     this.userState = user; // store the user
-    //     localStorage.setItem('user', JSON.stringify(this.userState)); // set the user in local storage
-    //   }
-    // });
+    this.authenticate.authState.subscribe((user) => {
+      // check for user logged in
+      if (user && user !== null) {
+        // if there is a user
+        localStorage.setItem('user', JSON.stringify(user)); // set the user in local storage
+        return this.isLoggedIn = true;
+      }
+      else{
+        return this.isLoggedIn = false; // set the user to logged in
+      }
+    });
   }
 
   // USER SIGN IN FUNCTION
@@ -82,8 +85,7 @@ export class AuthenticateService {
         window.localStorage.setItem('user', JSON.stringify(credentials.user)); // store the user
         this.isLoggedIn = true; // set the user to logged in
         return (
-          this.authenticate.currentUser
-            .then((user) => user.sendEmailVerification())
+          this.authenticate.currentUser.then((user) => user.sendEmailVerification())
             // get email address of signed in user, send verification mail
             .then(() => {
               this.checkUser(newUser);
@@ -108,7 +110,8 @@ export class AuthenticateService {
 
   // USER SIGN OUT
   logout() {
-    this.authenticate.signOut()
+    this.authenticate
+      .signOut()
       .then(() => {
         window.localStorage.removeItem('user');
         // window.localStorage.clear();
@@ -119,15 +122,6 @@ export class AuthenticateService {
         this.router.navigate(['login']);
       });
   }
-
-  // async getUserId(): Promise<Observable<IUser['user']>> {
-  //   let user = JSON.parse(localStorage.getItem('user'));
-  //   let docRef = await this.firestore
-  //     .collection<IUser>('users')
-  //     .doc<IUser['user']>(user.uid)
-  //     .valueChanges();
-  //   return docRef;
-  // }
 
   cancel() {
     this.location.back();

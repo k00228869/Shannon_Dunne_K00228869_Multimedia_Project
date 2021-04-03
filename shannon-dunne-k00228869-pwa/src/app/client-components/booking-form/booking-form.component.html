@@ -31,7 +31,10 @@
       <mat-datepicker #bookedDate startView="month"></mat-datepicker>
       <mat-error *ngIf="addAppointmentForm.get('date').hasError('required')">
         Valid date required.
-     </mat-error> 
+     </mat-error>
+     <mat-error *ngIf="addAppointmentForm.get('date').invalid">
+      Valid date required.
+   </mat-error> 
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -39,6 +42,9 @@
       <mat-select [formControlName]="'time'">
         <mat-option *ngFor="let time of (day | slice: 0 : -1)" [value]="time">{{time}}</mat-option>
       </mat-select>
+      <mat-error *ngIf="addAppointmentForm.get('time').hasError('required')">
+        Appointment time required.
+     </mat-error> 
     </mat-form-field>
   </div>
 

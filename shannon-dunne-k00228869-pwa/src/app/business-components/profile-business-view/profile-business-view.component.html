@@ -146,10 +146,10 @@
               {{employee.firstName}} &nbsp; {{employee.lastName}}
             </mat-panel-title>
             <br>
-            <mat-panel-title>
-              {{employee.employeeDescription}}
-            </mat-panel-title>
           </mat-expansion-panel-header>
+          <mat-panel-title>
+            {{employee.employeeDescription}}
+          </mat-panel-title>
           <br>
           <mat-divider></mat-divider>
         </mat-expansion-panel>
@@ -174,7 +174,7 @@
             <br>
           </mat-panel-title>
           <mat-panel-description>
-            <p>{{review.timestamp | slice: 0: -7}}</p>
+            <p>{{review.timestamp.toString() | slice :0 :-7}}</p>
             <br>
           </mat-panel-description>
           <br>

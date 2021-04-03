@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private login: FormBuilder,
-    public athenticationService: AuthenticateService
+    public auth: AuthenticateService
   ) {}
 
   ngOnInit() {
@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.status === 'VALID') {
       // if fields are valid
       this.userSignIn = this.loginForm.value; // get email value and set to userSignIn
-      this.athenticationService.signin(userSignIn); // pass the values to the signupform
-      if (this.athenticationService.isLoggedIn) {
+      this.auth.signin(userSignIn); // pass the values to the signupform
+      if (this.auth.isLoggedIn) {
         this.isSignedIn = true; // user is signed in
       }
     }

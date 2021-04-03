@@ -18,6 +18,8 @@ export class NotificationListComponent implements OnInit {
   client: IUser['user'];
   public reminders: IUser['notificationMessage'][];
   public reviews: IUser['notificationMessage'][];
+  public isReviews: boolean = false;
+  public isReminders: boolean = false;
 
   constructor(
     public booking: BookingService,
@@ -40,11 +42,25 @@ export class NotificationListComponent implements OnInit {
     this.notif.getANotifications().subscribe(
       (data) => {
         this.reminders = data;
+        if (this.reminders.length === 0)
+        {
+          this.isReminders = false;
+        }
+        else{
+          this.isReminders = true;
+        }
       });
 
     this.notif.getRNotifications().subscribe(
         (data) => {
           this.reviews = data;
+          if (this.reviews.length === 0)
+        {
+          this.isReviews = false;
+        }
+        else{
+          this.isReviews = true;
+        }
         });
   }
 

@@ -1,68 +1,86 @@
-.logo
-{
-    text-decoration: none;
-    color: white;
-    text-align: center !important;
+.logo {
+  text-decoration: none;
+  color: white;
+  text-align: center !important;
 }
 
-.banner{
-    position: relative;
-    text-align: center;
+.banner {
+  position: relative;
+  text-align: center;
 }
-.slogan{
-    margin-top: 25%;
-    padding: 2%;
-    position: absolute;
-    z-index: 1;
-    color: white;
-    width: 100%;
-    text-align: center;
-}
-
-.slogan h2{
-    font-size: 22px;
-    padding-bottom: 5px;
+.slogan {
+  margin-top: 25%;
+  padding: 2%;
+  position: absolute;
+  z-index: 1;
+  color: white;
+  width: 100%;
+  text-align: center;
 }
 
-.slogan h4{
-    font-size: 14px;
-    text-decoration: underline;
-    margin-top: -10%;
+.slogan h2 {
+  font-size: 22px;
+  padding-bottom: 5px;
 }
 
-.actions{
-    background-color: lightgrey;
-    width: 100%;
-    height: 10%;
-}
-.slogan h2 a{
-    text-decoration: none;
-    width: 100%;
+.slogan h4 {
+  font-size: 14px;
+  text-decoration: underline;
+  margin-top: -10%;
 }
 
-.actions h2{
-    padding: 2%;
-    color: #4527a0;
-    font-size: 16px;
-    width: 50%;
-    display:inline;
-    text-align: center;
-    padding-left:20%;
+.actions {
+  background-color: lightgrey;
+  width: 100%;
+  height: 10%;
+}
+.slogan h2 a {
+  text-decoration: none;
+  width: 100%;
+  color: #4527a0;
 }
 
-.download{
-    text-align: center;
+a {
+  text-decoration: none;
 }
 
-.downloadButton{
-    margin-left: 20%;
-}
-.downloadButton{
-    margin-left: 5%;
+.actions h2 {
+  color: #4527a0;
+  font-size: 16px;
+  width: 50%;
+  display: inline;
+  text-align: center;
+  padding-left: 25%;
+  padding-top: 5%;
 }
 
-/* .manage{
-    width:50%;
-    margin-left: 15%;
-    margin-bottom: 5%;
-    } */
+.appSpotlight {
+  width: 70%;
+  /* height: 150px;
+    align-items: center;
+    justify-content: center; */
+  padding-left: 30%;
+  background-color: lighgrey;
+  padding-bottom: 5%;
+  padding-top: 5%;
+}
+.download h3 {
+  text-align: center;
+  padding-top: 5%;
+  font-size: 20px;
+}
+
+.download img {
+  border: solid white 8px;
+  margin-left: 12%;
+}
+
+
+@media (min-width: 400px) {
+    .download button{
+        margin-left: -40%;
+    }
+    .download img{
+        margin-bottom: 9%;
+    }
+}

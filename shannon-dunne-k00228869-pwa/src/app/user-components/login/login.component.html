@@ -1,13 +1,15 @@
-<h1>Login</h1>
+<div *ngIf="auth.isLoggedIn"> You are logged in</div>
+<div *ngIf="!auth.isLoggedIn">
+  <h1>Login</h1>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
     <input matInput [formControlName]="'email'" type="email" placeholder="email@exampleEmail.com">
-    <mat-error *ngIf="loginForm.controls.email.hasError('email') && !loginForm.controls.email.hasError('required')">
+    <mat-error *ngIf="loginForm.controls.email.hasError('email')">
       Please enter a valid email address
     </mat-error>
     <mat-error *ngIf="loginForm.controls.email.hasError('required')">
-      Email is <strong>required</strong>
+      Email is <strong>required</strong>  
     </mat-error>
   </mat-form-field>
 
@@ -15,7 +17,7 @@
     <mat-label>Password</mat-label>
     <input matInput [formControlName]="'password'" type="password">
     <mat-error
-      *ngIf="loginForm.controls.password.hasError('password') && !loginForm.controls.password.hasError('required')">
+      *ngIf="loginForm.controls.password.hasError('password') || !loginForm.controls.password.hasError('required')">
       Please enter a valid password with more than 6 characters
     </mat-error>
   </mat-form-field>
@@ -31,4 +33,5 @@
 <div class="links">
   <br>
   <h3>Need an Account?</h3><a [routerLink]="['/sign-up']">Sign Up</a>
+</div>
 </div>

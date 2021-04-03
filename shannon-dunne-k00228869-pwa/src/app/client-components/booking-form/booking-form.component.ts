@@ -79,11 +79,11 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit() {
     this.addAppointmentForm = this.addAppointment.group({
-      employeeId: new FormControl(''),
-      serviceId: new FormControl(''),
+      employeeId: new FormControl('', [Validators.required]),
+      serviceId: new FormControl('', [Validators.required]),
       date: new FormControl(Date, [Validators.required]),
       time: new FormControl([Validators.required]),
-      note: new FormControl(''),
+      note: new FormControl('')
     });
     this.route.paramMap.subscribe(async (params) => {
       this.id = params.get('id');

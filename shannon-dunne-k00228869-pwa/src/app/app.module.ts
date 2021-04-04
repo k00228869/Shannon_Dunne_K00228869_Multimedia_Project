@@ -47,6 +47,7 @@ import { FeedbackService } from './services/feedback.service';
 import { EditBusinessService } from './services/edit-business.service';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { SplashScreenComponent } from './user-components/splash-screen/splash-screen.component';
+import {ConnectionServiceModule} from 'ng-connection-service';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { SplashScreenComponent } from './user-components/splash-screen/splash-sc
       preventDuplicates: true,
       positionClass: 'toast-top-center',
     }),
+    ConnectionServiceModule,
     ToastContainerModule,
     ReactiveFormsModule,
     AngularFirestoreModule,

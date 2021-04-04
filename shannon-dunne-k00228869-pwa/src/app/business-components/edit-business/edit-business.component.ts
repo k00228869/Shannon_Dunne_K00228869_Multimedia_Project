@@ -101,7 +101,7 @@ export class EditBusinessComponent implements OnInit {
       sunday: this.editHours.array([this.newDay()]),
     });
 
-    this.business.getHoursList().subscribe((data) => {
+    this.business.getHoursList().pipe(take(1)).subscribe((data) => {
       this.hourList.push(data[1]); // add hours template
     });
   }

@@ -5,6 +5,7 @@ import { BusinessService } from 'src/app/services/business.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-business-dashboard',
@@ -39,21 +40,20 @@ export class BusinessDashboardComponent implements OnInit {
 
     this.business.getUserInfo().subscribe(async (data) => {
       this.user = data; // get users data
-      await this.booking.getBusinessAppointment().subscribe((data) => {
+      this.booking.getBusinessAppointment().pipe(take(1)).subscribe((data) => {
         this.allBookings = data; // get all appointments
-        if (this.reviews.length === 0)
-          {
-            this.noAppointments = true; // no appointments
-          }
-          else{
-            this.noAppointments = false; // there is appointments
-          }
+        if (this.allBookings.length === 0 || this.allBookings.length === undefined) {
+          this.noAppointments = true; // no appointments
+        }
+        else {
+          this.noAppointments = false; // there is appointments
+        }
       });
-      await this.feedback.someReviews(this.user.uid).subscribe(
+      await this.feedback.someReviews(this.user.uid).pipe(take(1)).subscribe(
         // get  new reviews (reviews without a reply property)
         (reviewList) => {
           this.reviews = reviewList;
-          if (this.reviews.length === 0)
+          if (this.reviews.length === 0 || this.reviews.length === undefined)
           {
             this.noReviews = true; // no appointments
           }

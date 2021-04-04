@@ -31,7 +31,7 @@ export interface IUser {
     sunday: number;
   };
   review?: {
-    timestamp?: Date;
+    timestamp?: string;
     uid?: string;
     rating?: number;
     bid?: string;

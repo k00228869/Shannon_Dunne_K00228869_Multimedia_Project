@@ -45,7 +45,7 @@ export class FeedbackFormComponent implements OnInit {
       comment: new FormControl('', Validators.required),
     });
 
-    this.clientService.getUserInfo().subscribe(
+    this.clientService.getUserInfo().pipe(take(1)).subscribe(
       (data) =>
       {
         this.client = data;
@@ -65,13 +65,12 @@ export class FeedbackFormComponent implements OnInit {
       num = Number(this.addFeedbackForm.controls.rating.value);
       this.submittedFeedback.rating = num; // convert rating val to num
       this.submittedFeedback.comment = this.addFeedbackForm.controls.comment.value;
-      this.submittedFeedback.timestamp = new Date();
+      this.submittedFeedback.timestamp = new Date().toString();
       this.submittedFeedback.uid = this.client.uid;
       this.submittedFeedback.name = this.client.firstName + ' ' + this.client.lastName;
       this.submittedFeedback.id = this.firestore.createId();
       this.submittedFeedback.bid = this.id;
       this.submittedFeedback.reply = null;
-  
       (await this.feedback.getBusinessReviews(this.submittedFeedback.bid)).pipe(take(1)).subscribe(
         async (reviewCollection) => {
           this.allRatings = reviewCollection;

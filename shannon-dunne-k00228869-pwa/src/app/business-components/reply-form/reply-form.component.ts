@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { ClientUserService } from 'src/app/services/client-user.service';
@@ -33,7 +34,7 @@ export class ReplyFormComponent implements OnInit {
       reply: new FormControl('', Validators.required),
     });
 
-    this.clientService.getUserInfo().subscribe(
+    this.clientService.getUserInfo().pipe(take(1)).subscribe(
       (data) =>
       {
         this.user = data;

@@ -9,6 +9,10 @@
   background-size: cover;
 
 }
+
+.card{
+  height: 100%
+}
 .rating{
     vertical-align: middle;
 }
@@ -19,4 +23,8 @@
   
   .schedule .mat-list-item{
     padding: 5px;
+  }
+
+  h4{
+  text-align: center;
   }

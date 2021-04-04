@@ -2,3 +2,12 @@ button a{
     text-decoration: none;
     color: white;
 }
+
+div h2{
+    text-align: center;
+}
+
+
+.mat-menu-item a{
+    color: #4527a0;
+}

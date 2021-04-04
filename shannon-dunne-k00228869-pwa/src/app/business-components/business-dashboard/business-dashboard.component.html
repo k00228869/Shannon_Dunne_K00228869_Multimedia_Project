@@ -34,7 +34,7 @@
     <span class="spacer"></span>
 </mat-toolbar>
 
-<div class= "note" *ngIf="noAppointments"> You have 0 appointments</div>
+<div class="note" *ngIf="noAppointments"> You have 0 appointments</div>
 
 <mat-tab-group>
   <mat-tab label="Appointments" *ngIf="!noAppointments">
@@ -66,6 +66,9 @@
         <mat-panel-title>
           Price:&#x20AC; {{booking.serPrice}}
          </mat-panel-title>
+         <mat-panel-title>
+          {{booking.phone}}
+        </mat-panel-title>
         <mat-panel-title>
           Notes: {{booking.note}}
          </mat-panel-title>
@@ -81,15 +84,15 @@
               (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
               <mat-panel-title>
-              Client: {{review.name}}
+              {{review.name}}
               </mat-panel-title>
               <mat-panel-title>
-                Rating: {{review.rating}}<mat-icon>star_rate</mat-icon>
+                {{review.rating}}<mat-icon>star_rate</mat-icon>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              Review: <p>{{review.comment}}</p>
+              <p>{{review.comment}}</p>
               <mat-panel-description>
-                <p>{{review.timestamp.toString() | slice :0 :-6}}</p>
+                <p>{{review.timestamp | slice :0 :-6}}</p>
                <br>
              </mat-panel-description>
                 <br>

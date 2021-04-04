@@ -21,3 +21,7 @@ a{
   object-fit: cover;
   background-size: cover;
 }
+
+.card{
+    padding-bottom: 55%
+  }

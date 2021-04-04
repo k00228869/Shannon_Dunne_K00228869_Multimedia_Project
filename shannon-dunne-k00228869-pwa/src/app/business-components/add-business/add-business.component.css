@@ -1,17 +1,28 @@
-img
-{
-    width: 50%;
+img {
+  width: 50%;
   height: 200px;
 }
 
-
-.back{
+.back {
   float: right;
   margin-left: 10%;
-  }
+}
 
-.submit{
+.submit {
   float: right;
   margin-right: 20%;
   margin-bottom: 10%;
+}
+.actionButtons button {
+  margin-left: 5%;
+}
+
+form .mat-label {
+  margin-left: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+h2 {
+  text-align: center;
 }

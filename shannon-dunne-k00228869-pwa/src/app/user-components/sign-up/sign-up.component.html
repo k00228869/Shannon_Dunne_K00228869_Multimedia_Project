@@ -50,10 +50,6 @@
       <mat-radio-group required aria-label="Select Account Type" name="admin" [formControlName]="'admin'" [(ngModel)]="radioButton">
         <mat-radio-button [value]="true">Business</mat-radio-button>
         <mat-radio-button [value]="false">Customer</mat-radio-button>
-        <mat-error
-        *ngIf="signUpForm.controls.admin.hasError('required')">
-        Select an account type
-      </mat-error>
       </mat-radio-group>
       <br>
       <br>

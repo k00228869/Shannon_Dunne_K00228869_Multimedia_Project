@@ -11,7 +11,6 @@ import { ClientUserService } from 'src/app/services/client-user.service';
 })
 export class ClientProfileComponent implements OnInit {
   public client: IUser['user'];
-  // panelOpenState = true;
   constructor(
     public clientService: ClientUserService,
     public authService: AuthenticateService,

@@ -12,6 +12,7 @@ import { CancelComponent } from 'src/app/client-components/booking-confirmation/
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { IBusiness } from 'src/app/interfaces/i-business';
+import { take } from 'rxjs/operators';
 const moment = _rollupMoment || _moment;
 
 @Component({
@@ -44,7 +45,7 @@ export class BookingConfirmationComponent implements OnInit {
       (params) =>
       {
         this.id = params.get('id');
-        this.booking.getAppointment(this.id).subscribe(
+        this.booking.getAppointment(this.id).pipe(take(1)).subscribe(
          (appoint) =>
           {
             this.appointmentInfo = appoint[0];
@@ -55,12 +56,12 @@ export class BookingConfirmationComponent implements OnInit {
             });
           });
       });
-    this.clientService.getUserInfo().subscribe(
+    this.clientService.getUserInfo().pipe(take(1)).subscribe(
       (data) =>
       {
         this.client = data;
       });
-    this.booking.getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date).subscribe(
+    this.booking.getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date).pipe(take(1)).subscribe(
         (data) => {
           this.scheduleOfDay = Array.from(data.availableTimes);
         });

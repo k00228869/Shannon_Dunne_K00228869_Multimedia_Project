@@ -14,17 +14,9 @@ import { ConnectionService } from 'ng-connection-service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy{
-  offline: Observable<Event>;
-  online: Observable<Event>;
-  subscriptions: Subscription[] = [];
-  isConnectionMessage: string;
-  isNotConnectionMessage: string;
-  connectionState: string;
+export class AppComponent implements OnInit{
   isConnected = true;
   isNotConnected: boolean;
-
-
   public routeHidden: boolean = true;
   readonly VAPID_PUBLIC_KEY =
     'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
@@ -75,36 +67,11 @@ export class AppComponent implements OnInit, OnDestroy{
                 closeButton: true,
               });
         }
-      })
+      });
     }
 
   ngOnInit() {
-    // get conectivity status from browser window
     console.log(this.auth.isLoggedIn);
-    // this.online = fromEvent(window, 'online');
-    // this.offline = fromEvent(window, 'offline');
-
-    // this.subscriptions.push(this.online.subscribe(event => {  // if online
-    //   this.isConnectionMessage = 'Connected to the Internet';
-    //   this.connectionState = 'Online';
-
-    // }));
-
-
-    // this.subscriptions.push(this.offline.subscribe(event => { // if offline
-    //   this.isConnectionMessage = 'Connection lost, Please connect to the internet to use this app';
-    //   this.connectionState = 'Offline';
-    // }));
-
-    // if (this.connectionState !== 'Online')
-    // {
-    //   this.toastr.info(this.isConnectionMessage, 'Connection Error', {
-    //     positionClass: 'toast-bottom',
-    //     timeOut: 7000,
-    //     closeButton: true,
-    //   });
-    // }
-
     this.toastr.overlayContainer = this.toastContainer;
     this.notif.receiveMessage();
     this.message = this.notif.currentMessage;
@@ -121,12 +88,5 @@ export class AppComponent implements OnInit, OnDestroy{
         }
       }
     });
-  }
-
-
-  ngOnDestroy(): void {
-
-    // Unsubscribe all subscriptions to avoid memory leak
-    // this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

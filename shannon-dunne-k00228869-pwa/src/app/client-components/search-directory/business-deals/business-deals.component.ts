@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { IBusiness } from 'src/app/interfaces/i-business';
 import { IDeals } from 'src/app/interfaces/i-deals';
 import { IUser } from 'src/app/interfaces/i-user';
@@ -28,11 +29,11 @@ export class BusinessDealsComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this.reschedule.getDeals().subscribe((data) => {
+    this.reschedule.getDeals().pipe(take(1)).subscribe((data) => {
       this.appointAdverts = data;
     });
 
-    await this.clientService.getUserInfo().subscribe((data) => {
+    this.clientService.getUserInfo().pipe(take(1)).subscribe((data) => {
       this.client = data;
     });
   }
@@ -59,12 +60,12 @@ export class BusinessDealsComponent implements OnInit {
     this.reschedule.deleteDealAdvert(this.dealBooking.appointmentId); // remove advert for appointment
     this.business.getABusiness(this.dealBooking.bid).subscribe(async (data) => {
       this.bookedBusiness = data;
-      await this.notif.appoinmtentReminder(
+      this.notif.appoinmtentReminder(
         this.dealBooking,
         this.bookedBusiness
       ); // create appointment notification
-      await this.notif.reviewReminder(this.dealBooking, this.bookedBusiness); // create review notification
-      await this.changeRoute(appoint);
+      this.notif.reviewReminder(this.dealBooking, this.bookedBusiness); // create review notification
+      this.changeRoute(appoint);
     });
   }
 

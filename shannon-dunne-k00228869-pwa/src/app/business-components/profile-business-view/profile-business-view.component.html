@@ -59,16 +59,16 @@
       <img mat-card-avatar class="header-image" src='{{profileInfo.img}}'>
       <mat-card-subtitle>
         <b>{{profileInfo.businessName}}</b>
+        <br>
+      <p *ngIf="profileInfo.rating" class="rating">
+        {{profileInfo.rating.toFixed(1)}}
+        <mat-icon aria-hidden="false" aria-label="star_rating">star_rate</mat-icon>
+      </p>
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content label="details">
       <br>
       <p>{{profileInfo.businessDescription}}</p>
-      <br>
-      <p *ngIf="profileInfo.rating" class="rating">
-        {{profileInfo.rating.toFixed(1)}}
-        <mat-icon aria-hidden="false" aria-label="star_rating">star_rate</mat-icon>
-      </p>
     </mat-card-content>
 
     <mat-carousel timings="350ms ease-in" [autoplay]="true" interval="5000" color="primary" maxWidth="auto"
@@ -83,10 +83,9 @@
       <mat-tab label="Hours and Location">
         <mat-divider></mat-divider>
         <br>
-        <h4><b>Location: </b>{{profileInfo.county}}</h4>
-        <h4><b>Eircode: </b>{{profileInfo.eircode}}</h4>
-        <mat-divider></mat-divider>
+        <h4>{{profileInfo.county}} Eircode: {{profileInfo.eircode}}</h4>
         <br>
+        <mat-divider></mat-divider>
         <div class="schedule">
           <mat-list-item role="listitem" *ngIf="theHours.monday[0].finishT.length > 1">Monday:
             {{theHours.monday[0].startT}} To {{theHours.monday[0].finishT}}</mat-list-item>
@@ -130,7 +129,7 @@
           </mat-panel-title>
           <br>
           <mat-panel-title>
-          {{service.duration | slice :0 :-6}} hrs
+          {{service.duration | slice :1 :-6}} hrs
           </mat-panel-title>
           <mat-divider></mat-divider>
         </mat-expansion-panel>

@@ -38,12 +38,6 @@ export class ProfileBusinessViewComponent implements OnInit {
 
   ngOnInit()
   {
-    // if (localStorage.getItem('user') !== null) { // check if user is not empty
-    //   this.isSignedIn = true; // if user is not empty they are signed in
-    // }
-    // else {
-    //   this.isSignedIn = false; // if user is empty they are signed out
-    // }
     this.business.getBusiness().pipe(take(1)).subscribe( // get bus doc
         (bus) =>
         {
@@ -57,25 +51,26 @@ export class ProfileBusinessViewComponent implements OnInit {
           }
           this.getProfile();
         });
-    this.business.getUserInfo().subscribe(
+    this.business.getUserInfo().pipe(take(1)).subscribe(
       (data) =>
       {
         this.user = data;
       });
 
-    this.business.getBusinessHours().subscribe(
+    this.business.getBusinessHours().pipe(take(1)).subscribe(
       (data) =>
       {
         this.theHours = data[0];
       });
-    this.feedback.getBusinessReviews(this.user.uid).subscribe(
+    this.feedback.getBusinessReviews(this.user.uid).pipe(take(1)).subscribe(
         (data) => {
           this.reviews = data;
         });
 
-    this.uploads.getBusinessSlideshow(this.user.uid).subscribe(
+    this.uploads.getBusinessSlideshow(this.user.uid).pipe(take(1)).subscribe(
       (data) => {
         this.slides = data.imageURL;
+        console.log(this.slides);
       });
     }
 

@@ -73,81 +73,104 @@ export class BookingFormComponent implements OnInit {
     public firestore: AngularFirestore,
     public hourService: WorkingDaysService,
     private notif: NotificationsService,
-    public authService: AuthenticateService,
-
+    public authService: AuthenticateService
   ) {}
 
   ngOnInit() {
+
     this.addAppointmentForm = this.addAppointment.group({
       employeeId: new FormControl('', [Validators.required]),
       serviceId: new FormControl('', [Validators.required]),
       date: new FormControl(Date, [Validators.required]),
       time: new FormControl([Validators.required]),
-      note: new FormControl('')
+      note: new FormControl(''),
     });
+
+    this.clientService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.client = data;
+        this.notif.getToken(this.client.uid).subscribe((theToken) => {
+          // call func to get user token from db
+          if (!theToken.token) {
+            // if no token
+            this.askPermis(); // call func to get user permis
+          }
+        });
+      });
+
     this.route.paramMap.subscribe(async (params) => {
       this.id = params.get('id');
-      (await this.business.getABusiness(this.id)).subscribe((bus) => {
-        this.profileInfo = bus;
-      });
-      this.business.getBusServices(this.id).subscribe((servs) => {
-        this.services = servs;
-      });
-      this.business.getHours(params.get('id')).subscribe((data) => {
-        this.theHourOfDay = data[0];
-      });
-      this.business.getBusEmployees(this.id).subscribe((emps) => {
-        this.employees = emps;
-      });
-    });
-    this.clientService.getUserInfo().subscribe((data) => {
-      this.client = data;
-      this.notif.getToken(this.client.uid).subscribe((theToken) => {
-        // call func to get user token from db
-        if (!theToken.token) {
-          // if no token available
-          this.askPermis(); // call func to get user permis
-        }
-      });
-    });
-    this.hourService
-      .getAll(this.id)
-      .pipe(take(1))
-      .subscribe(
-        // get schedule for each day, unsubscribe after first value
-        (all) => {
-          this.weekDays = [];
-          this.weekDays = all; // schedules for each weekday
-          for (let i = 0; i < this.weekDays.length; i++) {
-            if (
-              this.weekDays[i][0].length <= 1 ||
-              this.weekDays[i][0].length === undefined
-            ) {
-              // if no hours for that day
-              this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
+      this.business
+        .getABusiness(this.id)
+        .pipe(take(1))
+        .subscribe((bus) => {
+          this.profileInfo = bus;
+        });
+      this.business
+        .getBusServices(this.id)
+        .pipe(take(1))
+        .subscribe((servs) => {
+          this.services = servs;
+        });
+      this.business
+        .getHours(params.get('id'))
+        .pipe(take(1))
+        .subscribe((data) => {
+          this.theHourOfDay = data[0];
+        });
+      this.business
+        .getBusEmployees(this.id)
+        .pipe(take(1))
+        .subscribe((emps) => {
+          this.employees = emps;
+        });
+
+      this.hourService
+        .getAll(this.id)
+        .pipe(take(1))
+        .subscribe(
+          // get schedule for each day, unsubscribe after first value
+          (all) => {
+            this.weekDays = [];
+            this.weekDays = all; // schedules for each weekday
+            for (let i = 0; i < this.weekDays.length; i++) {
+              if (
+                this.weekDays[i][0].length <= 1 ||
+                this.weekDays[i][0].length === undefined
+              ) {
+                // if no hours for that day
+                this.unavailableDays.push(this.weekDays[i][1]); // add day index to unavailable array
+              }
             }
           }
-        }
-      );
+        );
 
-    this.unavailableDates = []; // reset array
-    this.booking.getBookedDays(this.id).subscribe(
-      // pass in business id and call func to get booked dates collection
-      (data) => {
-        this.bookedDays = data;
-        for (let i = 0; i < this.bookedDays.length; i++) {
-          // if a booking hours array has 1 or less items
-          if (
-            this.bookedDays[i].availableTimes.length <= 1 ||
-            this.bookedDays[i].availableTimes.length === undefined
-          ) {
-            const newd = new Date(this.bookedDays[i].calendarIndex).getTime();
-            this.unavailableDates.push(newd); // add foc calendarIndex to array of unavailable dates
+      this.unavailableDates = []; // reset array
+      this.booking
+        .getBookedDays(this.id)
+        .pipe(take(1))
+        .subscribe(
+          // pass in business id and call func to get booked dates collection
+          (data) => {
+            this.bookedDays = data;
+            for (let i = 0; i < this.bookedDays.length; i++) {
+              // if a booking hours array has 1 or less items
+              if (
+                this.bookedDays[i].availableTimes.length <= 1 ||
+                this.bookedDays[i].availableTimes.length === undefined
+              ) {
+                const newd = new Date(
+                  this.bookedDays[i].calendarIndex
+                ).getTime();
+                this.unavailableDates.push(newd); // add foc calendarIndex to array of unavailable dates
+              }
+            }
           }
-        }
-      }
-    );
-  }
+        );
+      });
+    }
 
   askPermis() {
     // called when booking button clicked
@@ -161,7 +184,6 @@ export class BookingFormComponent implements OnInit {
 
   public async onAppointSubmit(clientAppointment: IUser['appointment']) {
     if (this.addAppointmentForm.status === 'VALID') {
-
       // setting new appoinment details
       this.clientAppointment = this.addAppointmentForm.value; // form values
       this.clientAppointment.date = clientAppointment.date.toString(); // store appointment date
@@ -172,7 +194,8 @@ export class BookingFormComponent implements OnInit {
       this.clientAppointment.appointmentId = this.firestore.createId(); // create an appointment id
       this.booking
         .getServiceDuration(this.id, this.clientAppointment)
-        .subscribe( // call func to get service data
+        .subscribe(
+          // call func to get service data
           (ser) => {
             this.selectedService = ser[0]; // store service data
             this.clientAppointment.serName = this.selectedService.serviceName; // store service name
@@ -185,11 +208,11 @@ export class BookingFormComponent implements OnInit {
             const temp: any[] = [];
             let j = 1;
             temp.push(this.clientAppointment.time);
-            if (totalAsNum > 1) // if the hours are more than 1
-            {
-              let  start = moment(this.clientAppointment.time, 'HH:mm:ss'); // booked time to moment obj
-              while (j < totalAsNum) // while there are still hours to add
-              {
+            if (totalAsNum > 1) {
+              // if the hours are more than 1
+              let start = moment(this.clientAppointment.time, 'HH:mm:ss'); // booked time to moment obj
+              while (j < totalAsNum) {
+                // while there are still hours to add
                 const getNextTime = start.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
                 temp.push(getNextTime); // add hours to array
                 start = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
@@ -237,8 +260,7 @@ export class BookingFormComponent implements OnInit {
         // const dateB = moment(this.date, 'DD-MM-YYYY');
         this.changeRoute();
       });
-    }
-    else{
+    } else {
       alert('Correct the invalid fields before submitting');
       return;
     }
@@ -253,7 +275,7 @@ export class BookingFormComponent implements OnInit {
       this.unavailableDays.indexOf(day) === -1 && // unavailable days
       !this.unavailableDates.find((x) => x === ddd) // unavailable dates
     );
-  }
+  };
 
   newInput(
     event // triggered when the date selection changes
@@ -267,7 +289,15 @@ export class BookingFormComponent implements OnInit {
       .subscribe((dateSchedule) => {
         if (dateSchedule) {
           // if there is a booked date
-          dateSchedule.availableTimes.sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+          dateSchedule.availableTimes.sort(function (a, b) {
+            if (a > b) {
+              return 1;
+            }
+            if (a < b) {
+              return -1;
+            }
+            return 0;
+          });
           this.day = Array.from(dateSchedule.availableTimes);
         } else if (!dateSchedule) {
           // tslint:disable-next-line: prefer-for-of
@@ -275,50 +305,105 @@ export class BookingFormComponent implements OnInit {
             // if there is no booked date
             if (this.weekDays[i][0].length > 0 && this.selectedDay === 0) {
               // sun
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]); // store in selected schedule array
-            }
-            else if (
+            } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 1
             ) {
               // mon
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 2
             ) {
               // tue
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 3
             ) {
               // wed
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 4
             ) {
               // thur
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 5
             ) {
               // fri
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             } else if (
               this.weekDays[i][0].length > 0 &&
               this.selectedDay === 6
             ) {
               // sat
-              this.weekDays[i][0].sort(function(a, b) {if (a > b) {return 1; } if (a < b) {return -1; }return 0; });
+              this.weekDays[i][0].sort(function (a, b) {
+                if (a > b) {
+                  return 1;
+                }
+                if (a < b) {
+                  return -1;
+                }
+                return 0;
+              });
               this.day = Array.from(this.weekDays[i][0]);
             }
           }

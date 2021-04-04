@@ -17,20 +17,14 @@
   .accountType .mat-radio-group{
     margin-left: 20%;
   }
-
+  
   .accountType .mat-label{
     font-size: 20px;
     text-align: center;
     margin-left: 35%;
   }
 
-  .redirect h3, .redirect a{
+ .accountType .mat-error{
     text-align: center;
-    margin-top: 10%;
-  }
-
-  .redirect a{
-    margin-left:45%;
-    margin-bottom: 10%;;
   }
 

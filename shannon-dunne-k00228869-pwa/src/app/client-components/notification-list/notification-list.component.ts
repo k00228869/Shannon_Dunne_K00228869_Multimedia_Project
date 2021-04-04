@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { IBusiness } from 'src/app/interfaces/i-business';
 import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
@@ -32,14 +33,14 @@ export class NotificationListComponent implements OnInit {
 
   ngOnInit(){
 
-    this.business.getUserInfo().subscribe(
+    this.business.getUserInfo().pipe(take(1)).subscribe(
         (data) =>
         {
           this.client = data;
         }
       );
 
-    this.notif.getANotifications().subscribe(
+    this.notif.getANotifications().pipe(take(1)).subscribe(
       (data) => {
         this.reminders = data;
         if (this.reminders.length === 0)
@@ -51,7 +52,7 @@ export class NotificationListComponent implements OnInit {
         }
       });
 
-    this.notif.getRNotifications().subscribe(
+    this.notif.getRNotifications().pipe(take(1)).subscribe(
         (data) => {
           this.reviews = data;
           if (this.reviews.length === 0)

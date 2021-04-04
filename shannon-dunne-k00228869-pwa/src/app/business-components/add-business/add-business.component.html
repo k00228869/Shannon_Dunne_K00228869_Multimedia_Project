@@ -98,11 +98,12 @@
   <br>
 
   <mat-label>Upload a profile image for your businesss</mat-label>
-  <button mat-raised-button color="primary" (click)="busImage.click()" type="button">
+  <button class="actionButtons" mat-raised-button color="primary" (click)="busImage.click()" type="button">
     Upload Image
     <input [formControlName]="'img'" type="file" hidden #busImage name="file" (change)="upload($event)"
       accept=".png, .jpg" />
   </button>
+  <br>
   <progress max="100" [value]="(uploadProgress | async)"></progress>
   <div *ngIf="downloadURL | async; let uploadSrc">
     <a [href]="uploadSrc">File Uploaded!</a>
@@ -114,7 +115,8 @@
 
   <form [formGroup]="addBusImgGroup">
     <mat-label>Upload images of your business, employees or services</mat-label>
-    <button mat-raised-button color="primary" (click)="busImages.click()" type="button">
+    <br>
+    <button class="actionButtons" mat-raised-button color="primary" (click)="busImages.click()" type="button">
       Profile Images
       <input [formControlName]="'imgGroup'" hidden type="file" #busImages name="file"
         (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg" />
@@ -141,10 +143,14 @@
 
   <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
-    <button mat-raised-button color="primary" type="button" (click)="addEmployeeFormGroup()">+</button>
+    <button class="actionButtons" mat-raised-button color="primary" type="button" (click)="addEmployeeFormGroup()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
     <div formArrayName="employees">
       <div *ngFor="let employee of addEmployeeForm.get('employees')['controls']; let i = index" [formGroupName]="i">
-        <button mat-raised-button color="warm" type="button" (click)="removeEmployee(i)">X</button>
+        <button class="actionButtons" mat-raised-button color="warm" type="button" (click)="removeEmployee(i)">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
         <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
           <input matInput [formControlName]="'firstName'">
@@ -181,10 +187,16 @@
 
 
   <form [formGroup]="addServiceForm" (ngSubmit)="onServiceSubmit(addServiceForm.value)">
+    <button class="actionButtons" mat-raised-button color="primary" type="button" (click)="addServiceFormGroup()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+
     <h2>Services</h2>
-    <button mat-raised-button color="primary" type="button" (click)="addServiceFormGroup()">+</button>
     <div formArrayName="services">
       <div *ngFor="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
+        <button class="actionButtons" mat-raised-button type="button" color="warm" (click)="removeService()">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
         <mat-form-field appearance="outline">
           <mat-label>Service Name</mat-label>
           <input matInput [formControlName]="'serviceName'">
@@ -212,16 +224,15 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <button mat-raised-button type="button" color="warm" (click)="removeService()">Remove service</button>
       </div>
     </div>
   </form>
   <br>
   <br>
 
-  
+
   <form [formGroup]="addBusHours">
-    <mat-label>Working Days</mat-label><br><br>
+    <h2>Working Days</h2><br><br>
     <div formArrayName="monday">
       <div *ngFor="let day of addBusHours.get('monday')['controls']; let i = index" [formGroupName]="i">
         <mat-label>Monday</mat-label>
@@ -359,7 +370,7 @@
   </form>
 
 
-  <button mat-raised-button color="primary" type="submit" class="submit" >
+  <button mat-raised-button color="primary" type="submit" class="submit">
     Create Profile
   </button>
 </form>

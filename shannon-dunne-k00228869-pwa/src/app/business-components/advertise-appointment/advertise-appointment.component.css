@@ -1,10 +1,15 @@
 .cancelButton{
     float: right;
-    margin-left: 10%;
+    margin-left: - 10%;
     }
   
   .submit{
     float: right;
     margin-right: 20%;
     margin-bottom: 10%;
+  }
+
+  div h3, div h4, div h5{
+    text-align: center;
+    padding:5%
   }

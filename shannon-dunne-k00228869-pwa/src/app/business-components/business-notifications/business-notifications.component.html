@@ -37,7 +37,7 @@
   </mat-toolbar> 
 
   <br>
-  <div *ngIf="hiddenCancellation">You have 0 new Notifications</div>
+  <div *ngIf="hiddenCancellation"><h2>You have 0 new Notifications</h2></div>
   <div *ngIf="!hiddenCancellation"> 
   <mat-card class="card" *ngFor="let cancelled of cancelledAppointments">
       <mat-card-header>

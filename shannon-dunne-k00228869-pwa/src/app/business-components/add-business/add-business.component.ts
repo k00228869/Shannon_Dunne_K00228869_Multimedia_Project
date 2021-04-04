@@ -20,7 +20,7 @@ import {
 import { IDays } from 'src/app/interfaces/idays';
 import { WorkingDaysService } from 'src/app/services/working-days.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IBusiness } from 'src/app/interfaces/i-business';
 
@@ -57,13 +57,11 @@ export class AddBusinessComponent implements OnInit {
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
-  notValid: boolean = true;
   url: string;
 
   constructor(
     private addProfile: FormBuilder,
     private addBusImgs: FormBuilder,
-
     private addHours: FormBuilder,
     private addEmp: FormBuilder,
     private addSer: FormBuilder,
@@ -78,6 +76,8 @@ export class AddBusinessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    // build business images formgroup with validator
     this.addBusImgGroup = this.addBusImgs.group({
       imgGroup: new FormControl('', [Validators.required]),
     });
@@ -88,7 +88,8 @@ export class AddBusinessComponent implements OnInit {
       businessDescription: new FormControl('', Validators.required),
       eircode: new FormControl('', [
         Validators.minLength(7),
-        Validators.maxLength(7),]),
+        Validators.maxLength(7),
+      ]),
       county: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
       businessType: new FormControl('', [Validators.required]),
@@ -120,21 +121,20 @@ export class AddBusinessComponent implements OnInit {
     });
 
     // get the hours template from the db
-    this.business.getHoursList().subscribe((data) => {
+    this.business.getHoursList().pipe(take(1)).subscribe((data) => {
       this.hourList.push(data[1]);
     });
 
-
-    if (
-      // if all forms valid
-      this.addServiceForm.status === 'VALID' &&
-      this.addProfileForm.status === 'VALID' &&
-      this.addEmployeeForm.status === 'VALID' &&
-      this.addBusImgGroup.status === 'VALID' &&
-      this.addBusHours.status === 'VALID'
-    ){
-      this.notValid = false;
-    }
+    // if (
+    //   // if all forms valid
+    //   this.addServiceForm.status === 'VALID' &&
+    //   this.addProfileForm.status === 'VALID' &&
+    //   this.addEmployeeForm.status === 'VALID' &&
+    //   this.addBusImgGroup.status === 'VALID' &&
+    //   this.addBusHours.status === 'VALID'
+    // ) {
+    //   // this.notValid = false;
+    // }
   }
 
   upload = (event) => {
@@ -163,7 +163,7 @@ export class AddBusinessComponent implements OnInit {
         })
       )
       .subscribe();
-  };
+  }
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
@@ -212,8 +212,7 @@ export class AddBusinessComponent implements OnInit {
         adEmployee.id = this.firestore.createId(); // create an id for the employee
         this.business.addEmployees(adEmployee); // call func to store employee in db
       }
-    }
-    else{
+    } else {
       alert('Correct the invalid fields before submitting');
       return;
     }
@@ -264,8 +263,7 @@ export class AddBusinessComponent implements OnInit {
         adService.id = this.firestore.createId(); // create an id for the service
         this.business.addServices(adService); // call func to store service in db
       }
-    }
-    else{
+    } else {
       alert('Correct the invalid fields before submitting');
       return;
     }
@@ -382,8 +380,7 @@ export class AddBusinessComponent implements OnInit {
       }
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
-    }
-    else{
+    } else {
       alert('Correct the invalid fields before submitting');
       return;
     }

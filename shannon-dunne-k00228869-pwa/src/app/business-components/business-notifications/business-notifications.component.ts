@@ -38,16 +38,16 @@ export class BusinessNotificationsComponent implements OnInit {
       async (data) =>
       {
         this.user = data;
-        (await this.reschedule.getCancellationList(this.user.uid)).subscribe( // get the id's of cancelled appointments
+        (await this.reschedule.getCancellationList(this.user.uid)).pipe(take(1)).subscribe( // get the id's of cancelled appointments
         (list) =>
         {
-          if (list)
+          this.cancelledAppointments = list;
+          if (this.cancelledAppointments.length === 0 || this.cancelledAppointments.length === undefined)
           {
-            this.cancelledAppointments = list;
-            this.hiddenCancellation = false; // all cancelled notification to display
+            this.hiddenCancellation = true; // all cancelled notification to display
           }
           else{
-            this.hiddenCancellation = true; // hide cancelled notification
+            this.hiddenCancellation = false; // hide cancelled notification
           }
         });
       });

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
@@ -44,11 +45,11 @@ export class AdvertiseAppointmentComponent implements OnInit {
         this.id = params.get('id'); // store appointment id
 
         // get appointment mattching the appointment id
-        (await this.bookingService.getAppointment(this.id)).subscribe(
+        (await this.bookingService.getAppointment(this.id)).pipe(take(1)).subscribe(
         async (appoint) =>
         {
           this.appointmentInfo = appoint[0]; // store the appointment
-          await this.business.getBusiness().subscribe(
+          await this.business.getBusiness().pipe(take(1)).subscribe(
             (busDoc) => {
               this.provider = busDoc.businessName;
             });

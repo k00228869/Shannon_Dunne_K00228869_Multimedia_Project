@@ -86,7 +86,7 @@ export class RescheduleFormComponent implements OnInit {
       note: new FormControl(''),
     });
 
-    this.clientService.getUserInfo().subscribe((data) => {
+    this.clientService.getUserInfo().pipe(take(1)).subscribe((data) => {
       this.client = data;
       this.notif.getToken(this.client.uid).subscribe((theToken) => {
         // call func to get user token from db
@@ -99,7 +99,7 @@ export class RescheduleFormComponent implements OnInit {
 
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      this.bookingService.getAppointment(this.id).subscribe((appoint) => {
+      this.bookingService.getAppointment(this.id).pipe(take(1)).subscribe((appoint) => {
         this.appointmentInfo = appoint[0];
         this.updateInfo(this.appointmentInfo.bid);
       });
@@ -113,7 +113,6 @@ export class RescheduleFormComponent implements OnInit {
 
     this.hourService
       .getAll(this.appointmentInfo.bid)
-      .pipe(take(1))
       .subscribe(
         // get schedule for each day, do not run after fists value
         (all) => {

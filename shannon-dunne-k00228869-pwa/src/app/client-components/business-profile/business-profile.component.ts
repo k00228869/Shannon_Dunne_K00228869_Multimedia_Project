@@ -42,47 +42,48 @@ export class BusinessProfileComponent implements OnInit {
       (params) =>
       {
         this.id = params.get('id');
-        this.uploads.getBusinessSlideshow(this.id).subscribe(
+        this.uploads.getBusinessSlideshow(this.id).pipe(take(1)).subscribe(
             (data) => {
               this.slides = data.imageURL;
             });
-        this.business.getABusiness(this.id).subscribe(
+        this.business.getABusiness(this.id).pipe(take(1)).subscribe(
             (bus) =>
             {
               this.profileInfo = bus;
             });
-        this.business.getHours(this.id).subscribe(
+        this.business.getHours(this.id).pipe(take(1)).subscribe(
             (data) =>
             {
               this.theHours = data;
             });
 
-        this.business.getBusServices(this.id).subscribe(
+        this.business.getBusServices(this.id).pipe(take(1)).subscribe(
             (servs) =>
             {
               this.services = servs;
             });
 
-        this.business.getBusEmployees(this.id).subscribe(
+        this.business.getBusEmployees(this.id).pipe(take(1)).subscribe(
         (emps) =>
         {
           this.employees = emps;
         });
-      });
+      
 
-    this.clientService.getUserInfo().pipe(take(1)).subscribe(
-        (data) =>
-        {
-          this.client = data;
+        this.feedback.getBusinessReviews(this.id).pipe(take(1)).subscribe(
+        (data) => {
+          this.reviews = data;
         }
       );
-
-    this.feedback.getBusinessReviews(this.id).subscribe(
-      (data) => {
-        this.reviews = data;
+  });
+    this.clientService.getUserInfo().pipe(take(1)).subscribe(
+      (data) =>
+      {
+        this.client = data;
       }
     );
   }
+
 }
 
 

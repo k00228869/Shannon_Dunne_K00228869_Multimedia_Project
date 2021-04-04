@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { IUser } from 'src/app/interfaces/i-user';
 import { BusinessService } from 'src/app/services/business.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { take } from 'rxjs/operators';
@@ -13,7 +12,6 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./business-dashboard.component.css'],
 })
 export class BusinessDashboardComponent implements OnInit {
-  public isSignedIn = false;
   panelOpenState = false;
   public user: IUser['user'];
   allBookings: IUser['appointment'][];
@@ -24,44 +22,47 @@ export class BusinessDashboardComponent implements OnInit {
   constructor(
     public authService: AuthenticateService,
     public business: BusinessService,
-    private router: Router,
     public booking: BookingService,
     private feedback: FeedbackService
   ) {}
 
   ngOnInit() {
-    if (localStorage.getItem('user') !== null) {
-      // if user is not empty
-      this.isSignedIn = true; // user is signed in
-    } else {
-      this.isSignedIn = false; // user is signed out
-      this.router.navigate(['/login']); // display business dash
-    }
 
-    this.business.getUserInfo().subscribe(async (data) => {
-      this.user = data; // get users data
-      this.booking.getBusinessAppointment().pipe(take(1)).subscribe((data) => {
-        this.allBookings = data; // get all appointments
-        if (this.allBookings.length === 0 || this.allBookings.length === undefined) {
-          this.noAppointments = true; // no appointments
-        }
-        else {
-          this.noAppointments = false; // there is appointments
-        }
-      });
-      await this.feedback.someReviews(this.user.uid).pipe(take(1)).subscribe(
-        // get  new reviews (reviews without a reply property)
-        (reviewList) => {
-          this.reviews = reviewList;
-          if (this.reviews.length === 0 || this.reviews.length === undefined)
-          {
-            this.noReviews = true; // no appointments
+    // cal func to get user doc
+    this.authService.getUserInfo().subscribe(async (data) => {
+      this.user = data; // store users data
+
+      // call func to get all of the businesses appointments
+      this.booking
+        .getBusinessAppointment()
+        .pipe(take(1))
+        .subscribe((data) => {
+          this.allBookings = data; // store all appointments
+
+          // if their is not appointments, or the variable is undefined
+          if (
+            this.allBookings.length === 0 ||
+            this.allBookings.length === undefined
+          ) {
+            this.noAppointments = true; // show message for no appointments
+          } else {
+            this.noAppointments = false; // hide message for no appoinments
           }
-          else{
-            this.noReviews = false; // there is appointments
+        });
+      // get  new reviews (reviews without a reply property)
+      await this.feedback
+        .someReviews(this.user.uid)
+        .pipe(take(1))
+        .subscribe((reviewList) => {
+          this.reviews = reviewList; //store reviews
+
+          // if their is not reviews, or the variable is undefined
+          if (this.reviews.length === 0 || this.reviews.length === undefined) {
+            this.noReviews = true; // show no reviews message
+          } else {
+            this.noReviews = false; // hide no reviews message
           }
-        }
-      );
+        });
     });
   }
 }

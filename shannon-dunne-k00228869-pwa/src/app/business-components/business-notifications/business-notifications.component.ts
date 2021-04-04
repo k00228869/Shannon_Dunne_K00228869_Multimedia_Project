@@ -13,7 +13,7 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 @Component({
   selector: 'app-business-notifications',
   templateUrl: './business-notifications.component.html',
-  styleUrls: ['./business-notifications.component.css']
+  styleUrls: ['./business-notifications.component.css'],
 })
 export class BusinessNotificationsComponent implements OnInit {
   public user: IUser['user'];
@@ -29,72 +29,83 @@ export class BusinessNotificationsComponent implements OnInit {
     public reschedule: RescheduleService,
     public booking: BookingService,
     private router: Router,
-    public authService: AuthenticateService,
+    public authService: AuthenticateService
+  ) {}
 
-  ) { }
+  ngOnInit() {
+    this.authService.getUserInfo().subscribe(
+      // get the current users data
+      async (data) => {
+        this.user = data; // store data
 
-   ngOnInit(){
-    this.business.getUserInfo().subscribe( // get the current users data
-      async (data) =>
-      {
-        this.user = data;
-        (await this.reschedule.getCancellationList(this.user.uid)).pipe(take(1)).subscribe( // get the id's of cancelled appointments
-        (list) =>
-        {
-          this.cancelledAppointments = list;
-          if (this.cancelledAppointments.length === 0 || this.cancelledAppointments.length === undefined)
-          {
-            this.hiddenCancellation = true; // all cancelled notification to display
-          }
-          else{
-            this.hiddenCancellation = false; // hide cancelled notification
-          }
-        });
-      });
+        // call func to get the cancelled appointments doc
+        (await this.reschedule.getCancellationList(this.user.uid))
+          .pipe(take(1))
+          .subscribe(
+            // get the id's of cancelled appointments
+            (list) => {
+              this.cancelledAppointments = list; // store cancelled appointments
+
+              // if their are no cancellations or the variable is undefined
+              if (
+                this.cancelledAppointments.length === 0 ||
+                this.cancelledAppointments.length === undefined
+              ) {
+                this.hiddenCancellation = true; // hide cancelled appoiintments, show no cancellations message
+              } else {
+                this.hiddenCancellation = false; // show cancelled appointments, hide no cancellations message
+              }
+            }
+          );
+      }
+    );
   }
 
-public completeCancel(cancelled: string) // pass in the id of the cancelled appointment
-{
-   // subscribe to func to get the cancelled appointments data, take ensures this is not called when the schedule is updated
-  this.booking.getAppointment(cancelled).subscribe(
-    async (data) => {
-      this.appointToRemove = data[0]; // the cancelled appointments data
-      this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the service
+  // pass in the id of the cancelled appointment
+  public completeCancel(cancelled: string) {
+    // subscribe to func to get the cancelled appointments data
+    this.booking.getAppointment(cancelled).subscribe(async (data) => {
+      this.appointToRemove = data[0]; // store cancelled appointments data
+      this.duration = this.appointToRemove.serDuration.slice(1, 2); // cut out the duration of the cancelled service
       let amountAsNum = parseInt(this.duration, 10); // cast duration value to num
-      await this.booking.getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule for date
-      .pipe(take(1)).subscribe((thedate) => {
-        this.newSchedule.calendarIndex = thedate.calendarIndex;
-        this.newSchedule.date = thedate.date;
-        this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
-        let i = 1;
-        this.scheduleOfDay.push(this.appointToRemove.time);
-        if (amountAsNum > 1) // if the hours are more than 1
-        {
-          let startTime = moment(this.appointToRemove.time, 'HH:mm:ss'); // booked time to moment obj
-          while (i < amountAsNum) // while there are still hours to add
-          {
-            let getNextTime = startTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
-            this.scheduleOfDay.push(getNextTime.toString()); // add hours to array
-            startTime = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
-            i++; // increase by 1
+      await this.booking
+        .getBookingSchedule(this.appointToRemove.bid, this.appointToRemove.date) // get schedule data for cancelled date
+        .pipe(take(1))
+        .subscribe((thedate) => {
+          // take(1) ensures the subscription stops after the first observable is emitted
+          this.newSchedule.calendarIndex = thedate.calendarIndex; // store the booked date index
+          this.newSchedule.date = thedate.date; // store the booked date
+          this.scheduleOfDay = Array.from(thedate.availableTimes); // store as array of available hours
+          let i = 1; // its 1 because the first hour is added back as the appointment time
+          this.scheduleOfDay.push(this.appointToRemove.time); // add booked time back to the schedule
+          if (amountAsNum > 1) {
+            // if the duration of the services is more than 1 hour
+            let startTime = moment(this.appointToRemove.time, 'HH:mm:ss'); // booked time to moment obj
+            while (i < amountAsNum) {
+              // while there are still hours to add
+              let getNextTime = startTime.add(1, 'hour').format('HH:mm:ss'); // add hour to old booking time
+              this.scheduleOfDay.push(getNextTime.toString()); // add hour back to array
+              startTime = moment(getNextTime, 'HH:mm:ss'); // set start time to last added time
+              i++; // increase by 1
+            }
           }
-        }
-        this.newSchedule.availableTimes = [];
-        this.newSchedule.availableTimes = Array.from(this.scheduleOfDay); // set schedule for cancelled date
-        this.reschedule.editSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of hours in db
-        this.cancelBusiness(cancelled); // call func to remove appoinment data
+          this.newSchedule.availableTimes = [];
+          this.newSchedule.availableTimes = Array.from(this.scheduleOfDay); // set schedule for cancelled date
+          this.reschedule.editSchedule(this.appointToRemove, this.newSchedule); // call func to update schedule of cancelled date
+          this.cancelBusiness(cancelled); // call func to remove appoinment data for business
         });
     });
-}
+  }
 
-  cancelBusiness(cancelled: string)
-  {
+  // pass in cancelled appointment id
+  cancelBusiness(cancelled: string) {
     this.reschedule.deleteCancellation(cancelled, this.user.uid); // delete id from cancellation doc
     this.reschedule.cancelBusBooking(cancelled, this.user.uid); //// remove the appointment from business appointments
     this.changeRoute(this.user.uid); // change route
   }
 
-  changeRoute(id: string){
+  changeRoute(id: string) {
+    // pass in user id and change route
     this.router.navigate(['/business-view/', id]);
   }
 }

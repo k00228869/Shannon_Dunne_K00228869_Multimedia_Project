@@ -3,22 +3,22 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-splash-screen',
   templateUrl: './splash-screen.component.html',
-  styleUrls: ['./splash-screen.component.css']
+  styleUrls: ['./splash-screen.component.css'],
 })
 export class SplashScreenComponent implements OnInit {
   windowWidth: string;
   showSplash = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-
-    // splashscreen sampled from https://codesandbox.io/s/nifty-cookies-ps9lf?file=/src/app/app.routing.module.ts
     setTimeout(() => {
+      // move accross width
       this.windowWidth = '-' + window.innerWidth + 'px';
       setTimeout(() => {
+        // hide the splashscreen component
         this.showSplash = !this.showSplash;
-      }, 500);
-    }, 3000);
+      }, 500); // stop after half a sec
+    }, 2000); // stop after 2 secs
   }
 }

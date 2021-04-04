@@ -60,10 +60,10 @@
       <mat-card-subtitle>
         <b>{{profileInfo.businessName}}</b>
         <br>
-      <p *ngIf="profileInfo.rating" class="rating">
-        {{profileInfo.rating.toFixed(1)}}
-        <mat-icon aria-hidden="false" aria-label="star_rating">star_rate</mat-icon>
-      </p>
+        <p *ngIf="profileInfo.rating" class="rating">
+          {{profileInfo.rating.toFixed(1)}}
+          <mat-icon aria-hidden="false" aria-label="star_rating">star_rate</mat-icon>
+        </p>
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content label="details">
@@ -125,11 +125,11 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-panel-title>
-          {{service.serviceDescription}}
+            {{service.serviceDescription}}
           </mat-panel-title>
           <br>
           <mat-panel-title>
-          {{service.duration | slice :1 :-6}} hrs
+            {{service.duration | slice :1 :-6}} hrs
           </mat-panel-title>
           <mat-divider></mat-divider>
         </mat-expansion-panel>

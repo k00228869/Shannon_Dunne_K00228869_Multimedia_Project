@@ -35,7 +35,7 @@ export class AppointmentsComponent implements OnInit {
         }
       );
 
-    this.business.getUserInfo().pipe(take(1)).subscribe(
+    this.authService.getUserInfo().pipe(take(1)).subscribe(
       (data) =>
       {
         this.client = data;

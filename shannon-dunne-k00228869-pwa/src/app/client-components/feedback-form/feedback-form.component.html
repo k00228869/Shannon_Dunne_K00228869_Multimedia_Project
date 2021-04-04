@@ -1,28 +1,28 @@
 <h1>Review Form</h1>
-<button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button">
+    <mat-icon>arrow_back</mat-icon>
+</button>
 
 <form class="form-group" [formGroup]="addFeedbackForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
         <mat-label>Rating</mat-label>
         <mat-select [(value)]="selectedRating" [formControlName]="'rating'">
-        <mat-option value="1">1 Star</mat-option>
-        <mat-option value="2">2 Stars</mat-option>
-        <mat-option value="3">3 Stars</mat-option>
-        <mat-option value="4">4 Stars</mat-option>
-        <mat-option value="5">5 Stars</mat-option>
+            <mat-option value="1">1 Star</mat-option>
+            <mat-option value="2">2 Stars</mat-option>
+            <mat-option value="3">3 Stars</mat-option>
+            <mat-option value="4">4 Stars</mat-option>
+            <mat-option value="5">5 Stars</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>How Was Your Experience? </mat-label>
         <textarea [formControlName]="'comment'" matInput></textarea>
-     </mat-form-field>
+    </mat-form-field>
     <br>
     <br>
     <div class="links">
-     <button type="submit" class="cancelButton" mat-raised-button color="primary">
-        <!-- <a routerLink="/business-profile/{{id}}"> -->
-          Submit 
-      <!-- </a> -->
-    </button>
+        <button type="submit" class="cancelButton" mat-raised-button color="primary">
+            Submit
+        </button>
     </div>
 </form>

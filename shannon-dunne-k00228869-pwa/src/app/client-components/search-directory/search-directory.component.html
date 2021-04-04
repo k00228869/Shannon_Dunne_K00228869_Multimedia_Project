@@ -1,44 +1,44 @@
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-        <a routerLink="/client-profile/{{client.uid}}">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <a routerLink="/client-profile/{{client.uid}}">
         <mat-icon>person</mat-icon>
         <span>Account</span>
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/appointment/{{client.uid}}">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/appointment/{{client.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Manage Appointments</span>
       </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/search">
-            <mat-icon>search</mat-icon>
-            <span>Find Appointment</span>  
-        </a>
-      </button>
-
-      <button mat-menu-item>
-        <a routerLink="/notification/{{client.uid}}">
-            <mat-icon>notification_important</mat-icon>
-            <span>Notifications</span>  
-        </a>
-      </button>
-
-      <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
-        <mat-icon>exit_to_app</mat-icon> 
-        <span>Logout</span>  
     </button>
-    
-    </mat-menu>
-    <span class="spacer"></span>
-    <span>Find a Provider</span>
-    <span class="spacer"></span>
+    <button mat-menu-item>
+      <a routerLink="/search">
+        <mat-icon>search</mat-icon>
+        <span>Find Appointment</span>
+      </a>
+    </button>
+
+    <button mat-menu-item>
+      <a routerLink="/notification/{{client.uid}}">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
+      </a>
+    </button>
+
+    <button mat-icon-button class="example-icon" aria-label="icon" (click)="authService.logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+
+  </mat-menu>
+  <span class="spacer"></span>
+  <span>Find a Provider</span>
+  <span class="spacer"></span>
 </mat-toolbar>
 
 
@@ -46,7 +46,7 @@
   <div *ngIf="!getDeal">
     <mat-form-field appearance="fill">
       <mat-label>Location</mat-label>
-      <mat-select  [(ngModel)]="location">
+      <mat-select [(ngModel)]="location">
         <mat-option value="default">All Locations</mat-option>
         <mat-option value="Antrim">Antrim</mat-option>
         <mat-option value="Armagh">Armagh</mat-option>
@@ -81,10 +81,11 @@
         <mat-option value="Wexford">Wexford</mat-option>
         <mat-option value="Wicklow">Wicklow</mat-option>
       </mat-select>
-    </mat-form-field> 
+    </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Provider</mat-label>
-      <mat-select  [(ngModel)]="busType">
+      <mat-select [(ngModel)]="busType">
         <mat-option value="default">All Types</mat-option>
         <mat-option value="Hair Salon">Hair Salon</mat-option>
         <mat-option value="Barber">Barber</mat-option>
@@ -96,27 +97,30 @@
         <mat-option value="Make-Up Artist">Make-Up Artist</mat-option>
       </mat-select>
     </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Sort</mat-label>
-          <mat-select [(ngModel)]="sort">
-            <mat-option value="default">Filter</mat-option>
-            <mat-option value="price">By Price</mat-option>
-            <mat-option value="rating">By Rating</mat-option>
-          </mat-select>
-        </mat-form-field>
-      <br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sort</mat-label>
+      <mat-select [(ngModel)]="sort">
+        <mat-option value="default">Filter</mat-option>
+        <mat-option value="price">By Price</mat-option>
+        <mat-option value="rating">By Rating</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
   </div>
-    
+
+  <!-- hide deals on click -->
   <button mat-raised-button aria-label="search" (click)="getDeal = false; getBus()">Search</button>
+  <!-- hide all search on click -->
   <button class="deals" mat-raised-button color="primary" aria-label="deals" (click)="getDeal = true">Deals</button>
-</form>  
+</form>
 <br>
 
 
-  
-  <!-- hide/show business list -->
-  <div *ngIf="!getDeal">
-    <app-business-list></app-business-list>
+
+<!-- hide/show business list -->
+<div *ngIf="!getDeal">
+  <app-business-list></app-business-list>
 </div>
 
 

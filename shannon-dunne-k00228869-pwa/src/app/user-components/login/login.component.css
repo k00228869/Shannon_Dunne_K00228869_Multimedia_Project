@@ -1,24 +1,22 @@
-.login{
+.login {
   width: 60%;
-  margin-left:20%;
+  margin-left: 20%;
   margin-top: 10%;
   margin-bottom: 10%;
   height: 40px;
 }
 
-.links{
-    text-align: center;
-    padding-top: 5%;
+.links {
+  text-align: center;
+  padding-top: 5%;
 }
 
-.reset{
-  width:30%;
+.reset {
+  width: 30%;
   margin-left: 40%;
 }
 
-
-h1{
+h1 {
   text-align: center;
   padding-top: 10%;
 }
-

@@ -11,7 +11,7 @@ export class BookingService {
 
   constructor(public firestore: AngularFirestore) {}
 
-  // add appointment data as doc on a user's appointments collection
+  // add appointment data as doc in a user's appointments collection
   public async addClientAppointment(clientAppointment: IUser['appointment']) {
     return await from(
       this.firestore
@@ -20,9 +20,10 @@ export class BookingService {
         .collection<IUser['appointment']>('appointments')
         .doc(clientAppointment.appointmentId)
         .set(clientAppointment)
-    ); // add user to the db
+    );
   }
 
+    // add appointment data as doc in a business's appointments collection
   public async addBusinessBooking(clientAppointment: IUser['appointment']) {
     return await from(
       this.firestore
@@ -31,9 +32,10 @@ export class BookingService {
         .collection<IUser['appointment']>('appointments')
         .doc(clientAppointment.appointmentId)
         .set(clientAppointment)
-    ); // add user booking to the db
+    );
   }
 
+  // get a business's service doc with the matching id
   public getServiceDuration(
     id: string,
     clientAppointment: IUser['appointment']
@@ -46,9 +48,10 @@ export class BookingService {
       .collection<IUser['service']>('services', (ref) =>
         ref.where('id', '==', serId)
       );
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return appointment doc
   }
 
+  // get a business's employee doc with the matching id
   public getEmployeeName(
     id: string,
     clientAppointment: IUser['appointment']
@@ -61,52 +64,50 @@ export class BookingService {
       .collection<IUser['employee']>('employees', (ref) =>
         ref.where('id', '==', empId)
       );
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return employee doc
   }
 
+  // add a booked date doc to the business's schedule collection
   public async addBookingSchedule(
     id: string,
-    schedule: IUser['bookingSchedule'] // add a booked date
+    schedule: IUser['bookingSchedule']
   ) {
-    // update booked date with new available times
-    // schedule.calendarIndex = schedule.calendarIndex.toString();
     return await from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(id) // returns promise not observable
+        .doc<IUser['user']>(id)
         .collection<IUser['bookingSchedule']>('schedule')
         .doc<IUser['bookingSchedule']>(schedule.date)
         .set(schedule)
-    ); // add user to the db
+    );
   }
 
+ // get a booked date doc that has the passed in date as a its doc id
   public getBookingSchedule(
-    // return booked doc
     id: string,
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
-    // get a booked date
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
       .collection<IUser['bookingSchedule']>('schedule')
-      .doc<IUser['bookingSchedule']>(setDate); // change to cal index
+      .doc<IUser['bookingSchedule']>(setDate);
     return docRef.valueChanges();
   }
 
+  // get the business's booked date collection
   public getBookedDays(id: string): Observable<IUser['bookingSchedule'][]> {
-    // return businesses schedule collection
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
       .collection<IUser['bookingSchedule']>('schedule');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return all booked days
   }
 
+  // get the appoinment document with the matching appointment id
   public getAppointment(
-    // get the appoinment document with the matching appointment id
     id: string
   ): Observable<IUser['appointment']> {
     let theUser = JSON.parse(localStorage.getItem('user'));
@@ -118,35 +119,17 @@ export class BookingService {
       .collection<IUser['appointment']>('appointments', (ref) =>
         ref.where('appointmentId', '==', id)
       );
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the appointment doc
   }
 
-  public getBusinessAppointment(): Observable<IUser['appointment'][]> {
     // get all of business' appointments
+    public getBusinessAppointment(): Observable<IUser['appointment'][]> {
     let theUser = JSON.parse(localStorage.getItem('user'));
     let docRef;
     docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(theUser.uid)
       .collection<IUser['appointment']>('appointments');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the appointments
   }
-
-  // public getABooking() // get a single appointment
-  // {
-  //   let theUser = JSON.parse(localStorage.getItem('user'));
-  //   this.uid = theUser.uid;
-  //   let docRef;
-  //   docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(this.uid)
-  //   .collection<IUser['appointment']>('appointments');
-  //   return docRef.valueChanges();
-  // }
-
-  // public createRescheduleNotif(dateA: Moment, dateB: Moment) {
-  //   // const dateA = moment(timestamp, 'DD-MM-YYYY');
-  //   // const dateB = moment(bookingDate, 'DD-MM-YYYY');
-  //   console.log(dateB.from(dateA));
-  //   console.log(dateB.diff(dateA, 'hours'));
-  //   console.log(dateB.diff(dateA, 'days'));
-  // }
 }

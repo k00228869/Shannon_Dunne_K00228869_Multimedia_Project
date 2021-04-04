@@ -1,13 +1,12 @@
-button a{
-    text-decoration: none;
-    color: white;
+button a {
+  text-decoration: none;
+  color: white;
 }
 
-div h2{
-    text-align: center;
+div h2 {
+  text-align: center;
 }
 
-
-.mat-menu-item a{
-    color: #4527a0;
+.mat-menu-item a {
+  color: #4527a0;
 }

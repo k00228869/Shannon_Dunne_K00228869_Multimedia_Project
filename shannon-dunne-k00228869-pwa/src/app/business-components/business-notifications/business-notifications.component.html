@@ -1,62 +1,64 @@
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <a routerLink="/business-view/{{user.uid}}">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
     </button>
-  
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-        <a routerLink="/business-view/{{user.uid}}">
-          <mat-icon>person</mat-icon>
-          <span>Profile</span>
-        </a>
-      </button>
-  
-      <button mat-menu-item>
-        <a routerLink="/dashboard/{{user.uid}}">
-          <mat-icon>bookings</mat-icon>
-          <span>Dashboard</span>
+
+    <button mat-menu-item>
+      <a routerLink="/dashboard/{{user.uid}}">
+        <mat-icon>bookings</mat-icon>
+        <span>Dashboard</span>
       </a>
-      </button>
-  
-      <button mat-menu-item>
-        <a routerLink="/business-notification/{{user.uid}}">
-            <mat-icon>notification_important</mat-icon>
-            <span>Notifications</span>
+    </button>
+
+    <button mat-menu-item>
+      <a routerLink="/business-notification/{{user.uid}}">
+        <mat-icon>notification_important</mat-icon>
+        <span>Notifications</span>
       </a>
-      </button>
+    </button>
 
-      <button mat-raised-button type="submit" (click)="authService.logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </button>
-  
-    </mat-menu>
-    <span>Notifications</span>
-    <span class="spacer"></span>
+    <button mat-raised-button type="submit" (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
 
-  </mat-toolbar> 
+  </mat-menu>
+  <span>Notifications</span>
+  <span class="spacer"></span>
 
-  <br>
-  <div *ngIf="hiddenCancellation"><h2>You have 0 new Notifications</h2></div>
-  <div *ngIf="!hiddenCancellation"> 
+</mat-toolbar>
+
+<br>
+<div *ngIf="hiddenCancellation">
+  <h2>You have 0 new Notifications</h2>
+</div>
+<div *ngIf="!hiddenCancellation">
   <mat-card class="card" *ngFor="let cancelled of cancelledAppointments">
-      <mat-card-header>
-        <mat-card-title>A client has Cancelled</mat-card-title>
-        <mat-card-subtitle>
-          A client has cancelled an appointment, <br> would you like to advertise the appointment to another client
-          <br>
-          <br>
-          <button mat-raised-button color="primary">
-            <a routerLink="/advertise-appointment/{{cancelled.id}}">
-              Advertise
+    <mat-card-header>
+      <mat-card-title>A client has Cancelled</mat-card-title>
+      <mat-card-subtitle>
+        A client has cancelled an appointment, <br> would you like to advertise the appointment to another client
+        <br>
+        <br>
+        <button mat-raised-button color="primary">
+          <a routerLink="/advertise-appointment/{{cancelled.id}}">
+            Advertise
           </a>
         </button>
-          <button mat-raised-button (click)="completeCancel(cancelled.id)" color="primary">
-              Do not advertise
+        <button mat-raised-button (click)="completeCancel(cancelled.id)" color="primary">
+          Do not advertise
         </button>
-        </mat-card-subtitle>
-        <br>
-        <br>
-      </mat-card-header>
+      </mat-card-subtitle>
+      <br>
+      <br>
+    </mat-card-header>
   </mat-card>
 </div>

@@ -2,23 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/interfaces/i-user';
 import { BusinessService } from 'src/app/services/business.service';
-import { ClientUserService } from 'src/app/services/client-user.service';
-import { Location } from '@angular/common';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { RescheduleService } from 'src/app/services/reschedule.service';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CancelComponent } from 'src/app/client-components/booking-confirmation/cancel/cancel.component';
-import { default as _rollupMoment } from 'moment';
-import * as _moment from 'moment';
 import { IBusiness } from 'src/app/interfaces/i-business';
 import { take } from 'rxjs/operators';
-const moment = _rollupMoment || _moment;
 
 @Component({
   selector: 'app-booking-confirmation',
   templateUrl: './booking-confirmation.component.html',
-  styleUrls: ['./booking-confirmation.component.css']
+  styleUrls: ['./booking-confirmation.component.css'],
 })
 export class BookingConfirmationComponent implements OnInit {
   public client: IUser['user'];
@@ -31,63 +26,61 @@ export class BookingConfirmationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public business: BusinessService,
-    public clientService: ClientUserService,
-    private location: Location,
     public authService: AuthenticateService,
     public booking: BookingService,
     public reschedule: RescheduleService,
     private dialog: MatDialog
   ) {}
 
-
-  ngOnInit(){
-    this.route.paramMap.subscribe(
-      (params) =>
-      {
-        this.id = params.get('id');
-        this.booking.getAppointment(this.id).pipe(take(1)).subscribe(
-         (appoint) =>
-          {
-            this.appointmentInfo = appoint[0];
-            this.business.getABusiness(this.appointmentInfo.bid).subscribe(
-            (bus) =>
-            {
-              this.busInfo = bus;
+  ngOnInit() {
+    // get id from route
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id'); // store id
+      // call func to get appointment
+      this.booking
+        .getAppointment(this.id)
+        .pipe(take(1))
+        .subscribe((appoint) => {
+          this.appointmentInfo = appoint[0]; // store appointment
+          // call func to get business data
+          this.business
+            .getABusiness(this.appointmentInfo.bid)
+            .subscribe((bus) => {
+              this.busInfo = bus; // store business data
             });
-          });
-      });
-    this.clientService.getUserInfo().pipe(take(1)).subscribe(
-      (data) =>
-      {
-        this.client = data;
-      });
-    this.booking.getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date).pipe(take(1)).subscribe(
-        (data) => {
-          this.scheduleOfDay = Array.from(data.availableTimes);
         });
+    });
+
+    // call func to get use data
+    this.authService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.client = data; // store user data
+      });
+
+    // call func to get the booked date doc
+    this.booking
+      .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
+      .pipe(take(1))
+      .subscribe((data) => {
+        // store array of available times from booked date doc
+        this.scheduleOfDay = Array.from(data.availableTimes);
+      });
   }
 
-  cancel()
-  {
-    this.location.back();
-  }
-
-
-  openDialog()
-  {
+  // opens cancel dialog when triggered
+  openDialog() {
     const dialogConfiguation = new MatDialogConfig(); // creating instance of matdialog
     dialogConfiguation.disableClose = true; // ensures dialog does not close by clicking outside the box
     dialogConfiguation.data = {
-      id: this.id,
-      clientId: this.client.uid,
-      busId: this.appointmentInfo.bid,
-      date: this.appointmentInfo.date}; // set data to pass to cancel component
+      // data to pas to cancel component
+      id: this.id, // appointment id
+      clientId: this.client.uid, // client id
+      busId: this.appointmentInfo.bid, // business id
+      date: this.appointmentInfo.date,
+    }; // set data to pass to cancel component
     const dialogRef = this.dialog.open(CancelComponent, dialogConfiguation); // display cancel component
-    dialogRef.afterClosed();
+    dialogRef.afterClosed(); // returns observable when finished closing cancel dialog
   }
-
-
-
-
 }
-

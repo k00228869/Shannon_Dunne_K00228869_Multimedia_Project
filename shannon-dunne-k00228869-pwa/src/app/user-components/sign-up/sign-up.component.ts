@@ -19,12 +19,10 @@ export class SignUpComponent implements OnInit {
   isSignedIn = false;
   radioButton: string;
 
-  constructor(
-    private signUp: FormBuilder,
-    public auth: AuthenticateService
-  ) {}
+  constructor(private signUp: FormBuilder, public auth: AuthenticateService) {}
 
   ngOnInit() {
+    // build signup formgroup with validators
     this.signUpForm = this.signUp.group({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
@@ -39,27 +37,18 @@ export class SignUpComponent implements OnInit {
       ]),
       admin: new FormControl([Validators.required]),
     });
-
-    if (localStorage.getItem('user') !== null) {
-      // check if user is not empty
-      this.isSignedIn = true; // if user is not empty they are signed in
-    } else {
-      this.isSignedIn = false; // if user is  empty they are signed out
-    }
   }
 
+  // submit form data
   onSubmit(newUser: IUser['user']) {
-    if (this.signUpForm.status === 'VALID' ) {
-      // if fields are valid
-      this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
-      this.auth.signup(newUser); // pass the values to the signUp function in the service
-      if (this.auth.isLoggedIn) {
-        // if the boolean in the service is true
-        console.log('you are signed in');
-        this.isSignedIn = true; // set boolean to true as user is signed in
-      }
-    }
-    else{
+    // if form date is valid
+    if (this.signUpForm.status === 'VALID') {
+      // set the value of the form equal to the object
+      this.newUser = this.signUpForm.value;
+      // pass the values to the signUp function in the service
+      this.auth.signup(newUser);
+    } else {
+      // if form data is not valid show alert
       alert('Correct the invalid fields before submitting');
       return;
     }

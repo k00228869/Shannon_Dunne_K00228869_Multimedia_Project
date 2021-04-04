@@ -47,23 +47,24 @@
 
     <div class="accountType">
       <mat-label>Select Account</mat-label> <br> <br>
-      <mat-radio-group required aria-label="Select Account Type" name="admin" [formControlName]="'admin'" [(ngModel)]="radioButton">
+      <mat-radio-group required aria-label="Select Account Type" name="admin" [formControlName]="'admin'"
+        [(ngModel)]="radioButton">
         <mat-radio-button [value]="true">Business</mat-radio-button>
         <mat-radio-button [value]="false">Customer</mat-radio-button>
       </mat-radio-group>
       <br>
       <br>
     </div>
-      <button class="submit" mat-raised-button color="primary" type="submit">
-        Sign Up
-      </button>
+    <button class="submit" mat-raised-button color="primary" type="submit">
+      Sign Up
+    </button>
   </form>
   <div class="redirect">
-  <br>
-  <br>
-  <h3>Already A Member?</h3>
-  <a [routerLink]="['/login']">
-    Login
-  </a>
+    <br>
+    <br>
+    <h3>Already A Member?</h3>
+    <a [routerLink]="['/login']">
+      Login
+    </a>
   </div>
 </div>

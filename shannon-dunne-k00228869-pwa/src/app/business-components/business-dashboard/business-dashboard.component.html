@@ -1,109 +1,107 @@
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-          <a routerLink="/business-view/{{user.uid}}">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <a routerLink="/business-view/{{user.uid}}">
         <mat-icon>person</mat-icon>
         <span>Profile</span>
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/dashboard/{{user.uid}}">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/dashboard/{{user.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Dashboard</span>
       </a>
-      </button>
+    </button>
 
-      <button mat-menu-item>
-        <a routerLink="/business-notification/{{user.uid}}">
+    <button mat-menu-item>
+      <a routerLink="/business-notification/{{user.uid}}">
         <mat-icon>notification_important</mat-icon>
         <span>Notifications</span>
       </a>
-      </button>
+    </button>
 
-      <button mat-raised-button type="submit" (click)="authService.logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
+    <button mat-raised-button type="submit" (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 
-    <span>Business Dashboard</span>
-    <span class="spacer"></span>
+  <span>Business Dashboard</span>
+  <span class="spacer"></span>
 </mat-toolbar>
 
 <div class="note" *ngIf="noAppointments"> You have 0 appointments</div>
 
 <mat-tab-group>
   <mat-tab label="Appointments" *ngIf="!noAppointments">
-      <mat-list>
-        <mat-divider></mat-divider>  
-        <mat-expansion-panel *ngFor ="let booking of allBookings" (opened)="panelOpenState = true"
+    <mat-list>
+      <mat-divider></mat-divider>
+      <mat-expansion-panel *ngFor="let booking of allBookings" (opened)="panelOpenState = true"
         (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
-        <mat-panel-title>
-        {{booking.clientName}}
-        </mat-panel-title>
-        <br>
-        <mat-panel-title>
-          {{booking.phone}}
-        </mat-panel-title>
-        <mat-panel-title>
-        {{booking.date}}
-        </mat-panel-title>
+          <mat-panel-title>
+            {{booking.clientName}}
+          </mat-panel-title>
+          <br>
+          <mat-panel-title>
+            {{booking.phone}}
+          </mat-panel-title>
+          <mat-panel-title>
+            {{booking.date}}
+          </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-panel-title>
-         Time: {{booking.time}}
+          Time: {{booking.time}}
         </mat-panel-title>
         <mat-panel-title>
-         Employee: {{booking.empName}}
+          Employee: {{booking.empName}}
         </mat-panel-title>
         <mat-panel-title>
-         Service: {{booking.serName}}
+          Service: {{booking.serName}}
         </mat-panel-title>
         <mat-panel-title>
           Price:&#x20AC; {{booking.serPrice}}
-         </mat-panel-title>
-         <mat-panel-title>
+        </mat-panel-title>
+        <mat-panel-title>
           {{booking.phone}}
         </mat-panel-title>
         <mat-panel-title>
           Notes: {{booking.note}}
-         </mat-panel-title>
-        </mat-expansion-panel>
-        <mat-divider></mat-divider> 
-  <!-- </mat-tab> -->
-  
-  <div>
-    <mat-divider></mat-divider>
-    <mat-tab label="Reviews" *ngIf="!noReviews">
-      <mat-list>
-              <mat-expansion-panel *ngFor ="let review of reviews" (opened)="panelOpenState = true"
+        </mat-panel-title>
+      </mat-expansion-panel>
+      <mat-divider></mat-divider>
+
+      <div>
+        <mat-divider></mat-divider>
+        <mat-tab label="Reviews" *ngIf="!noReviews">
+          <mat-list>
+            <mat-expansion-panel *ngFor="let review of reviews" (opened)="panelOpenState = true"
               (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
-              <mat-panel-title>
-              {{review.name}}
-              </mat-panel-title>
-              <mat-panel-title>
-                {{review.rating}}<mat-icon>star_rate</mat-icon>
+                <mat-panel-title>
+                  {{review.name}}
+                </mat-panel-title>
+                <mat-panel-title>
+                  {{review.rating}}<mat-icon>star_rate</mat-icon>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <p>{{review.comment}}</p>
               <mat-panel-description>
                 <p>{{review.timestamp | slice :0 :-6}}</p>
-               <br>
-             </mat-panel-description>
                 <br>
-                <button mat-raised-button class="buttonText" color="primary">
-                  <a routerLink="/reply/{{review.id}}">
-                    Reply
+              </mat-panel-description>
+              <br>
+              <button mat-raised-button class="buttonText" color="primary">
+                <a routerLink="/reply/{{review.id}}">
+                  Reply
                 </a>
               </button>
-              </mat-expansion-panel>
-              <mat-divider></mat-divider>
-      </mat-list>
-    </mat-tab>
-</div>
-<!-- </mat-tab-group> -->
+            </mat-expansion-panel>
+            <mat-divider></mat-divider>
+          </mat-list>
+        </mat-tab>
+      </div>

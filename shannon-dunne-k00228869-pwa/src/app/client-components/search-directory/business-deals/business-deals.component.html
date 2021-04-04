@@ -2,27 +2,29 @@
 <br>
 <div *ngFor="let appoint of appointAdverts">
   <mat-divider></mat-divider>
-  <mat-card class="card"> 
+  <mat-card class="card">
     <br>
-        <mat-card-header>
-          <mat-card-title>{{appoint.provider}}</mat-card-title>
-          <mat-card-subtitle>
-              {{appoint.serName}} with {{appoint.discount}}% off <mat-icon>local_offer</mat-icon>
-            </mat-card-subtitle>
-          <mat-card-subtitle>
-            Date: {{appoint.date}}
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-            Time: {{appoint.time | slice :0 :-3}}
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-            Price: &euro; {{appoint.serPrice.toFixed(2)}}
-          </mat-card-subtitle>
-          <mat-card-subtitle>
-              <button mat-raised-button color="primary" (click)="addBooking(appoint)">
-                    Book Now
-              </button>
-            </mat-card-subtitle>
-        </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>{{appoint.provider}}</mat-card-title>
+      <mat-card-subtitle>
+        {{appoint.serName}} with {{appoint.discount}}% off <mat-icon>local_offer</mat-icon>
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Date: {{appoint.date}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <!-- slice last 3 characters from string -->
+        Time: {{appoint.time | slice :0 :-3}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <!-- display price with 2 decimal places -->
+        Price: &euro; {{appoint.serPrice.toFixed(2)}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <button mat-raised-button color="primary" (click)="addBooking(appoint)">
+          Book Now
+        </button>
+      </mat-card-subtitle>
+    </mat-card-header>
   </mat-card>
 </div>

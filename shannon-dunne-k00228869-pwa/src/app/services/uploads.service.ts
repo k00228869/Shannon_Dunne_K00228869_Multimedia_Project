@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { map, finalize } from 'rxjs/operators';
 import {
   AngularFireStorage,
   AngularFireStorageReference,
@@ -25,124 +24,75 @@ export class UploadsService {
   slides = {};
   url: string;
   images: string[] = [];
-
-
   uploads: any[];
   percentAll: Observable<any>;
   files: Observable<any>;
   constructor(
     private imgStorage: AngularFireStorage,
     public business: BusinessService,
-    private firestore: AngularFirestore,
+    private firestore: AngularFirestore
   ) {}
 
-  // uploadEmployeeImage = (event) => {
-  //   const imgId = Math.random().toString(36).substring(2); // create random image id
-  //   this.employeeRef = this.imgStorage.ref('/images/employees/' + imgId); // create reference path to storage bucket
-  //   this.task = this.employeeRef.put(event.target.files[0]); // create an uploadtask to upload img
-  //   this.uploadProgress = this.task.snapshotChanges() // return state, download url from uploadprogress
-  //   .pipe(map (s => (s.bytesTransferred / s.totalBytes) * 100))
-
-  //   this.uploadProgress = this.task.percentageChanges(); // observe progress of upload
-  //   this.task.snapshotChanges().pipe(  // getDownloadURL prevents having to bind to uploadProgress in UI, as it will show the progress
-  //   finalize(() => {
-  //     this.downloadURL = this.employeeRef.getDownloadURL(); // notify when url is available
-  //     this.downloadURL.subscribe(url => (this.empURL = url.toString()));
-  //     console.log(this.empURL);
-  //     console.log(this.downloadURL);
-  //     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
-  //   })).subscribe();
-  //  }
-
-  // uploadProfileImages = (event) => {
-  //   let theUser = JSON.parse(localStorage.getItem('user'));
-  //   if (event) {
-  //     // let list = event.target.files;
-  //     // tslint:disable-next-line: prefer-for-of
-  //     for (let i = 0; i === event.target.files.length; i++) {
-  //       const imgId = Math.random().toString(36).substring(2); // create image id
-  //       this.businessRef = this.imgStorage.ref(
-  //         '/images/business/' + theUser.uid + imgId
-  //       ); // create reference path to storage bucket
-  //       this.groupTask = this.businessRef.put(event.target.files[i]); // upload to storage reference path
-
-  //       this.uploadGroupProgress = this.groupTask
-  //         .snapshotChanges() // return state from upload progress
-  //         .pipe(map((s) => (s.bytesTransferred / s.totalBytes) * 100));
-
-  //       this.uploadGroupProgress = this.groupTask.percentageChanges(); // return current progress
-  //       this.groupTask
-  //         .snapshotChanges()
-  //         .pipe(
-  //           finalize(() => {
-  //             this.uploadGroupState = this.groupTask
-  //             .snapshotChanges()
-  //             .pipe(map((s) => s.state));
-  //             this.downloadAllURL = this.businessRef.getDownloadURL(); // store download url
-  //             this.downloadAllURL.subscribe((url) => {
-  //               this.url = url;
-  //               // this.busURL = url.toString();
-  //               this.images.push(this.url); // push image url to array of urls
-  //             });
-  //           })
-  //         ).subscribe();
-  //     }
-  //   }
-  // }
-
-
-  uploadBusinessImages = (event) =>
-  {
+  // event passed in when image upload button is selected in add bsuiness form
+  uploadBusinessImages = (event) => {
     this.uploads = [];
-    const fileList = event.target.files;
+    const fileList = event.target.files; // store files
     const percentAll: Observable<number>[] = [];
 
-    for (let file of fileList)
-    {
+    // loop through files
+    for (let file of fileList) {
+      // give each an id
       const randomId = Math.random().toString(36).substring(2);
+      // set the storage upload path
       const ref = this.imgStorage.ref('/images/' + randomId);
+      // upload the file
       const task = ref.put(file);
+      // get the upload percent
       const percentage = task.percentageChanges();
+      // add the percentage to the array
       percentAll.push(percentage);
 
+      // progress obj
       const uploadProgress = {
         name: file.name,
         percent: percentage,
       };
-
+      // add progress obj to uploads array
       this.uploads.push(uploadProgress);
       const checkTask = task.then((f) => {
+        // return the download url of the img
         return f.ref.getDownloadURL().then((url) => {
-        this.images.push(url);
+          // add the img download url to the array that holds all the urls
+          this.images.push(url);
         });
       });
     }
-  }
+  };
 
-  // get images for landing page slideshow
-  getSlideshow(): Observable<string[]>
-  {
+  // get the images for the landing page slideshow from the slideshow collection
+  getSlideshow(): Observable<string[]> {
     return this.firestore
       .collection<string[]>('appImages')
       .doc('slideshow')
       .valueChanges();
   }
 
-  // get images for business page slideshow
+  // get images for the business page slideshow from the businesses images collection
   getBusinessSlideshow(id: string): Observable<IUser['slides']> {
     return this.firestore
-    .collection('users')
-    .doc<IUser['user']>(id)
-    .collection<IUser>('images')
-    .doc<IUser['slides']>('images')
-    .valueChanges();
+      .collection('users')
+      .doc<IUser['user']>(id)
+      .collection<IUser>('images')
+      .doc<IUser['slides']>('images')
+      .valueChanges();
   }
 
-  // store images for business page slideshow
+  // store the images for the business page slideshow in the slides images collection
   public storeBusinessImages(): Observable<void> {
+    // get the user data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));
-
-    this.profileImages.imageURL = this.images;
+    this.profileImages.imageURL = this.images; // store the array of urls
+    // add doc to collection
     return from(
       this.firestore
         .collection('users')

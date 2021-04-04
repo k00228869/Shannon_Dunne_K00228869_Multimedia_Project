@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { IUser } from 'src/app/interfaces/i-user';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { ClientUserService } from 'src/app/services/client-user.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 
 @Component({
   selector: 'app-reply-form',
   templateUrl: './reply-form.component.html',
-  styleUrls: ['./reply-form.component.css']
+  styleUrls: ['./reply-form.component.css'],
 })
 export class ReplyFormComponent implements OnInit {
   addReplyForm: FormGroup;
@@ -20,51 +24,47 @@ export class ReplyFormComponent implements OnInit {
 
   constructor(
     private replyMessage: FormBuilder,
-    public clientService: ClientUserService,
     public feedbackService: FeedbackService,
     private route: ActivatedRoute,
     private router: Router,
-    public authService: AuthenticateService,
+    public authService: AuthenticateService
+  ) {}
 
-
-  ) { }
-
-  ngOnInit(){
+  ngOnInit() {
+    // build review formgroup
     this.addReplyForm = this.replyMessage.group({
       reply: new FormControl('', Validators.required),
     });
 
-    this.clientService.getUserInfo().pipe(take(1)).subscribe(
-      (data) =>
-      {
-        this.user = data;
+    // cal + subscribe to func to get user data
+    this.authService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.user = data; // store user data
       });
 
-    this.route.paramMap.subscribe(
-      (params) =>
-      {
-        this.id = params.get('id');
-      });
+    // get route id
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id'); // store route id
+    });
   }
 
-
-  public onSubmit()
-  {
-    if (this.addReplyForm.status === 'Valid')
-    {
-      this.submittedReply = this.addReplyForm.value;
-      this.feedbackService.addReply(this.submittedReply, this.id);
-      this.changeRoute();
-    }
-    else{
+  // submit form data
+  public onSubmit() {
+    // if form data is valid
+    if (this.addReplyForm.status === 'Valid') {
+      this.submittedReply = this.addReplyForm.value; // store form data
+      this.feedbackService.addReply(this.submittedReply, this.id); // call func to add reply to review
+      this.changeRoute(); // call func to change route
+    } else {
       alert('Correct the invalid fields before submitting');
       return;
     }
   }
 
-
-
-  changeRoute(){
+  changeRoute() {
+    // change route
     this.router.navigate(['/business-view/', this.user.uid]);
   }
 }

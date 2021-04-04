@@ -11,18 +11,16 @@ import { IBusiness } from '../interfaces/i-business';
   providedIn: 'root',
 })
 export class NotificationsService {
-  public currentMessage = new BehaviorSubject(null); // observable for new data
+  // behaviour subject  for notification new data
+  public currentMessage = new BehaviorSubject(null);
   notificationMessage = {};
   token = null;
   public uid: string;
   private subscrip: IUser['subscription'] = {};
-  // private notifObj: IUser['notificationMessage'] = {};
 
   constructor(
     private firestore: AngularFirestore,
     private afm: AngularFireMessaging,
-    // private auth: AngularFireAuth,
-    // private db: AngularFireDatabase,
     private toastr: ToastrService
   ) {}
 
@@ -33,9 +31,10 @@ export class NotificationsService {
       // get token when permission allowed
       tap(
         (token) => {
+          // get the user data from localstorage
           let theUser = JSON.parse(localStorage.getItem('user'));
-          this.subscrip.token = token; // set token + user id
-          this.subscrip.id = theUser.uid;
+          this.subscrip.token = token; // set token
+          this.subscrip.id = theUser.uid; // set user id
           return from(
             // store token + user id in subscription collection
             this.firestore
@@ -47,6 +46,7 @@ export class NotificationsService {
           );
         },
         (err) => {
+          // catch subscription error
           console.log('no permission', err);
         }
       )
@@ -70,8 +70,8 @@ export class NotificationsService {
             .doc<IUser['user']>(theUser.uid)
             .collection<IUser>(theUser.uid)
             .doc<IUser['subscription']>(theUser.uid)
-            .update({ token: this.subscrip.token })
-        ); // store token + user id
+            .update({ token: this.subscrip.token }) // store token + user id
+        );
       })
     );
   }
@@ -80,34 +80,18 @@ export class NotificationsService {
   // it triggers a toast notification to display the data from the pushed notification
   receiveMessage() {
     return this.afm.onMessage((payload) => {
+      // when notification functionality is complete the notification will be saved here
       // this.saveNotification(payload);
+      // toastr to display notifcation data
       this.toastr.info(payload.notification.body, payload.notification.title, {
+        // display centered at the top of the window
         positionClass: 'toast-top-center',
-        timeOut: 7000,
-        closeButton: true,
+        timeOut: 6000, // hide after 6 secs
+        closeButton: true, // show close button
       });
-      this.currentMessage.next(payload); // log and get next message
+      this.currentMessage.next(payload); // log ,essage and get next message
     });
   }
-
-  // saveNotification(payload) {
-  //     this.notifObj.message.notification.title = payload.notification.title;
-  //     this.notifObj.message.notification.body = payload.notification.body;
-  //     console.log('Saving payload', this.notifObj);
-  //     // let theUser = JSON.parse(localStorage.getItem('user'));
-  //     // return from (this.firestore.collection<IUser['user']>('users')
-  //     // .doc<IUser['user']>(theUser.uid)
-  //     // .collection<IUser>('notifications').doc<IUser['notification']>(theUser.uid).set(this.notifObj)); // store token + user id
-  // return from(
-  //   this.firestore
-  //    .collection<IUser>('users') // adNotification to notificationlist
-  //    .doc<IUser['user']>(clientAppointment.uid)
-  //    .collection<IUser>('appointment-notification')
-  //    .doc<IUser['notificationMessage']>(clientAppointment.appointmentId)
-  //    .set(this.notificationMessage)
-  // );
-  // });
-  //   }
 
   // This get the users token, if they are already subscribed to push notifications
   getToken(id: string): Observable<IUser['subscription']> {
@@ -257,6 +241,7 @@ export class NotificationsService {
     // delete review notifications document by bus id
     // TO DO::
     // cloud function here to remove notification from FCM
+    // get user data ffrom loacal storage
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore

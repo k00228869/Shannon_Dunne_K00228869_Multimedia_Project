@@ -1,59 +1,63 @@
-<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button class="cancelButton" mat-raised-button color="warn" (click)="authService.cancel()" type="button">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 <br>
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
-        <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
-          <a routerLink="/business-view/{{user.uid}}">
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <!-- <a [routerLink]="['/business-view/', this.businessProfile.id]"> -->
+      <a routerLink="/business-view/{{user.uid}}">
         <mat-icon>person</mat-icon>
         <span>Profile</span>
         <!-- this will link to the page that displays the business's view of their profile, they can then get to the edit page -->
-        </a>
-      </button>
-      <button mat-menu-item>
-        <a routerLink="/dashboard/{{user.uid}}">
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a routerLink="/dashboard/{{user.uid}}">
         <mat-icon>bookings</mat-icon>
         <span>Dashboard</span>
-          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+        <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
       </a>
-      </button>
+    </button>
 
 
-      <button mat-menu-item>
-        <a routerLink="/business-notification/{{user.uid}}">
-            <mat-icon>notification_important</mat-icon>
+    <button mat-menu-item>
+      <a routerLink="/business-notification/{{user.uid}}">
+        <mat-icon>notification_important</mat-icon>
         <span>Notifications</span>
-          <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
+        <!-- This will link to the businesses dashboard where they can view upcoming appointments -->
       </a>
-      </button>
-    </mat-menu>
+    </button>
+  </mat-menu>
 
-    <span>Reply to review</span>
-    <span class="spacer"></span>
-    
-    <button mat-raised-button type="submit" (click)="authService.logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
+  <span>Reply to review</span>
+  <span class="spacer"></span>
+
+  <button mat-raised-button type="submit" (click)="authService.logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
   </button>
 
 </mat-toolbar>
 <br>
 
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button color="warn" (click)="authService.cancel()" type="button">
+  <mat-icon>arrow_back</mat-icon>
+</button>
 <br>
 <form class="form-group" [formGroup]="addReplyForm" (ngSubmit)="onSubmit()">
-<mat-form-field appearance="outline">
+  <mat-form-field appearance="outline">
     <mat-label>Comment</mat-label>
     <input matInput [formControlName]="'reply'">
   </mat-form-field>
-<br><br>
+  <br><br>
   <button type="submit" class="submit" mat-raised-button color="primary">
     <!-- <a routerLink="/profile-business-view"> -->
-      Send 
-  <!-- </a> -->
-</button>
+    Send
+    <!-- </a> -->
+  </button>
 </form>

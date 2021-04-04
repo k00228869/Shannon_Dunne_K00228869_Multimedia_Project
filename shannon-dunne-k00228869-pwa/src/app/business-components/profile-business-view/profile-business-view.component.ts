@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/interfaces/i-user';
-import { Observable } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { take } from 'rxjs/operators';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { IBusiness } from 'src/app/interfaces/i-business';
 
-
 @Component({
   selector: 'app-profile-business-view',
   templateUrl: './profile-business-view.component.html',
-  styleUrls: ['./profile-business-view.component.css']
+  styleUrls: ['./profile-business-view.component.css'],
 })
 export class ProfileBusinessViewComponent implements OnInit {
   profileInfo: IBusiness['business'];
@@ -25,68 +22,75 @@ export class ProfileBusinessViewComponent implements OnInit {
   isSignedIn = false;
   public slides: string[] = [];
   reviews: IUser['review'][];
-
-
   public isCreated: boolean;
 
   constructor(
     public business: BusinessService,
     public authService: AuthenticateService,
     private feedback: FeedbackService,
-    private uploads: UploadsService,
-  ) { }
+    private uploads: UploadsService
+  ) {}
 
-  ngOnInit()
-  {
-    this.business.getBusiness().pipe(take(1)).subscribe( // get bus doc
-        (bus) =>
-        {
-          this.profileInfo = bus;
-          if (this.profileInfo.profileCreated)
-          {
-            this.isCreated = true;
+  ngOnInit() {
+    // call func to get the business users profile
+    this.business
+      .getBusiness()
+      .pipe(take(1))
+      .subscribe(
+        // get bus doc
+        (bus) => {
+          this.profileInfo = bus; // store profile data
+          if (this.profileInfo.profileCreated) {
+            // if the business user has created a profile
+            this.isCreated = true; // show profile ui
+          } else {
+            this.isCreated = false; // hide profile ui
           }
-          else{
-            this.isCreated = false;
-          }
-          this.getProfile();
-        });
-    this.business.getUserInfo().pipe(take(1)).subscribe(
-      (data) =>
-      {
-        this.user = data;
+          this.getProfile(); // call func to get employees and services
+        }
+      );
+    // call func to get user data
+    this.authService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.user = data; // store user data
       });
 
-    this.business.getBusinessHours().pipe(take(1)).subscribe(
-      (data) =>
-      {
-        this.theHours = data[0];
+    // call func to get business working hours
+    this.business
+      .getBusinessHours()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.theHours = data[0]; // store business hours array
       });
-    this.feedback.getBusinessReviews(this.user.uid).pipe(take(1)).subscribe(
-        (data) => {
-          this.reviews = data;
-        });
 
-    this.uploads.getBusinessSlideshow(this.user.uid).pipe(take(1)).subscribe(
-      (data) => {
-        this.slides = data.imageURL;
+    // call func to get business reviews
+    this.feedback
+      .getBusinessReviews(this.user.uid)
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.reviews = data; // store business reviews
+      });
+
+    // call func to get business images
+    this.uploads
+      .getBusinessSlideshow(this.user.uid)
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.slides = data.imageURL; // store business images
         console.log(this.slides);
       });
-    }
+  }
 
-  async getProfile()
-  {
-    (await this.business.getEmployees()).subscribe(
-      (emps) =>
-      {
-        this.employees = emps;
-      }
-    );
-    (await this.business.getServices()).subscribe(
-      (servs) =>
-      {
-        this.services = servs;
-      }
-    );
+  async getProfile() {
+    // call func to get business employess
+    (await this.business.getEmployees()).subscribe((emps) => {
+      this.employees = emps; // store employees
+    });
+    // call func to get business services
+    (await this.business.getServices()).subscribe((servs) => {
+      this.services = servs; // store services
+    });
   }
 }

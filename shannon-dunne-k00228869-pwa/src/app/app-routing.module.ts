@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './user-components/login/login.component';
 import { SignUpComponent } from './user-components/sign-up/sign-up.component';
 import { LandingPageComponent } from './client-components/landing-page/landing-page.component';
-import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { SearchDirectoryComponent } from './client-components/search-directory/search-directory.component';
 import { BusinessDashboardComponent } from './business-components/business-dashboard/business-dashboard.component';
 import { BookingFormComponent } from './client-components/booking-form/booking-form.component';
@@ -47,10 +46,6 @@ const routes: Routes = [
   {path: 'business-notification/:id', component: BusinessNotificationsComponent},
   {path: 'reset-details/:id', component: ResetDetailsComponent},
   {path: 'edit-business/:id', component: EditBusinessComponent},
-
-
-
-
 ];
 
 @NgModule({

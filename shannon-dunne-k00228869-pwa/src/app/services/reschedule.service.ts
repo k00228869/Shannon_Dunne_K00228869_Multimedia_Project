@@ -13,10 +13,10 @@ export class RescheduleService {
 
   constructor(public firestore: AngularFirestore) {}
 
-  // update client appointment with rescheduled appointment info
+  // update client appointment doc with rescheduled appointment info
   public updateClientAppointment(
     appointmentInfo: IUser['appointment'],
-    newAppointment: IUser['appointment'] // get single appoinment data for confirmation
+    newAppointment: IUser['appointment']
   ) {
     return from(
       this.firestore
@@ -25,7 +25,7 @@ export class RescheduleService {
         .collection<IUser['appointment']>('appointments')
         .doc(appointmentInfo.appointmentId)
         .update({
-          // appointmentId: newAppointment.appointmentId,
+          // data to update
           date: newAppointment.date,
           note: newAppointment.note,
           time: newAppointment.time,
@@ -34,10 +34,10 @@ export class RescheduleService {
     );
   }
 
-  // update business appointment with the resceduled appointment info
+  // update business appointment doc with the resceduled appointment info
   public updateBusAppointment(
     appointmentInfo: IUser['appointment'],
-    newAppointment: IUser['appointment'] // get single appoinment data for confirmation
+    newAppointment: IUser['appointment']
   ) {
     return from(
       this.firestore
@@ -46,7 +46,7 @@ export class RescheduleService {
         .collection<IUser['appointment']>('appointments')
         .doc(appointmentInfo.appointmentId)
         .update({
-          // appointmentId: newAppointment.appointmentId,
+          // data to update
           date: newAppointment.date,
           note: newAppointment.note,
           time: newAppointment.time,
@@ -55,13 +55,11 @@ export class RescheduleService {
     );
   }
 
-  // update schedule for a booked date
+  // update schedule doc with new available times for a booked date
   public editBookingSchedule(
     appointmentInfo: IUser['appointment'],
     newSchedule: IUser['bookingSchedule']
   ) {
-    // update date schedule with new available times
-
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -69,16 +67,17 @@ export class RescheduleService {
         .collection<IUser['bookingSchedule']>('schedule')
         .doc<IUser['bookingSchedule']>(appointmentInfo.date)
         .update({
+          // update the available times array
           availableTimes: newSchedule.availableTimes,
         })
     );
   }
 
+  // updates a businesses schedule doc for a rescheduled/cancelled date
   public editSchedule(
     appointmentInfo: IUser['appointment'],
     newSchedule: IUser['bookingSchedule']
   ) {
-    // return from( do );
     let docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(appointmentInfo.bid)
@@ -87,7 +86,7 @@ export class RescheduleService {
     return from(docRef.set(newSchedule));
   }
 
-  // remove client booking from db
+  // removes a clients appointment doc from their appointments collection
   public cancelClientBooking(id: string, uid: string) {
     return from(
       this.firestore
@@ -99,7 +98,7 @@ export class RescheduleService {
     );
   }
 
-  // remove business booking from db
+  // remove a business appointment doc from their appointments collection
   public cancelBusBooking(id: string, bid: string) {
     return from(
       this.firestore
@@ -111,7 +110,7 @@ export class RescheduleService {
     );
   }
 
-  // store the users booked deal
+  // store a users appointment deal doc in their appointments collection
   storeDealAppointment(dealBooking: IUser['appointment']) {
     return from(
       this.firestore
@@ -123,7 +122,7 @@ export class RescheduleService {
     );
   }
 
-  // update businesses appointment
+  // updates a businesses appointment doc with the booked deal's data
   updateDealappointment(appointDeal: IUser['appointment']) {
     return from(
       this.firestore
@@ -139,7 +138,7 @@ export class RescheduleService {
     );
   }
 
-  // delete deal advert
+  // deletes a  deal advert from the deals collection
   deleteDealAdvert(id: string) {
     return from(
       this.firestore
@@ -149,7 +148,7 @@ export class RescheduleService {
     );
   }
 
-  // duplicate advertised appointment to root of db so that it can be displayed as a deal
+  // adds advertised appointment data to deals collection
   public moveBusAppointment(
     newAppointInfo: IUser['appointment'],
     businessName: string
@@ -164,13 +163,13 @@ export class RescheduleService {
     );
   }
 
+  // gets the deals collection from db
   public getDeals() {
-    // get all deal appointments
     let docRef = this.firestore.collection<IDeals['deal']>('deals');
     return docRef.valueChanges();
   }
 
-  // update the businesses appointment doc with the deals info and clear old client details
+  // updates the business's appointment doc with the deals info and clears old client details
   public editBusAppointment(newAppointInfo: IUser['appointment']) {
     return from(
       this.firestore
@@ -188,10 +187,8 @@ export class RescheduleService {
     );
   }
 
-  public addToCancelList(
-    id: string,
-    busId: string // ad appointment id to cancellation list
-  ) {
+  // adds the id of a cancelled appointment to a business's cancellation list
+  public addToCancelList(id: string, busId: string) {
     this.cancellation.id = id;
     return from(
       this.firestore
@@ -203,9 +200,8 @@ export class RescheduleService {
     );
   }
 
-  public getCancellationList(
-    id: string // get document of cancelled appointment id
-  ) {
+  // gets a businesses cancellation collection
+  public getCancellationList(id: string) {
     let docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
@@ -213,10 +209,8 @@ export class RescheduleService {
     return docRef.valueChanges();
   }
 
-  public deleteCancellation(
-    id: string,
-    bid: string // delete appointment id from business cancellation doc
-  ) {
+  // deletes an appointment id from a businesses cancellation collection
+  public deleteCancellation(id: string, bid: string) {
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -226,13 +220,4 @@ export class RescheduleService {
         .delete()
     );
   }
-
-  // public createRescheduleNotif()
-  // {
-
-  //   const dateA = moment('01-01-2900', 'DD-MM-YYYY');
-  //   const dateB = moment('01-01-2000', 'DD-MM-YYYY');
-  //   console.log(dateA.from(dateB));
-
-  // }
 }

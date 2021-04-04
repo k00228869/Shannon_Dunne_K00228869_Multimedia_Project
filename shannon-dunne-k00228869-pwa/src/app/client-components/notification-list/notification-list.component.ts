@@ -10,7 +10,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 @Component({
   selector: 'app-notification-list',
   templateUrl: './notification-list.component.html',
-  styleUrls: ['./notification-list.component.css']
+  styleUrls: ['./notification-list.component.css'],
 })
 export class NotificationListComponent implements OnInit {
   public appointmentInfo: IUser['appointment'];
@@ -27,42 +27,42 @@ export class NotificationListComponent implements OnInit {
     public business: BusinessService,
     public authService: AuthenticateService,
     private notif: NotificationsService
+  ) {}
 
+  ngOnInit() {
+    // call func to get user data
+    this.authService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.client = data; // store user data
+      });
 
-  ) { }
-
-  ngOnInit(){
-
-    this.business.getUserInfo().pipe(take(1)).subscribe(
-        (data) =>
-        {
-          this.client = data;
-        }
-      );
-
-    this.notif.getANotifications().pipe(take(1)).subscribe(
-      (data) => {
-        this.reminders = data;
-        if (this.reminders.length === 0)
-        {
-          this.isReminders = false;
-        }
-        else{
-          this.isReminders = true;
+    // call func to get appointment notifications
+    this.notif
+      .getANotifications()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.reminders = data; // store appointment notifications
+        if (this.reminders.length === 0) {
+          // if no appointment notifications
+          this.isReminders = false; // hide appointment reminders
+        } else {
+          this.isReminders = true; // show appointment reminders
         }
       });
 
-    this.notif.getRNotifications().pipe(take(1)).subscribe(
-        (data) => {
-          this.reviews = data;
-          if (this.reviews.length === 0)
-        {
-          this.isReviews = false;
+    // call func to get review notifications
+    this.notif
+      .getRNotifications()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.reviews = data; // store review notifications
+        if (this.reviews.length === 0) {
+          this.isReviews = false; // hide review reminders
+        } else {
+          this.isReviews = true; // show review reminders
         }
-        else{
-          this.isReviews = true;
-        }
-        });
+      });
   }
-
 }

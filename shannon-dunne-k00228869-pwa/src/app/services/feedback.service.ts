@@ -10,10 +10,8 @@ import { IUser } from '../interfaces/i-user';
 export class FeedbackService {
   constructor(private firestore: AngularFirestore) {}
 
-  public addReview(
-    submittedFeedback: IUser['review'],
-    id: string // add review to business profile
-  ) {
+  // add review to business profile with poassed in id
+  public addReview(submittedFeedback: IUser['review'], id: string) {
     return from(
       this.firestore
         .collection<IUser>('users')
@@ -24,9 +22,8 @@ export class FeedbackService {
     );
   }
 
-  public getBusinessReviews(
-    id: string // get reviews for the selected business profile
-  ) {
+  // get reviews collection for the selected business profile
+  public getBusinessReviews(id: string) {
     return this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
@@ -34,6 +31,7 @@ export class FeedbackService {
       .valueChanges();
   }
 
+  // update the businesses profile doc with their average rating
   public averageRating(sum: number, bid: string) {
     return from(
       this.firestore
@@ -45,47 +43,42 @@ export class FeedbackService {
     );
   }
 
-  // public someReviews(uid: string): Observable<IUser['review'][]> // get reviews with reply value
-  // {
-  //   let docRef = this.firestore.collection<IUser>('users').doc<IUser['user']>(uid)
-  //   .collection<IUser['review']>('reviews', ref => ref.orderBy('rewiews.${reply}'));
-  //   return docRef.valueChanges();
-  // }
-
-  public completeReview(
-    id: string // get reviews that have a reply
-  ) {
+  // get the business's review docs that have a reply value other than null
+  public completeReview(id: string) {
     let docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
       .collection<IUser['review']>('reviews', (ref) =>
         ref.where('reply', '!=', 'null')
       );
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return docs with a null reply
   }
 
-  public someReviews(
-    uid: string // get reviews where reply is = null
-  ) {
+  // get a businesses review docs where reply is set to null
+  public someReviews(uid: string) {
     let docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(uid)
       .collection<IUser['review']>('reviews', (ref) =>
         ref.where('reply', '==', null)
       );
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return docs with null reply
   }
 
-  public getReviews() { // get a business user's reviews
+  // get a business user's reviews
+  public getReviews() {
+    // get the users data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
     return this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(theUser.uid)
       .collection<IUser['review']>('reviews')
-      .valueChanges();
+      .valueChanges(); // returns the entire review collection for a business
   }
 
+  // adds a reply value to the reply field of a review doc
   public addReply(submittedReply: IUser['review'], id: string) {
+    // get the user data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));
     return from(
       this.firestore

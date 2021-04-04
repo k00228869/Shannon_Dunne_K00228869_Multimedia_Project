@@ -1,25 +1,24 @@
-.header-image
-{
-  margin-right:30px;
-  height:80px;
-  width:80px;
+.header-image {
+  margin-right: 30px;
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
   flex-shrink: 0;
   object-fit: cover;
   background-size: cover;
 }
-.rating{
+.rating {
   vertical-align: middle;
 }
 
-.schedule{
+.schedule {
   text-align: center;
 }
 
-.schedule .mat-list-item{
+.schedule .mat-list-item {
   padding: 5px;
 }
 
-h4{
+h4 {
   text-align: center;
-  }
+}

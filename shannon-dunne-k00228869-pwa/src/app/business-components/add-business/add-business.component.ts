@@ -76,7 +76,6 @@ export class AddBusinessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     // build business images formgroup with validator
     this.addBusImgGroup = this.addBusImgs.group({
       imgGroup: new FormControl('', [Validators.required]),
@@ -121,9 +120,12 @@ export class AddBusinessComponent implements OnInit {
     });
 
     // get the hours template from the db
-    this.business.getHoursList().pipe(take(1)).subscribe((data) => {
-      this.hourList.push(data[1]);
-    });
+    this.business
+      .getHoursList()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.hourList.push(data[1]);
+      });
 
     // if (
     //   // if all forms valid
@@ -163,7 +165,7 @@ export class AddBusinessComponent implements OnInit {
         })
       )
       .subscribe();
-  }
+  };
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
@@ -297,8 +299,6 @@ export class AddBusinessComponent implements OnInit {
       this.newProfile = this.addProfileForm.value; // store the business details in obj
       this.newProfile.img = this.url;
       this.uploads.storeBusinessImages();
-      // console.log('as string', this.url.toString());
-      // console.log('not string', this.url);
 
       if (this.selectedHours.monday) {
         // if monday is stored
@@ -310,10 +310,10 @@ export class AddBusinessComponent implements OnInit {
         let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
         let m = 1; // set day index of week
         this.mon.push(mondayHours, m); // store new hours and day index in array
-        this.hourService.addMon(this.mon); // cal func to add monday to workingdays doc
+        this.hourService.addMon(this.mon); // cal func to add monday to doc
       }
       if (this.selectedHours.tuesday) {
-        this.tues = [];
+        this.tues = []; // this does the same as the if statement above for tuesday, if selected.
         this.start = this.selectedHours.tuesday[0].startT;
         this.end = this.selectedHours.tuesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -324,7 +324,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addTue(this.tues);
       }
       if (this.selectedHours.wednesday) {
-        this.wed = [];
+        this.wed = []; // this does the same as the if statement above for wednesday, if selected.
         this.start = this.selectedHours.wednesday[0].startT;
         this.end = this.selectedHours.wednesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -335,7 +335,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addWed(this.wed);
       }
       if (this.selectedHours.thursday) {
-        this.thur = [];
+        this.thur = []; // this does the same as the if statement above for thursday, if selected.
         this.start = this.selectedHours.thursday[0].startT;
         this.end = this.selectedHours.thursday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -346,7 +346,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addThur(this.thur);
       }
       if (this.selectedHours.friday) {
-        this.fri = [];
+        this.fri = []; // this does the same as the if statement above for friday, if selected.
         this.start = this.selectedHours.friday[0].startT;
         this.end = this.selectedHours.friday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -357,7 +357,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addFri(this.fri);
       }
       if (this.selectedHours.saturday) {
-        this.sat = [];
+        this.sat = []; // this does the same as the if statement above for saturday, if selected.
         this.start = this.selectedHours.saturday[0].startT;
         this.end = this.selectedHours.saturday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -368,7 +368,7 @@ export class AddBusinessComponent implements OnInit {
         this.hourService.addSat(this.sat);
       }
       if (this.selectedHours.sunday) {
-        this.sun = [];
+        this.sun = []; // this does the same as the if statement above for sunday, if selected.
         this.start = this.selectedHours.sunday[0].startT;
         this.end = this.selectedHours.sunday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
@@ -381,15 +381,14 @@ export class AddBusinessComponent implements OnInit {
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
     } else {
-      alert('Correct the invalid fields before submitting');
-      return;
+      // if form is not valid
+      alert('Correct the invalid fields before submitting'); // show alert
+      return; //
     }
   }
 
+  // pass in id and change route to the profile
   changeRoute(newProfile) {
     this.router.navigate(['/business-view/', newProfile.id]);
-  }
-  cancel() {
-    this.location.back();
   }
 }

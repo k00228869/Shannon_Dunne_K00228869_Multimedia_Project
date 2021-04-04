@@ -12,11 +12,9 @@ export class BusinessService {
   public uid: string;
   public id: string;
 
-  constructor(
-    public firestore: AngularFirestore,
-  ) {}
+  constructor(public firestore: AngularFirestore) {}
 
-  // add business
+  // add the business selected start end time data to collection
   public addHours(
     selectedHours // add a business hoirs to the db
   ) {
@@ -25,35 +23,36 @@ export class BusinessService {
     return from(
       this.firestore
         .collection<IUser>('users')
-        .doc<IUser['user']>(this.uid) // returns promise not observable
+        .doc<IUser['user']>(this.uid)
         .collection<IUser>('hours')
         .doc<IUser['hours']>('theHours')
         .set(Object.assign({}, selectedHours))
-    ); // add user to the db
+    );
   }
 
-  public getHoursList(): Observable<IDays['1']> { // get the hours template
+  // get the times template from db
+  public getHoursList(): Observable<IDays['1']> {
+    // get the hours template
     return this.firestore
       .collection<IDays>('days')
       .doc<IDays['1']>('monday')
       .valueChanges();
   }
 
-  public addBusiness(
-    newProfile // add a businesses details to the db
-  ) {
+  // adds the business's profile details to the db
+  public addBusiness(newProfile) {
     let theUser = JSON.parse(localStorage.getItem('user'));
     newProfile.id = theUser.uid;
     return from(
       this.firestore
         .collection<IBusiness>('businesses')
         .doc<IBusiness['business']>(newProfile.id)
-        .set(newProfile));
+        .set(newProfile)
+    );
   }
 
-  public addServices(
-    adService: IUser['service'] // add business user's services
-  ) {
+  // add a business service doc to their services collection
+  public addServices(adService: IUser['service']) {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from(
@@ -66,9 +65,8 @@ export class BusinessService {
     );
   }
 
-  public addImages(
-    images // add business user's images
-  ) {
+  // add business user's images doc to images collection
+  public addImages(images) {
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from(
@@ -81,11 +79,11 @@ export class BusinessService {
     );
   }
 
-  public addEmployees(
-    adEmployee: IUser['employee'] // add business user's employees
-  ) {
+  // add business user's employee doc to employees collection
+  public addEmployees(adEmployee: IUser['employee']) {
+    // get the user data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.uid = theUser.uid; // store the user id
     return from(
       this.firestore
         .collection('users')
@@ -96,7 +94,9 @@ export class BusinessService {
     );
   }
 
-  public getBusiness(): Observable<IBusiness['business']> { // get business user's business info
+  // get the business profile doc from the businesses collection
+  public getBusiness(): Observable<IBusiness['business']> {
+    // get business user's business info
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.id = theUser.uid;
     let docRef = this.firestore
@@ -105,90 +105,85 @@ export class BusinessService {
     return docRef.valueChanges();
   }
 
-  public getBusinessHours(): Observable<any> { // add a business user's hours to the db
+  // get the business's hours collection
+  public getBusinessHours(): Observable<any> {
+    // get the business users data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.uid = theUser.uid; // set the user id
     let docRef = this.firestore
       .collection<IUser>('users')
-      .doc<IUser['user']>(this.uid) // returns promise not observable
-      .collection<IUser>('hours'); // add user to the db
-    return docRef.valueChanges();
+      .doc<IUser['user']>(this.uid)
+      .collection<IUser>('hours');
+    return docRef.valueChanges(); // returns the hours collection
   }
 
-  public async getEmployees(): Promise<Observable<IUser['employee']>> { // get business user's employees
+  // get the business user's employees collection
+  // this is returned once the promise resolves
+  public async getEmployees(): Promise<Observable<IUser['employee']>> {
+    // get the users data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
+    this.uid = theUser.uid; // store the user id
     let docRef;
     docRef = await this.firestore
       .collection('users')
       .doc<IUser['user']>(this.uid)
       .collection<IUser>('employees');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the employees collection
   }
 
-  public async getServices(): Promise<Observable<IUser['service'][]>> { // get business user's services
+  // get the business user's services collection
+  // this is returned once the promise resolves
+  public async getServices(): Promise<Observable<IUser['service'][]>> {
+    // get the users data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    const services = [];
+    this.uid = theUser.uid; // store the user id
     let docRef;
     docRef = await this.firestore
       .collection('users')
       .doc<IUser['user']>(this.uid)
       .collection<IUser>('services');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the services collection
   }
 
-  // posts/gets data for a business profile available to other users
-  getABusiness(
-    id: string
-  ): Observable<IBusiness['business']> { // get a business' details
+  // The functions below adds/gets data for a business profile, that is available to other users
+
+  // get a business profile doc from the businesses collection with the id passed in
+  getABusiness(id: string): Observable<IBusiness['business']> {
     let docRef;
     docRef = this.firestore
       .collection<IBusiness>('businesses')
       .doc<IBusiness['business']>(id);
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the business doc
   }
 
-  public getHours(
-    id: string // get a the business' hours
-  ) {
+  // get the business's hours doc from the hours collection
+  public getHours(id: string) {
     let docRef = this.firestore
       .collection<IUser>('users')
-      .doc<IUser['user']>(id) // returns promise not observable
-      .collection<IUser>('hours') // add user to the db
+      .doc<IUser['user']>(id)
+      .collection<IUser>('hours')
       .doc<IUser['hours']>('theHours');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // returns the hours doc
   }
 
-  getBusServices(
-    id: string
-  ): Observable<IUser['service']> { // get a businesses services
+  // get the services collection from a business with the matching id passed in
+  getBusServices(id: string): Observable<IUser['service']> {
     let docRef;
     // const service = [];
     docRef = this.firestore
       .collection('users')
       .doc<IUser['user']>(id)
       .collection<IUser>('services');
-    return docRef.valueChanges();
+    return docRef.valueChanges(); // return the services collection
   }
 
-  getBusEmployees(
-    id: string
-  ): Observable<IUser['employee']> { // get a businesses employees
+  // get the employees collection from a business with the matching id passed in
+  getBusEmployees(id: string): Observable<IUser['employee']> {
     let docRef;
     docRef = this.firestore
       .collection('users')
       .doc<IUser['user']>(id)
       .collection<IUser>('employees');
-    return docRef.valueChanges();
-  }
-
-  getUserInfo(): Observable<IUser['user']> { // gets the user doc with the passed id
-    let theUser = JSON.parse(localStorage.getItem('user'));
-    this.uid = theUser.uid;
-    return this.firestore
-      .collection<IUser>('users')
-      .doc<IUser['user']>(this.uid)
-      .valueChanges(); // returns the users doc to check if admin is true
+    return docRef.valueChanges(); // return the employees collection
   }
 }

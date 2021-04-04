@@ -121,6 +121,9 @@
       <input [formControlName]="'imgGroup'" hidden type="file" #busImages name="file"
         (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg" />
     </button>
+
+
+    <!-- to show the progress of the image group upload -->
     <!-- <br>
     <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
     <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">

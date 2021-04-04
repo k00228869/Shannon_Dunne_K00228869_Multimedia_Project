@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { IUser } from 'src/app/interfaces/i-user';
-import { ClientUserService } from 'src/app/services/client-user.service';
 import { SearchQueriesService } from 'src/app/services/search-queries.service';
 import { take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
@@ -24,29 +23,27 @@ export class SearchDirectoryComponent implements OnInit {
 
   constructor(
     public firestore: AngularFirestore,
-    public clientService: ClientUserService,
     public search: SearchQueriesService,
-    public authService: AuthenticateService,
-
+    public authService: AuthenticateService
   ) {}
 
   ngOnInit() {
-    this.clientService.getUserInfo().pipe(take(1)).subscribe((data) => {
-      this.client = data;
-    });
+    // call func to get user data
+    this.authService
+      .getUserInfo()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.client = data; // store user data
+      });
   }
 
-  public async getBus()
-  {
+  public async getBus() {
+    // call func to query the business collection and pass in filters
     this.search
       .checkQuery(this.location, this.busType, this.sort)
       .subscribe((filteredBus) => {
         this.search.filteredProfiles = [];
-        this.search.filteredProfiles = filteredBus;
-        // if (this.filteredProfiles.length === 0) // if 0 documents
-        // {
-        //   console.log('No probiders matching search');
-        // }
+        this.search.filteredProfiles = filteredBus; // store filtered results (the business)
       });
   }
 }

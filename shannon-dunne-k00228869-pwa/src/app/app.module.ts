@@ -24,7 +24,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BusinessListComponent } from './client-components/search-directory/business-list/business-list.component';
 import { BusinessDealsComponent } from './client-components/search-directory/business-deals/business-deals.component';
-import { ClientUserService } from 'src/app/services/client-user.service';
+import { DownloadService } from 'src/app/services/download.service';
 import { UploadsService } from './services/uploads.service';
 import { BookingConfirmationComponent } from './client-components/booking-confirmation/booking-confirmation.component';
 import { AppointmentsComponent } from './client-components/appointments/appointments.component';
@@ -103,7 +103,7 @@ import {ConnectionServiceModule} from 'ng-connection-service';
   providers: [
     AuthenticateService,
     BusinessService,
-    ClientUserService,
+    DownloadService,
     UploadsService,
     BookingService,
     SearchQueriesService,

@@ -1,9 +1,11 @@
 <h1>Edit Your Profile</h1>
-<button mat-raised-button class="cancelButton" color="warn" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+<button mat-raised-button class="cancelButton" color="warn" (click)="authService.cancel()" type="button">
+    <mat-icon>arrow_back</mat-icon>
+</button>
 <form [formGroup]="editProfileForm" (ngSubmit)="onProfileSubmit(editProfileForm.value, editBusHours.value)">
     <mat-form-field appearance="outline">
         <mat-label>Business Name</mat-label>
-        <input  [formControlName]="'businessName'" matInput>
+        <input [formControlName]="'businessName'" matInput>
     </mat-form-field>
     <br>
 
@@ -12,7 +14,7 @@
         <textarea [formControlName]="'businessDescription'" matInput></textarea>
     </mat-form-field>
     <br>
-    
+
 
     <mat-form-field appearance="outline">
         <mat-label>Eircode</mat-label>
@@ -88,39 +90,12 @@
     <mat-form-field appearance="outline">
         <mat-label>Pricing</mat-label>
         <mat-select [formControlName]="'price'">
-          <mat-option value="1">&euro;</mat-option>
-          <mat-option value="2">&euro;&euro;</mat-option>
-          <mat-option value="3">&euro;&euro;&euro;</mat-option>
+            <mat-option value="1">&euro;</mat-option>
+            <mat-option value="2">&euro;&euro;</mat-option>
+            <mat-option value="3">&euro;&euro;&euro;</mat-option>
         </mat-select>
-      </mat-form-field>
+    </mat-form-field>
     <br>
-
-
-    <!-- <form>
-        <button mat-raised-button color="primary" (click)="fileInput.click()">
-            Profile Images
-            <input hidden type="file" #fileInput (change)="uploads.uploadProfileImages($event)" multiple
-                accept="image/*">
-        </button>
-        <br>
-        <progress max="100" [value]="(uploads.uploadGroupProgress | async)"></progress>
-        <div *ngIf="uploads.downloadAllURL | async; let uploadSrc">
-            <a [href]="uploadSrc">Uploaded</a>
-        </div>
-
-        <div *ngIf="uploads.uploadGroupState | async; let state">
-            <button mat-raised-button color="warn" (click)="uploads.taskGroup.cancel()"
-                [enabled]="!(state === 'paused' || state === 'running')">X</button>
-        </div>
-
-        <div *ngIf="uploads.downloadAllURL | async; let url">
-            <img [src]="url" max-width="100" max-height="100">
-        </div>
-        <br>
-        <br>
-        <br>
-    </form> -->
-
 
     <form [formGroup]="editBusHours">
         <mat-label>Working Days</mat-label><br><br>
@@ -259,7 +234,7 @@
             </div>
         </div>
     </form>
-    <button class="submit" mat-raised-button color="primary" type="submit" >
+    <button class="submit" mat-raised-button color="primary" type="submit">
         Update Profile
     </button>
-</form> 
+</form>

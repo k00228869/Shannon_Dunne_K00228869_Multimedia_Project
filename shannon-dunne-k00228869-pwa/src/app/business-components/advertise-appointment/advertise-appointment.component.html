@@ -1,44 +1,45 @@
-<form class="form-group"  [formGroup]="advertiseForm" (ngSubmit)="onSubmit()">
+<form class="form-group" [formGroup]="advertiseForm" (ngSubmit)="onSubmit()">
+  <br>
+  <button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <br>
+  <div>
+    <h3>Appointment Advert</h3>
+    <h4>
+      {{appointmentInfo.clientName}} has rescheduled an appointment for {{appointmentInfo.serName}}, <br> on
+      {{appointmentInfo.date}} at {{appointmentInfo.time}}
+      with {{appointmentInfo.empName}}.
+    </h4>
     <br>
-      <button mat-raised-button color="warn" class="cancelButton" (click)="authService.cancel()" type="button"><mat-icon>arrow_back</mat-icon></button>
+    <h5>Advertise this appointment to another client at a discount</h5>
+    <mat-form-field appearance="outline">
+      <mat-label>Discount</mat-label>
+      <mat-select [formControlName]="'discount'">
+        <mat-option value="10">10% off</mat-option>
+        <mat-option value="15">15% off</mat-option>
+        <mat-option value="20">20% off</mat-option>
+        <mat-option value="25">25% off</mat-option>
+        <mat-option value="30">30% off</mat-option>
+        <mat-option value="35">35% off</mat-option>
+        <mat-option value="40">40% off</mat-option>
+        <mat-option value="45">45% off</mat-option>
+        <mat-option value="50">50% off</mat-option>
+        <mat-option value="55">55% off</mat-option>
+        <mat-option value="60">60% off</mat-option>
+        <mat-option value="65">65% off</mat-option>
+        <mat-option value="70">70% off</mat-option>
+        <mat-option value="75">55% off</mat-option>
+        <mat-option value="80">80% off</mat-option>
+        <mat-option value="85">85% off</mat-option>
+        <mat-option value="90">90% off</mat-option>
+        <mat-option value="95">95% off</mat-option>
+      </mat-select>
+    </mat-form-field>
     <br>
-    <div>
-      <h3>Appointment Advert</h3>
-        <h4>
-          {{appointmentInfo.clientName}} has rescheduled an appointment for {{appointmentInfo.serName}}, <br> on {{appointmentInfo.date}} at {{appointmentInfo.time}}
-          with {{appointmentInfo.empName}}.
-        </h4>
-        <br>
-        <h5>Advertise this appointment to another client at a discount</h5>
-        <mat-form-field appearance="outline">
-        <mat-label>Discount</mat-label>
-        <mat-select [formControlName]="'discount'">
-          <mat-option value="10">10% off</mat-option>
-            <mat-option value="15">15% off</mat-option>
-            <mat-option value="20">20% off</mat-option>
-            <mat-option value="25">25% off</mat-option>
-            <mat-option value="30">30% off</mat-option>
-            <mat-option value="35">35% off</mat-option>
-            <mat-option value="40">40% off</mat-option>
-            <mat-option value="45">45% off</mat-option>
-            <mat-option value="50">50% off</mat-option>
-            <mat-option value="55">55% off</mat-option>
-            <mat-option value="60">60% off</mat-option>
-            <mat-option value="65">65% off</mat-option>
-            <mat-option value="70">70% off</mat-option>
-            <mat-option value="75">55% off</mat-option>
-            <mat-option value="80">80% off</mat-option>
-            <mat-option value="85">85% off</mat-option>
-            <mat-option value="90">90% off</mat-option>
-            <mat-option value="95">95% off</mat-option>
-        </mat-select>
-        </mat-form-field> 
-        <br>
-    </div>
-    <button class="submit" mat-raised-button type="submit" color="primary">
-        <!-- <a routerLink="/profile-business-view"> -->
-          Submit
-      <!-- </a> -->
-    </button>
-    
+  </div>
+  <button class="submit" mat-raised-button type="submit" color="primary">
+    Submit
+  </button>
+
 </form>

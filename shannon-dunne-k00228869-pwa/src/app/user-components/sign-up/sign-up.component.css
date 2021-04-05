@@ -9,6 +9,7 @@
   margin-bottom: 5%;
 }
 
+<<<<<<< HEAD
 .accountType {
   padding-top: 5%;
   padding-top: 5%;
@@ -26,3 +27,27 @@
 .accountType .mat-error {
   text-align: center;
 }
+=======
+  .submit{
+    float: right;
+    margin-right: 20%;
+    margin-top: 5%;
+  }
+
+  .accountType{
+    padding-top:5%;
+    padding-top:5%;
+    margin-left: 35%;
+  }
+
+  .accountType .mat-label{
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .redirect h3, .redirect a{
+    text-align: center;
+    margin-top: 10%;
+  }
+
+>>>>>>> parent of ef0b64d (styling and debugging)

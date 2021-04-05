@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
       }
     });
 
+<<<<<<< HEAD
     // subscribing to monitor to get notified when connectio status changes
     this.connection.monitor().subscribe((isConnected) => {
       this.isConnected = isConnected;
@@ -74,6 +75,16 @@ export class AppComponent implements OnInit {
       }
     });
   }
+=======
+    if (this.connectionState !== 'Online')
+    {
+      this.toastr.info(this.isConnectionMessage, 'Connection Error', {
+        positionClass: 'toast-bottom',
+        timeOut: 7000,
+        closeButton: true,
+      });
+    }
+>>>>>>> parent of ef0b64d (styling and debugging)
 
   ngOnInit() {
     // notification container overlay

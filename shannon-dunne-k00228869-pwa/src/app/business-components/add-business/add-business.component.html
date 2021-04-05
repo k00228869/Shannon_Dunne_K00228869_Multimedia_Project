@@ -98,7 +98,11 @@
   <br>
 
   <mat-label>Upload a profile image for your businesss</mat-label>
+<<<<<<< HEAD
   <button class="actionButtons" mat-raised-button color="primary" (click)="busImage.click()" type="button">
+=======
+  <button mat-raised-button color="primary" (click)="busImage.click()">
+>>>>>>> parent of ef0b64d (styling and debugging)
     Upload Image
     <input [formControlName]="'img'" type="file" hidden #busImage name="file" (change)="upload($event)"
       accept=".png, .jpg" />
@@ -115,8 +119,12 @@
 
   <form [formGroup]="addBusImgGroup">
     <mat-label>Upload images of your business, employees or services</mat-label>
+<<<<<<< HEAD
     <br>
     <button class="actionButtons" mat-raised-button color="primary" (click)="busImages.click()" type="button">
+=======
+    <button mat-raised-button color="primary" (click)="busImages.click()">
+>>>>>>> parent of ef0b64d (styling and debugging)
       Profile Images
       <input [formControlName]="'imgGroup'" hidden type="file" #busImages name="file"
         (change)="uploads.uploadBusinessImages($event)" multiple accept=".png, .jpg" />
@@ -146,6 +154,7 @@
 
   <form [formGroup]="addEmployeeForm" (ngSubmit)="onEmployeeSubmit(addEmployeeForm.value)">
     <h2>Employees</h2>
+<<<<<<< HEAD
     <button class="actionButtons" mat-raised-button color="primary" type="button" (click)="addEmployeeFormGroup()">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
@@ -154,6 +163,12 @@
         <button class="actionButtons" mat-raised-button color="warm" type="button" (click)="removeEmployee(i)">
           <mat-icon>highlight_off</mat-icon>
         </button>
+=======
+    <button mat-raised-button color="primary" (click)="addEmployeeFormGroup()">+</button>
+    <div formArrayName="employees">
+      <div *ngFor="let employee of addEmployeeForm.get('employees')['controls']; let i = index" [formGroupName]="i">
+        <button mat-raised-button color="warm" (click)="removeEmployee(i)">X</button>
+>>>>>>> parent of ef0b64d (styling and debugging)
         <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
           <input matInput [formControlName]="'firstName'">
@@ -195,6 +210,10 @@
     </button>
 
     <h2>Services</h2>
+<<<<<<< HEAD
+=======
+    <button mat-raised-button color="primary" (click)="addServiceFormGroup()">+</button>
+>>>>>>> parent of ef0b64d (styling and debugging)
     <div formArrayName="services">
       <div *ngFor="let service of addServiceForm.get('services')['controls']; let i = index" [formGroupName]="i">
         <button class="actionButtons" mat-raised-button type="button" color="warm" (click)="removeService()">
@@ -227,6 +246,10 @@
           </mat-select>
         </mat-form-field>
         <br>
+<<<<<<< HEAD
+=======
+        <button mat-raised-button color="warm" (click)="removeService()">Remove service</button>
+>>>>>>> parent of ef0b64d (styling and debugging)
       </div>
     </div>
   </form>
@@ -373,7 +396,11 @@
   </form>
 
 
+<<<<<<< HEAD
   <button mat-raised-button color="primary" type="submit" class="submit">
+=======
+  <button mat-raised-button color="primary" type="submit" class="submit" [disabled]="notValid">
+>>>>>>> parent of ef0b64d (styling and debugging)
     Create Profile
   </button>
 </form>

@@ -17,9 +17,15 @@ export class SignUpComponent implements OnInit {
   newUser: IUser['user'];
   signUpForm: FormGroup;
   isSignedIn = false;
-  radioButton: string;
 
+<<<<<<< HEAD
   constructor(private signUp: FormBuilder, public auth: AuthenticateService) {}
+=======
+  constructor(
+    private signUp: FormBuilder,
+    private auth: AuthenticateService
+  ) {}
+>>>>>>> parent of ef0b64d (styling and debugging)
 
   ngOnInit() {
     // build signup formgroup with validators
@@ -41,6 +47,7 @@ export class SignUpComponent implements OnInit {
 
   // submit form data
   onSubmit(newUser: IUser['user']) {
+<<<<<<< HEAD
     // if form date is valid
     if (this.signUpForm.status === 'VALID') {
       // set the value of the form equal to the object
@@ -49,6 +56,19 @@ export class SignUpComponent implements OnInit {
       this.auth.signup(newUser);
     } else {
       // if form data is not valid show alert
+=======
+    if (this.signUpForm.status === 'VALID') {
+      // if fields are valid
+      this.newUser = this.signUpForm.value; // set the value of the form equal to object of type userInterface
+      this.auth.signup(newUser); // pass the values to the signUp function in the service
+      if (this.auth.isLoggedIn) {
+        // if the boolean in the service is true
+        console.log('you are signed in');
+        this.isSignedIn = true; // set boolean to true as user is signed in
+      }
+    }
+    else{
+>>>>>>> parent of ef0b64d (styling and debugging)
       alert('Correct the invalid fields before submitting');
       return;
     }

@@ -27,21 +27,31 @@ export class NotificationsService {
   // this function request a subscription token, stores it in an object
   // and adds the object as a doc in the subscription collection
   requestPermission() {
+    // request token
     return this.afm.requestToken.pipe(
-      // get token when permission allowed
-      tap(
-        (token) => {
+      tap((token) => {
           // get the user data from localstorage
+          this.subscrip = {};
+          if (!token || token === undefined)
+          {
+            this.subscrip.token = 'token';
+          }
+          else{
+            this.subscrip.token = token;
+          }
           let theUser = JSON.parse(localStorage.getItem('user'));
-          this.subscrip.token = token; // set token
           this.subscrip.id = theUser.uid; // set user id
+
+          if (!token){
+            this.subscrip.token = 'token';
+          }
           return from(
             // store token + user id in subscription collection
             this.firestore
               .collection<IUser>('users')
-              .doc<IUser['user']>(theUser.uid)
+              .doc<IUser['user']>(this.subscrip.id)
               .collection<IUser>('subscriptions')
-              .doc<IUser['subscription']>(theUser.uid)
+              .doc<IUser['subscription']>(this.subscrip.id)
               .set(this.subscrip)
           );
         },
@@ -59,17 +69,24 @@ export class NotificationsService {
     this.afm.requestToken.pipe(
       // get token
       tap((token) => {
-        let theUser = JSON.parse(localStorage.getItem('user'));
         this.subscrip = {};
+        if (!token || token === undefined)
+      {
+        this.subscrip.token = 'token';
+      }
+      else{
         this.subscrip.token = token;
-        this.subscrip.id = this.uid;
+      }
+        let theUser = JSON.parse(localStorage.getItem('user'));
+        this.subscrip.id = theUser.uid;
+
         // store subscription object
         return from(
           this.firestore
             .collection<IUser>('users')
-            .doc<IUser['user']>(theUser.uid)
-            .collection<IUser>(theUser.uid)
-            .doc<IUser['subscription']>(theUser.uid)
+            .doc<IUser['user']>(this.subscrip.id)
+            .collection<IUser>(this.subscrip.id)
+            .doc<IUser['subscription']>(this.subscrip.id)
             .update({ token: this.subscrip.token }) // store token + user id
         );
       })
@@ -120,6 +137,11 @@ export class NotificationsService {
     this.getToken(clientAppointment.uid).subscribe((data) => {
       // get user token
       this.token = data.token;
+
+      if (!data.token || data.token === undefined)
+      {
+        this.token = 'token';
+      }
 
       // Customising notification message
       this.notificationMessage = {
@@ -193,6 +215,10 @@ export class NotificationsService {
       // get user token
       (data) => {
         this.token = data.token;
+        if (!data.token || data.token === undefined)
+      {
+        this.token = 'token';
+      }
 
         // customising the notification data
         this.notificationMessage = {

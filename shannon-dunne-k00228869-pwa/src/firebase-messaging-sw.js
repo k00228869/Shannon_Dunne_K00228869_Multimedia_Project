@@ -21,7 +21,6 @@ const messaging = firebase.messaging();
 
 // this function is triggered when a message is received while the browser is out of focus
 messaging.onBackgroundMessage((payload) => { //handle message when browser not in focus
-  // console.log('[firebase-messaging-sw.js] bm received', payload);
   //customising notification message
       const notificationTitle = payload.data.title;
       const notificationOptions = {

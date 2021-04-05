@@ -199,7 +199,7 @@ export class AddBusinessComponent implements OnInit {
     ) {
       // store the employees array
       let employees = this.addEmployeeForm.controls.employees.value;
-      console.log('employees', employees);
+      // tslint:disable-next-line: prefer-for-of
       for (
         let i = 0;
         i < employees.length;
@@ -252,7 +252,6 @@ export class AddBusinessComponent implements OnInit {
     ) {
       // store the employees array
       let services = this.addServiceForm.controls.services.value;
-      console.log('services', services);
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < services.length; i++) {
         // loop through length of services array
@@ -292,7 +291,6 @@ export class AddBusinessComponent implements OnInit {
       this.selectedHours = this.addBusHours.value; // store selected start/finish times of each day in obj
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
-      console.log('selected hours', this.selectedHours);
       // set profile image
       this.newProfile.img = this.url;
       // call func to add group image urls to db
@@ -376,7 +374,6 @@ export class AddBusinessComponent implements OnInit {
         this.sun.push(sunday, s);
         this.hourService.addSun(this.sun);
       }
-      console.log('the profile', newProfile);
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
     } else {

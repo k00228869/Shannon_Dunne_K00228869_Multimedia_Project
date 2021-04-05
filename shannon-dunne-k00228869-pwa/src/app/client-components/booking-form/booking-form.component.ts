@@ -14,7 +14,6 @@ import { WorkingDaysService } from 'src/app/services/working-days.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { IBusiness } from 'src/app/interfaces/i-business';
 const moment = _rollupMoment || _moment;
@@ -93,7 +92,6 @@ export class BookingFormComponent implements OnInit {
         .getABusiness(this.id)
         .subscribe((bus) => {
           this.profileInfo = bus; // store business details
-          console.log('bus data', this.profileInfo);
         });
 
       // call func to get business' services
@@ -101,16 +99,14 @@ export class BookingFormComponent implements OnInit {
         .getBusServices(this.id)
         .subscribe((servs) => {
           this.services = servs; // store services
-          console.log('bus service', this.services);
 
         });
 
       // call func to get business hours
       this.business
-        .getHours(params.get('id'))
+        .getHours(this.id)
         .subscribe((data) => {
-          this.theHourOfDay = data[0]; // store business hours
-          console.log('bus hours', this.theHourOfDay);
+          this.theHourOfDay = data; // store business hours
         });
 
       // call func to get business employees
@@ -118,21 +114,18 @@ export class BookingFormComponent implements OnInit {
         .getBusEmployees(this.id)
         .subscribe((emps) => {
           this.employees = emps; // store business employees
-          console.log('bus emps', this.employees);
         });
 
         // call func to get user data
       this.authService
     .getUserInfo()
-    .pipe(take(1))
     .subscribe((data) => {
       this.client = data; // store user data
-      console.log('client data', this.client);
       // call func to get user subscription token from db
       this.notif.getToken(this.client.uid).subscribe((theToken) => {
-        if (!theToken.token) {
+        if (!theToken.token || theToken.token === undefined) {
           // if no token found
-          this.askPermis(); // call func to get user permission
+          this.notif.requestPermission().subscribe(); // call func to get user permission
         }
       });
     });
@@ -140,11 +133,9 @@ export class BookingFormComponent implements OnInit {
       // call func to get working days collection
       this.hourService
         .getAll(this.id)
-        .pipe(take(1))
         .subscribe(
           // get schedule for each day, unsubscribe after first value
           (all) => {
-            console.log('available days', all);
             this.weekDays = [];
             this.weekDays = all; // store schedules for each day
             // loop through documents
@@ -169,7 +160,6 @@ export class BookingFormComponent implements OnInit {
           // pass in business id and call func to get booked dates collection
           (data) => {
             this.bookedDays = data; // store the booked days
-            console.log('booked days', this.bookedDays);
             // loop through booked days
             // tslint:disable-next-line: prefer-for-of
             for (let i = 0; i < this.bookedDays.length; i++) {
@@ -192,7 +182,7 @@ export class BookingFormComponent implements OnInit {
   // called when booking button clicked
   askPermis() {
     // func to request notification permission
-    this.notif.requestPermission();
+    this.notif.requestPermission().subscribe();
   }
 
   // submit form data
@@ -201,7 +191,6 @@ export class BookingFormComponent implements OnInit {
     if (this.addAppointmentForm.status === 'VALID') {
       // set new appoinment details
       this.clientAppointment = this.addAppointmentForm.value; // form values
-      console.log('booked form values', this.clientAppointment);
       this.clientAppointment.date = clientAppointment.date.toString(); // store appointment date as string
       this.clientAppointment.date = this.setDate;
       this.clientAppointment.bid = this.id; // set business id
@@ -209,11 +198,10 @@ export class BookingFormComponent implements OnInit {
       this.clientAppointment.timeStamp = new Date(); // set timestamp of when appointment was made
       this.clientAppointment.appointmentId = this.firestore.createId(); // create an appointment id
       // call func to get the selected service data
-      (await this.booking
+      this.booking
         .getServiceDuration(this.id, this.clientAppointment)
-        .subscribe)((ser) => {
+        .subscribe((ser) => {
           this.selectedService = ser[0]; // store service data
-          console.log('booked service', this.selectedService);
           this.clientAppointment.serName = this.selectedService.serviceName; // store service name
           this.clientAppointment.serPrice = this.selectedService.servicePrice; // set booking price
           this.clientAppointment.serDuration = this.selectedService.duration; // set booking duration
@@ -249,7 +237,6 @@ export class BookingFormComponent implements OnInit {
         .getEmployeeName(this.id, this.clientAppointment))
         .subscribe((emp) => {
           this.selectedEmployee = emp[0]; // store employee data
-          console.log('booked emp', this.selectedEmployee);
           this.clientAppointment.empName =
             this.selectedEmployee.firstName +
             ' ' +
@@ -259,8 +246,6 @@ export class BookingFormComponent implements OnInit {
       // call func to get client data
       this.authService.getUserInfo().subscribe(async (user) => {
         this.user = user; // store client data
-        console.log('user data', this.user);
-
         this.clientAppointment.clientName =
           this.user.firstName + ' ' + this.user.lastName; // store client name
         this.clientAppointment.phone = this.user.phone.toString(); // store client number
@@ -320,12 +305,10 @@ export class BookingFormComponent implements OnInit {
     this.setDate = this.momentDate.format('ddd MMM DD YYYY'); // formatting date
     // call func to get schedule of selected date
     this.booking
-      .getBookingSchedule(this.id, this.setDate) // get schedule if booked
+      .getBookingSchedule(this.id, this.setDate) // get schedule of booked
       .subscribe((dateSchedule) => {
         // if the selected date was booked
         if (dateSchedule) {
-          console.log('selected date', dateSchedule);
-
           // sort the times array from low to high
           dateSchedule.availableTimes.sort(function (a, b) {
             if (a > b) {

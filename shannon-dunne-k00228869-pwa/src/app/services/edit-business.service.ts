@@ -12,7 +12,6 @@ export class EditBusinessService {
 
   // update the businesses profile details with the object passed in
   public updateBusiness(updatedProfile) {
-    console.log('updateBusiness called');
 
     // get user data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));

@@ -79,9 +79,9 @@ export class RescheduleFormComponent implements OnInit {
   ngOnInit() {
     // build an appointment form group
     this.editAppointmentForm = this.editAppointment.group({
-      date: new FormControl(Date, [Validators.required]),
+      date: new FormControl([Validators.required]),
       time: new FormControl([Validators.required]),
-      note: new FormControl(''),
+      note: new FormControl('')
     });
 
     // call func to get the users data
@@ -90,7 +90,6 @@ export class RescheduleFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data) => {
         this.client = data; // store the user data
-        console.log('client data', this.client);
 
         // call func to get the notification subscription token
         this.notif.getToken(this.client.uid).subscribe((theToken) => {
@@ -111,7 +110,6 @@ export class RescheduleFormComponent implements OnInit {
         .pipe(take(1))
         .subscribe((appoint) => {
           this.appointmentInfo = appoint[0]; // store the appointment data
-          console.log('appoinment info', this.appointmentInfo );
           this.updateInfo(this.appointmentInfo.bid); // call func to update the users appointment doc
         });
     });
@@ -121,14 +119,12 @@ export class RescheduleFormComponent implements OnInit {
   updateInfo(bid: string) {
     this.business.getABusiness(bid).subscribe((bus) => {
       this.busInfo = bus; // store the businesses data
-      console.log('bus info', this.busInfo);
     });
 
     // call func to get weekly schedule collection
     this.hourService.getAll(this.appointmentInfo.bid).subscribe(
       // get schedule for each day, do not run after fists value
       (all) => {
-        console.log('all schedule', all);
         this.weekDays = []; // arr to store each day
         this.weekDays = all; // store schedules of each weekday
         for (let i = 0; i < this.weekDays.length; i++) {
@@ -150,7 +146,6 @@ export class RescheduleFormComponent implements OnInit {
       .getBookedDays(this.appointmentInfo.bid)
       .subscribe((data) => {
         this.bookedDays = data; // store the booke dates
-        console.log('booked days', this.bookedDays );
         for (let i = 0; i < this.bookedDays.length; i++) {
           // loop through docs
           // if a booking hours array has 1 or less items
@@ -174,25 +169,25 @@ export class RescheduleFormComponent implements OnInit {
   // submit appointment data
   public async editAppointSubmit(newAppointment: IUser['appointment']) {
     // if form data is valid
-    if (this.editAppointmentForm.status === 'Valid') {
+    // form will not validate eventhough fields are valid
+    // if (this.editAppointmentForm.status === 'Valid') {
       // setting new appoinment details
-      this.newAppointment = this.editAppointmentForm.value; // store form values
-      this.newAppointment.date = newAppointment.date.toString(); // format date to string
-      this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
-      this.newAppointment.timeStamp = new Date(); // set the booking timestamp
-      this.newAppointment.serName = this.appointmentInfo.serName; // store service name
-      this.newAppointment.phone = this.appointmentInfo.phone;
+    this.newAppointment = this.editAppointmentForm.value; // store form values
+    this.newAppointment.date = newAppointment.date.toString(); // format date to string
+    this.newAppointment.date = this.setDate; // set the date to the last selected date before booking
+    this.newAppointment.timeStamp = new Date(); // set the booking timestamp
+    this.newAppointment.serName = this.appointmentInfo.serName; // store service name
+    this.newAppointment.phone = this.appointmentInfo.phone;
       // edit schedule for new booking
-      this.newAppointment.serDuration = this.appointmentInfo.serDuration;
-      console.log('new appointment', this.newAppointment);
+    this.newAppointment.serDuration = this.appointmentInfo.serDuration;
 
-      let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours from string
-      let totalAsNum = parseInt(noHours, 10); // cast string to num
-      let temp: any[] = [];
-      let j = 1; // set to 1 as the first time is added outside the loop
-      temp.push(this.newAppointment.time); // add booked time to schedule
+    let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours from string
+    let totalAsNum = parseInt(noHours, 10); // cast string to num
+    let temp: any[] = [];
+    let j = 1; // set to 1 as the first time is added outside the loop
+    temp.push(this.newAppointment.time); // add booked time to schedule
       // if the duration is more than 1 hour
-      if (totalAsNum > 1) {
+    if (totalAsNum > 1) {
         let start = moment(this.newAppointment.time, 'HH:mm:ss'); // booked time to moment obj
         // while there are still hours to add
         while (j < totalAsNum) {
@@ -203,16 +198,15 @@ export class RescheduleFormComponent implements OnInit {
         }
       }
       // get array from day array that do not include the items in the temp array
-      const theDayHours = this.day.filter((a) => !temp.includes(a));
-      this.schedule.date = this.newAppointment.date; // set the date of the new booking
-      this.schedule.availableTimes = [];
-      this.schedule.availableTimes = theDayHours; // set the new schedule of the booked date
-      this.schedule.calendarIndex = this.date.toString(); // get string value of the date index
-      console.log('new schedule', this.schedule);
+    const theDayHours = this.day.filter((a) => !temp.includes(a));
+    this.schedule.date = this.newAppointment.date; // set the date of the new booking
+    this.schedule.availableTimes = [];
+    this.schedule.availableTimes = theDayHours; // set the new schedule of the booked date
+    this.schedule.calendarIndex = this.date.toString(); // get string value of the date index
 
       // editing schedule for rescheduled booking
       // call func to get rescheduled date doc
-      await this.bookingService
+    await this.bookingService
         .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
         .pipe(take(1))
         .subscribe((data) => {
@@ -235,42 +229,37 @@ export class RescheduleFormComponent implements OnInit {
           this.newSchedule.availableTimes = [];
           this.newSchedule.availableTimes = Array.from(this.scheduleOfDay); // store new schedule for reschedule date
           // call func to update schedule of hours in db for rescheduled date
-          console.log('rescheduled schedule', this.newSchedule);
           this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule);
         });
 
       // edit appointment and schedule docs
       // call func to update the booked date schedule
-      await this.bookingService.addBookingSchedule(
+    await this.bookingService.addBookingSchedule(
         this.appointmentInfo.bid,
         this.schedule
       ); // call func to update schedule of hours in db for booked date
-      this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule);
-      this.reschedule.updateBusAppointment(
+    this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule);
+    this.reschedule.updateBusAppointment(
         // call func to update the business' appointment data
         this.appointmentInfo,
         this.newAppointment
       ); // call func to update the clients appointment data
-      this.reschedule.updateClientAppointment(
+    this.reschedule.updateClientAppointment(
         this.appointmentInfo,
         this.newAppointment
       );
       // handle notifications
       // call func to create appointment notification
-      this.notif.appoinmtentReminder(this.newAppointment, this.busInfo);
+    this.notif.appoinmtentReminder(this.newAppointment, this.busInfo);
       // call func to create review notification
-      this.notif.reviewReminder(this.newAppointment, this.busInfo);
+    this.notif.reviewReminder(this.newAppointment, this.busInfo);
       // call func to delete old review notification
-      this.notif.deleteRNotifications(this.busInfo.id);
+    this.notif.deleteRNotifications(this.busInfo.id);
       // call func to delete old appointment notification
-      this.notif.deleteANotifications(this.appointmentInfo.appointmentId);
+    this.notif.deleteANotifications(this.appointmentInfo.appointmentId);
       // func to change route
-      this.changeRoute(this.appointmentInfo.appointmentId);
-    } // if form data not valid show alert
-    else {
-      alert('Correct the invalid fields before submitting');
-      return;
-    }
+    this.changeRoute(this.appointmentInfo.appointmentId);
+    // } 
   }
 
   // function to disable dates/days

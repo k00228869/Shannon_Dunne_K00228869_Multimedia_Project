@@ -35,7 +35,6 @@ export class UploadsService {
 
   // event passed in when image upload button is selected in add bsuiness form
   uploadBusinessImages = (event) => {
-    console.log('uploadBusinessImages called');
 
     this.uploads = [];
     const fileList = event.target.files; // store files
@@ -73,7 +72,6 @@ export class UploadsService {
 
   // get the images for the landing page slideshow from the slideshow collection
   getSlideshow(): Observable<string[]> {
-    console.log('getSlideshow called');
 
     return this.firestore
       .collection<string[]>('appImages')
@@ -83,7 +81,6 @@ export class UploadsService {
 
   // get images for the business page slideshow from the businesses images collection
   getBusinessSlideshow(id: string): Observable<IUser['slides']> {
-    console.log('getBusinessSlideshow called');
 
     return this.firestore
       .collection('users')
@@ -95,7 +92,6 @@ export class UploadsService {
 
   // store the images for the business page slideshow in the slides images collection
   public storeBusinessImages(): Observable<void> {
-    console.log('storeBusinessImages called');
 
     // get the user data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));

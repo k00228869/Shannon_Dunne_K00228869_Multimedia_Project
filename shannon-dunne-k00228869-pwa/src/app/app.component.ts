@@ -13,6 +13,8 @@ import { ConnectionService } from 'ng-connection-service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  readonly VAPID_PUBLIC_KEY =
+    'BHLXzuFGiUtzg-cDCs7T2Eplpr63G7KCaBwFD1ibrlzi-nbrDzcVpDqVjbx3us4BmxZk4j6FXX3m8eDjs-QtvNY';
   isConnected = true;
   isNotConnected: boolean;
   public routeHidden: boolean = true;

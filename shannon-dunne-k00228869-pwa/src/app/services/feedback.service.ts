@@ -12,7 +12,6 @@ export class FeedbackService {
 
   // add review to business profile with poassed in id
   public addReview(submittedFeedback: IUser['review'], id: string) {
-    console.log('addReview called');
     return from(
       this.firestore
         .collection<IUser>('users')

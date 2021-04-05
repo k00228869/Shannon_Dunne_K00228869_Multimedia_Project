@@ -87,7 +87,6 @@ export class BookingService {
     id: string,
     setDate: string
   ): Observable<IUser['bookingSchedule']> {
-    console.log('getBookingSchedule called');
 
     let docRef;
     docRef = this.firestore
@@ -100,7 +99,6 @@ export class BookingService {
 
   // get the business's booked date collection
   public getBookedDays(id: string): Observable<IUser['bookingSchedule'][]> {
-    console.log('getBookedDays called');
 
     let docRef;
     docRef = this.firestore
@@ -114,7 +112,6 @@ export class BookingService {
   public getAppointment(
     id: string
   ): Observable<IUser['appointment']> {
-    console.log('getAppointment called');
 
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
@@ -130,7 +127,6 @@ export class BookingService {
 
     // get all of business' appointments
     public getBusinessAppointment(): Observable<IUser['appointment'][]> {
-      console.log('getBusinessAppointmentcalled');
 
       let theUser = JSON.parse(localStorage.getItem('user'));
       let docRef;

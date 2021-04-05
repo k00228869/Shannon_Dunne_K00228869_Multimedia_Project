@@ -110,7 +110,6 @@ export class EditBusinessComponent implements OnInit {
     // get the hours template (array with hours)
     this.business
       .getHoursList()
-      .pipe(take(1))
       .subscribe((data) => {
         this.hourList.push(data[1]); // add hours template
       });
@@ -134,12 +133,10 @@ export class EditBusinessComponent implements OnInit {
   ) {
     // if all form fields are valid
     if (
-      this.editProfileForm.status === 'VALID' &&
-      this.editBusHours.status === 'VALID'
+      this.editProfileForm.status === 'VALID' && this.editBusHours.status === 'VALID'
     ) {
       this.selectedHours = this.editBusHours.value; // copy selected start/finish times of each day
       this.business.addHours(this.selectedHours); // add the selected hours to the db
-      console.log('selected hours', this.selectedHours);
 
       // set the business profile data using the form data
       this.newProfile.businessName = updatedProfile.businessName;
@@ -150,7 +147,6 @@ export class EditBusinessComponent implements OnInit {
       this.newProfile.reminderMessage = updatedProfile.reminderMessage;
       this.newProfile.cancellationPolicy = updatedProfile.cancellationPolicy;
       this.newProfile.price = updatedProfile.price;
-      console.log('new profile', this.newProfile);
 
       if (this.selectedHours.monday) {
         // if monday was selected
@@ -160,6 +156,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0); // get index of finish time
         let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
         let m = 1; // set day index of week for calendar
+        this.mon = [];
         this.mon.push(mondayHours, m); // store new hours and day index in array
         this.hourService.addMon(this.mon);
       }
@@ -171,6 +168,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let tuesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let t = 2;
+        this.tues = [];
         this.tues.push(tuesday, t);
         this.hourService.addTue(this.tues);
       }
@@ -182,6 +180,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let wednesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let w = 3;
+        this.wed = [];
         this.wed.push(wednesday, w);
         this.hourService.addWed(this.wed);
       }
@@ -193,6 +192,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let thursday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let t = 4;
+        this.thur = [];
         this.thur.push(thursday, t);
         this.hourService.addThur(this.thur);
       }
@@ -204,6 +204,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let friday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let f = 5;
+        this.fri = [];
         this.fri.push(friday, f);
         this.hourService.addFri(this.fri);
       }
@@ -215,6 +216,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let saturday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let s = 6;
+        this.sat = [];
         this.sat.push(saturday, s);
         this.hourService.addSat(this.sat);
       }
@@ -226,6 +228,7 @@ export class EditBusinessComponent implements OnInit {
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let sunday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
         let s = 0;
+        this.sun = [];
         this.sun.push(sunday, s);
         this.hourService.addSun(this.sun);
       }

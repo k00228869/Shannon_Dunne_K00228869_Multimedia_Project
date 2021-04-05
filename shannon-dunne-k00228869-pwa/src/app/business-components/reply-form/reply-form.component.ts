@@ -56,7 +56,6 @@ export class ReplyFormComponent implements OnInit {
     if (this.addReplyForm.status === 'Valid') {
       this.submittedReply = this.addReplyForm.value; // store form data
       this.feedbackService.addReply(this.submittedReply, this.id); // call func to add reply to review
-      console.log('reply', this.submittedReply);
       this.changeRoute(); // call func to change route
     } else {
       alert('Correct the invalid fields before submitting');

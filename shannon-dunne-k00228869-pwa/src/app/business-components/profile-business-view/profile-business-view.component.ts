@@ -54,7 +54,6 @@ export class ProfileBusinessViewComponent implements OnInit {
       // call func to get business images
       this.uploads.getBusinessSlideshow(this.user.uid).subscribe((data) => {
         this.slides = data.imageURL; // store business images
-        console.log(this.slides);
       });
 
       // call func to get business reviews

@@ -17,12 +17,11 @@ export class SearchQueriesService {
     busType: string,
     sort: string
   ): Observable<IBusiness['business'][]> {
-    console.log('checkQuery called');
 
     // if busType and location were selected with rating
     if (sort === 'rating' && location !== 'default' && busType !== 'default') {
       this.filteredProfiles = []; // clear business list
-      console.log('query rating + loc + type');
+      // console.log('query rating + loc + type');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',
@@ -41,7 +40,7 @@ export class SearchQueriesService {
       busType !== 'default'
     ) {
       this.filteredProfiles = []; // clear business list
-      console.log('query price + loc + type');
+      // console.log('query price + loc + type');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',
@@ -60,7 +59,7 @@ export class SearchQueriesService {
       busType !== 'default'
     ) {
       this.filteredProfiles = []; // clear business list
-      console.log('just query location and type');
+      // console.log('just query location and type');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',
@@ -78,7 +77,7 @@ export class SearchQueriesService {
       busType !== 'default'
     ) {
       this.filteredProfiles = []; // clear business list
-      console.log('just query type');
+      // console.log('just query type');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',
@@ -93,7 +92,7 @@ export class SearchQueriesService {
       location !== 'default'
     ) {
       this.filteredProfiles = []; // clear business list
-      console.log('just query loc');
+      // console.log('just query loc');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',
@@ -108,7 +107,7 @@ export class SearchQueriesService {
       location !== 'default'
     ) {
       this.filteredProfiles = []; // clear business list
-      console.log('just query price + location called');
+      // console.log('just query price + location called');
       let allBusinesses;
       allBusinesses = this.firestore.collection<IBusiness>(
         'businesses',

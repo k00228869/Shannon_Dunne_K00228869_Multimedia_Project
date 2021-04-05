@@ -42,14 +42,11 @@ export class BookingConfirmationComponent implements OnInit {
         .pipe(take(1))
         .subscribe((appoint) => {
           this.appointmentInfo = appoint[0]; // store appointment
-          console.log('appoint info', this.appointmentInfo);
-
           // call func to get business data
           this.business
             .getABusiness(this.appointmentInfo.bid)
             .subscribe((bus) => {
               this.busInfo = bus; // store business data
-              console.log('bus info', this.busInfo);
             });
         });
     });
@@ -67,7 +64,6 @@ export class BookingConfirmationComponent implements OnInit {
       .getBookingSchedule(this.appointmentInfo.bid, this.appointmentInfo.date)
       .pipe(take(1))
       .subscribe((data) => {
-        console.log('booked date doc', data);
 
         // store array of available times from booked date doc
         this.scheduleOfDay = Array.from(data.availableTimes);

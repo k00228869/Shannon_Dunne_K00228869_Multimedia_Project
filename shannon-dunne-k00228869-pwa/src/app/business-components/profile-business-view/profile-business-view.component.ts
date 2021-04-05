@@ -33,29 +33,38 @@ export class ProfileBusinessViewComponent implements OnInit {
 
   ngOnInit() {
     // call func to get the business users profile
-    this.business
-      .getBusiness()
-      .pipe(take(1))
-      .subscribe(
-        // get bus doc
-        (bus) => {
-          this.profileInfo = bus; // store profile data
-          if (this.profileInfo.profileCreated) {
-            // if the business user has created a profile
-            this.isCreated = true; // show profile ui
-          } else {
-            this.isCreated = false; // hide profile ui
-          }
-          this.getProfile(); // call func to get employees and services
+    this.business.getBusiness().subscribe(
+      // get bus doc
+      (bus) => {
+        this.profileInfo = bus; // store profile data
+        if (this.profileInfo.profileCreated) {
+          // if the business user has created a profile
+          this.isCreated = true; // show profile ui
+        } else {
+          this.isCreated = false; // hide profile ui
         }
-      );
+        this.getProfile(); // call func to get employees and services
+      }
+    );
+
     // call func to get user data
-    this.authService
-      .getUserInfo()
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.user = data; // store user data
+    this.authService.getUserInfo().subscribe((userData) => {
+      this.user = userData; // store user data
+
+      // call func to get business images
+      this.uploads.getBusinessSlideshow(this.user.uid).subscribe((data) => {
+        this.slides = data.imageURL; // store business images
+        console.log(this.slides);
       });
+
+      // call func to get business reviews
+      this.feedback
+        .getBusinessReviews(this.user.uid)
+        .pipe(take(1))
+        .subscribe((data) => {
+          this.reviews = data; // store business reviews
+        });
+    });
 
     // call func to get business working hours
     this.business
@@ -63,23 +72,6 @@ export class ProfileBusinessViewComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data) => {
         this.theHours = data[0]; // store business hours array
-      });
-
-    // call func to get business reviews
-    this.feedback
-      .getBusinessReviews(this.user.uid)
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.reviews = data; // store business reviews
-      });
-
-    // call func to get business images
-    this.uploads
-      .getBusinessSlideshow(this.user.uid)
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.slides = data.imageURL; // store business images
-        console.log(this.slides);
       });
   }
 

@@ -121,8 +121,8 @@ export class EditBusinessComponent implements OnInit {
   // build day formgroup
   newDay(): FormGroup {
     let day = this.editHours.group({
-      startT: '',
-      finishT: '',
+      startT: (''),
+      finishT: (''),
     });
     return day; // return the formgroup
   }
@@ -137,8 +137,9 @@ export class EditBusinessComponent implements OnInit {
       this.editProfileForm.status === 'VALID' &&
       this.editBusHours.status === 'VALID'
     ) {
-      selectedHours = this.editBusHours.value; // copy selected start/finish times of each day
-      this.business.addHours(selectedHours); // add the selected hours to the db
+      this.selectedHours = this.editBusHours.value; // copy selected start/finish times of each day
+      this.business.addHours(this.selectedHours); // add the selected hours to the db
+      console.log('selected hours', this.selectedHours);
 
       // set the business profile data using the form data
       this.newProfile.businessName = updatedProfile.businessName;
@@ -149,11 +150,12 @@ export class EditBusinessComponent implements OnInit {
       this.newProfile.reminderMessage = updatedProfile.reminderMessage;
       this.newProfile.cancellationPolicy = updatedProfile.cancellationPolicy;
       this.newProfile.price = updatedProfile.price;
+      console.log('new profile', this.newProfile);
 
-      if (selectedHours.monday) {
+      if (this.selectedHours.monday) {
         // if monday was selected
-        this.start = selectedHours.monday[0].startT; // get selected start time
-        this.end = selectedHours.monday[0].finishT; // get selected finish time
+        this.start = this.selectedHours.monday[0].startT; // get selected start time
+        this.end = this.selectedHours.monday[0].finishT; // get selected finish time
         let theIndex1 = this.hourList[0].indexOf(this.start, 0); // get index of start time
         let theIndex2 = this.hourList[0].indexOf(this.end, 0); // get index of finish time
         let mondayHours = this.hourList[0].slice(theIndex1, theIndex2 + 1); // slice new schedule into array
@@ -161,10 +163,10 @@ export class EditBusinessComponent implements OnInit {
         this.mon.push(mondayHours, m); // store new hours and day index in array
         this.hourService.addMon(this.mon);
       }
-      if (selectedHours.tuesday) {
+      if (this.selectedHours.tuesday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.tuesday[0].startT;
-        this.end = selectedHours.tuesday[0].finishT;
+        this.start = this.selectedHours.tuesday[0].startT;
+        this.end = this.selectedHours.tuesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let tuesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
@@ -172,10 +174,10 @@ export class EditBusinessComponent implements OnInit {
         this.tues.push(tuesday, t);
         this.hourService.addTue(this.tues);
       }
-      if (selectedHours.wednesday) {
+      if (this.selectedHours.wednesday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.wednesday[0].startT;
-        this.end = selectedHours.wednesday[0].finishT;
+        this.start = this.selectedHours.wednesday[0].startT;
+        this.end = this.selectedHours.wednesday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let wednesday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
@@ -183,10 +185,10 @@ export class EditBusinessComponent implements OnInit {
         this.wed.push(wednesday, w);
         this.hourService.addWed(this.wed);
       }
-      if (selectedHours.thursday) {
+      if (this.selectedHours.thursday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.thursday[0].startT;
-        this.end = selectedHours.thursday[0].finishT;
+        this.start = this.selectedHours.thursday[0].startT;
+        this.end = this.selectedHours.thursday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let thursday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
@@ -194,10 +196,10 @@ export class EditBusinessComponent implements OnInit {
         this.thur.push(thursday, t);
         this.hourService.addThur(this.thur);
       }
-      if (selectedHours.friday) {
+      if (this.selectedHours.friday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.friday[0].startT;
-        this.end = selectedHours.friday[0].finishT;
+        this.start = this.selectedHours.friday[0].startT;
+        this.end = this.selectedHours.friday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let friday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
@@ -205,10 +207,10 @@ export class EditBusinessComponent implements OnInit {
         this.fri.push(friday, f);
         this.hourService.addFri(this.fri);
       }
-      if (selectedHours.saturday) {
+      if (this.selectedHours.saturday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.saturday[0].startT;
-        this.end = selectedHours.saturday[0].finishT;
+        this.start = this.selectedHours.saturday[0].startT;
+        this.end = this.selectedHours.saturday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let saturday = this.hourList[0].slice(theIndex1, theIndex2 + 1);
@@ -216,10 +218,10 @@ export class EditBusinessComponent implements OnInit {
         this.sat.push(saturday, s);
         this.hourService.addSat(this.sat);
       }
-      if (selectedHours.sunday) {
+      if (this.selectedHours.sunday) {
         // this does the same as the if statement above, but for tuesday, if selected.
-        this.start = selectedHours.sunday[0].startT;
-        this.end = selectedHours.sunday[0].finishT;
+        this.start = this.selectedHours.sunday[0].startT;
+        this.end = this.selectedHours.sunday[0].finishT;
         let theIndex1 = this.hourList[0].indexOf(this.start, 0);
         let theIndex2 = this.hourList[0].indexOf(this.end, 0);
         let sunday = this.hourList[0].slice(theIndex1, theIndex2 + 1);

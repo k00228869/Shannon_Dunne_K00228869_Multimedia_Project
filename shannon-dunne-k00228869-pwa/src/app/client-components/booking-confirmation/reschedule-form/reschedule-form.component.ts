@@ -90,6 +90,7 @@ export class RescheduleFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data) => {
         this.client = data; // store the user data
+        console.log('client data', this.client);
 
         // call func to get the notification subscription token
         this.notif.getToken(this.client.uid).subscribe((theToken) => {
@@ -110,6 +111,7 @@ export class RescheduleFormComponent implements OnInit {
         .pipe(take(1))
         .subscribe((appoint) => {
           this.appointmentInfo = appoint[0]; // store the appointment data
+          console.log('appoinment info', this.appointmentInfo );
           this.updateInfo(this.appointmentInfo.bid); // call func to update the users appointment doc
         });
     });
@@ -119,12 +121,14 @@ export class RescheduleFormComponent implements OnInit {
   updateInfo(bid: string) {
     this.business.getABusiness(bid).subscribe((bus) => {
       this.busInfo = bus; // store the businesses data
+      console.log('bus info', this.busInfo);
     });
 
     // call func to get weekly schedule collection
     this.hourService.getAll(this.appointmentInfo.bid).subscribe(
       // get schedule for each day, do not run after fists value
       (all) => {
+        console.log('all schedule', all);
         this.weekDays = []; // arr to store each day
         this.weekDays = all; // store schedules of each weekday
         for (let i = 0; i < this.weekDays.length; i++) {
@@ -146,6 +150,7 @@ export class RescheduleFormComponent implements OnInit {
       .getBookedDays(this.appointmentInfo.bid)
       .subscribe((data) => {
         this.bookedDays = data; // store the booke dates
+        console.log('booked days', this.bookedDays );
         for (let i = 0; i < this.bookedDays.length; i++) {
           // loop through docs
           // if a booking hours array has 1 or less items
@@ -177,9 +182,10 @@ export class RescheduleFormComponent implements OnInit {
       this.newAppointment.timeStamp = new Date(); // set the booking timestamp
       this.newAppointment.serName = this.appointmentInfo.serName; // store service name
       this.newAppointment.phone = this.appointmentInfo.phone;
-
       // edit schedule for new booking
       this.newAppointment.serDuration = this.appointmentInfo.serDuration;
+      console.log('new appointment', this.newAppointment);
+
       let noHours = this.newAppointment.serDuration.slice(1, 2); // slice no. of hours from string
       let totalAsNum = parseInt(noHours, 10); // cast string to num
       let temp: any[] = [];
@@ -202,6 +208,7 @@ export class RescheduleFormComponent implements OnInit {
       this.schedule.availableTimes = [];
       this.schedule.availableTimes = theDayHours; // set the new schedule of the booked date
       this.schedule.calendarIndex = this.date.toString(); // get string value of the date index
+      console.log('new schedule', this.schedule);
 
       // editing schedule for rescheduled booking
       // call func to get rescheduled date doc
@@ -214,7 +221,6 @@ export class RescheduleFormComponent implements OnInit {
           this.scheduleOfDay = Array.from(data.availableTimes); // get array of available times for rescheduled date
           let i = 1;
           this.scheduleOfDay.push(this.appointmentInfo.time); // add booked time to schedule
-
           // if the service duration is more than 1 hour
           if (totalAsNum > 1) {
             let theStartTime = moment(this.appointmentInfo.time, 'HH:mm:ss'); // booked time as moment obj
@@ -229,6 +235,7 @@ export class RescheduleFormComponent implements OnInit {
           this.newSchedule.availableTimes = [];
           this.newSchedule.availableTimes = Array.from(this.scheduleOfDay); // store new schedule for reschedule date
           // call func to update schedule of hours in db for rescheduled date
+          console.log('rescheduled schedule', this.newSchedule);
           this.reschedule.editSchedule(this.appointmentInfo, this.newSchedule);
         });
 

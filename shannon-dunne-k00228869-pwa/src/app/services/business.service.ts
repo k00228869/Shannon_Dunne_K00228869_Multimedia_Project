@@ -18,6 +18,8 @@ export class BusinessService {
   public addHours(
     selectedHours // add a business hoirs to the db
   ) {
+    console.log('addHours called');
+
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from(
@@ -32,6 +34,8 @@ export class BusinessService {
 
   // get the times template from db
   public getHoursList(): Observable<IDays['1']> {
+    console.log('getHoursList called');
+
     // get the hours template
     return this.firestore
       .collection<IDays>('days')
@@ -41,6 +45,8 @@ export class BusinessService {
 
   // adds the business's profile details to the db
   public addBusiness(newProfile) {
+    console.log('addBusiness called');
+
     let theUser = JSON.parse(localStorage.getItem('user'));
     newProfile.id = theUser.uid;
     return from(
@@ -53,6 +59,8 @@ export class BusinessService {
 
   // add a business service doc to their services collection
   public addServices(adService: IUser['service']) {
+    console.log('addServices called');
+
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from(
@@ -67,6 +75,7 @@ export class BusinessService {
 
   // add business user's images doc to images collection
   public addImages(images) {
+    console.log('addImages called');
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid;
     return from(
@@ -81,6 +90,7 @@ export class BusinessService {
 
   // add business user's employee doc to employees collection
   public addEmployees(adEmployee: IUser['employee']) {
+    console.log('addEmployees called');
     // get the user data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid; // store the user id
@@ -96,6 +106,8 @@ export class BusinessService {
 
   // get the business profile doc from the businesses collection
   public getBusiness(): Observable<IBusiness['business']> {
+    console.log('getBusiness called');
+
     // get business user's business info
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.id = theUser.uid;
@@ -107,6 +119,7 @@ export class BusinessService {
 
   // get the business's hours collection
   public getBusinessHours(): Observable<any> {
+    console.log('getBusinessHours called');
     // get the business users data from local storage
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid; // set the user id
@@ -120,6 +133,7 @@ export class BusinessService {
   // get the business user's employees collection
   // this is returned once the promise resolves
   public async getEmployees(): Promise<Observable<IUser['employee']>> {
+    console.log('getEmployees called');
     // get the users data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid; // store the user id
@@ -134,6 +148,7 @@ export class BusinessService {
   // get the business user's services collection
   // this is returned once the promise resolves
   public async getServices(): Promise<Observable<IUser['service'][]>> {
+    console.log('getServices called');
     // get the users data from localstorage
     let theUser = JSON.parse(localStorage.getItem('user'));
     this.uid = theUser.uid; // store the user id
@@ -149,6 +164,8 @@ export class BusinessService {
 
   // get a business profile doc from the businesses collection with the id passed in
   getABusiness(id: string): Observable<IBusiness['business']> {
+    console.log('getABusiness called');
+
     let docRef;
     docRef = this.firestore
       .collection<IBusiness>('businesses')
@@ -158,6 +175,8 @@ export class BusinessService {
 
   // get the business's hours doc from the hours collection
   public getHours(id: string) {
+    console.log('getHours called');
+
     let docRef = this.firestore
       .collection<IUser>('users')
       .doc<IUser['user']>(id)
@@ -168,6 +187,8 @@ export class BusinessService {
 
   // get the services collection from a business with the matching id passed in
   getBusServices(id: string): Observable<IUser['service']> {
+    console.log('getBusServices called');
+
     let docRef;
     // const service = [];
     docRef = this.firestore
@@ -179,6 +200,7 @@ export class BusinessService {
 
   // get the employees collection from a business with the matching id passed in
   getBusEmployees(id: string): Observable<IUser['employee']> {
+    console.log('getBusEmployees called');
     let docRef;
     docRef = this.firestore
       .collection('users')

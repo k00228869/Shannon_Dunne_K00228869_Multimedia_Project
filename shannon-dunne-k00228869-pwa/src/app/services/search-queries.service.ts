@@ -17,6 +17,8 @@ export class SearchQueriesService {
     busType: string,
     sort: string
   ): Observable<IBusiness['business'][]> {
+    console.log('checkQuery called');
+
     // if busType and location were selected with rating
     if (sort === 'rating' && location !== 'default' && busType !== 'default') {
       this.filteredProfiles = []; // clear business list

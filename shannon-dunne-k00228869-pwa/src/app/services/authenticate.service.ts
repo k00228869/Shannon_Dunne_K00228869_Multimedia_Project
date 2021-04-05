@@ -22,7 +22,6 @@ export class AuthenticateService {
     private router: Router,
     public toastr: ToastrService,
     private location: Location,
-    private route: ActivatedRoute
   ) {}
 
   // clear the local storage
@@ -101,8 +100,6 @@ export class AuthenticateService {
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then((credentials) => {
         newUser.uid = credentials.user.uid; // store the user id
-        newUser.password = ''; // clear the password
-
         // store the users data in db
         this.firestore
           .collection<IUser>('users')

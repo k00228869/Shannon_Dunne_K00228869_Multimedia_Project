@@ -73,9 +73,11 @@ export class AdvertiseAppointmentComponent implements OnInit {
       this.newAppointInfo.clientName = 'Advertised'; // replace old user name
       this.newAppointInfo.note = '';
       this.newAppointInfo.timeStamp = null; // clear appointment booking time
+      console.log('advertised appoint', this.newAppointInfo);
 
       this.reschedule.editBusAppointment(this.newAppointInfo); // call func to update the business's appointment
-      this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider); // call func to add advert to db
+      // call func to add advert to db
+      this.reschedule.moveBusAppointment(this.newAppointInfo, this.provider);
       this.reschedule.deleteCancellation(
         // call func to delete the appointment from the cancellation doc
         this.newAppointInfo.appointmentId,

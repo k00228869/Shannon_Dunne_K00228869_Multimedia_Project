@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { DownloadService } from 'src/app/services/download.service';
 import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class LandingPageComponent implements OnInit {
 
   constructor(
     private uploads: UploadsService,
-    public auth: AuthenticateService
+    public auth: AuthenticateService,
+    public download: DownloadService
   ) {}
 
   ngOnInit() {

@@ -126,24 +126,17 @@ export class AddBusinessComponent implements OnInit {
       .subscribe((data) => {
         this.hourList.push(data[1]);
       });
-
-    // if (
-    //   // if all forms valid
-    //   this.addServiceForm.status === 'VALID' &&
-    //   this.addProfileForm.status === 'VALID' &&
-    //   this.addEmployeeForm.status === 'VALID' &&
-    //   this.addBusImgGroup.status === 'VALID' &&
-    //   this.addBusHours.status === 'VALID'
-    // ) {
-    //   // this.notValid = false;
-    // }
   }
 
   upload = (event) => {
+    // store file
     const file = event.target.files[0];
+    // create id
     const randomId = Math.random().toString(36).substring(2);
-    this.ref = this.afs.ref('/images/' + randomId); // reference to storage bucket
-    this.task = this.ref.put(file); // creates upload task, and triggers upload
+    // reference to storage bucket
+    this.ref = this.afs.ref('/images/' + randomId);
+    // creates upload task, and triggers upload
+    this.task = this.ref.put(file);
 
     // snapshotChanges() returns and obkect with metadata about the upload progress
     this.uploadProgress = this.task.snapshotChanges().pipe(
@@ -158,14 +151,16 @@ export class AddBusinessComponent implements OnInit {
       .snapshotChanges()
       .pipe(
         finalize(() => {
+          // call func to get download url and store it
           this.downloadURL = this.ref.getDownloadURL();
           this.downloadURL.subscribe((url) => {
+            // set the download url
             this.url = url;
           });
         })
       )
       .subscribe();
-  };
+  }
 
   // HANDLE EMPLOYEES DATA
   newEmployee(): FormGroup {
@@ -204,7 +199,7 @@ export class AddBusinessComponent implements OnInit {
     ) {
       // store the employees array
       let employees = this.addEmployeeForm.controls.employees.value;
-      // tslint:disable-next-line: prefer-for-of
+      console.log('employees', employees);
       for (
         let i = 0;
         i < employees.length;
@@ -247,7 +242,6 @@ export class AddBusinessComponent implements OnInit {
   }
 
   public onServiceSubmit(adService: IUser['service']) {
-    // tslint:disable-next-line: max-line-length
     if (
       // if all forms valid
       this.addServiceForm.status === 'VALID' &&
@@ -258,6 +252,7 @@ export class AddBusinessComponent implements OnInit {
     ) {
       // store the employees array
       let services = this.addServiceForm.controls.services.value;
+      console.log('services', services);
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < services.length; i++) {
         // loop through length of services array
@@ -297,7 +292,10 @@ export class AddBusinessComponent implements OnInit {
       this.selectedHours = this.addBusHours.value; // store selected start/finish times of each day in obj
       this.business.addHours(this.selectedHours); // store start and finish time in array
       this.newProfile = this.addProfileForm.value; // store the business details in obj
+      console.log('selected hours', this.selectedHours);
+      // set profile image
       this.newProfile.img = this.url;
+      // call func to add group image urls to db
       this.uploads.storeBusinessImages();
 
       if (this.selectedHours.monday) {
@@ -378,6 +376,7 @@ export class AddBusinessComponent implements OnInit {
         this.sun.push(sunday, s);
         this.hourService.addSun(this.sun);
       }
+      console.log('the profile', newProfile);
       this.business.addBusiness(newProfile); // cal func to add profile details to db
       this.changeRoute(newProfile); // cal func to change route
     } else {

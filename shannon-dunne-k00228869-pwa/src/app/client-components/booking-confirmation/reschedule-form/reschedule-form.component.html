@@ -8,20 +8,6 @@
 
 <form class="form-group" [formGroup]="editAppointmentForm" (ngSubmit)="editAppointSubmit(editAppointmentForm.value)">
   <br>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Employee</mat-label>
-    <mat-select>
-      <mat-option>{{appointmentInfo.empName}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Service</mat-label>
-    <mat-select>
-      <mat-option>{{appointmentInfo.serName}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
   <br>
   <div>
     <mat-form-field appearance="outline">

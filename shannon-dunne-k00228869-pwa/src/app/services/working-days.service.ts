@@ -15,6 +15,8 @@ export class WorkingDaysService {
   public addMon(
     mon: IUser['scheduleOfDays']['monday'] // add a business details to the db
   ) {
+    console.log('addMon called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add monday doc to hoursOfWorkingDays collection
@@ -32,6 +34,8 @@ export class WorkingDaysService {
   public addTue(
     tues: IUser['scheduleOfDays']['tuesday'] // add a business details to the db
   ) {
+    console.log('addTue called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add tuesday doc to hoursOfWorkingDays collection
@@ -49,6 +53,8 @@ export class WorkingDaysService {
   public addWed(
     wed: IUser['scheduleOfDays']['wednesday'] // add a business details to the db
   ) {
+    console.log('addWed called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add wednesday doc to hoursOfWorkingDays collection
@@ -66,6 +72,8 @@ export class WorkingDaysService {
   public addThur(
     thur: IUser['scheduleOfDays']['thursday'] // add a business details to the db
   ) {
+    console.log('addThur called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add thursday doc to hoursOfWorkingDays collection
@@ -83,6 +91,8 @@ export class WorkingDaysService {
   public addFri(
     fri: IUser['scheduleOfDays']['friday'] // add a business details to the db
   ) {
+    console.log('addFri called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add friday doc to hoursOfWorkingDays collection
@@ -100,6 +110,8 @@ export class WorkingDaysService {
   public addSat(
     sat: IUser['scheduleOfDays']['saturday'] // add a business details to the db
   ) {
+    console.log('addSat called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add saturday doc to hoursOfWorkingDays collection
@@ -117,6 +129,8 @@ export class WorkingDaysService {
   public addSun(
     sun: IUser['scheduleOfDays']['sunday'] // add a business details to the db
   ) {
+    console.log('addSun called');
+
     // get user data from local storage
     this.user = JSON.parse(localStorage.getItem('user'));
     // add sunday doc to hoursOfWorkingDays collection
@@ -132,6 +146,8 @@ export class WorkingDaysService {
 
   // get the hoursOfWorkingDays collection with the working hours array for each day
   public getAll(id: string): Observable<IUser['scheduleOfDays'][]> {
+    console.log('getAll called');
+
     let all;
     all = this.firestore
       .collection<IUser>('users')

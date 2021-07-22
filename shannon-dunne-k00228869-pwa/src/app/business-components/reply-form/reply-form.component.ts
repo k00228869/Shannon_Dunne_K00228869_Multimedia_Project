@@ -53,7 +53,7 @@ export class ReplyFormComponent implements OnInit {
   // submit form data
   public onSubmit() {
     // if form data is valid
-    if (this.addReplyForm.status === 'Valid') {
+    if (this.addReplyForm.status === 'VALID') {
       this.submittedReply = this.addReplyForm.value; // store form data
       this.feedbackService.addReply(this.submittedReply, this.id); // call func to add reply to review
       this.changeRoute(); // call func to change route

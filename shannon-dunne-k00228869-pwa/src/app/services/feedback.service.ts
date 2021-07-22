@@ -87,7 +87,7 @@ export class FeedbackService {
         .collection<IUser['review']>('reviews')
         .doc(id)
         .update({
-          reply: submittedReply.reply,
+          reply: submittedReply.reply
         })
     );
   }

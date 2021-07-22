@@ -68,7 +68,7 @@ export class UploadsService {
         });
       });
     }
-  };
+  }
 
   // get the images for the landing page slideshow from the slideshow collection
   getSlideshow(): Observable<string[]> {

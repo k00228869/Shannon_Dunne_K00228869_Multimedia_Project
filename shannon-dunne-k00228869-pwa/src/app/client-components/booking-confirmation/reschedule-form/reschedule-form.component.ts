@@ -170,7 +170,7 @@ export class RescheduleFormComponent implements OnInit {
   public async editAppointSubmit(newAppointment: IUser['appointment']) {
     // if form data is valid
     // form will not validate eventhough fields are valid
-    // if (this.editAppointmentForm.status === 'Valid') {
+    if (this.editAppointmentForm.status === 'VALID') {
       // setting new appoinment details
     this.newAppointment = this.editAppointmentForm.value; // store form values
     this.newAppointment.date = newAppointment.date.toString(); // format date to string
@@ -259,7 +259,7 @@ export class RescheduleFormComponent implements OnInit {
     this.notif.deleteANotifications(this.appointmentInfo.appointmentId);
       // func to change route
     this.changeRoute(this.appointmentInfo.appointmentId);
-    // } 
+    }
   }
 
   // function to disable dates/days

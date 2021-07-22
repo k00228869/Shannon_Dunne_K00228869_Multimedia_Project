@@ -97,7 +97,6 @@ import {ConnectionServiceModule} from 'ng-connection-service';
     ServiceWorkerModule.register('combined-sw.js', {
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
-
     }),
   ],
   providers: [

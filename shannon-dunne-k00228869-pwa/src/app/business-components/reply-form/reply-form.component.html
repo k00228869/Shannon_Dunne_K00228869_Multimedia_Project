@@ -45,9 +45,6 @@
 </mat-toolbar>
 <br>
 
-<button mat-raised-button color="warn" (click)="authService.cancel()" type="button">
-  <mat-icon>arrow_back</mat-icon>
-</button>
 <br>
 <form class="form-group" [formGroup]="addReplyForm" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="outline">
@@ -56,8 +53,6 @@
   </mat-form-field>
   <br><br>
   <button type="submit" class="submit" mat-raised-button color="primary">
-    <!-- <a routerLink="/profile-business-view"> -->
     Send
-    <!-- </a> -->
   </button>
 </form>

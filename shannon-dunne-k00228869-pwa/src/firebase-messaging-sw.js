@@ -16,7 +16,7 @@ firebase.initializeApp({
   });
 
  
-// access firebase messaging instance for the app
+// access firebase messaging class instance for the app
 const messaging = firebase.messaging(); 
 
 // this function is triggered when a message is received while the browser is out of focus

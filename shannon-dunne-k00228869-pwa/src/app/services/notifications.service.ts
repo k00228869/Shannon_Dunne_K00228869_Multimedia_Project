@@ -32,18 +32,18 @@ export class NotificationsService {
       tap((token) => {
           // get the user data from localstorage
           this.subscrip = {};
-          if (!token || token === undefined)
+          if (!token || token === undefined) // if no token or token undefined
           {
-            this.subscrip.token = 'token';
+            this.subscrip.token = 'token'; // set token to string
           }
           else{
-            this.subscrip.token = token;
+            this.subscrip.token = token; // otherwise set it to the token
           }
-          let theUser = JSON.parse(localStorage.getItem('user'));
+          let theUser = JSON.parse(localStorage.getItem('user')); // get user data from localhost
           this.subscrip.id = theUser.uid; // set user id
 
-          if (!token){
-            this.subscrip.token = 'token';
+          if (!token){ // if no token
+            this.subscrip.token = 'token'; // set token to string
           }
           return from(
             // store token + user id in subscription collection
@@ -67,8 +67,8 @@ export class NotificationsService {
   // and updates the subscription collection with a new token
   onTokenRefresh() {
     this.afm.requestToken.pipe(
-      // get token
-      tap((token) => {
+      // get permission
+      tap((token) => { // returned token
         this.subscrip = {};
         if (!token || token === undefined)
       {

@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    // subscribing to monitor to get notified when connectio status changes
+    // subscribing to monitor to get notified when connection status changes
     this.connection.monitor().subscribe((isConnected) => {
       this.isConnected = isConnected;
       if (this.isConnected) {
